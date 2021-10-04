@@ -9,9 +9,10 @@ INSERT INTO `si_db`.`si_roles` (`PK_ROL`, `description`) VALUES ('3', 'USER');
 
 INSERT INTO `si_db`.`si_officials` (`PK_OFFICIAL`, `name`, `surname`, `email`, `FK_department`) VALUES ('50', 'JOSEPH', 'GRANDA', 'informatica@sanpablo.go.cr', '103');
 INSERT INTO `si_db`.`si_officials` (`PK_OFFICIAL`, `name`, `surname`, `email`, `FK_department`) VALUES ('51', 'ISMAEL', 'SALAZAR', 'controlinterno@sanpablo.go.cr', '100');
-INSERT INTO `si_db`.`si_users` (`PK_USER`, `FK_official`, `FK_email`, `password`) VALUES ('50', '50', 'informatica@sanpablo.go.cr', HEX(AES_ENCRYPT('contra1', 'key')));
-INSERT INTO `si_db`.`si_users` (`PK_USER`, `FK_official`, `FK_email`, `password`) VALUES ('51', '51', 'controlinterno@sanpablo.go.cr', HEX(AES_ENCRYPT('contra2', 'key')));
+INSERT INTO `si_db`.`si_users` (`PK_USER`, `FK_official`, `FK_email`, `password`) VALUES ('50', '50', 'informatica@sanpablo.go.cr', SHA2('contra1', 256));
+INSERT INTO `si_db`.`si_users` (`PK_USER`, `FK_official`, `FK_email`, `password`) VALUES ('51', '51', 'controlinterno@sanpablo.go.cr', SHA2('contra2', 256));
 INSERT INTO `si_db`.`si_user_roles` (`PK_USER_ROL`,`FK_USER`,`FK_ROL`) values (1,50,2);
+
 commit;
 SELECT u.PK_USER, u.FK_OFFICIAL, u.FK_EMAIL, cast(AES_DECRYPT(UNHEX(u.password),'key') AS char) from si_db.si_users u; 
 -- INSERT INTO `si_db`.`si_users` (`PK_USER`, `FK_official`, `FK_email`, `password`) VALUES ('50', '50', 'informatica@sanpablo.go.cr', ?);
@@ -35,4 +36,5 @@ SELECT u.PK_USER, u.FK_OFFICIAL, u.FK_EMAIL, cast(AES_DECRYPT(UNHEX(u.password),
 -- SELECT DESENCRYPT_PWD(50);
 -- SELECT u.PK_USER, u.FK_OFFICIAL, u.FK_EMAIL, CAST(u.password as CHAR) from si_db.si_users u;
 
- 
+UPDATE `si_db`.`si_users` SET `password` = SHA2('contra1', 256) WHERE (`PK_USER` = '50');
+UPDATE `si_db`.`si_users` SET `password` = SHA2('contra2', 256) WHERE (`PK_USER` = '51');

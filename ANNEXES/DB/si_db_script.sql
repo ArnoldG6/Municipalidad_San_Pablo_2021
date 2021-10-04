@@ -11,90 +11,27 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema si_db
 -- -----------------------------------------------------
 
--- -----------------------------------------------------
--- Schema si_db
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `si_db` DEFAULT CHARACTER SET utf8 ;
-USE `si_db` ;
+-- MySQL Workbench Synchronization
+-- Generated: 2021-10-04 12:50
+-- Model: New Model
+-- Version: 1.0
+-- Project: Name of the project
+-- Author: dicar
 
--- -----------------------------------------------------
--- Table `si_db`.`SI_DEPARTMENTS`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `si_db`.`SI_DEPARTMENTS` (
-  `PK_DEPARTMENT` INT NOT NULL AUTO_INCREMENT,
-  `description` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`PK_DEPARTMENT`),
-  UNIQUE INDEX `PK_DEPARTMENT_UNIQUE` (`PK_DEPARTMENT` ASC) VISIBLE,
-  UNIQUE INDEX `description_UNIQUE` (`description` ASC) VISIBLE)
-ENGINE = InnoDB;
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
+ALTER TABLE `si_db`.`SI_USERS` 
+DROP FOREIGN KEY `FK_email`;
 
--- -----------------------------------------------------
--- Table `si_db`.`SI_OFFICIALS`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `si_db`.`SI_OFFICIALS` (
-  `PK_OFFICIAL` INT NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
-  `surname` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `FK_department` INT NOT NULL,
-  PRIMARY KEY (`PK_OFFICIAL`),
-  UNIQUE INDEX `PK_OFFICIAL_UNIQUE` (`PK_OFFICIAL` ASC) VISIBLE,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
-  INDEX `FK_department_idx` (`FK_department` ASC) VISIBLE,
-  CONSTRAINT `FK_department`
-    FOREIGN KEY (`FK_department`)
-    REFERENCES `si_db`.`SI_DEPARTMENTS` (`PK_DEPARTMENT`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ALTER TABLE `si_db`.`SI_OFFICIALS` 
+DROP FOREIGN KEY `FK_department`;
 
-SET @@session.block_encryption_mode = 'aes-256-ecb';
-
--- -----------------------------------------------------
--- Table `si_db`.`SI_USERS`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `si_db`.`SI_USERS` (
-  `PK_USER` INT NOT NULL AUTO_INCREMENT,
-  `FK_official` INT NOT NULL,
-  `FK_email` VARCHAR(45) NOT NULL,
-  `password` BLOB(256) NOT NULL,
-  PRIMARY KEY (`PK_USER`),
-  UNIQUE INDEX `PK_USER_UNIQUE` (`PK_USER` ASC) INVISIBLE,
-  UNIQUE INDEX `FK_official_UNIQUE` (`FK_official` ASC) VISIBLE,
-  UNIQUE INDEX `FK_EMAIL_UNIQUE` (`FK_email` ASC) VISIBLE,
-  CONSTRAINT `FK_official_user`
-    FOREIGN KEY (`FK_official`)
-    REFERENCES `si_db`.`SI_OFFICIALS` (`PK_OFFICIAL`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `FK_email`
-    FOREIGN KEY (`FK_email`)
-    REFERENCES `si_db`.`SI_OFFICIALS` (`email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `si_db`.`SI_ROLES`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `si_db`.`SI_ROLES` (
-  `PK_ROL` INT NOT NULL AUTO_INCREMENT,
-  `description` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`PK_ROL`),
-  UNIQUE INDEX `PK_ROL_UNIQUE` (`PK_ROL` ASC) VISIBLE,
-  UNIQUE INDEX `description_UNIQUE` (`description` ASC) VISIBLE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `si_db`.`SI_USER_ROLES`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `si_db`.`SI_USER_ROLES` (
-  `PK_USER_ROL` INT NOT NULL AUTO_INCREMENT,
-  `FK_user` INT NOT NULL,
-  `FK_rol` INT NOT NULL,
+  `PK_USER_ROL` INT(11) NOT NULL AUTO_INCREMENT,
+  `FK_user` INT(11) NOT NULL,
+  `FK_rol` INT(11) NOT NULL,
   INDEX `FK_rol_idx` (`FK_rol` ASC) VISIBLE,
   INDEX `FK_user_role_idx` (`FK_user` ASC) VISIBLE,
   PRIMARY KEY (`PK_USER_ROL`),
@@ -109,7 +46,30 @@ CREATE TABLE IF NOT EXISTS `si_db`.`SI_USER_ROLES` (
     REFERENCES `si_db`.`SI_ROLES` (`PK_ROL`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+ALTER TABLE `si_db`.`SI_USERS` 
+DROP FOREIGN KEY `FK_official_user`;
+
+ALTER TABLE `si_db`.`SI_USERS` ADD CONSTRAINT `FK_official_user`
+  FOREIGN KEY (`FK_official`)
+  REFERENCES `si_db`.`SI_OFFICIALS` (`PK_OFFICIAL`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION,
+ADD CONSTRAINT `FK_email`
+  FOREIGN KEY (`FK_email`)
+  REFERENCES `si_db`.`SI_OFFICIALS` (`email`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `si_db`.`SI_OFFICIALS` 
+ADD CONSTRAINT `FK_department`
+  FOREIGN KEY (`FK_department`)
+  REFERENCES `si_db`.`SI_DEPARTMENTS` (`PK_DEPARTMENT`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
 
 
 

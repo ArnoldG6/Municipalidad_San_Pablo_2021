@@ -119,7 +119,7 @@ DELIMITER $$
 USE `si_db`$$
 CREATE PROCEDURE `authenticateViaEmail` (emailPrt varchar(45), passwordPrt varchar(45))
 BEGIN
-  SELECT PK_USER, FK_official, FK_email, password FROM si_db.SI_USERS WHERE FK_email = emailPrt AND cast(AES_DECRYPT(UNHEX(password),'key') AS char) = passwordPrt;
+  SELECT PK_USER, FK_official, FK_email, password FROM si_db.SI_USERS WHERE FK_email = emailPrt AND password = SHA2(passwordPrt, 256);
 END$$
 DELIMITER ;
 
@@ -131,10 +131,9 @@ DELIMITER $$
 USE `si_db`$$
 CREATE PROCEDURE `authenticateViaUsername` (userPrt int, passwordPrt varchar(45))
 BEGIN
-  SELECT PK_USER, FK_official, FK_email, password FROM si_db.SI_USERS WHERE PK_USER = userPrt AND cast(AES_DECRYPT(UNHEX(password),'key') AS char) = passwordPrt;
+  SELECT PK_USER, FK_official, FK_email, password FROM si_db.SI_USERS WHERE PK_USER = userPrt AND password = SHA2(passwordPrt, 256);
 END$$
 DELIMITER ;
-
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

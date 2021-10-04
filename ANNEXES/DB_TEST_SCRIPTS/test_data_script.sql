@@ -12,7 +12,8 @@ INSERT INTO `si_db`.`si_officials` (`PK_OFFICIAL`, `name`, `surname`, `email`, `
 INSERT INTO `si_db`.`si_users` (`PK_USER`, `FK_official`, `FK_email`, `password`) VALUES ('50', '50', 'informatica@sanpablo.go.cr', HEX(AES_ENCRYPT('contra1', 'key')));
 INSERT INTO `si_db`.`si_users` (`PK_USER`, `FK_official`, `FK_email`, `password`) VALUES ('51', '51', 'controlinterno@sanpablo.go.cr', HEX(AES_ENCRYPT('contra2', 'key')));
 INSERT INTO `si_db`.`si_user_roles` (`PK_USER_ROL`,`FK_USER`,`FK_ROL`) values (1,50,2);
-
+commit;
+SELECT u.PK_USER, u.FK_OFFICIAL, u.FK_EMAIL, cast(AES_DECRYPT(UNHEX(u.password),'key') AS char) from si_db.si_users u; 
 -- INSERT INTO `si_db`.`si_users` (`PK_USER`, `FK_official`, `FK_email`, `password`) VALUES ('50', '50', 'informatica@sanpablo.go.cr', ?);
 -- INSERT INTO `si_db`.`si_users` (`PK_USER`, `FK_official`, `FK_email`, `password`) VALUES ('51', '51', 'controlinterno@sanpablo.go.cr', ?);
 -- SELECT HEX(AES_ENCRYPT('Informacion', 'passwordSegura'));
@@ -34,4 +35,4 @@ INSERT INTO `si_db`.`si_user_roles` (`PK_USER_ROL`,`FK_USER`,`FK_ROL`) values (1
 -- SELECT DESENCRYPT_PWD(50);
 -- SELECT u.PK_USER, u.FK_OFFICIAL, u.FK_EMAIL, CAST(u.password as CHAR) from si_db.si_users u;
 
-SELECT u.PK_USER, u.FK_OFFICIAL, u.FK_EMAIL, cast(AES_DECRYPT(UNHEX(u.password),'key') AS char) from si_db.si_users u;  
+ 

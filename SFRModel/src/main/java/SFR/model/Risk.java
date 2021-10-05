@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SFR;
+package sfr.model;
 
 /**
  *
  * @author arnol
  */
-public class Incidence {
+public class Risk {
     
 }

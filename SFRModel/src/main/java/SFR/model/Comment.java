@@ -1,4 +1,4 @@
-package SFR;
+package sfr.model;
 
 /**
  *

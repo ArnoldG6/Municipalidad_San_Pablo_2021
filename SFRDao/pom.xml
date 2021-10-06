@@ -5,7 +5,7 @@
     <artifactId>SFRDao</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-        <dependencies>
+    <dependencies>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -22,23 +22,23 @@
             <artifactId>hibernate-core</artifactId>
             <version>5.5.3.Final</version>
         </dependency>
-                <dependency>
-                        <groupId>${project.groupId}</groupId>
-                        <artifactId>CommonDao</artifactId>
-                        <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                        <groupId>${project.groupId}</groupId>
-                        <artifactId>SFRModel</artifactId>
-                        <version>${project.version}</version>
-                </dependency>
-                    <dependency>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                    <version>4.8.1</version>
-                    <scope>test</scope>
-    </dependency>
-        </dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>CommonDao</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>SFRModel</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
         
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

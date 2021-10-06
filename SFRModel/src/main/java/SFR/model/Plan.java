@@ -28,15 +28,20 @@ public class Plan implements Serializable {
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private int id;
+    
     @Column(name = "AuthorName")
-    private String author;
+    private String authorName;
+    
     @Column(name = "Name")
     private String name;
+    
     @Column(name = "Description")
     private String description;
+    
     @Column(name = "EntryDate")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date entryDate;
+    
     @Column(name = "Status")
     private String status;
     
@@ -58,9 +63,8 @@ public class Plan implements Serializable {
         this.id = id;
     }
 
-    public Plan(int id, String author, String name, String desc, Date dateOfAdm,String status) {
-        this.id = id;
-        this.author = author;
+    public Plan(String authorName, String name, String desc, Date dateOfAdm,String status) {
+        this.authorName = authorName;
         this.name = name;
         this.description = desc;
         this.entryDate = dateOfAdm;
@@ -79,11 +83,11 @@ public class Plan implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-    public String getAuthor() {
-        return author;
+    public String getAuthorName() {
+        return authorName;
     }
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
     public String getName() {
         return name;
@@ -114,7 +118,7 @@ public class Plan implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("id: ").append(id).append(",");
-        sb.append("author: ").append(author).append(",");
+        sb.append("author: ").append(authorName).append(",");
         sb.append("name: ").append(name).append(",");
         sb.append("description: ").append(description).append(",");
         sb.append("entryDate: ").append(entryDate).append(",");

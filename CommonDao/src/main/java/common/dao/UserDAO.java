@@ -8,7 +8,6 @@ import org.hibernate.Session;
 
 public class UserDAO extends GenericDAO {
     private static UserDAO uniqueInstance;
-    //private UserDAO(){}
     public static UserDAO getInstance(){
         if (uniqueInstance == null) uniqueInstance = new UserDAO();
         return uniqueInstance;

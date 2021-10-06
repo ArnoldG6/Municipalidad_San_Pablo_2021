@@ -32,12 +32,14 @@
                         <artifactId>SFRModel</artifactId>
                         <version>${project.version}</version>
                 </dependency>
-                <dependency>
-                        <groupId>${project.groupId}</groupId>
-                        <artifactId>CommonDao</artifactId>
-                        <version>${project.version}</version>
-                </dependency>
+                    <dependency>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                    <version>4.8.1</version>
+                    <scope>test</scope>
+    </dependency>
         </dependencies>
+        
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>

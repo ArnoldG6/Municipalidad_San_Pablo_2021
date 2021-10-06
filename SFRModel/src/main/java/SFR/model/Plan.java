@@ -3,12 +3,16 @@ package sfr.model;
 import common.model.User;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -20,18 +24,32 @@ import org.hibernate.annotations.GenericGenerator;
 public class Plan implements Serializable {
     
     @Id
-    @Column(name = "PK_ROL")
+    @Column(name = "PK_ID")
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private int id;
+    @Column(name = "AuthorName")
     private String author;
+    @Column(name = "Name")
     private String name;
-    private String desc;
+    @Column(name = "Description")
+    private String description;
+    @Column(name = "EntryDate")
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date entryDate;
-    private HashMap<String, User> involvedList;
-    private HashMap<String, Incidence> incidenceList;
-    private HashMap<String, Risk> riskList;
-    private HashMap<String, Comment> commentList;
+    @Column(name = "Status")
+    private String status;
+    
+    @OneToMany
+    @JoinTable(
+        name = "T_USERPLAN",
+        joinColumns = @JoinColumn(name = "FK_PLAN"),
+        inverseJoinColumns = @JoinColumn(name = "FK_USER")
+    )
+    private List<User> involvedList;
+    //private List<Incidence> incidenceList;
+    //private List<Risk> riskList;
+    //private List<Comment> commentList;
 
     public Plan() {
     }
@@ -40,22 +58,24 @@ public class Plan implements Serializable {
         this.id = id;
     }
 
-    public Plan(int id, String author, String name, String desc, Date dateOfAdm) {
+    public Plan(int id, String author, String name, String desc, Date dateOfAdm,String status) {
         this.id = id;
         this.author = author;
         this.name = name;
-        this.desc = desc;
+        this.description = desc;
         this.entryDate = dateOfAdm;
-        this.involvedList = new HashMap<>();
-        this.incidenceList = new HashMap<>();
-        this.riskList = new HashMap<>();
-        this.commentList = new HashMap<>();
+        this.status = status;
     }
 
     public int getId() {
         return id;
     }
-
+    public void setStatus(String status){
+        this.status = status;
+    }
+    public String getStatus(){
+        return status;
+    }
     public void setId(int id) {
         this.id = id;
     }
@@ -72,10 +92,10 @@ public class Plan implements Serializable {
         this.name = name;
     }
     public String getDesc() {
-        return desc;
+        return description;
     }
     public void setDesc(String desc) {
-        this.desc = desc;
+        this.description = desc;
     }
     public Date getEntryDate() {
         return entryDate;
@@ -83,30 +103,32 @@ public class Plan implements Serializable {
     public void setEntryDate(Date entryDate) {
         this.entryDate = entryDate;
     }
-    public HashMap<String, User> getInvolvedList() {
+    public List<User> getInvolvedList() {
         return involvedList;
     }
-    public void setInvolvedList(HashMap<String, User> involvedList) {
+    public void setInvolvedList(List<User> involvedList) {
         this.involvedList = involvedList;
     }
-    public HashMap<String, Incidence> getIncidenceList() {
+    /*
+    public List<Incidence> getIncidenceList() {
         return incidenceList;
     }
-    public void setIncidenceList(HashMap<String, Incidence> incidenceList) {
+    public void setIncidenceList(List<Incidence> incidenceList) {
         this.incidenceList = incidenceList;
     }
-    public HashMap<String, Risk> getRiskList() {
+    public List<Risk> getRiskList() {
         return riskList;
     }
-    public void setRiskList(HashMap<String, Risk> riskList) {
+    public void setRiskList(List<Risk> riskList) {
         this.riskList = riskList;
     }
-    public HashMap<String, Comment> getCommentList() {
+    public List<Comment> getCommentList() {
         return commentList;
     }
-    public void setCommentList(HashMap<String, Comment> commentList) {
+    public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
     }
+    */
     
     
 }

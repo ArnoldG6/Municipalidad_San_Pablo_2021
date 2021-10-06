@@ -9,6 +9,11 @@ import sfr.model.Plan;
  * @author arnold
  */
 public class PlanDAO extends GenericDAO{
+        private static PlanDAO uniqueInstance;
+        public static PlanDAO getInstance(){
+            if (uniqueInstance == null) uniqueInstance = new PlanDAO();
+            return uniqueInstance;
+        }
         public List<Plan> listAll() {
         try{
             System.out.println(1);

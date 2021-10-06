@@ -109,6 +109,19 @@ public class Plan implements Serializable {
     public void setInvolvedList(List<User> involvedList) {
         this.involvedList = involvedList;
     }
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        sb.append("id: ").append(id).append(",");
+        sb.append("author: ").append(author).append(",");
+        sb.append("name: ").append(name).append(",");
+        sb.append("description: ").append(description).append(",");
+        sb.append("entryDate: ").append(entryDate).append(",");
+        sb.append("status: ").append(status);
+        sb.append("}");
+        return sb.toString();
+    }
     /*
     public List<Incidence> getIncidenceList() {
         return incidenceList;

@@ -20,36 +20,39 @@ import org.hibernate.annotations.GenericGenerator;
  * @author arnold
  */
 @Entity
-@Table(name="T_Plan")
+@Table(name = "T_Plan")
 public class Plan implements Serializable {
-    
+
     @Id
     @Column(name = "PK_ID")
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private int id;
-    
+
     @Column(name = "AuthorName")
     private String authorName;
-    
+
     @Column(name = "Name")
     private String name;
-    
+
     @Column(name = "Description")
     private String description;
-    
+
     @Column(name = "EntryDate")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date entryDate;
-    
+
     @Column(name = "Status")
     private String status;
-    
+
+    @Column(name = "Type")
+    private String type;
+
     @OneToMany
     @JoinTable(
-        name = "T_USERPLAN",
-        joinColumns = @JoinColumn(name = "FK_PLAN"),
-        inverseJoinColumns = @JoinColumn(name = "FK_USER")
+            name = "T_USERPLAN",
+            joinColumns = @JoinColumn(name = "FK_PLAN"),
+            inverseJoinColumns = @JoinColumn(name = "FK_USER")
     )
     private List<User> involvedList;
     //private List<Incidence> incidenceList;
@@ -57,64 +60,88 @@ public class Plan implements Serializable {
     //private List<Comment> commentList;
 
     public Plan() {
+
     }
-    
+
     public Plan(int id) {
         this.id = id;
     }
 
-    public Plan(String authorName, String name, String desc, Date dateOfAdm,String status) {
+    public Plan(String authorName, String name, String desc, Date dateOfAdm, String status, String type) {
         this.authorName = authorName;
         this.name = name;
         this.description = desc;
         this.entryDate = dateOfAdm;
         this.status = status;
+        this.type = type;
     }
 
     public int getId() {
         return id;
     }
-    public void setStatus(String status){
+
+    public void setStatus(String status) {
         this.status = status;
     }
-    public String getStatus(){
+
+    public String getStatus() {
         return status;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public String getAuthorName() {
         return authorName;
     }
+
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getDesc() {
         return description;
     }
+
     public void setDesc(String desc) {
         this.description = desc;
     }
+
     public Date getEntryDate() {
         return entryDate;
     }
+
     public void setEntryDate(Date entryDate) {
         this.entryDate = entryDate;
     }
+
     public List<User> getInvolvedList() {
         return involvedList;
     }
+
     public void setInvolvedList(List<User> involvedList) {
         this.involvedList = involvedList;
     }
+    
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("id: ").append(id).append(",");
@@ -123,6 +150,7 @@ public class Plan implements Serializable {
         sb.append("description: ").append(description).append(",");
         sb.append("entryDate: ").append(entryDate).append(",");
         sb.append("status: ").append(status);
+        sb.append("type: ").append(type);
         sb.append("}");
         return sb.toString();
     }
@@ -145,7 +173,6 @@ public class Plan implements Serializable {
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
     }
-    */
-    
-    
+     */
+
 }

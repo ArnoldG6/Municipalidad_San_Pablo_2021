@@ -26,7 +26,7 @@ public class PlanDAO extends GenericDAO {
 
     public List<Plan> listAll() {
         try {
-            String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName FROM Plan p";
+            String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p";
             em = getEntityManager();
             Query query = em.createQuery(cmd);
             List<Plan> objList = (List<Plan>) query.getResultList();
@@ -41,12 +41,13 @@ public class PlanDAO extends GenericDAO {
                 Object[] obj = (Object[]) itr.next();
 
                 Plan p = new Plan((Integer) (obj[0]));
-                p.setAuthorName(String.valueOf(obj[5]));
                 p.setName(String.valueOf(obj[1]));
                 p.setDesc(String.valueOf(obj[2]));
                 p.setEntryDate((Date) (obj[3]));
                 p.setStatus(String.valueOf(obj[4]));
-
+                p.setAuthorName(String.valueOf(obj[5]));
+                p.setType(String.valueOf(obj[6]));
+                
                 l.add(p);
             }
 
@@ -116,7 +117,7 @@ public class PlanDAO extends GenericDAO {
 
     public List<Plan> listSearchBy(String toSearch, String value) {
         try {
-            String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName FROM Plan p WHERE p." + toSearch + " LIKE '" + value + "%'";
+            String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p WHERE p." + toSearch + " LIKE '" + value + "%'";
             em = getEntityManager();
             Query query = em.createQuery(cmd);
             List<Plan> objList = (List<Plan>) query.getResultList();
@@ -131,11 +132,12 @@ public class PlanDAO extends GenericDAO {
                 Object[] obj = (Object[]) itr.next();
 
                 Plan p = new Plan((Integer) (obj[0]));
-                p.setAuthorName(String.valueOf(obj[5]));
                 p.setName(String.valueOf(obj[1]));
                 p.setDesc(String.valueOf(obj[2]));
                 p.setEntryDate((Date) (obj[3]));
                 p.setStatus(String.valueOf(obj[4]));
+                p.setAuthorName(String.valueOf(obj[5]));
+                p.setType(String.valueOf(obj[6]));
 
                 l.add(p);
             }
@@ -168,11 +170,12 @@ public class PlanDAO extends GenericDAO {
                 Object[] obj = (Object[]) itr.next();
 
                 Plan p = new Plan((Integer) (obj[0]));
-                p.setAuthorName(String.valueOf(obj[5]));
                 p.setName(String.valueOf(obj[1]));
                 p.setDesc(String.valueOf(obj[2]));
                 p.setEntryDate((Date) (obj[3]));
                 p.setStatus(String.valueOf(obj[4]));
+                p.setAuthorName(String.valueOf(obj[5]));
+                p.setType(String.valueOf(obj[6]));
 
                 l.add(p);
             }

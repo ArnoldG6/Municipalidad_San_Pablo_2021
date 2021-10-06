@@ -121,4 +121,6 @@ INSERT INTO `si_db`.`si_officials` (`PK_OFFICIAL`, `name`, `surname`, `email`, `
 INSERT INTO `si_db`.`si_users` (`PK_USER`, `FK_official`, `FK_email`, `password`) VALUES ('50', '50', 'informatica@sanpablo.go.cr', SHA2('contra1', 256));
 INSERT INTO `si_db`.`si_users` (`PK_USER`, `FK_official`, `FK_email`, `password`) VALUES ('51', '51', 'controlinterno@sanpablo.go.cr', SHA2('contra2', 256));
 INSERT INTO `si_db`.`si_user_roles` (`PK_USER_ROL`,`FK_USER`,`FK_ROL`) values (1,50,2);
+INSERT INTO sfr.t_plan (PK_ID, Name, Description, EntryDate, Status, AuthorName) VALUES ('1', 'TEST1', 'ESTO ES UN PLAN DE PRUEBA',CURDATE(), 'ACTIVO', 'Arnold');
+INSERT INTO sfr.t_userplan (FK_PLAN, FK_USER) VALUES ('1', '50');
 commit;

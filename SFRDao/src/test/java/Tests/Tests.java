@@ -23,7 +23,6 @@ public class Tests {
 
         System.out.println(PlanDAO.getInstance().countPlans());
         List<Plan> l = PlanDAO.getInstance().listTenPlans(1);
-        
         l.forEach(p -> System.out.println(p.toString()));
     }
 }

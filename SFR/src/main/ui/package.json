@@ -1,6 +1,6 @@
 {
     "name": "ui",
-    "homepage": "http://localhost:8080/sfr/",
+    "homepage": "http://localhost:8080/SFR/",
     "version": "0.1.0",
     "private": true,
     "dependencies": {

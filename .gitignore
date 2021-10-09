@@ -25,3 +25,5 @@ hs_err_pid*
 /sfr/nbproject/private/
 /SFRDao/target/
 /SFRModel/target/
+SFR/target/
+CommonDomain/target/

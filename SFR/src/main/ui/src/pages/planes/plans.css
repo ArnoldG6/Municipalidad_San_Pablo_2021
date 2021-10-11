@@ -1,0 +1,33 @@
+.state{
+    border-radius: 40px;
+    background-color: green;
+    color: white;
+    max-width: 50%;
+    text-align: center;
+}
+
+.Sidebar{
+    border: 1px solid #C7C7C7;
+}
+
+#NewItemButton{
+    margin: 5px;
+    background-color: #1F3140;
+    border: 0px;
+
+}
+#searchButton{
+    float: right;
+    border: 0px;
+    margin: 5px;
+}
+
+td{
+    font-size: 12px;
+
+}
+.algo{
+    height: fit-content;
+    float: right;
+    margin: 5px;
+}

@@ -31,7 +31,6 @@ public class LoginService extends HttpServlet {
             System.err.printf("%s\n", ex.getMessage());
             response.sendRedirect("index.jsp");
         }
-
     }
 
     @Override

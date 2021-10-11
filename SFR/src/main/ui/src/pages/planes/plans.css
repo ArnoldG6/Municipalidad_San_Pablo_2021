@@ -1,0 +1,12 @@
+.state{
+    border-radius: 40px;
+    background-color: green;
+    color: white;
+    max-width: 50%;
+    text-align: center;
+}
+
+.Sidebar{
+    border: 1px solid #C7C7C7;
+}
+

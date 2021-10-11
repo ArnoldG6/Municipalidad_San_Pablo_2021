@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, ListGroup, Button, ButtonGroup } from "react-bootstrap";
+import { Row, Col, Card, ListGroup, Button} from "react-bootstrap";
 import './Planes.css'
 
 class Plan extends Component {
@@ -13,6 +13,7 @@ class Plan extends Component {
         this.handleAddRisk = this.handleAddRisk.bind(this)
     }
     handleAddRisk(){
+
         //alert("xdxd")
         let newList = this.state.listComentarios
         newList.push({comentario:"Hola mundo", id:1})

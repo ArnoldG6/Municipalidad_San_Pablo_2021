@@ -1,6 +1,6 @@
-import { render } from '@testing-library/react';
+//import { render } from '@testing-library/react';
 import React, { Component } from 'react';
-import { Button, Nav, ListGroup, Row, Col, Table, Container, Modal, Form } from "react-bootstrap";
+import { Button, Nav, Row, Col, Table, Modal, Form } from "react-bootstrap";
 import './plans.css';
 
 
@@ -8,9 +8,9 @@ import './plans.css';
 class Planes extends Component {
 
 
-   constructor(props){
+   /*constructor(props){
        super(props);
-   }
+   }*/
 
 
     render() {
@@ -132,15 +132,6 @@ class Planes extends Component {
         );
     }
 };
-
-function search() {
-    return 1;
-
-
-}
-
-
-
 
 
 export default Planes;

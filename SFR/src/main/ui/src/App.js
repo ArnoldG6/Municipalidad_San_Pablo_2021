@@ -1,50 +1,34 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 //import Header from "./components/Header";
 import {
-    HashRouter as Router,
-    Switch,
-    Route
-  } from "react-router-dom";
-import logo from "./images/logoHeader.jpg"
-import {Navbar, Nav, Image} from "react-bootstrap";
+  HashRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 import './App.css';
 import Planes from './pages/planes/Planes';
-import Plan  from './pages/planes/Plan';
+import Plan from './pages/planes/Plan';
+import NavBar from './Components/NavBar/NavBar'
+import Error from './pages/Error/Error'
+
 class App extends Component {
-    render() {
-        return (
-          <Router>
-            <Navbar collapseOnSelect expand="lg" className="Header" variant="dark">
-              <Navbar.Brand href="#home"><Image src={logo} fluid height={50} width={100} /></Navbar.Brand>
-              <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-              <Navbar.Collapse id="responsive-navbar-nav">
-                <Nav className="me-auto">               
-                  <Nav.Link href="#/">Home</Nav.Link>
-                  <Nav.Link href="#/perfil">Perfil</Nav.Link>
-                  <Nav.Link href="#/mensajes">Mensajes</Nav.Link>
-                  <Nav.Link href="#/reportes">Reportes</Nav.Link>
-                </Nav>
-                <Nav>
-                  <Nav.Link href="#deets">Login</Nav.Link>
-                </Nav>
-              </Navbar.Collapse>
-            </Navbar>
-            <Switch>
-              <Route path="/perfil">
-                <Plan/> 
-              </Route>
-              <Route path="/mensajes">
-                <h1>Mensajes</h1> 
-              </Route>
-              <Route path="/reportes">
-                <h1>Reportes</h1>
-              </Route>
-              <Route path="/">
-                <Planes/>
-              </Route>
-            </Switch>
-          </Router>
-                );
-    }
+  render() {
+    return (
+      <Router>
+        <NavBar/>
+        <Switch>
+          <Route exact path="/" component={Planes} />
+          <Route path="/perfil" component={Plan} />
+          <Route path="/mensajes">
+            <h1>Mensajes</h1>
+          </Route>
+          <Route path="/reportes">
+            <h1>Reportes</h1>
+          </Route>
+          <Route render={() => <Error status={404} text={'Página no encontrada'}/>}/>
+        </Switch>
+      </Router>
+    );
+  }
 };
 export default App;

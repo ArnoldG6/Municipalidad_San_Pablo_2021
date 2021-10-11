@@ -7,7 +7,9 @@ import './plans.css';
 
 class Planes extends Component {
 
-   
+   constructor(props){
+       super(props);
+   }
 
     render() {
         return (

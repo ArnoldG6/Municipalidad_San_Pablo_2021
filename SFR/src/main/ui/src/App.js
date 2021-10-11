@@ -9,7 +9,7 @@ import logo from "./images/logoHeader.jpg"
 import {Navbar, Nav, Image} from "react-bootstrap";
 import './App.css';
 import Planes from './pages/planes/Planes';
-
+import Plan  from './pages/planes/Plan';
 class App extends Component {
     render() {
         return (
@@ -18,8 +18,7 @@ class App extends Component {
               <Navbar.Brand href="#home"><Image src={logo} fluid height={50} width={100} /></Navbar.Brand>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
-                <Nav className="me-auto">
-                
+                <Nav className="me-auto">               
                   <Nav.Link href="#/">Home</Nav.Link>
                   <Nav.Link href="#/perfil">Perfil</Nav.Link>
                   <Nav.Link href="#/mensajes">Mensajes</Nav.Link>
@@ -31,9 +30,8 @@ class App extends Component {
               </Navbar.Collapse>
             </Navbar>
             <Switch>
-
               <Route path="/perfil">
-                <h1>Perfil</h1> 
+                <Plan/> 
               </Route>
               <Route path="/mensajes">
                 <h1>Mensajes</h1> 
@@ -46,7 +44,6 @@ class App extends Component {
               </Route>
             </Switch>
           </Router>
-
                 );
     }
 };

@@ -8,3 +8,15 @@
 .Content {
     height: 91.5vh;
 }
+.Comentarios {
+    font-size: 16px;
+}
+.card {
+    height: 100%
+}
+.pdf {
+    color: black;
+}
+.boton {
+    margin-top: 20px;
+}

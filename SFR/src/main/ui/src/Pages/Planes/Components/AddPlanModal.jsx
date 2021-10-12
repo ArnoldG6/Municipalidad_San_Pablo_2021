@@ -61,10 +61,10 @@ class AddPlanModal extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={this.handleAddPlan}>
-                        Save Changes
+                        Guardar
                     </Button>
                     <Button variant="secondary" onClick={closeModal}>
-                        Close
+                        Cerrar
                     </Button>
                 </Modal.Footer>
             </Modal>

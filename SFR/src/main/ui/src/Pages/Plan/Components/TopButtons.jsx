@@ -8,9 +8,9 @@ class TopButtons extends Component {
                 <Button variant="primary">Agregar un riesgo</Button>{' '}
                 <Button variant="primary">Agregar involucrados</Button>{' '}
                 <Button variant="warning">Matriz de riesgos</Button>{' '}
-                <Button className="ms-auto" variant="success">Estado</Button>{' '}
+                <Button className="ms-auto" variant="light">Generar reporte</Button>{' '}
                 <div className="vr" />
-                <Button variant="light">Generar reporte</Button>{' '}
+                <Button variant="success">Estado</Button>{' '}
             </Stack>
         );
     }

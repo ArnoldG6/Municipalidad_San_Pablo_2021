@@ -23,7 +23,7 @@ import sfr.model.Plan;
  */
 @Path("/")
 public class Plans {
-
+    /*
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void addPlan(Plan plan) {
@@ -54,7 +54,7 @@ public class Plans {
             System.out.println("No se pudo eliminar el plan");
         }
     }
-
+    */
     @GET
     //@Path("/listPlans")
     @Produces(MediaType.APPLICATION_JSON)

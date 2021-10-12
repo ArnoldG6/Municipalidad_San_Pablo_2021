@@ -5,6 +5,8 @@
     background-color: #1F3140;
     color: white;
     height: 7%;
+    overflow-y: hidden;
+   
 }
 #root {
     height: 100%;
@@ -14,3 +16,4 @@
     left:0;
     right:0;
 }
+

@@ -4,3 +4,26 @@
 .Plan-Container {
     height: 93%;
 }
+.mt-4 h1{
+
+   margin: 0px;
+   font-size: 20px; 
+}
+
+.mt-4 h2{
+    margin: 0px;
+    font-size: 15px;
+}
+.mt-4 h4{
+    margin: 0px;
+    font-size: 15px;
+    color: darkgray;
+}
+
+.mt-4 p{
+    margin-top: 1vh;
+    font-size: 12px;
+    max-width: 75%;
+
+}
+

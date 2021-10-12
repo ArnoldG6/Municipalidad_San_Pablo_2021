@@ -4,19 +4,13 @@
 .Header {
     background-color: #1F3140;
     color: white;
+    height: 7%;
 }
-.Content {
-    height: 91.5vh;
-}
-.Comentarios {
-    font-size: 16px;
-}
-.card {
-    height: 100%
-}
-.pdf {
-    color: black;
-}
-.boton {
-    margin-top: 20px;
+#root {
+    height: 100%;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
 }

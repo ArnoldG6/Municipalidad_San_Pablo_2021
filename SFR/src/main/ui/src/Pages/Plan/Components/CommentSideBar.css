@@ -1,0 +1,7 @@
+.plan-sidebar {
+    width: 20%;
+    height: 100%;
+    background-color: #F5F7F9;
+    float:left;
+    border-right: 1px solid #ddd;
+}

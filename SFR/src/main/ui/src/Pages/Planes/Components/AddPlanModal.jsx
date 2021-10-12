@@ -28,7 +28,7 @@ class AddPlanModal extends Component {
                     Nuevo Item
                 </Modal.Header>
                 <Modal.Body>
-                    <form>
+                    <Form>
                         <div class="form-group">
                             <label>Nombre: &nbsp;&nbsp;</label>
                             <input name="name" id="name" type="text" placeholder="Nombre" class="form-control" />
@@ -57,7 +57,7 @@ class AddPlanModal extends Component {
                             <label>Descripción: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             <textarea name="description" id="description" type="text" placeholder="Descripción" class="form-control" />
                         </div>
-                    </form>
+                    </Form>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={this.handleAddPlan}>

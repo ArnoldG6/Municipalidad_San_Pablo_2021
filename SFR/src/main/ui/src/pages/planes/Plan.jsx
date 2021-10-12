@@ -13,7 +13,15 @@ class Plan extends Component {
         this.handleAddRisk = this.handleAddRisk.bind(this)
     }
     handleAddRisk(){
-
+ // Simple POST request with a JSON body using fetch
+        /*const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: 'React POST Request Example' })
+        };
+        fetch('https://jsonplaceholder.typicode.com/posts', requestOptions)
+            .then(response => response.json())
+            .then(data => this.setState({ postId: data.id }));*/
         //alert("xdxd")
         let newList = this.state.listComentarios
         newList.push({comentario:"Hola mundo", id:1})
@@ -57,19 +65,19 @@ class Plan extends Component {
                         <Col md={9} sm={9}>
                             <Row>
                                 <Col>
-                                    <Button onClick={this.handleAddRisk} className="boton" variant="primary">Agregar un riesgo</Button>{' '}
+                                    <Button size="sm" onClick={this.handleAddRisk} className="boton" variant="primary">Agregar un riesgo</Button>{' '}
                                 </Col>
                                 <Col>
-                                    <Button className="boton" variant="primary">Agregar involucradas</Button>{' '}
+                                    <Button size="sm" className="boton" variant="primary">Agregar involucradas</Button>{' '}
                                 </Col>
                                 <Col>
-                                    <Button className="boton" variant="warning">Matriz de riesgos</Button>{' '}
+                                    <Button size="sm" className="boton" variant="warning">Matriz de riesgos</Button>{' '}
                                 </Col>
                                 <Col>
-                                    <Button className="boton" variant="success">Matriz de riesgos</Button>{' '}
+                                    <Button size="sm" className="boton" variant="success">Matriz de riesgos</Button>{' '}
                                 </Col>
                                 <Col>
-                                    <Button className="boton" variant="light">Generar reporte</Button>{' '}
+                                    <Button size="sm" className="boton" variant="light">Generar reporte</Button>{' '}
                                 </Col>
                             </Row>
                             <Row>

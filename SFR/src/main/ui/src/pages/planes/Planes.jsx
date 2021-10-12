@@ -2,39 +2,34 @@
 import React, { Component } from 'react';
 import { Button, Nav, Row, Col, Table, Modal, Form } from "react-bootstrap";
 import './plans.css';
-
-
-
 class Planes extends Component {
-
-
-   /*constructor(props){
+   constructor(props){
        super(props);
-   }*/
+       this.state={
+           show: false,
+       };
+       this.handleOpenAddPlan = this.handleOpenAddPlan.bind(this)
+   }
+   handleOpenAddPlan=()=> {
+       this.setState({show: !this.state.show});
+   };
+   handleAddPlan(){
 
-
+   };
     render() {
         return (
             <Row className="Content">
                 <Col md={1} sm={3} className="Sidebar">
-
                     <Nav defaultActiveKey="/home" className="flex-column">
                         <Nav.Link href="/home">Proyectos</Nav.Link>
                         <Nav.Link href="/home">Procesos</Nav.Link>
-
                     </Nav>
-
                 </Col>
                 <Col md={11} sm={9}>
-
-                    <Button id="NewItemButton" size="sm" onClick={this.openModal}>Crear Item</Button>
+                    <Button id="NewItemButton" size="sm" onClick={this.handleOpenAddPlan}>Crear Item</Button>
                     <form action="" class="algo">
                         <input type="text" id="fname" name="buscadfadfr" placeholder="Buscar"></input>
                     </form>
-
-
-
-
                     <Table hover>
                         <thead>
                             <tr>
@@ -64,35 +59,29 @@ class Planes extends Component {
                         </tbody>
                     </Table>
                 </Col>
-
                 <div>
-                    <Modal show={false}>
+                    <Modal show={this.state.show} >
                         <Modal.Header>
                             Nuevo Item
                         </Modal.Header>
                         <Modal.Body>
-
                             <Form>
                                 <Form.Group className="mb-3" controlId="formNewPlanName">
                                     <Form.Label>Nombre</Form.Label>
                                     <Form.Control size="lg" type="text" />
                                 </Form.Group>
-
                                 <Form.Group className="mb-3" controlId="formNewPlanID">
                                     <Form.Label>ID</Form.Label>
                                     <Form.Control size="lg" type="text" />
                                 </Form.Group>
-
                                 <Form.Group className="mb-3" controlId="formNewPlanStatus">
                                     <Form.Label>Estado</Form.Label>
                                     <Form.Control size="lg" type="text" />
                                 </Form.Group>
-
                                 <Form.Group className="mb-3" controlId="formNewPlanAuthor">
                                     <Form.Label>Autor</Form.Label>
                                     <Form.Control size="lg" type="text" />
                                 </Form.Group>
-
                                 <Form>
                                     {['radio'].map((type) => (
                                         <div key={`inline-${type}`} className="mb-3">
@@ -110,21 +99,19 @@ class Planes extends Component {
                                                 type={type}
                                                 id={`inline-${type}-2`}
                                             />
-
                                         </div>
                                     ))}
-                                </Form>
-                                {
-                                 //   <Form.Group className="mb-3" controlId="formNewPlanFiles">
-                                 //       <Form.Label>Datos adjuntos</Form.Label>
-                                 //       <Form.Control type="file" size="sm" />
-                                 //  </Form.Group>
-                                }
-
-                                <Button id="formNewItemButton" size="sm" onClick={this.closeModal}>Crear Item</Button>
+                                </Form>                             
                             </Form>
-
                         </Modal.Body>
+                        <Modal.Footer>
+                        <Button variant="primary" onClick={this.handleOpenAddPlan}>                         
+                            Save Changes
+                        </Button>
+                        <Button variant="secondary" onClick={this.handleOpenAddPlan}>                       
+                            Close
+                        </Button>
+                        </Modal.Footer>
                     </Modal>
                 </div>
 
@@ -132,8 +119,6 @@ class Planes extends Component {
         );
     }
 };
-
-
 export default Planes;
 /*
 var Plan = {nombre: 'xd', fecha: 123, estado: 'xd', autor: "Esteban1"};

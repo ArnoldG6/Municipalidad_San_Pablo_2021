@@ -63,11 +63,10 @@ class Plan extends Component {
                     {/* Datos del Plan */}
                     <Row className="mt-4">
                         <h1>Nombre del plan</h1>
-                        <h3>ID</h3>
-                        <h2>Tipo</h2>
-                        <h2>Fecha de Ingreso</h2>
-                        <h2>Autor</h2>
-                        <h1>Descripcion</h1>
+                        <h2>Tipo-ID20211234</h2>     
+                        <h4>xx/xx/xxxx</h4>
+                        <h4>Ricardo Milos</h4>
+                        <p>ontent of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their i</p>
                     </Row>
 
                     {/* Listas de Datos del Plan */}

@@ -7,14 +7,21 @@ class Planes extends Component {
        super(props);
        this.state={
            show: false,
+           plan:{nombre:"", id:"", estado:"", autor:""},
+           planes:[]
        };
+       this.handleAddPlan = this.handleAddPlan.bind(this)
        this.handleOpenAddPlan = this.handleOpenAddPlan.bind(this)
    }
    handleOpenAddPlan=()=> {
        this.setState({show: !this.state.show});
    };
    handleAddPlan(){
-
+       //let newPlan = this.state.plan
+       //this.setState({plan: newPlan});
+        let newList = this.state.planes
+        newList.push(this.state.plan);
+        this.setState({planes: newList});
    };
     render() {
         return (
@@ -41,21 +48,16 @@ class Planes extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><a href="/home">Ricardo antonio</a></td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td><div class="state">xD</div></td>
-                                <td>xD</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                <td>xD</td>
-                            </tr>
-
+                        {this.state.planes.map((plan) => {
+                                        return (
+                                        <tr key={plan.id}>
+                                           <td>{plan.nombre}</td>
+                                           <td>{plan.id}</td>
+                                           <td>{plan.estado}</td>
+                                           <td>{plan.autor}</td>
+                                        </tr>
+                                        )
+                                    })}
                         </tbody>
                     </Table>
                 </Col>
@@ -65,6 +67,62 @@ class Planes extends Component {
                             Nuevo Item
                         </Modal.Header>
                         <Modal.Body>
+                            <div>
+                            <cell>
+                                <label>Nombre: &nbsp;&nbsp;</label>
+                                <input type="text" placeholder="Nombre" value={this.state.plan.nombre} onChange={(e)=> this.setState({plan:{nombre:e.target.value}})}/>
+                            </cell>
+                            </div>
+                            <div>
+                            <cell>
+                                <label>ID: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <input type="text" placeholder="ID" value={this.state.plan.id} onChange={(e)=> this.setState({plan:{id:e.target.value}})}/>
+                            </cell>
+                            </div>
+                            <div>
+                            <cell>
+                                <label>Estado: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <input type="text" placeholder="Estado" value={this.state.plan.estado} onChange={(e)=> this.setState({plan:{estado:e.target.value}})}/>
+                            </cell>
+                            </div>
+                            <div>
+                            <cell>
+                                <label>Autor: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <input type="text" placeholder="Autor" value={this.state.plan.autor} onChange={(e)=> this.setState({plan:{autor:e.target.value}})}/>
+                            </cell>
+                            </div>
+                        </Modal.Body>
+                        <Modal.Footer>
+                        <Button variant="primary" onClick={this.handleAddPlan}>                         
+                            Save Changes
+                        </Button>
+                        <Button variant="secondary" onClick={this.handleOpenAddPlan}>                       
+                            Close
+                        </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
+
+            </Row>
+        );
+    }
+};
+export default Planes;
+/*
+var Plan = {nombre: 'xd', fecha: 123, estado: 'xd', autor: "Esteban1"};
+function addPlan() {
+    let request = new Request('http://localhost:3000/SFR/' + 'Plans', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(Plan)});
+    (async () => {
+        const response = await fetch(request);
+        if (!response.ok) {
+
+            return;
+        }
+        document.location = 'http://localhost:8080/:/SFR/';
+    })();
+}
+
+
                             <Form>
                                 <Form.Group className="mb-3" controlId="formNewPlanName">
                                     <Form.Label>Nombre</Form.Label>
@@ -103,35 +161,6 @@ class Planes extends Component {
                                     ))}
                                 </Form>                             
                             </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                        <Button variant="primary" onClick={this.handleOpenAddPlan}>                         
-                            Save Changes
-                        </Button>
-                        <Button variant="secondary" onClick={this.handleOpenAddPlan}>                       
-                            Close
-                        </Button>
-                        </Modal.Footer>
-                    </Modal>
-                </div>
 
-            </Row>
-        );
-    }
-};
-export default Planes;
-/*
-var Plan = {nombre: 'xd', fecha: 123, estado: 'xd', autor: "Esteban1"};
-function addPlan() {
-    let request = new Request('http://localhost:3000/SFR/' + 'Plans', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(Plan)});
-    (async () => {
-        const response = await fetch(request);
-        if (!response.ok) {
-
-            return;
-        }
-        document.location = 'http://localhost:8080/:/SFR/';
-    })();
-}
 */
 

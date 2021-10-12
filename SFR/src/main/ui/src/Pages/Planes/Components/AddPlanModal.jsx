@@ -28,30 +28,24 @@ class AddPlanModal extends Component {
                     Nuevo Item
                 </Modal.Header>
                 <Modal.Body>
-                    <div>
-                        <cell>
+                    <form>
+                        <div class="form-group">
                             <label>Nombre: &nbsp;&nbsp;</label>
-                            <input type="text" placeholder="Nombre" value={this.state.plan.nombre} onChange={(e) => this.setState({ plan: { nombre: e.target.value } })} />
-                        </cell>
-                    </div>
-                    <div>
-                        <cell>
-                            <label>ID: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                            <input type="text" placeholder="ID" value={this.state.plan.id} onChange={(e) => this.setState({ plan: { id: e.target.value } })} />
-                        </cell>
-                    </div>
-                    <div>
-                        <cell>
+                            <input type="text" placeholder="Nombre" class="form-control" value={this.state.plan.nombre} onChange={(e) => this.setState({ plan: { nombre: e.target.value } })} />
+                        </div>
+                        <div class="form-group">
+                            <label>ID:</label>
+                            <input  type="text" class="form-control" placeholder="ID" value={this.state.plan.id} onChange={(e) => this.setState({ plan: { id: e.target.value } })} />
+                        </div>
+                        <div class="form-group">
                             <label>Estado: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                            <input type="text" placeholder="Estado" value={this.state.plan.estado} onChange={(e) => this.setState({ plan: { estado: e.target.value } })} />
-                        </cell>
-                    </div>
-                    <div>
-                        <cell>
+                            <input type="text" placeholder="Estado" class="form-control" value={this.state.plan.estado} onChange={(e) => this.setState({ plan: { estado: e.target.value } })} />
+                        </div>
+                        <div class="form-group">
                             <label>Autor: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                            <input type="text" placeholder="Autor" value={this.state.plan.autor} onChange={(e) => this.setState({ plan: { autor: e.target.value } })} />
-                        </cell>
-                    </div>
+                            <input type="text" placeholder="Autor" class="form-control" value={this.state.plan.autor} onChange={(e) => this.setState({ plan: { autor: e.target.value } })} />
+                        </div>
+                    </form>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={this.handleAddPlan}>

@@ -26,7 +26,7 @@ class Planes extends Component {
                     </Nav>
                 </Col>
                 <Col md={11} sm={9}>
-                    <Button id="NewItemButton" size="sm" onClick={this.handleOpenAddPlan}>Crear Item</Button>
+                    <Button id="NewItemButton" size="sm">Crear Item</Button>
                     <form action="" class="algo">
                         <input type="text" id="fname" name="buscadfadfr" placeholder="Buscar"></input>
                     </form>

@@ -58,7 +58,6 @@ public class Plans {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Plan> getPlans() {
         return PlanDAO.getInstance().listAll();
-
     }
 
     @GET

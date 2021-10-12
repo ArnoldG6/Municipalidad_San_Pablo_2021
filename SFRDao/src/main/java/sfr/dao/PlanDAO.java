@@ -40,7 +40,7 @@ public class PlanDAO extends GenericDAO {
             while (itr.hasNext()) {
                 Object[] obj = (Object[]) itr.next();
 
-                Plan p = new Plan((Integer) (obj[0]));
+                Plan p = new Plan(String.valueOf(obj[0]));
                 p.setName(String.valueOf(obj[1]));
                 p.setDesc(String.valueOf(obj[2]));
                 p.setEntryDate((Date) (obj[3]));
@@ -59,8 +59,8 @@ public class PlanDAO extends GenericDAO {
         }
     }
 
-    public HashMap<Integer, Plan> listAllHM() {
-        HashMap<Integer, Plan> plans = new HashMap<>();
+    public HashMap<String, Plan> listAllHM() {
+        HashMap<String, Plan> plans = new HashMap<>();
         List<Plan> plansList = this.listAll();
         plansList.forEach(p -> {
             plans.put(p.getId(), p);
@@ -110,7 +110,7 @@ public class PlanDAO extends GenericDAO {
         }
     }
 
-    public Plan searchById(int id) {
+    public Plan searchById(String id) {
         em = getEntityManager();
         return (Plan) em.find(Plan.class, id);
     }
@@ -131,7 +131,7 @@ public class PlanDAO extends GenericDAO {
             while (itr.hasNext()) {
                 Object[] obj = (Object[]) itr.next();
 
-                Plan p = new Plan((Integer) (obj[0]));
+                Plan p = new Plan(String.valueOf(obj[0]));
                 p.setName(String.valueOf(obj[1]));
                 p.setDesc(String.valueOf(obj[2]));
                 p.setEntryDate((Date) (obj[3]));
@@ -169,7 +169,7 @@ public class PlanDAO extends GenericDAO {
             while (itr.hasNext()) {
                 Object[] obj = (Object[]) itr.next();
 
-                Plan p = new Plan((Integer) (obj[0]));
+                Plan p = new Plan(String.valueOf(obj[0]));
                 p.setName(String.valueOf(obj[1]));
                 p.setDesc(String.valueOf(obj[2]));
                 p.setEntryDate((Date) (obj[3]));

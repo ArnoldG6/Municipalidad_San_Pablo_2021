@@ -21,12 +21,13 @@ import sfr.model.Plan;
  *
  * @author jorsu
  */
-@Path("/Plans")
+@Path("/sfr/API/Plans")
 public class Plans {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void addPlan(Plan plan) {
+        System.out.println(plan.toString());
         try {
             PlanDAO.getInstance().add(plan);
         } catch (Exception ex) {
@@ -60,10 +61,10 @@ public class Plans {
         return PlanDAO.getInstance().listAll();
     }
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Plan getPlanById(int id) {
-        return PlanDAO.getInstance().searchById(id);
-    }
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Plan getPlanById(String id) {
+//        return PlanDAO.getInstance().searchById(id);
+//    }
 
 }

@@ -27,7 +27,7 @@ public class Plan implements Serializable {
     @Column(name = "PK_ID")
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    private int id;
+    private String id;
 
     @Column(name = "AuthorName")
     private String authorName;
@@ -63,11 +63,12 @@ public class Plan implements Serializable {
 
     }
 
-    public Plan(int id) {
+    public Plan(String id) {
         this.id = id;
     }
 
-    public Plan(String authorName, String name, String desc, Date dateOfAdm, String status, String type) {
+    public Plan(String id, String authorName, String name, String desc, Date dateOfAdm, String status, String type) {
+        this.id = id;
         this.authorName = authorName;
         this.name = name;
         this.description = desc;
@@ -76,7 +77,7 @@ public class Plan implements Serializable {
         this.type = type;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -88,7 +89,7 @@ public class Plan implements Serializable {
         return status;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -106,6 +106,17 @@
                     </execution>
 
                     <execution>
+                        <id>npm install axios</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install axios</arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
                         <id>npm build</id>
                         <goals>
                             <goal>npm</goal>

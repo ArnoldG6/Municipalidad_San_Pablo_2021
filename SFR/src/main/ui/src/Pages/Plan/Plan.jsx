@@ -64,6 +64,10 @@ class Plan extends Component {
                     <Row className="mt-4">
                         <h1>Nombre del plan</h1>
                         <h3>ID</h3>
+                        <h2>Tipo</h2>
+                        <h2>Fecha de Ingreso</h2>
+                        <h2>Autor</h2>
+                        <h1>Descripcion</h1>
                     </Row>
 
                     {/* Listas de Datos del Plan */}

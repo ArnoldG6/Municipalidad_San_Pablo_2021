@@ -129,6 +129,7 @@ public class PlanDAO extends GenericDAO {
             em.getTransaction().begin();
             em.merge(plan);
             em.getTransaction().commit();
+            
         } catch (Exception ex) {
             ex.printStackTrace(System.out);
             System.err.println(ex.getMessage());

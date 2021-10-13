@@ -38,6 +38,10 @@ public class PlanManager extends HttpServlet {
                     Plan newPlan = gson.fromJson(algo, Plan.class);
                     newPlan.setEntryDate(new Date());
                     System.out.println("Plan: "+newPlan.toString());
+                    Plan planExist = PlanDAO.getInstance().searchById(newPlan.getId());
+                    if(planExist != null){
+                        throw new IOException();
+                    }
                     PlanDAO.getInstance().add(newPlan);
                     break;
             }
@@ -45,7 +49,7 @@ public class PlanManager extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(request.getServletPath());
         } catch (Exception e) {
-            throw e;
+            throw new IOException() ;
         }
 
     }

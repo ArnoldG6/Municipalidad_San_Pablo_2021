@@ -6,14 +6,12 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
@@ -25,8 +23,6 @@ public class Plan implements Serializable {
 
     @Id
     @Column(name = "PK_ID")
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
     private String id;
 
     @Column(name = "AuthorName")
@@ -55,10 +51,6 @@ public class Plan implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "FK_USER")
     )
     private List<User> involvedList;
-    //private List<Incidence> incidenceList;
-    //private List<Risk> riskList;
-    //private List<Comment> commentList;
-
     public Plan() {
 
     }
@@ -67,8 +59,7 @@ public class Plan implements Serializable {
         this.id = id;
     }
 
-    public Plan(String id, String authorName, String name, String desc, Date dateOfAdm, String status, String type) {
-        this.id = id;
+    public Plan(String authorName, String name, String desc, Date dateOfAdm, String status, String type) {
         this.authorName = authorName;
         this.name = name;
         this.description = desc;

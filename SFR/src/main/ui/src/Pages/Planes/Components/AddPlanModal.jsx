@@ -8,9 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 class AddPlanModal extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            show: false
-        };
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
@@ -38,10 +35,10 @@ class AddPlanModal extends Component {
 
         axios(options)
             .then(response => {
-                this.props.updatePlanes(options.data)
+                this.props.updatePlanes("add-success");
+                this.props.closeModal();
             }).catch(error => {
-                
-                toast.error("Funca!", {
+                toast.error("Error!", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
@@ -54,9 +51,9 @@ class AddPlanModal extends Component {
 
     render() {
         let render = this.props.show
-        this.closeModal = this.props.closeModal
+        let closeModal = this.props.closeModal
         return (
-            <Modal show={render} onHide={this.closeModal} >
+            <Modal show={render} onHide={closeModal} >
                 <Modal.Header>
                     Nuevo Item
                 </Modal.Header>
@@ -90,14 +87,14 @@ class AddPlanModal extends Component {
                             <label>Descripción: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             <textarea name="description" id="description" type="text" placeholder="Descripción" className="form-control" />
                         </div>
-                        <Button className='btn-sfr' type="submit" id="submit-button-new-item" onClick={this.props.closeModal}>
+                        <Button className='btn-sfr' type="submit" id="submit-button-new-item">
                             Guardar
                         </Button>
 
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={this.props.closeModal}>
+                    <Button variant="secondary" onClick={closeModal}>
                         Cerrar
                     </Button>
                 </Modal.Footer>

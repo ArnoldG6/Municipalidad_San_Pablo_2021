@@ -1,19 +1,43 @@
 import React, { Component } from 'react';
 import './PlansTable.css';
-import { Table } from "react-bootstrap";
+import { Table, } from "react-bootstrap";
 
 class PlansTable extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            sortingWay: true,
+            value: 'date'
+        };
+
+        this.handleSort=this.handleSort.bind(this);
+
+    }
+
+    handleSort(parameter) {
+
+        if (parameter === this.state.value) {
+            this.setState({ sortingWay: !this.state.sortingWay });
+        }
+        else {
+            this.setState({ sortingWay: true, value: parameter });
+        }
+        this.props.updatePlanesSort(this.state.value, this.state.sortingWay);
+    }
+
+    /* {this.props.updatePlanesSort('name',true)} */
+
     render() {
         return (
             <Table hover>
                 <thead>
                     <tr>
-                        <th>Nombre</th>
-                        <th>ID</th>
-                        <th>Fecha</th>
-                        <th>Estado</th>
-                        <th>Autor</th>
-                        <th>Tipo</th>
+                        <th><button class='header-button' id="nameButton" onClick={()=>{this.handleSort('name')}}> Nombre</button></th>
+                        <th><button class='header-button' id="idButton" onClick={()=>{this.handleSort('id')}}>ID</button></th>
+                        <th><button class='header-button' id="dateButton" onClick={()=>{this.handleSort('date')}}>Fecha</button></th>
+                        <th><button class='header-button' id="stateButton" onClick={()=>{this.handleSort('state')}}>Estado</button></th>
+                        <th><button class='header-button' id="authorButton"  onClick={()=>{this.handleSort('author')}}>Autor</button></th>
+                        <th><button class='header-button' id="typeButton" onClick={()=>{this.handleSort('type')}}>Tipo</button></th>
                     </tr>
                 </thead>
                 <tbody>

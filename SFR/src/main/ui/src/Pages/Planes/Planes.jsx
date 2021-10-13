@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import AddPlanModal from './Components/AddPlanModal';
 import axios from 'axios';
 import PlansTable from './Components/PlansTable';
+import Search from './Components/Search';
 
 class Planes extends Component {
     constructor(props) {
@@ -18,6 +19,7 @@ class Planes extends Component {
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.updatePlanes = this.updatePlanes.bind(this);
+        this.updatePlanesBySearch = this.updatePlanesBySearch.bind(this);
     }
     //On load
     componentDidMount() {
@@ -56,6 +58,11 @@ class Planes extends Component {
         });
     };
 
+    updatePlanesBySearch(type){
+        this.setState({ planes: type });
+
+    }
+
     openModal = () => {
         this.setState({ show: true });
     };
@@ -70,9 +77,7 @@ class Planes extends Component {
                 <Row className="mt-2">
                     <Stack direction="horizontal" gap={3}>
                         <Button className="btn-sfr" id="NewItemButton" size="sm" onClick={this.openModal}>Crear Item</Button>
-                        <form action="" className="algo ms-auto">
-                            <input type="text" id="fname" name="buscadfadfr" placeholder="Buscar"></input>
-                        </form>
+                        <Search updatePlanes={this.updatePlanesBySearch}/>
                     </Stack>
                 </Row>
                 <Row>

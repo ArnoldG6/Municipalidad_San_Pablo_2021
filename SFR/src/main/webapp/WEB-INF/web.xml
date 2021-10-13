@@ -10,11 +10,13 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>PlanServlet</servlet-name>
-        <url-pattern>/API/PlanServlet</url-pattern>
+        <url-pattern>/API/PlanServlet/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PlanManager</servlet-name>
-        <url-pattern>/API/PlanManager</url-pattern>
+        <url-pattern>/API/PlanManager/insert</url-pattern>
+        <url-pattern>/API/PlanManager/edit</url-pattern>
+        <url-pattern>/API/PlanManager/delete</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

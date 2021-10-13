@@ -18,11 +18,11 @@ import sfr.dao.PlanDAO;
  *
  * @author arnol
  */
-@WebServlet(name = "PlanServlet", urlPatterns = {"API/PlanServlet"})
+@WebServlet(name = "PlanServlet", urlPatterns = {"/API/PlanServlet"})
 public class PlanServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException {        
         try {
             String json = new Gson().toJson(PlanDAO.getInstance().listAll());
             response.setContentType("application/json");

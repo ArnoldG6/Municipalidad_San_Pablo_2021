@@ -137,7 +137,7 @@ public class Plan implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("id: ").append(id).append(",");
-        sb.append("author: ").append(authorName).append(",");
+        sb.append("authorName: ").append(authorName).append(",");
         sb.append("name: ").append(name).append(",");
         sb.append("description: ").append(description).append(",");
         sb.append("entryDate: ").append(entryDate).append(",");

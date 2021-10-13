@@ -1,8 +1,9 @@
 //import { render } from '@testing-library/react';
 import React, { Component } from 'react';
+import './Planes.css';
 import { Button, Stack, Row, Table } from "react-bootstrap";
 import AddPlanModal from './Components/AddPlanModal';
-import './Planes.css';
+
 
 class Planes extends Component {
     constructor(props) {
@@ -25,10 +26,14 @@ class Planes extends Component {
 
     render() {
         return (
+            
+
             <div className="Planes-Container container-fluid">
+               
+
                 <Row className="mt-2">
                     <Stack direction="horizontal" gap={3}>
-                        <Button id="NewItemButton" size="sm" onClick={this.openModal}>Crear Item</Button>
+                        <Button className="btn-sfr" id="NewItemButton" size="sm" onClick={this.openModal}>Crear Item</Button>
                         <form action="" className="algo ms-auto">
                             <input type="text" id="fname" name="buscadfadfr" placeholder="Buscar"></input>
                         </form>

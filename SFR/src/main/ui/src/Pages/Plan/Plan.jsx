@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Row } from "react-bootstrap";
 import './Plan.css'
+import { Row, Card, Nav } from "react-bootstrap";
 import CommentSideBar from './Components/CommentSideBar';
 import TopButtons from './Components/TopButtons';
 
@@ -57,46 +57,43 @@ class Plan extends Component {
 
                     {/* Botones de uso en el Plan */}
                     <Row>
-                        <TopButtons/>
+                        <TopButtons />
                     </Row>
 
                     {/* Datos del Plan */}
                     <Row className="mt-4">
                         <h1>Nombre del plan</h1>
-                        <h2>Tipo-ID20211234</h2>     
+                        <h2>Tipo-ID20211234</h2>
                         <h4>xx/xx/xxxx</h4>
                         <h4>Ricardo Milos</h4>
                         <p>ontent of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their i</p>
                     </Row>
 
                     {/* Listas de Datos del Plan */}
-                    <Row>
-                        {/*{this.state.title}-{"algo"}*/}
-                        <div class="card text-center">
-                            <div class="card">
-                                <ul class="nav nav-pills card-header-pills">
-                                    <li class="nav-item">
-                                        <a class="nav-link info" href="#">
-                                            <button type="button" class="btn btn-outline-secondary">Riesgos</button>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link info" href="#">
-                                            <button type="button" class="btn btn-outline-secondary">Insidencia Asociada</button>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link info" href="#">
-                                            <button type="button" class="btn btn-outline-secondary">Lista de Involucrados</button>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="card-body">
-                                sample text
-                            </div>
-                        </div>
-                    </Row>
+                    <Card>
+                        <Card.Header>
+                            <Nav variant="tabs" defaultActiveKey="#first">
+                                {/*para que se vea la tab seleccionada ponerle como atributo active al nav.link*/ }
+                                <Nav.Item>
+                                    <Nav.Link href="">Riesgos</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link href="">Incidencias</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link href="">
+                                        Involucrados
+                                    </Nav.Link>
+                                </Nav.Item>
+                            </Nav>
+                        </Card.Header>
+                        <Card.Body>
+                            
+                        </Card.Body>
+                    </Card>
+
+
+
 
                 </div>
             </div>

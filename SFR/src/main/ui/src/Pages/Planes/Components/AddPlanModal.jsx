@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import '../Planes.css'
 import { Modal, Button, Form } from "react-bootstrap";
+
 
 class AddPlanModal extends Component {
     constructor(props) {
@@ -76,7 +78,7 @@ class AddPlanModal extends Component {
                             <label>Descripción: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             <textarea name="description" id="description" type="text" placeholder="Descripción" className="form-control" />
                         </div>
-                        <Button variant="primary" type="submit">
+                        <Button className='btn-sfr' type="submit" id="submit-button-new-item">
                             Guardar
                         </Button>
 

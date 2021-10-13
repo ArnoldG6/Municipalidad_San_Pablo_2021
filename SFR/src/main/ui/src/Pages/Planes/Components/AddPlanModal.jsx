@@ -2,16 +2,19 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../Planes.css'
 import { Modal, Button, Form } from "react-bootstrap";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class AddPlanModal extends Component {
     constructor(props) {
         super(props);
-        //this.state = {
-        //    plan: { nombre: "", id: "", estado: "", autor: "" }
-        //};
+        this.state = {
+            show: false
+        };
         this.handleSubmit = this.handleSubmit.bind(this)
     }
+
+    closeModal() { }
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -35,16 +38,24 @@ class AddPlanModal extends Component {
 
         axios(options)
             .then(response => {
-                console.log(response.status);
+                this.props.history.push('/')
+            }).catch(error => {
+                
+                toast.error("Funca!", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 10000
+                });
             });
 
     }
 
     render() {
         let render = this.props.show
-        let closeModal = this.props.closeModal
+        this.closeModal = this.props.closeModal
         return (
-            <Modal show={render} onHide={closeModal} >
+            <Modal show={render} onHide={this.closeModal} >
                 <Modal.Header>
                     Nuevo Item
                 </Modal.Header>
@@ -85,10 +96,11 @@ class AddPlanModal extends Component {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={closeModal}>
+                    <Button variant="secondary" onClick={this.closeModal}>
                         Cerrar
                     </Button>
                 </Modal.Footer>
+                <ToastContainer />
             </Modal>
         );
     }

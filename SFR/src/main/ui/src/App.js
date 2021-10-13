@@ -7,9 +7,9 @@ import {
 } from "react-router-dom";
 import './App.css';
 import NavBar from './SharedComponents/NavBar/NavBar'
-import Planes from './pages/planes/Planes';
-import Plan from './pages/Plan/Plan';
-import Error from './pages/Error/Error';
+import Planes from './Pages/Planes/Planes';
+import Plan from './Pages/Plan/Plan';
+import Error from './Pages/Error/Error';
 
 class App extends Component {
   render() {

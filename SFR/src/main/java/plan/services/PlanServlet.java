@@ -64,6 +64,7 @@ public class PlanServlet extends HttpServlet {
                     break;
             }
         } catch (Exception e) {
+            System.err.println(e);
             throw e;
         }
     }

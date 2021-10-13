@@ -20,6 +20,7 @@ class Planes extends Component {
         this.closeModal = this.closeModal.bind(this);
         this.updatePlanes = this.updatePlanes.bind(this);
         this.updatePlanesBySearch = this.updatePlanesBySearch.bind(this);
+        this.updatePlanesSort = this.updatePlanesSort.bind(this);
     }
     //On load
     componentDidMount() {
@@ -75,7 +76,7 @@ class Planes extends Component {
 
         let options = {
             /*cambiar el link*/ 
-            url: "http://localhost:8080/SFR/API/PlanServlet",
+            url: "http://localhost:8080/SFR/API/RetrievePlans",
             method: "POST",
             header: {
                 'Accept': 'application/json',

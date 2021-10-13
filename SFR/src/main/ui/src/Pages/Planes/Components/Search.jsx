@@ -52,7 +52,7 @@ class Search extends Component {
         return (
             <Form onSubmit={this.handleSubmit}>
                 <input type="text" id="searchPlan" name="searchPlan" placeholder="Buscar"></input>
-                <button class="btn-sfr" type="submit">Buscar</button>
+                <button className="btn-sfr" type="submit">Buscar</button>
             </Form>
         );
     }

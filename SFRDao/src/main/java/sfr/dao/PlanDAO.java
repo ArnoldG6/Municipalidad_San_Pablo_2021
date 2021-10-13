@@ -1,5 +1,6 @@
 package sfr.dao;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class PlanDAO extends GenericDAO {
 
     public List<Plan> listAll() {
         try {
-            String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p";
+            String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p order by p.entryDate desc";
             em = getEntityManager();
             Query query = em.createQuery(cmd);
             List<Plan> objList = (List<Plan>) query.getResultList();
@@ -58,11 +59,26 @@ public class PlanDAO extends GenericDAO {
             throw e;
         }
     }
-        public List<Plan> listByEntryDate() {
+        public List<Plan> listByColumn(String column, String order) throws Exception {
         try {
-            String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p order by p.entryDate desc";
+            ArrayList<String> acceptedParameters = new ArrayList<>();
+            acceptedParameters.add("PK_ID");
+            acceptedParameters.add("NAME");
+            acceptedParameters.add("DESCRIPTION");
+            acceptedParameters.add("AUTHORNAME");
+            acceptedParameters.add("ENTRYDATE");
+            acceptedParameters.add("STATUS");
+            acceptedParameters.add("TYPE");
+            column = column.toUpperCase();
+            if (!acceptedParameters.contains(column)) 
+                throw new IOException("Invalid column parameter");
+            if(!(order.toUpperCase().equals("ASC") || order.toUpperCase().equals("DESC"))) 
+                throw new IOException("Invalid order parameter");
+            String cmd = "CALL listPlansByColumn('p."+column+"', '"+order+"')";
+            System.out.println("CMD: "+cmd);
             em = getEntityManager();
-            Query query = em.createQuery(cmd);
+            Session session = em.unwrap(Session.class);
+            Query query = session.createSQLQuery(cmd);
             List<Plan> objList = (List<Plan>) query.getResultList();
             List<Plan> l = new ArrayList<>();
             Iterator itr = objList.iterator();

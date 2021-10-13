@@ -71,6 +71,27 @@ class Planes extends Component {
         this.setState({ show: false });
     };
 
+    updatePlanesSort(sortingValue, sortingWay) {
+
+        let options = {
+            /*cambiar el link*/ 
+            url: "http://localhost:8080/SFR/API/PlanServlet",
+            method: "POST",
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: {
+                'sortingValue':sortingValue,
+                'sortingWay': sortingWay
+            }
+        }
+        axios(options).then(response => {
+            this.setState({ planes: response.data })
+        });
+
+    };
+
     render() {
         return (
             <div className="Planes-Container container-fluid">
@@ -81,7 +102,7 @@ class Planes extends Component {
                     </Stack>
                 </Row>
                 <Row>
-                    <PlansTable planes={this.state.planes}/>
+                    <PlansTable planes={this.state.planes}  updatePlanesSort={this.updatePlanesSort}/>
                 </Row>
                 <AddPlanModal updatePlanes={this.updatePlanes} show={this.state.show} closeModal={this.closeModal} />
                 <ToastContainer />

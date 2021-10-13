@@ -32,7 +32,7 @@ public class PlanServlet extends HttpServlet {
             String json;
             switch (request.getServletPath()) {
                 case "/API/PlanServlet":
-                    json = new Gson().toJson(PlanDAO.getInstance().listByEntryDate());
+                    json = new Gson().toJson(PlanDAO.getInstance().listAll());
                     response.setContentType("application/json");
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write(json);
@@ -48,7 +48,6 @@ public class PlanServlet extends HttpServlet {
                     response.getWriter().write(json);
                     break;
             }
-
         } catch (Exception e) {
             throw e;
         }

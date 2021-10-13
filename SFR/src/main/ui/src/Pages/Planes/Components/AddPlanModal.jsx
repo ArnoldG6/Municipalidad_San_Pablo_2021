@@ -9,7 +9,6 @@ class AddPlanModal extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleImputChange = this.handleImputChange.bind(this)
     }
 
     //closeModal() { }

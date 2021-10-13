@@ -4,8 +4,6 @@ import { Table } from "react-bootstrap";
 
 class PlansTable extends Component {
     render() {
-
-
         return (
             <Table hover>
                 <thead>
@@ -19,7 +17,7 @@ class PlansTable extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr >
+                    <tr>
                         <td><a href='/'>Poliza de chet prueba</a></td>
                         <td>2021-abc12345</td>
                         <td>13/10/2021</td>

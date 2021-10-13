@@ -24,7 +24,11 @@
     
 }
 .nav-item:active{
-    background-color: black;
-    color: white;   
+    background-color: white;
+    color: black; 
 }
 
+a .nav-link{
+    color: black;
+
+}

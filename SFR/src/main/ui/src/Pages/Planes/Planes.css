@@ -10,3 +10,13 @@
 #submit-button-new-item{
     margin-top: 5px;
 }
+
+.accepted{
+    width: 45%;
+    background-color: green;
+    color: white;
+    border-radius: 15px;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+}

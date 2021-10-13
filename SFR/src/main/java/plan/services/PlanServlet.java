@@ -7,45 +7,60 @@ package plan.services;
 
 import com.google.gson.Gson;
 import java.io.IOException;
-import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.eclipse.persistence.sessions.serializers.JSONSerializer;
 import org.json.JSONObject;
 import sfr.dao.PlanDAO;
-import sfr.model.Plan;
 
 /**
  *
  * @author arnol
  */
-@WebServlet(name = "PlanServlet", urlPatterns = {"/API/PlanServlet", "/API/PlanSearch"})
+@WebServlet(name = "PlanServlet", urlPatterns = {"/API/PlanServlet", "/API/PlanSearch", "/API/RetrievePlans"})
 public class PlanServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, Exception {
         try {
-            String json;
+            String json, requestData;
+            JSONObject jsonObj;
             switch (request.getServletPath()) {
                 case "/API/PlanServlet":
                     json = new Gson().toJson(PlanDAO.getInstance().listAll());
                     response.setContentType("application/json");
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write(json);
+                    response.getWriter().flush();
+                    response.getWriter().close();
                     break;
                 case "/API/PlanSearch":
                     response.setContentType("application/json");
-                    String algo = request.getReader().lines().collect(Collectors.joining());
-                    JSONObject jsonObj = new JSONObject(algo);
+                    response.setCharacterEncoding("UTF-8");
+                    requestData = request.getReader().lines().collect(Collectors.joining());
+                    jsonObj = new JSONObject(requestData);
                     String name = jsonObj.getString("searchPlan");
                     json = new Gson().toJson(PlanDAO.getInstance().listSearchBy("name", name));
+                    response.getWriter().write(json);
+                    response.getWriter().flush();
+                    response.getWriter().close();
+                    break;
+                case "/API/RetrievePlans":
                     response.setContentType("application/json");
                     response.setCharacterEncoding("UTF-8");
+                    requestData = request.getReader().lines().collect(Collectors.joining());
+                    jsonObj = new JSONObject(requestData);
+                    String sortingValue = jsonObj.getString("sortingValue");
+                    String sortingWay = jsonObj.getString("sortingWay");
+                    json = new Gson().toJson(PlanDAO.getInstance().listByColumn(sortingValue, sortingWay));
                     response.getWriter().write(json);
+                    response.getWriter().flush();
+                    response.getWriter().close();
                     break;
             }
         } catch (Exception e) {
@@ -65,7 +80,11 @@ public class PlanServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(PlanServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -79,7 +98,11 @@ public class PlanServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(PlanServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

@@ -12,6 +12,7 @@
         <servlet-name>PlanServlet</servlet-name>
         <url-pattern>/API/PlanServlet</url-pattern>
         <url-pattern>/API/PlanSearch</url-pattern>
+        <url-pattern>/API/RetrievePlans</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PlanManager</servlet-name>

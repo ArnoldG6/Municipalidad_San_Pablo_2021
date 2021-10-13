@@ -38,7 +38,7 @@ class AddPlanModal extends Component {
 
         axios(options)
             .then(response => {
-                this.props.history.push('/')
+                this.props.updatePlanes(options.data)
             }).catch(error => {
                 
                 toast.error("Funca!", {
@@ -50,6 +50,7 @@ class AddPlanModal extends Component {
             });
 
     }
+
 
     render() {
         let render = this.props.show

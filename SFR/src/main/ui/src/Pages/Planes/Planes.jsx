@@ -14,6 +14,7 @@ class Planes extends Component {
         };
         this.openModal = this.openModal.bind(this)
         this.closeModal = this.closeModal.bind(this)
+        this.updatePlanes = this.updatePlanes.bind(this)
     }
     componentDidMount(){
         //alert("dwd");
@@ -29,6 +30,11 @@ class Planes extends Component {
             this.setState({planes:response.data})            
         });
     }
+    updatePlanes(newPlan){
+        let newList = this.state.planes;
+        newList.push(newPlan);
+       this.setState({planes: newList})
+    };
     openModal = () => {
         this.setState({ show: true });
     };
@@ -78,7 +84,7 @@ class Planes extends Component {
                         </tbody>
                     </Table>
 
-                    <AddPlanModal show={this.state.show} closeModal={this.closeModal}/>
+                    <AddPlanModal updatePlanes={this.updatePlanes} show={this.state.show} closeModal={this.closeModal}/>
 
                 </Row>
             </div>

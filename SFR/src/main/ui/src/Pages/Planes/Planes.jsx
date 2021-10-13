@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './Planes.css';
 import { Button, Stack, Row, Table } from "react-bootstrap";
 import AddPlanModal from './Components/AddPlanModal';
-
+import axios from 'axios';
 
 class Planes extends Component {
     constructor(props) {
@@ -15,7 +15,20 @@ class Planes extends Component {
         this.openModal = this.openModal.bind(this)
         this.closeModal = this.closeModal.bind(this)
     }
-
+    componentDidMount(){
+        //alert("dwd");
+        let options={
+            url: "http://localhost:8080/SFR/API/PlanServlet",
+            method: "GET",
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        }
+        axios(options).then(response => {
+            this.setState({planes:response.data})            
+        });
+    }
     openModal = () => {
         this.setState({ show: true });
     };
@@ -54,10 +67,11 @@ class Planes extends Component {
                             {this.state.planes.map((plan) => {
                                 return (
                                     <tr key={plan.id}>
-                                        <td>{plan.nombre}</td>
-                                        <td>{plan.id}</td>
-                                        <td>{plan.estado}</td>
-                                        <td>{plan.autor}</td>
+                                        <td>{plan.name}</td>
+                                        <td>{plan.id}</td>                                                       
+                                        <td>{plan.entryDate}</td>
+                                        <td>{plan.description}</td>
+                                        <td>{plan.authorName}</td>
                                     </tr>
                                 )
                             })}

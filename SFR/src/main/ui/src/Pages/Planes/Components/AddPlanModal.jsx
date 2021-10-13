@@ -14,7 +14,7 @@ class AddPlanModal extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    closeModal() { }
+    //closeModal() { }
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -90,14 +90,14 @@ class AddPlanModal extends Component {
                             <label>Descripción: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             <textarea name="description" id="description" type="text" placeholder="Descripción" className="form-control" />
                         </div>
-                        <Button className='btn-sfr' type="submit" id="submit-button-new-item">
+                        <Button className='btn-sfr' type="submit" id="submit-button-new-item" onClick={this.props.closeModal}>
                             Guardar
                         </Button>
 
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={this.closeModal}>
+                    <Button variant="secondary" onClick={this.props.closeModal}>
                         Cerrar
                     </Button>
                 </Modal.Footer>

@@ -6,23 +6,34 @@ class PlansTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            sortingWay: '',
-            value: ''
+            sortingWay: 'desc',
+            value: 'date'
         };
 
-      
+
 
     }
 
     handleSort(parameter) {
-
+        let sort = this.state.sortingWay;
         if (parameter === this.state.value) {
-            this.setState({ sortingWay: !this.state.sortingWay });
+            if (sort === 'desc') {
+                sort = 'asc';
+            } else {
+                sort = 'desc';
+            }
         }
         else {
-            this.setState({ sortingWay: true, value: parameter });
+            sort = 'desc';
         }
-        this.props.updatePlanesSort(this.state.value, this.state.sortingWay);
+        this.setState(
+            {
+                sortingWay: sort,
+                value: parameter
+            }, () => {
+                this.props.updatePlanesSort(parameter, sort);
+            }
+        );
     }
 
     /* {this.props.updatePlanesSort('name',true)} */
@@ -32,12 +43,12 @@ class PlansTable extends Component {
             <Table hover>
                 <thead>
                     <tr>
-                        <th><button className='header-button' id="nameButton" onClick={()=>{this.handleSort('name')}}> Nombre</button></th>
-                        <th><button className='header-button' id="idButton" onClick={()=>{this.handleSort('id')}}>ID</button></th>
-                        <th><button className='header-button' id="dateButton" onClick={()=>{this.handleSort('date')}}>Fecha</button></th>
-                        <th><button className='header-button' id="stateButton" onClick={()=>{this.handleSort('state')}}>Estado</button></th>
-                        <th><button className='header-button' id="authorButton"  onClick={()=>{this.handleSort('author')}}>Autor</button></th>
-                        <th><button className='header-button' id="typeButton" onClick={()=>{this.handleSort('type')}}>Tipo</button></th>
+                        <th><button className='header-button' id="nameButton" onClick={() => { this.handleSort('name') }}> Nombre</button></th>
+                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('pk_id') }}>ID</button></th>
+                        <th><button className='header-button' id="dateButton" onClick={() => { this.handleSort('entryDate') }}>Fecha</button></th>
+                        <th><button className='header-button' id="stateButton" onClick={() => { this.handleSort('status') }}>Estado</button></th>
+                        <th><button className='header-button' id="authorButton" onClick={() => { this.handleSort('authorName') }}>Autor</button></th>
+                        <th><button className='header-button' id="typeButton" onClick={() => { this.handleSort('type') }}>Tipo</button></th>
                     </tr>
                 </thead>
                 <tbody>

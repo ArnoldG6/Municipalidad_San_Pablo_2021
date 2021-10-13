@@ -8,8 +8,8 @@ class CommentSideBar extends Component {
             <div className="plan-sidebar">
                 <h2 className="text-center mt-3">Comentarios</h2>
                 <Nav className="navbar navbar-default" role="navigation">
-                    <div class="side-menu-container">
-                        <ul class="nav nav-pills flex-column mb-auto">
+                    <div className="side-menu-container">
+                        <ul className="nav nav-pills flex-column mb-auto">
                             
                         </ul>
                     </div>

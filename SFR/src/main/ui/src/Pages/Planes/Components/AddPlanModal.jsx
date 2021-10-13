@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../Planes.css'
 import { Modal, Button, Form } from "react-bootstrap";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class AddPlanModal extends Component {
     constructor(props) {
         super(props);
-        //this.state = {
-        //    plan: { nombre: "", id: "", estado: "", autor: "" }
-        //};
         this.handleSubmit = this.handleSubmit.bind(this)
     }
+
+    //closeModal() { }
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -35,10 +35,19 @@ class AddPlanModal extends Component {
 
         axios(options)
             .then(response => {
-                console.log(response.status);
+                this.props.updatePlanes("add-success");
+                this.props.closeModal();
+            }).catch(error => {
+                toast.error("Error!", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 10000
+                });
             });
 
     }
+
 
     render() {
         let render = this.props.show
@@ -89,6 +98,7 @@ class AddPlanModal extends Component {
                         Cerrar
                     </Button>
                 </Modal.Footer>
+                <ToastContainer />
             </Modal>
         );
     }

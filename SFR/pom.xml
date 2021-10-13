@@ -129,6 +129,17 @@
                     </execution>
 
                     <execution>
+                        <id>npm install toastify</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install --save react-toastify</arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
                         <id>npm build</id>
                         <goals>
                             <goal>npm</goal>

@@ -58,7 +58,32 @@ public class PlanDAO extends GenericDAO {
             throw e;
         }
     }
-
+        public List<Plan> listByEntryDate() {
+        try {
+            String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p order by p.entryDate desc";
+            em = getEntityManager();
+            Query query = em.createQuery(cmd);
+            List<Plan> objList = (List<Plan>) query.getResultList();
+            List<Plan> l = new ArrayList<>();
+            Iterator itr = objList.iterator();
+            while (itr.hasNext()) {
+                Object[] obj = (Object[]) itr.next();
+                Plan p = new Plan(String.valueOf(obj[0]));
+                p.setName(String.valueOf(obj[1]));
+                p.setDesc(String.valueOf(obj[2]));
+                p.setEntryDate((Date) (obj[3]));
+                p.setStatus(String.valueOf(obj[4]));
+                p.setAuthorName(String.valueOf(obj[5]));
+                p.setType(String.valueOf(obj[6]));
+                l.add(p);
+            }
+            return l;
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        }
+    }
     public HashMap<String, Plan> listAllHM() {
         HashMap<String, Plan> plans = new HashMap<>();
         List<Plan> plansList = this.listAll();

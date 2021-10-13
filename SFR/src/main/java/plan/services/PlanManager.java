@@ -6,8 +6,9 @@
 package plan.services;
 
 import com.google.gson.Gson;
+import common.model.User;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Date;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sfr.dao.PlanDAO;
+import sfr.model.Plan;
 
 /**
  *
@@ -30,9 +32,13 @@ public class PlanManager extends HttpServlet {
             switch (request.getServletPath()) {
                 case "/API/PlanManager/insert":
                     response.setContentType("application/json");
-                    //String algo = request.getReader().lines().collect(Collectors.joining());
-                    String algo = (String)request.getAttribute("data");
-                    System.out.println(algo);
+                    String algo = request.getReader().lines().collect(Collectors.joining());
+                    //String algo = (String)request.getAttribute("data");
+                    Gson gson = new Gson();
+                    Plan newPlan = gson.fromJson(algo, Plan.class);
+                    newPlan.setEntryDate(new Date());
+                    System.out.println("Plan: "+newPlan.toString());
+                    PlanDAO.getInstance().add(newPlan);
                     break;
             }
             response.setContentType("text/html");

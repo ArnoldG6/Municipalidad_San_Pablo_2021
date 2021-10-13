@@ -6,11 +6,11 @@ class PlansTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            sortingWay: true,
-            value: 'date'
+            sortingWay: '',
+            value: ''
         };
 
-        this.handleSort=this.handleSort.bind(this);
+      
 
     }
 
@@ -32,12 +32,12 @@ class PlansTable extends Component {
             <Table hover>
                 <thead>
                     <tr>
-                        <th><button class='header-button' id="nameButton" onClick={()=>{this.handleSort('name')}}> Nombre</button></th>
-                        <th><button class='header-button' id="idButton" onClick={()=>{this.handleSort('id')}}>ID</button></th>
-                        <th><button class='header-button' id="dateButton" onClick={()=>{this.handleSort('date')}}>Fecha</button></th>
-                        <th><button class='header-button' id="stateButton" onClick={()=>{this.handleSort('state')}}>Estado</button></th>
-                        <th><button class='header-button' id="authorButton"  onClick={()=>{this.handleSort('author')}}>Autor</button></th>
-                        <th><button class='header-button' id="typeButton" onClick={()=>{this.handleSort('type')}}>Tipo</button></th>
+                        <th><button className='header-button' id="nameButton" onClick={()=>{this.handleSort('name')}}> Nombre</button></th>
+                        <th><button className='header-button' id="idButton" onClick={()=>{this.handleSort('id')}}>ID</button></th>
+                        <th><button className='header-button' id="dateButton" onClick={()=>{this.handleSort('date')}}>Fecha</button></th>
+                        <th><button className='header-button' id="stateButton" onClick={()=>{this.handleSort('state')}}>Estado</button></th>
+                        <th><button className='header-button' id="authorButton"  onClick={()=>{this.handleSort('author')}}>Autor</button></th>
+                        <th><button className='header-button' id="typeButton" onClick={()=>{this.handleSort('type')}}>Tipo</button></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,7 +45,7 @@ class PlansTable extends Component {
                         <td><a href='/'>Poliza de chet prueba</a></td>
                         <td>2021-abc12345</td>
                         <td>13/10/2021</td>
-                        <td><div class="accepted">Aceptado</div></td>
+                        <td><div className="accepted">Aceptado</div></td>
                         <td >Ricardo Milos</td>
                         <td >Proyecto</td>
                     </tr>
@@ -56,7 +56,7 @@ class PlansTable extends Component {
                                 <td><a href='/'>{plan.name}</a></td>
                                 <td>{plan.id}</td>
                                 <td>{plan.entryDate}</td>
-                                <td><div class="accepted">{plan.status}</div></td>
+                                <td><div className="accepted">{plan.status}</div></td>
                                 <td>{plan.authorName}</td>
                                 <td>{plan.type}</td>
                             </tr>

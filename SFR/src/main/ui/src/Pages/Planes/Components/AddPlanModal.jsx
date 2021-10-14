@@ -39,7 +39,7 @@ class AddPlanModal extends Component {
                 this.props.updatePlanes("add-success");
                 this.props.closeModal();
             }).catch(error => {
-                toast.error("Error!", {
+                toast.error("ID del plan ya se encuentra registrado en el sistema.", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
@@ -48,19 +48,6 @@ class AddPlanModal extends Component {
             });
 
     }
-
-    handleImputChange = (event) => {
-        const target = event.target;
-        
-        if(target.value === null || target.value === ""){
-            target.className = "emptyField";
-        }
-        else{
-            target.className = "form-control";
-        }
-
-    }
-
 
     render() {
         let render = this.props.show

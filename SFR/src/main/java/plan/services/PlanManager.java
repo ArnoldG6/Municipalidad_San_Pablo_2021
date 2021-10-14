@@ -49,7 +49,7 @@ public class PlanManager extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(request.getServletPath());
         } catch (Exception e) {
-            System.out.println("ID de plan ya se encuentra registrado en el sistema.");
+            throw new IOException() ;
         }
 
     }

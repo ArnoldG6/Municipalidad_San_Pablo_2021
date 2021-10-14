@@ -10,9 +10,13 @@ class Plan extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            listComentarios: [],
             id: "",
-            title: ""
+            authorName: "",
+            name: "",
+            description: "",
+            entryDate: "",
+            status: "",
+            type: ""
         };
     }
 
@@ -32,9 +36,18 @@ class Plan extends Component {
         }
         axios(options)
             .then(response => {
-
+                let plan = response.data;
+                this.setState({
+                    id: plan.id,
+                    authorName: plan.authorName,
+                    name: plan.name,
+                    description: plan.description,
+                    entryDate: plan.entryDate,
+                    status: plan.status,
+                    type: plan.type
+                });
             }).catch(error => {
-
+                this.props.history.push('/planes');
             });
     }
 
@@ -49,16 +62,16 @@ class Plan extends Component {
 
                     {/* Botones de uso en el Plan */}
                     <Row>
-                        <TopButtons />
+                        <TopButtons status={this.state.status}/>
                     </Row>
 
                     {/* Datos del Plan */}
                     <Row className="mt-4">
-                        <h1>Nombre del plan</h1>
-                        <h2>Tipo-ID20211234</h2>
-                        <h4>xx/xx/xxxx</h4>
-                        <h4>Ricardo Milos</h4>
-                        <p>ontent of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their i</p>
+                        <h1>{this.state.name}</h1>
+                        <h2>{this.state.type}-{this.state.id}</h2>
+                        <h4>{this.state.entryDate}</h4>
+                        <h4>{this.state.authorName}</h4>
+                        <p>{this.state.description}</p>
                     </Row>
 
                     {/* Listas de Datos del Plan */}

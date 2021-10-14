@@ -15,21 +15,23 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <NavBar/>
+        <NavBar />
         <Switch>
           <Route exact path="/">
             <h1>Home</h1>
           </Route>
           <Route path="/planes" component={Planes} />
           <Route path="/plan" component={Plan} />
-          <Route path="/perfil" component={Plan} />
+          <Route path="/perfil">
+            <h1>Perfil</h1>
+          </Route>
           <Route path="/mensajes">
             <h1>Mensajes</h1>
           </Route>
           <Route path="/reportes">
             <h1>Reportes</h1>
           </Route>
-          <Route render={() => <Error status={404} text={'Página no encontrada'}/>}/>
+          <Route render={() => <Error status={404} text={'Página no encontrada'} />} />
         </Switch>
       </Router>
     );

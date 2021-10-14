@@ -48,7 +48,7 @@ public class PlanDAO extends GenericDAO {
                 p.setStatus(String.valueOf(obj[4]));
                 p.setAuthorName(String.valueOf(obj[5]));
                 p.setType(String.valueOf(obj[6]));
-                
+
                 l.add(p);
             }
 
@@ -59,7 +59,8 @@ public class PlanDAO extends GenericDAO {
             throw e;
         }
     }
-        public List<Plan> listByColumn(String column, String order) throws Exception {
+
+    public List<Plan> listByColumn(String column, String order) throws Exception {
         try {
             ArrayList<String> acceptedParameters = new ArrayList<>();
             acceptedParameters.add("PK_ID");
@@ -71,12 +72,14 @@ public class PlanDAO extends GenericDAO {
             acceptedParameters.add("TYPE");
             order = order.toUpperCase();
             column = column.toUpperCase();
-            if (!acceptedParameters.contains(column)) 
+            if (!acceptedParameters.contains(column)) {
                 throw new IOException("Invalid column parameter");
-            if(!(order.toUpperCase().equals("ASC") || order.toUpperCase().equals("DESC"))) 
+            }
+            if (!(order.toUpperCase().equals("ASC") || order.toUpperCase().equals("DESC"))) {
                 throw new IOException("Invalid order parameter");
-            String cmd = "CALL listPlansByColumn('p."+column+"', '"+order+"')";
-            System.out.println("CMD: "+cmd);
+            }
+            String cmd = "CALL listPlansByColumn('p." + column + "', '" + order + "')";
+            System.out.println("CMD: " + cmd);
             em = getEntityManager();
             Session session = em.unwrap(Session.class);
             Query query = session.createSQLQuery(cmd);
@@ -101,6 +104,7 @@ public class PlanDAO extends GenericDAO {
             throw e;
         }
     }
+
     public HashMap<String, Plan> listAllHM() {
         HashMap<String, Plan> plans = new HashMap<>();
         List<Plan> plansList = this.listAll();
@@ -130,7 +134,7 @@ public class PlanDAO extends GenericDAO {
             em.getTransaction().begin();
             em.merge(plan);
             em.getTransaction().commit();
-            
+
         } catch (Exception ex) {
             ex.printStackTrace(System.out);
             System.err.println(ex.getMessage());
@@ -153,9 +157,32 @@ public class PlanDAO extends GenericDAO {
         }
     }
 
-    public Plan searchById(String id) {
+    public Plan searchByIdSmall(String id) {
         em = getEntityManager();
         return (Plan) em.find(Plan.class, id);
+    }
+    
+    public Plan searchById(String id) {
+        try {
+            String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p WHERE p.id = " + id;
+            em = getEntityManager();
+            Query query = em.createQuery(cmd);
+            Object[] obj = (Object[]) query.getSingleResult();
+
+            Plan p = new Plan(String.valueOf(obj[0]));
+            p.setName(String.valueOf(obj[1]));
+            p.setDesc(String.valueOf(obj[2]));
+            p.setEntryDate((Date) (obj[3]));
+            p.setStatus(String.valueOf(obj[4]));
+            p.setAuthorName(String.valueOf(obj[5]));
+            p.setType(String.valueOf(obj[6]));
+
+            return p;
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        }
     }
 
     public List<Plan> listSearchBy(String toSearch, String value) {
@@ -195,11 +222,11 @@ public class PlanDAO extends GenericDAO {
 
     public List<Plan> listTenPlans(int page) {
         try {
-            String cmd = "CALL selectTenPlans("+ page +"0)";
-            
+            String cmd = "CALL selectTenPlans(" + page + "0)";
+
             em = getEntityManager();
             Session session = em.unwrap(Session.class);
-            
+
             Query query = session.createSQLQuery(cmd);
             List<Plan> objList = (List<Plan>) query.getResultList();
 

@@ -38,7 +38,7 @@ public class PlanManager extends HttpServlet {
                     Plan newPlan = gson.fromJson(algo, Plan.class);
                     newPlan.setEntryDate(new Date());
                     System.out.println("Plan: "+newPlan.toString());
-                    Plan planExist = PlanDAO.getInstance().searchById(newPlan.getId());
+                    Plan planExist = PlanDAO.getInstance().searchByIdSmall(newPlan.getId());
                     if(planExist != null){
                         throw new IOException();
                     }

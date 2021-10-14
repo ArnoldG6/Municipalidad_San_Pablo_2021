@@ -1,15 +1,3 @@
-.accepted{
-    width: 45%;
-    
-    background-color: green;
-    color: white;
-    border-radius: 15px;
-    min-width: fit-content;
-    padding: 0px;
-    margin: 0px;
-    text-align: center;
-}
-
 .header-button{
     background-color: white;
     border: 0px;
@@ -22,4 +10,25 @@
     padding-right: 16px;
     background-color: rgb(104, 32, 32);
     border-radius: 3px;
+}
+.bubble {
+    width: 45%;
+    color: white;
+    border-radius: 15px;
+    min-width: fit-content;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+}
+.in-progress{
+    background-color: green;
+}
+.no-progress{
+    background-color: #ff0000;
+}
+.completed{
+    background-color: royalblue;
+}
+.unknown{
+    background-color: slategray;
 }

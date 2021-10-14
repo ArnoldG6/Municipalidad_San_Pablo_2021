@@ -7,27 +7,47 @@ package plan.services;
 
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.Date;
+import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.persistence.sessions.serializers.JSONSerializer;
+import org.json.JSONObject;
 import sfr.dao.PlanDAO;
+import sfr.model.Plan;
 
 /**
  *
  * @author arnol
  */
-@WebServlet(name = "PlanServlet", urlPatterns = {"/API/PlanServlet"})
+@WebServlet(name = "PlanServlet", urlPatterns = {"/API/PlanServlet", "/API/PlanSearch"})
 public class PlanServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {        
+            throws ServletException, IOException {
         try {
-            String json = new Gson().toJson(PlanDAO.getInstance().listAll());
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(json);
+            String json;
+            switch (request.getServletPath()) {
+                case "/API/PlanServlet":
+                    json = new Gson().toJson(PlanDAO.getInstance().listAll());
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(json);
+                    break;
+                case "/API/PlanSearch":
+                    response.setContentType("application/json");
+                    String algo = request.getReader().lines().collect(Collectors.joining());
+                    JSONObject jsonObj = new JSONObject(algo);
+                    String name = jsonObj.getString("searchPlan");
+                    json = new Gson().toJson(PlanDAO.getInstance().listSearchBy("name", name));
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(json);
+                    break;
+            }
         } catch (Exception e) {
             throw e;
         }

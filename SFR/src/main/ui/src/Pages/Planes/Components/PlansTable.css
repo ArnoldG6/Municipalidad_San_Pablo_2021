@@ -1,9 +1,25 @@
 .accepted{
     width: 45%;
+    
     background-color: green;
     color: white;
     border-radius: 15px;
+    min-width: fit-content;
     padding: 0px;
     margin: 0px;
     text-align: center;
+}
+
+.header-button{
+    background-color: white;
+    border: 0px;
+    font-weight: bold;
+    text-align: left;
+    padding: 3px;
+}
+.header-button:focus{
+    padding: 3px;
+    padding-right: 16px;
+    background-color: rgb(104, 32, 32);
+    border-radius: 3px;
 }

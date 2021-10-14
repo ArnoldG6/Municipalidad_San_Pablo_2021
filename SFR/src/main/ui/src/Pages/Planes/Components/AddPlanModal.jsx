@@ -9,7 +9,6 @@ class AddPlanModal extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleImputChange = this.handleImputChange.bind(this)
     }
 
     //closeModal() { }
@@ -69,7 +68,12 @@ class AddPlanModal extends Component {
                         </div>
                         <div className="form-group">
                             <label>Estado: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                            <input name="status" id="status" type="text" placeholder="Estado" className="form-control" required />
+                            <Form.Select name="status" id="status">
+                                <option value="" defaultValue disabled hidden>Seleccione un estado</option>
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                                <option value="Completo">Completo</option>
+                            </Form.Select>
                         </div>
                         <div className="form-group">
                             <label>Autor: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>

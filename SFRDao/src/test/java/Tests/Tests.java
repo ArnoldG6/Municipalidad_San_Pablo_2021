@@ -7,6 +7,8 @@ package Tests;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Test;
 import sfr.dao.PlanDAO;
 import sfr.model.Plan;
@@ -19,11 +21,12 @@ public class Tests {
 
     @Test
     public void main() {
-        
-
         System.out.println(PlanDAO.getInstance().countPlans());
-        List<Plan> l = PlanDAO.getInstance().listTenPlans(1);
-        l.forEach(p -> System.out.println(p.toString()));
-        System.out.println(PlanDAO.getInstance().listByEntryDate());
+        try {
+            System.out.println(PlanDAO.getInstance().listByColumn("pk_id", "ASC"));
+            System.out.println(PlanDAO.getInstance().listByColumn("pk_id", "DESC"));
+        } catch (Exception ex) {
+            Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

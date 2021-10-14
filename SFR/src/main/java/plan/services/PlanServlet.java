@@ -31,6 +31,7 @@ public class PlanServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
+        request.setCharacterEncoding("UTF-8");
         try {
             String json, requestData;
             JSONObject jsonObj;

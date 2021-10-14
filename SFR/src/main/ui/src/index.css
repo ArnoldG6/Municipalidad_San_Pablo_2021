@@ -6,8 +6,6 @@
     color: white;
     height: 7%;
     overflow-y: hidden;
-    
-   
 }
 #root { 
     height: 100%;
@@ -15,13 +13,11 @@
     bottom:0;
     left:0;
     right:0;
-
 }
 
 .nav-item{
     overflow-y:hidden;
     color: black;
-    
 }
 .nav-item:active{
     background-color: white;
@@ -30,5 +26,4 @@
 
 a .nav-link{
     color: black;
-
 }

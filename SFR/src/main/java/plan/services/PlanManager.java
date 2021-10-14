@@ -6,7 +6,6 @@
 package plan.services;
 
 import com.google.gson.Gson;
-import common.model.User;
 import java.io.IOException;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -27,19 +26,18 @@ public class PlanManager extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        request.setCharacterEncoding("UTF-8");
         try {
             switch (request.getServletPath()) {
                 case "/API/PlanManager/insert":
-                    response.setContentType("application/json");
                     String algo = request.getReader().lines().collect(Collectors.joining());
                     //String algo = (String)request.getAttribute("data");
                     Gson gson = new Gson();
                     Plan newPlan = gson.fromJson(algo, Plan.class);
                     newPlan.setEntryDate(new Date());
-                    System.out.println("Plan: "+newPlan.toString());
+                    System.out.println("Plan: " + newPlan.toString());
                     Plan planExist = PlanDAO.getInstance().searchByIdSmall(newPlan.getId());
-                    if(planExist != null){
+                    if (planExist != null) {
                         throw new IOException();
                     }
                     PlanDAO.getInstance().add(newPlan);
@@ -49,7 +47,7 @@ public class PlanManager extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(request.getServletPath());
         } catch (Exception e) {
-            throw new IOException() ;
+            throw new IOException();
         }
 
     }

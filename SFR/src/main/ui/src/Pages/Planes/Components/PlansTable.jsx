@@ -46,7 +46,7 @@ class PlansTable extends Component {
                     <tr>
                         <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('pk_id') }}>ID</button></th>
                         <th><button className='header-button' id="nameButton" onClick={() => { this.handleSort('name') }}> Nombre</button></th>
-                        <th><button className='header-button' id="dateButton" onClick={() => { this.handleSort('entryDate') }}>Fecha</button></th>
+                        <th><button className='header-button' id="dateButton" onClick={() => { this.handleSort('entryDate') }}>Fecha de Ingreso</button></th>
                         <th><button className='header-button' id="stateButton" onClick={() => { this.handleSort('status') }}>Estado</button></th>
                         <th><button className='header-button' id="authorButton" onClick={() => { this.handleSort('authorName') }}>Autor</button></th>
                         <th><button className='header-button' id="typeButton" onClick={() => { this.handleSort('type') }}>Tipo</button></th>
@@ -75,7 +75,7 @@ class PlansTable extends Component {
                         return (
                             <tr key={plan.id}>
                                 <td>{plan.id}</td>
-                                <td><Link to={{ pathname: "/plan", search: `?id=${plan.id}` }}>{plan.name}</Link></td>
+                                <td className="nameSlot"><Link to={{ pathname: "/plan", search: `?id=${plan.id}` }}>{plan.name}</Link></td>
                                 <td>{plan.entryDate}</td>
                                 <td><div className={statusClass}>{plan.status}</div></td>
                                 <td>{plan.authorName}</td>

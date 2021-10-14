@@ -164,7 +164,7 @@ public class PlanDAO extends GenericDAO {
     
     public Plan searchById(String id) {
         try {
-            String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p WHERE p.id = " + id;
+            String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p WHERE p.id = '" + id +"'";
             em = getEntityManager();
             Query query = em.createQuery(cmd);
             Object[] obj = (Object[]) query.getSingleResult();

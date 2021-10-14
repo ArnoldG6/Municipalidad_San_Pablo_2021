@@ -42,7 +42,7 @@ class Planes extends Component {
 
     updatePlanes(type) {
         if (type === "add-success") {
-            toast.success("Funca!", {
+            toast.success("El Plan ha sido agregado satisfactoriamente!", {
                 position: toast.POSITION.TOP_RIGHT,
                 pauseOnHover: true,
                 theme: 'colored',

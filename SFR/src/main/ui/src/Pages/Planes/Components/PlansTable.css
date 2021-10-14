@@ -32,3 +32,10 @@
 .unknown{
     background-color: slategray;
 }
+#nameButton {
+    max-width: 40vh;
+}
+.nameSlot {
+    max-width: 40vh;
+    word-wrap: break-word;
+}

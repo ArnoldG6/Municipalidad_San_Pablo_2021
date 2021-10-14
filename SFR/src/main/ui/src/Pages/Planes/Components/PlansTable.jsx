@@ -44,8 +44,8 @@ class PlansTable extends Component {
             <Table hover>
                 <thead>
                     <tr>
-                        <th><button className='header-button' id="nameButton" onClick={() => { this.handleSort('name') }}> Nombre</button></th>
                         <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('pk_id') }}>ID</button></th>
+                        <th><button className='header-button' id="nameButton" onClick={() => { this.handleSort('name') }}> Nombre</button></th>                        
                         <th><button className='header-button' id="dateButton" onClick={() => { this.handleSort('entryDate') }}>Fecha</button></th>
                         <th><button className='header-button' id="stateButton" onClick={() => { this.handleSort('status') }}>Estado</button></th>
                         <th><button className='header-button' id="authorButton" onClick={() => { this.handleSort('authorName') }}>Autor</button></th>
@@ -53,6 +53,9 @@ class PlansTable extends Component {
                     </tr>
                 </thead>
                 <tbody>
+                   
+
+
                     {this.props.planes.map((plan) => {
                         return (
                             <tr key={plan.id}>
@@ -71,3 +74,17 @@ class PlansTable extends Component {
     }
 };
 export default PlansTable;
+/*
+datos quemados:
+
+                    <tr>
+                        <td>2021-abc12345</td>
+                        <td><a href='/'>Poliza de chet prueba</a></td>                        
+                        <td>13/10/2021</td>
+                        <td><div class="accepted">Aceptado</div></td>
+                        <td >Ricardo Milos</td>
+                        <td >Proyecto</td>
+                    </tr>
+
+
+*/ 

@@ -99,7 +99,7 @@ class Planes extends Component {
                 <Row className="mt-2">
                     <Stack direction="horizontal" gap={3}>
                         <Button className="btn-sfr" id="NewItemButton" size="sm" onClick={this.openModal}>Crear Item</Button>
-                        <Search className='ms-auto' updatePlanes={this.updatePlanesBySearch}/>
+                        <Search  updatePlanes={this.updatePlanesBySearch}/>
                     </Stack>
                 </Row>
                 <Row>

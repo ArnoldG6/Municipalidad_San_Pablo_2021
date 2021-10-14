@@ -32,11 +32,12 @@ class Planes extends Component {
                 'Content-Type': 'application/json'
             },
         }
-        axios(options).then(toast.promise({pending: 'Cargando...'})).then(response => {
+        //axios(options).then(toast.promise({pending: 'Cargando...'})).then(response => {
+        axios(options).then(response => {
             this.setState({ planes: response.data })
         }).catch((error) => {
             console.error(error.message);
-          });
+        });
     }
 
     updatePlanes(type) {
@@ -61,11 +62,11 @@ class Planes extends Component {
             //console.log(response.data)
         }).catch((error) => {
             console.error(error.message);
-          });
- 
+        });
+
     };
 
-    updatePlanesBySearch(type){
+    updatePlanesBySearch(type) {
         this.setState({ planes: type });
 
     }
@@ -81,7 +82,7 @@ class Planes extends Component {
     updatePlanesSort(sortingValue, sortingWay) {
 
         let options = {
-            /*cambiar el link*/ 
+            /*cambiar el link*/
             url: "http://localhost:8080/SFR/API/RetrievePlans",
             method: "POST",
             header: {
@@ -89,7 +90,7 @@ class Planes extends Component {
                 'Content-Type': 'application/json'
             },
             data: {
-                'sortingValue':sortingValue,
+                'sortingValue': sortingValue,
                 'sortingWay': sortingWay
             }
         }
@@ -105,11 +106,11 @@ class Planes extends Component {
                 <Row className="mt-2">
                     <Stack direction="horizontal" gap={3}>
                         <Button className="btn-sfr" id="NewItemButton" size="sm" onClick={this.openModal}>Crear Item</Button>
-                        <Search  updatePlanes={this.updatePlanesBySearch}/>
+                        <Search updatePlanes={this.updatePlanesBySearch} />
                     </Stack>
                 </Row>
                 <Row>
-                    <PlansTable planes={this.state.planes}  updatePlanesSort={this.updatePlanesSort}/>
+                    <PlansTable planes={this.state.planes} updatePlanesSort={this.updatePlanesSort} />
                 </Row>
                 <AddPlanModal updatePlanes={this.updatePlanes} show={this.state.show} closeModal={this.closeModal} />
                 <ToastContainer />

@@ -69,6 +69,7 @@ public class PlanDAO extends GenericDAO {
             acceptedParameters.add("ENTRYDATE");
             acceptedParameters.add("STATUS");
             acceptedParameters.add("TYPE");
+            order = order.toUpperCase();
             column = column.toUpperCase();
             if (!acceptedParameters.contains(column)) 
                 throw new IOException("Invalid column parameter");

@@ -59,8 +59,8 @@ class PlansTable extends Component {
                     {this.props.planes.map((plan) => {
                         return (
                             <tr key={plan.id}>
-                                <td><Link to={{ pathname: "/plan", search: `?id=${plan.id}` }}>{plan.name}</Link></td>
                                 <td>{plan.id}</td>
+                                <td><Link to={{ pathname: "/plan", search: `?id=${plan.id}` }}>{plan.name}</Link></td>
                                 <td>{plan.entryDate}</td>
                                 <td><div className="accepted">{plan.status}</div></td>
                                 <td>{plan.authorName}</td>

@@ -3,6 +3,7 @@ import './Plan.css'
 import { Row, Card, Nav } from "react-bootstrap";
 import CommentSideBar from './Components/CommentSideBar';
 import TopButtons from './Components/TopButtons';
+import axios from 'axios';
 
 
 class Plan extends Component {
@@ -17,7 +18,24 @@ class Plan extends Component {
 
     componentDidMount() {
         let query = new URLSearchParams(this.props.location.search);
-        console.log(query.get('id'));
+
+        let options = {
+            url: "http://localhost:8080/SFR/API/RetrievePlan",
+            method: "POST",
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: {
+                'planID': query.get('id')
+            }
+        }
+        axios(options)
+            .then(response => {
+
+            }).catch(error => {
+
+            });
     }
 
     render() {

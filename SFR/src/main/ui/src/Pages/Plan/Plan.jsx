@@ -4,6 +4,7 @@ import { Row, Card, Nav } from "react-bootstrap";
 import CommentSideBar from './Components/CommentSideBar';
 import TopButtons from './Components/TopButtons';
 
+
 class Plan extends Component {
     constructor(props) {
         super(props);
@@ -12,38 +13,11 @@ class Plan extends Component {
             id: "",
             title: ""
         };
-        this.handleAddRisk = this.handleAddRisk.bind(this)
     }
-    handleAddRisk() {
-        // Simple POST request with a JSON body using fetch
-        /*const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: 'React POST Request Example' })
-        };
-        fetch('https://jsonplaceholder.typicode.com/posts', requestOptions)
-            .then(response => response.json())
-            .then(data => this.setState({ postId: data.id }));*/
-        //alert("xdxd")
-        let newList = this.state.listComentarios
-        newList.push({ comentario: "Hola mundo", id: 1 })
-        this.setState({ listComentarios: newList });
-    }
+
     componentDidMount() {
-        // Simple POST request with a JSON body using fetch
-        /*const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: 'React POST Request Example' })
-        };
-        fetch('https://jsonplaceholder.typicode.com/posts', requestOptions)
-            .then(response => response.json())
-            .then(data => this.setState({ postId: data.id }));*/
-        this.setState({
-            listComentarios: [{ comentario: "Hola mundo", id: 1 }, { comentario: "xwdwed", id: 2 }, { comentario: "xdxdxd", id: 3 }, { comentario: "xdxdxd", id: 4 }],
-            id: "232424234",
-            title: "Plan de calles"
-        })
+        let query = new URLSearchParams(this.props.location.search);
+        console.log(query.get('id'));
     }
 
     render() {
@@ -73,7 +47,7 @@ class Plan extends Component {
                     <Card>
                         <Card.Header>
                             <Nav variant="tabs" defaultActiveKey="#first">
-                                {/*para que se vea la tab seleccionada ponerle como atributo active al nav.link*/ }
+                                {/*para que se vea la tab seleccionada ponerle como atributo active al nav.link*/}
                                 <Nav.Item>
                                     <Nav.Link href="">Riesgos</Nav.Link>
                                 </Nav.Item>
@@ -88,7 +62,7 @@ class Plan extends Component {
                             </Nav>
                         </Card.Header>
                         <Card.Body>
-                            
+
                         </Card.Body>
                     </Card>
 

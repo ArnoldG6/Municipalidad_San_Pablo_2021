@@ -12,6 +12,7 @@ class AddPlanModal extends Component {
             show: false
         };
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleImputChange = this.handleImputChange.bind(this)
     }
 
     //closeModal() { }
@@ -51,6 +52,18 @@ class AddPlanModal extends Component {
 
     }
 
+    handleImputChange = (event) => {
+        const target = event.target;
+        
+        if(target.value === null || target.value === ""){
+            target.className = "emptyField";
+        }
+        else{
+            target.className = "form-control";
+        }
+
+    }
+
 
     render() {
         let render = this.props.show
@@ -64,19 +77,19 @@ class AddPlanModal extends Component {
                     <Form onSubmit={this.handleSubmit}>
                         <div className="form-group">
                             <label>Nombre: &nbsp;&nbsp;</label>
-                            <input name="name" id="name" type="text" placeholder="Nombre" className="form-control" />
+                            <input name="name" id="name" type="text" placeholder="Nombre" className="form-control" required />
                         </div>
                         <div className="form-group">
                             <label>ID:</label>
-                            <input name="id" id="id " type="text" className="form-control" placeholder="ID" />
+                            <input name="id" id="id " type="text" className="form-control" placeholder="ID" required />
                         </div>
                         <div className="form-group">
                             <label>Estado: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                            <input name="status" id="status" type="text" placeholder="Estado" className="form-control" />
+                            <input name="status" id="status" type="text" placeholder="Estado" className="form-control" required />
                         </div>
                         <div className="form-group">
                             <label>Autor: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                            <input name="authorName" id="authorName" type="text" placeholder="Autor" className="form-control" />
+                            <input name="authorName" id="authorName" type="text" placeholder="Autor" className="form-control" required />
                         </div>
                         <div className="form-group">
                             <label>Tipo: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>

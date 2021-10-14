@@ -40,7 +40,7 @@ public class PlanManager extends HttpServlet {
                     System.out.println("Plan: "+newPlan.toString());
                     Plan planExist = PlanDAO.getInstance().searchById(newPlan.getId());
                     if(planExist != null){
-                        throw new Exception("Id de plan ya existe en la tabla");
+                        throw new IOException();
                     }
                     PlanDAO.getInstance().add(newPlan);
                     break;
@@ -49,7 +49,7 @@ public class PlanManager extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(request.getServletPath());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("ID de plan ya se encuentra registrado en el sistema.");
         }
 
     }

@@ -65,8 +65,9 @@ class Planes extends Component {
                                 <th>Nombre</th>
                                 <th>ID</th>
                                 <th>Fecha</th>
-                                <th>Estado</th>
+                                <th>Estado</th>                          
                                 <th>Autor</th>
+                                <th>Tipo</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -78,6 +79,7 @@ class Planes extends Component {
                                         <td>{plan.entryDate}</td>
                                         <td>{plan.description}</td>
                                         <td>{plan.authorName}</td>
+                                        <td>{plan.type}</td>
                                     </tr>
                                 )
                             })}

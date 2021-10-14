@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './PlansTable.css';
 import { Table, } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 
 class PlansTable extends Component {
     constructor(props) {
@@ -52,19 +53,10 @@ class PlansTable extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><a href='/'>Poliza de chet prueba</a></td>
-                        <td>2021-abc12345</td>
-                        <td>13/10/2021</td>
-                        <td><div className="accepted">Aceptado</div></td>
-                        <td >Ricardo Milos</td>
-                        <td >Proyecto</td>
-                    </tr>
-
                     {this.props.planes.map((plan) => {
                         return (
                             <tr key={plan.id}>
-                                <td><a href='/'>{plan.name}</a></td>
+                                <td><Link to={{ pathname: "/plan", search: `?id=${plan.id}` }}>{plan.name}</Link></td>
                                 <td>{plan.id}</td>
                                 <td>{plan.entryDate}</td>
                                 <td><div className="accepted">{plan.status}</div></td>

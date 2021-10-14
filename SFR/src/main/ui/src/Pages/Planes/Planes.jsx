@@ -32,9 +32,11 @@ class Planes extends Component {
                 'Content-Type': 'application/json'
             },
         }
-        axios(options).then(response => {
+        axios(options).then(toast.promise({pending: 'Cargando...'})).then(response => {
             this.setState({ planes: response.data })
-        });
+        }).catch((error) => {
+            console.error(error.message);
+          });
     }
 
     updatePlanes(type) {
@@ -52,11 +54,15 @@ class Planes extends Component {
             header: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            },
+            }
         }
         axios(options).then(response => {
             this.setState({ planes: response.data })
-        });
+            //console.log(response.data)
+        }).catch((error) => {
+            console.error(error.message);
+          });
+ 
     };
 
     updatePlanesBySearch(type){

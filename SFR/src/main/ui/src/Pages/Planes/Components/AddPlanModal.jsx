@@ -53,7 +53,7 @@ class AddPlanModal extends Component {
         let closeModal = this.props.closeModal
         return (
             <Modal show={render} onHide={closeModal} >
-                <Modal.Header>
+                <Modal.Header closeButton>
                     Nuevo Item
                 </Modal.Header>
                 <Modal.Body>
@@ -94,14 +94,8 @@ class AddPlanModal extends Component {
                         <Button className='btn-sfr' type="submit" id="submit-button-new-item">
                             Guardar
                         </Button>
-
                     </Form>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={closeModal}>
-                        Cerrar
-                    </Button>
-                </Modal.Footer>
                 <ToastContainer />
             </Modal>
         );

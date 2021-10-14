@@ -25,6 +25,8 @@ public class Tests {
         try {
             System.out.println(PlanDAO.getInstance().listByColumn("pk_id", "ASC"));
             System.out.println(PlanDAO.getInstance().listByColumn("pk_id", "DESC"));
+            System.out.println("ID: "+PlanDAO.getInstance().searchById("123"));
+            System.out.println("ID: "+PlanDAO.getInstance().searchById("wea"));
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

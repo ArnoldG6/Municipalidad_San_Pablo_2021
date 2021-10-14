@@ -22,7 +22,11 @@ import sfr.dao.PlanDAO;
  *
  * @author arnol
  */
-@WebServlet(name = "PlanServlet", urlPatterns = {"/API/PlanServlet", "/API/PlanSearch", "/API/RetrievePlans"})
+@WebServlet(name = "PlanServlet", urlPatterns = {
+    "/API/PlanServlet", 
+    "/API/PlanSearch", 
+    "/API/RetrievePlans", 
+    "/API/RetrievePlan"})
 public class PlanServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -62,8 +66,20 @@ public class PlanServlet extends HttpServlet {
                     response.getWriter().flush();
                     response.getWriter().close();
                     break;
+                case "/API/RetrievePlan":
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    requestData = request.getReader().lines().collect(Collectors.joining());
+                    jsonObj = new JSONObject(requestData);
+                    String planID = jsonObj.getString("planID");
+                    json = new Gson().toJson(PlanDAO.getInstance().searchById(planID));
+                    response.getWriter().write(json);
+                    response.getWriter().flush();
+                    response.getWriter().close();
+                    break;
             }
         } catch (Exception e) {
+            System.err.println(e);
             throw e;
         }
     }

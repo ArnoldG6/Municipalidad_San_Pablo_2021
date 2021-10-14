@@ -7,9 +7,9 @@
 }
 .header-button:focus{
     padding: 3px;
-    padding-right: 16px;
-    background-color: rgb(104, 32, 32);
-    border-radius: 3px;
+    
+    background-color: slategray;
+    border-radius: 10px;
 }
 .bubble {
     width: 45%;

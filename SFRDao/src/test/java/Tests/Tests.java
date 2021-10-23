@@ -5,13 +5,12 @@
  */
 package Tests;
 
-import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
 import sfr.dao.PlanDAO;
-import sfr.model.Plan;
+import sfr.dao.RiskDAO;
+import sfr.model.Risk;
 
 /**
  *
@@ -21,10 +20,21 @@ public class Tests {
 
     @Test
     public void main() {
-        System.out.println(PlanDAO.getInstance().countPlans());
         try {
-            System.out.println("ID: "+PlanDAO.getInstance().searchById("1111"));
-            System.out.println("ID: "+PlanDAO.getInstance().searchById("wea"));
+            System.out.println(PlanDAO.getInstance().listAll());
+            System.out.printf("%s \n", "---------------------------------------------------");
+            System.out.printf("%s", RiskDAO.getInstance().listAll());
+//            Risk p = new Risk("2");
+//            p.setName("PRUEBA AGAIN");
+//            p.setDescription("ESTO ES UNA DESCRIPCION DE PRUEBA");
+//            p.setGeneralType("EXTERNO");
+//            p.setAreaType("POLITICO");
+//            p.setSpecType("CAMBIO DE GOBIERNO");
+//            p.setProbability(0.9f);
+//            p.setImpact(30);
+//            p.setAffectationLevel(27);
+//            p.setMitigationMeasures("ESTA ES UNA MEDIDA DE MITIGACION");
+//            RiskDAO.getInstance().add(p);
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -3,11 +3,11 @@
   <persistence-unit name="SFRPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <class>sfr.model.Plan</class>
-    <class>sfrsfr.model.Risk</class>
     <class>common.model.User</class>
     <class>common.model.Department</class>
     <class>common.model.Official</class>
     <class>common.model.Rol</class>
+    <class>sfr.model.Risk</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sfr?useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

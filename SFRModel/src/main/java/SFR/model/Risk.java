@@ -7,7 +7,7 @@ package sfr.model;
 
 /**
  *
- * @author arnol
+ * @author GONCAR4
  */
 public class Risk {
     

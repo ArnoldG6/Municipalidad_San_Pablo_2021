@@ -3,6 +3,7 @@
   <persistence-unit name="SFRPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <class>sfr.model.Plan</class>
+    <class>sfrsfr.model.Risk</class>
     <class>common.model.User</class>
     <class>common.model.Department</class>
     <class>common.model.Official</class>

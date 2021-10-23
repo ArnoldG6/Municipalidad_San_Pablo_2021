@@ -135,14 +135,14 @@ public class Plan implements Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("{");
-        sb.append("id: ").append(id).append(",");
-        sb.append("authorName: ").append(authorName).append(",");
-        sb.append("name: ").append(name).append(",");
-        sb.append("description: ").append(description).append(",");
-        sb.append("entryDate: ").append(entryDate).append(",");
-        sb.append("status: ").append(status).append(",");
-        sb.append("type: ").append(type);
+        sb.append("Plan: ").append("{");
+        sb.append("\"id\": \"").append(id).append("\",");
+        sb.append("\"authorName\": \"").append(authorName).append("\",");
+        sb.append("\"name\": \"").append(name).append("\",");
+        sb.append("\"description\": \"").append(description).append("\",");
+        sb.append("\"entryDate\": \"").append(entryDate).append("\",");
+        sb.append("\"status\": \"").append(status).append("\",");
+        sb.append("\"type\": \"").append(type).append("\"");
         sb.append("}");
         return sb.toString();
     }

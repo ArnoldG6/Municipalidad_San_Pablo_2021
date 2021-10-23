@@ -76,6 +76,7 @@ public class Risk implements Serializable {
         this.impact = impact;
         this.affectationLevel = affectationLevel;
         this.mitigationMeasures = mitigationMeasures;
+        
     }
 
     public String getId() {

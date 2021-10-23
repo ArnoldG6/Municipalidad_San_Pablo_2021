@@ -21,9 +21,15 @@ public class Tests {
     @Test
     public void main() {
         try {
-            System.out.println(PlanDAO.getInstance().listAll());
+            //System.out.println(PlanDAO.getInstance().listAll());
+            PlanDAO.getInstance().listAll().forEach(p -> {
+                System.out.printf("%s \n",p.toString());
+            });
             System.out.printf("%s \n", "---------------------------------------------------");
-            System.out.printf("%s", RiskDAO.getInstance().listAll());
+            //System.out.println(RiskDAO.getInstance().listAll());
+            RiskDAO.getInstance().listAll().forEach(p -> {
+                System.out.printf("%s \n",p.toString());
+            });
 //            Risk p = new Risk("2");
 //            p.setName("PRUEBA AGAIN");
 //            p.setDescription("ESTO ES UNA DESCRIPCION DE PRUEBA");

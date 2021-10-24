@@ -31,11 +31,9 @@ public class PlanManager extends HttpServlet {
             switch (request.getServletPath()) {
                 case "/API/PlanManager/insert":
                     String algo = request.getReader().lines().collect(Collectors.joining());
-                    //String algo = (String)request.getAttribute("data");
                     Gson gson = new Gson();
                     Plan newPlan = gson.fromJson(algo, Plan.class);
                     newPlan.setEntryDate(new Date());
-                    System.out.println("Plan: " + newPlan.toString());
                     Plan planExist = PlanDAO.getInstance().searchByIdSmall(newPlan.getId());
                     if (planExist != null) {
                         throw new IOException();

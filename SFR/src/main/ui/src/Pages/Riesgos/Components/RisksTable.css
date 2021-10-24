@@ -1,0 +1,41 @@
+.header-button{
+    background-color: white;
+    border: 0px;
+    font-weight: bold;
+    text-align: left;
+    padding: 3px;
+}
+.header-button:focus{
+    padding: 3px;
+    
+    background-color: slategray;
+    border-radius: 10px;
+}
+.bubble {
+    width: 45%;
+    color: white;
+    border-radius: 15px;
+    min-width: fit-content;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+}
+.in-progress{
+    background-color: green;
+}
+.no-progress{
+    background-color: #ff0000;
+}
+.completed{
+    background-color: royalblue;
+}
+.unknown{
+    background-color: slategray;
+}
+#nameButton {
+    max-width: 40vh;
+}
+.nameSlot {
+    max-width: 40vh;
+    word-wrap: break-word;
+}

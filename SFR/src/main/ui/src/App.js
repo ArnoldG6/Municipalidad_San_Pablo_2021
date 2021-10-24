@@ -9,6 +9,7 @@ import './App.css';
 import NavBar from './SharedComponents/NavBar/NavBar'
 import Planes from './Pages/Planes/Planes';
 import Plan from './Pages/Plan/Plan';
+import Riesgos from './Pages/Riesgos/Riesgos';
 import Error from './Pages/Error/Error';
 
 class App extends Component {
@@ -22,6 +23,7 @@ class App extends Component {
           </Route>
           <Route path="/planes" component={Planes} />
           <Route path="/plan" component={Plan} />
+          <Route path="/riesgos" component={Riesgos} />
           <Route path="/perfil">
             <h1>Perfil</h1>
           </Route>

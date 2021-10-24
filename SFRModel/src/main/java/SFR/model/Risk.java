@@ -169,7 +169,7 @@ public class Risk implements Serializable {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Risk : ");
+        sb.append("Risk:");
         sb.append("{");
         sb.append("\"id\": \"").append(id).append("\", ");
         sb.append("\"name\": \"").append(name).append("\", ");

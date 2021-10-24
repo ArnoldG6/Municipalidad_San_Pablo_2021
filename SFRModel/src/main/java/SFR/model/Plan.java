@@ -135,7 +135,7 @@ public class Plan implements Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Plan: ").append("{");
+        sb.append("Plan:").append("{");
         sb.append("\"id\": \"").append(id).append("\",");
         sb.append("\"authorName\": \"").append(authorName).append("\",");
         sb.append("\"name\": \"").append(name).append("\",");

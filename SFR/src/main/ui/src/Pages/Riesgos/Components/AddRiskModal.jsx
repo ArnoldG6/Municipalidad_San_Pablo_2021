@@ -38,7 +38,7 @@ class AddRiskModal extends Component {
                 this.props.updateRiesgos("add-success");
                 this.props.closeModal();
             }).catch(error => {
-                toast.error("ID del plan ya se encuentra registrado en el sistema.", {
+                toast.error("ID del riesgo ya se encuentra registrado en el sistema.", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
@@ -52,7 +52,7 @@ class AddRiskModal extends Component {
         let render = this.props.show
         let closeModal = this.props.closeModal
         return (
-            <Modal show={render} onHide={closeModal} >
+            <Modal show={render} onHide={closeModal} id="modalRisks" >
                 <Modal.Header closeButton>
                     Nuevo Item
                 </Modal.Header>
@@ -91,7 +91,7 @@ class AddRiskModal extends Component {
                             <label>Descripción: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             <textarea name="description" id="description" type="text" placeholder="Descripción" className="form-control" />
                         </div>
-                        <Button className='btn-sfr' type="submit" id="submit-button-new-item">
+                        <Button id="submitRiskBtn" className='btn-sfr' type="submit" >
                             Guardar
                         </Button>
                     </Form>

@@ -40,12 +40,15 @@ class RisksTable extends Component {
             <Table hover>
                 <thead>
                     <tr>
-                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('pk_id') }}>ID</button></th>
+                       
                         <th><button className='header-button' id="nameButton" onClick={() => { this.handleSort('name') }}> Nombre</button></th>
-                        <th><button className='header-button' id="dateButton" onClick={() => { this.handleSort('entryDate') }}>Fecha de Ingreso</button></th>
-                        <th><button className='header-button' id="stateButton" onClick={() => { this.handleSort('status') }}>Estado</button></th>
-                        <th><button className='header-button' id="authorButton" onClick={() => { this.handleSort('authorName') }}>Autor</button></th>
-                        <th><button className='header-button' id="typeButton" onClick={() => { this.handleSort('type') }}>Tipo</button></th>
+                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('pk_id') }}>ID</button></th>
+                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('GeneralType') }}>Tipo</button></th>
+                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('Probability') }}>Probabilidad</button></th>
+                        <th><button className='header-button' id="stateButton" onClick={() => { this.handleSort('impact') }}>Impacto</button></th>
+                        <th><button className='header-button' id="typeButton" onClick={() => { this.handleSort('affectationlevel') }}>Nivel de Afectación</button></th>
+                        
+                        
                     </tr>
                 </thead>
                 <tbody>

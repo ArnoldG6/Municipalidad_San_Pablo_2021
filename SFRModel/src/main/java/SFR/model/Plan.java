@@ -45,13 +45,13 @@ public class Plan implements Serializable {
     @Column(name = "Type")
     private String type;
 
-    @OneToMany
-    @JoinTable(
-            name = "T_USERPLAN",
-            joinColumns = @JoinColumn(name = "FK_PLAN"),
-            inverseJoinColumns = @JoinColumn(name = "FK_USER")
-    )
-    private List<User> involvedList;
+//    @OneToMany
+//    @JoinTable(
+//            name = "T_USERPLAN",
+//            joinColumns = @JoinColumn(name = "FK_PLAN"),
+//            inverseJoinColumns = @JoinColumn(name = "FK_USER")
+//    )
+//    private List<User> involvedList;
     @ManyToMany
     @JoinTable(
             name = "T_RISKPLAN",
@@ -71,7 +71,7 @@ public class Plan implements Serializable {
             String desc, Date dateOfAdm, 
             String status, 
             String type,List<Risk> riskList) {
-          //List<User> involvedList) {
+          //,List<User> involvedList) {
         this.authorName = authorName;
         this.name = name;
         this.description = desc;
@@ -130,13 +130,13 @@ public class Plan implements Serializable {
         this.entryDate = entryDate;
     }
 
-    public List<User> getInvolvedList() {
-        return involvedList;
-    }
+    //public List<User> getInvolvedList() {
+    //    return involvedList;
+    //}
 
-    public void setInvolvedList(List<User> involvedList) {
-        this.involvedList = involvedList;
-    }
+    //public void setInvolvedList(List<User> involvedList) {
+    //    this.involvedList = involvedList;
+    // }
     
     public String getType() {
         return type;

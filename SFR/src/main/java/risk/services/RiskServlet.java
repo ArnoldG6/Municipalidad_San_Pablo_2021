@@ -73,8 +73,8 @@ public class RiskServlet extends HttpServlet {
                     response.setCharacterEncoding("UTF-8");
                     requestData = request.getReader().lines().collect(Collectors.joining());
                     jsonObj = new JSONObject(requestData);
-                    String planID = jsonObj.getString("planID");
-                    json = new Gson().toJson(RiskDAO.getInstance().searchById(planID));
+                    String riskID = jsonObj.getString("riskID");
+                    json = new Gson().toJson(RiskDAO.getInstance().searchById(riskID));
                     response.getWriter().write(json);
                     response.getWriter().flush();
                     response.getWriter().close();

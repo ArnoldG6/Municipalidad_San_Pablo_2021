@@ -38,44 +38,41 @@ public class PlanDAO extends GenericDAO {
         }
     }
 
-public List<Plan> listByColumn(String column, String order) throws Exception {
+//Translates and verifies column name into attribute's name in order to use Hibernate selections.
+    public String translateColumnName(String column, String order) throws IOException {
+        order = order.toUpperCase();
+        if (!(order.toUpperCase().equals("ASC")
+                || order.toUpperCase().equals("DESC"))) {
+            throw new IOException("Invalid order parameter");
+        }
+        switch (column.toUpperCase()) {
+            case "PK_ID":
+                return "id";
+            case "NAME":
+                return "name";
+            case "DESCRIPTION":
+                return "description";
+            case "AUTHORNAME":
+                return "authorName";
+            case "ENTRYDATE":
+                return "entryDate";
+            case "STATUS":
+                return "status";
+            case "TYPE":
+                return "type";
+            default:
+                throw new IOException("Invalid column");
+        }
+    }
+
+    public List<Plan> listByColumn(String column, String order) throws Exception {
         try {
-            ArrayList<String> acceptedParameters = new ArrayList<>();
-            acceptedParameters.add("PK_ID");
-            acceptedParameters.add("NAME");
-            acceptedParameters.add("DESCRIPTION");
-            acceptedParameters.add("AUTHORNAME");
-            acceptedParameters.add("ENTRYDATE");
-            acceptedParameters.add("STATUS");
-            acceptedParameters.add("TYPE");
             order = order.toUpperCase();
-            column = column.toUpperCase();
-            if (!acceptedParameters.contains(column)) {
-                throw new IOException("Invalid column parameter");
-            }
-            if (!(order.toUpperCase().equals("ASC") || order.toUpperCase().equals("DESC"))) {
-                throw new IOException("Invalid order parameter");
-            }
-            String cmd = "CALL listPlansByColumn('p." + column + "', '" + order + "')";
-            System.out.println("CMD: " + cmd);
+            column = this.translateColumnName(column, order);
+            String cmd = "SELECT p from Plan p order by p." + column + " " + order;
             em = getEntityManager();
-            Session session = em.unwrap(Session.class);
-            Query query = session.createSQLQuery(cmd);
-            List<Plan> objList = (List<Plan>) query.getResultList();
-            List<Plan> l = new ArrayList<>();
-            Iterator itr = objList.iterator();
-            while (itr.hasNext()) {
-                Object[] obj = (Object[]) itr.next();
-                Plan p = new Plan(String.valueOf(obj[0]));
-                p.setName(String.valueOf(obj[1]));
-                p.setDesc(String.valueOf(obj[2]));
-                p.setEntryDate((Date) (obj[3]));
-                p.setStatus(String.valueOf(obj[4]));
-                p.setAuthorName(String.valueOf(obj[5]));
-                p.setType(String.valueOf(obj[6]));
-                l.add(p);
-            }
-            return l;
+            Query query = em.createQuery(cmd);
+            return (List<Plan>) query.getResultList();
         } catch (Exception e) {
             e.printStackTrace(System.out);
             System.err.println(e.getMessage());
@@ -139,10 +136,10 @@ public List<Plan> listByColumn(String column, String order) throws Exception {
         em = getEntityManager();
         return (Plan) em.find(Plan.class, id);
     }
-    
+
     public Plan searchById(String id) {
         try {
-            String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p WHERE p.id = '" + id +"'";
+            String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p WHERE p.id = '" + id + "'";
             em = getEntityManager();
             Query query = em.createQuery(cmd);
             Object[] obj = (Object[]) query.getSingleResult();

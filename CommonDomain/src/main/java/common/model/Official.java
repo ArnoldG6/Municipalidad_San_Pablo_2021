@@ -28,91 +28,68 @@ public class Official implements Serializable {
 
     }
 
-    /**
-     * @return the idOfficial
-     */
     public int getIdOfficial() {
         return idOfficial;
     }
 
-    /**
-     * @param idOfficial the idOfficial to set
-     */
     public void setIdOfficial(int idOfficial) {
         this.idOfficial = idOfficial;
     }
 
-    /**
-     * @return the name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * @param name the name to set
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * @return the surname
-     */
     public String getSurname() {
         return surname;
     }
-
-    /**
-     * @param surname the surname to set
-     */
     public void setSurname(String surname) {
         this.surname = surname;
     }
 
-    /**
-     * @return the email
-     */
     public String getEmail() {
         return email;
     }
 
-    /**
-     * @param email the email to set
-     */
     public void setEmail(String email) {
         this.email = email;
     }
 
-    /**
-     * @return the department
-     */
     public Department getDepartment() {
         return department;
     }
 
-    /**
-     * @param department the department to set
-     */
     public void setDepartment(Department department) {
         this.department = department;
     }
-
-    /**
-     * @param roles the roles to set
-     */
-    
     @Id
     @Column(name = "PK_OFFICIAL")
     private int idOfficial;
     
+    @Column(name = "name")
     private String name;
-    
+    @Column(name = "surname")
     private String surname;
-
+    @Column(name = "email")
     private String email;
     
     @OneToOne
     @JoinColumn(name = "FK_department")
     private Department department;
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("\"Official\": {");
+        sb.append("\"idOfficial\": ").append(idOfficial).append(",");
+        sb.append("\"name\": \"").append(name).append("\",");
+        sb.append("\"surname\": \"").append(surname).append(name).append("\",");
+        sb.append("\"email\": \"").append(email).append(name).append("\",");
+        sb.append(department.toString()).append(name).append("\"");
+        sb.append("}");
+        return sb.toString();
+    }
 }

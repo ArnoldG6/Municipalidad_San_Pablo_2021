@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -51,8 +52,15 @@ public class Plan implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "FK_USER")
     )
     private List<User> involvedList;
+    @ManyToMany
+    @JoinTable(
+            name = "T_RISKPLAN",
+            joinColumns = @JoinColumn(name = "FK_PLAN"),
+            inverseJoinColumns = @JoinColumn(name = "FK_RISK")
+    )
+    private List<Risk> riskList;
     public Plan() {
-
+        
     }
 
     public Plan(String id) {
@@ -153,12 +161,15 @@ public class Plan implements Serializable {
     public void setIncidenceList(List<Incidence> incidenceList) {
         this.incidenceList = incidenceList;
     }
+    */
     public List<Risk> getRiskList() {
         return riskList;
     }
+    
     public void setRiskList(List<Risk> riskList) {
         this.riskList = riskList;
     }
+    /*
     public List<Comment> getCommentList() {
         return commentList;
     }

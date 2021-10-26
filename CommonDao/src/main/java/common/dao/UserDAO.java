@@ -40,8 +40,7 @@ public class UserDAO extends GenericDAO {
     }
         public List<User> listAll() {
         try{
-            System.out.println(1);
-            String cmd = "SELECT u.idUser, u.official,u.email, u.password from User u";
+            String cmd = "SELECT u from User u";
             em = getEntityManager();
             Query query = em.createQuery(cmd);
             List<User> l = (List<User>) query.getResultList();

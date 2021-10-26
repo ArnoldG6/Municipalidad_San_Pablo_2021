@@ -54,6 +54,13 @@ public class Department implements Serializable {
     @Id
     @Column(name = "PK_DEPARTMENT")
     private Integer idDepartment;
+    @Column(name = "description")
     private String description;
-
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("\"Department\": {\"idDepartment\": ").append(idDepartment).append(", ");
+        sb.append("\"description\": \"").append(description).append("\"}");
+        return sb.toString();
+    }
 }

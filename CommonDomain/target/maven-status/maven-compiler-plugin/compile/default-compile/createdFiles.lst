@@ -1,0 +1,4 @@
+common\model\Rol.class
+common\model\User.class
+common\model\Department.class
+common\model\Official.class

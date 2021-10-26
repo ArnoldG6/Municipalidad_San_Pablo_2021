@@ -58,7 +58,16 @@ public class Rol implements Serializable {
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private int idRol;
-    
+    @Column(name = "description")
     private String description;
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("\"Rol\": {");
+        sb.append("\"idRol: \"").append(idRol).append(",");
+        sb.append("\"description: \"").append(description).append("\"");
+        sb.append("}");
+        return sb.toString();
+    }
 
 }

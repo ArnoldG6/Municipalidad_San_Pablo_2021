@@ -15,9 +15,9 @@ import common.model.User;
 public class Test {
 
     public static void main(String[] args) {
-        UserDAO dao = new UserDAO();
-        User u = dao.emailValidation("dicarlomtz@gmail.com", "123456");
-        System.out.print(u);
+        UserDAO.getInstance().listAll().forEach(u -> {
+            System.out.printf("%s \n", u.toString());
+        });
     }
 
 }

@@ -23,52 +23,27 @@ public class User implements Serializable {
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private int idUser;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "FK_official", referencedColumnName = "PK_OFFICIAL")
     private Official official;
-
     @OneToMany
     @JoinTable(
             name = "SI_USER_ROLES",
             joinColumns = @JoinColumn(name = "FK_user"),
             inverseJoinColumns = @JoinColumn(name = "FK_rol")
     )
-    /*
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        final User other = (User) obj;
-        if (!Objects.equals(idUser, other.idUser)) return false;
-        if (!Objects.equals(official, other.official)) return false;
-        if (!Objects.equals(email, other.email)) return false;
-        if (!Objects.equals(password, other.password)) return false;
-        return true;
-    }
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Username: ").append(idUser);
-        sb.append("E-mail: ").append(email);
-        sb.append("Role: ").append(official);
-        //sb.append("Pwd: ").append(password);
-        return sb.toString();
-    }
-    */
     private List<Rol> roles;
-
     @Column(name = "FK_email")
     private String email;
 
     private String password;
 
-    public User(int idUser, Official official, String email, String password) {
+    public User(int idUser, Official official, String email, String password,List<Rol> roles) {
         this.idUser = idUser;
         this.official = official;
         this.email = email;
         this.password = password;
+        this.roles = roles;
     }
 
     public User(int idUser) {
@@ -117,6 +92,17 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+        @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\"User\":{");
+        sb.append("\"idUser\": ").append(idUser).append(",");
+        sb.append("\"email\": \"").append(email).append("\",");
+        sb.append(official.toString()).append(",");
+        sb.append("\"roles\": ").append(roles.toString());
+        sb.append("}");
+        return sb.toString();
     }
 
 }

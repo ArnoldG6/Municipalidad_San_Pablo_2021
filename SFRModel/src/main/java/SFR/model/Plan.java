@@ -36,7 +36,7 @@ public class Plan implements Serializable {
     private String description;
 
     @Column(name = "EntryDate")
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date entryDate;
 
     @Column(name = "Status")

@@ -67,13 +67,19 @@ public class Plan implements Serializable {
         this.id = id;
     }
 
-    public Plan(String authorName, String name, String desc, Date dateOfAdm, String status, String type) {
+    public Plan(String authorName, String name, 
+            String desc, Date dateOfAdm, 
+            String status, 
+            String type,List<Risk> riskList) {
+          //List<User> involvedList) {
         this.authorName = authorName;
         this.name = name;
         this.description = desc;
         this.entryDate = dateOfAdm;
         this.status = status;
         this.type = type;
+        this.riskList = riskList;
+        //this.involvedList = involvedList;
     }
 
     public String getId() {
@@ -143,15 +149,17 @@ public class Plan implements Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Plan:").append("{");
-        sb.append("\"id\": \"").append(id).append("\",");
-        sb.append("\"authorName\": \"").append(authorName).append("\",");
+        sb.append("Plan:").append("{\n");
+        sb.append("\"id\": \"").append(id).append("\",\n");
+        sb.append("\"authorName\": \"").append(authorName).append("\",\n");
         sb.append("\"name\": \"").append(name).append("\",");
-        sb.append("\"description\": \"").append(description).append("\",");
-        sb.append("\"entryDate\": \"").append(entryDate).append("\",");
-        sb.append("\"status\": \"").append(status).append("\",");
-        sb.append("\"type\": \"").append(type).append("\"");
-        sb.append("}");
+        sb.append("\"description\": \"").append(description).append("\",\n");
+        sb.append("\"entryDate\": \"").append(entryDate).append("\",\n");
+        sb.append("\"status\": \"").append(status).append("\",\n");
+        sb.append("\"type\": \"").append(type).append("\"\n");
+        sb.append("\"riskList\":").append(riskList).append("\n");
+        //sb.append("\"involvedList\": ").append(involvedList.toString());
+        sb.append("}\n");
         return sb.toString();
     }
     /*

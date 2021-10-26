@@ -27,32 +27,10 @@ public class PlanDAO extends GenericDAO {
 
     public List<Plan> listAll() {
         try {
-            String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p order by p.entryDate desc";
+            String cmd = "SELECT p from Plan p order by p.entryDate desc";
             em = getEntityManager();
             Query query = em.createQuery(cmd);
-            List<Plan> objList = (List<Plan>) query.getResultList();
-
-            List<Plan> l = new ArrayList<>();
-            Iterator itr = objList.iterator();
-
-            //Hibernate consigue lista de Object
-            //Realizar conversion al objeto correcto
-            //Posiciones estan basadas en las posiciones de la tabla en la base de datos
-            while (itr.hasNext()) {
-                Object[] obj = (Object[]) itr.next();
-
-                Plan p = new Plan(String.valueOf(obj[0]));
-                p.setName(String.valueOf(obj[1]));
-                p.setDesc(String.valueOf(obj[2]));
-                p.setEntryDate((Date) (obj[3]));
-                p.setStatus(String.valueOf(obj[4]));
-                p.setAuthorName(String.valueOf(obj[5]));
-                p.setType(String.valueOf(obj[6]));
-
-                l.add(p);
-            }
-
-            return l;
+            return (List<Plan>) query.getResultList();
         } catch (Exception e) {
             e.printStackTrace(System.out);
             System.err.println(e.getMessage());
@@ -60,7 +38,7 @@ public class PlanDAO extends GenericDAO {
         }
     }
 
-    public List<Plan> listByColumn(String column, String order) throws Exception {
+public List<Plan> listByColumn(String column, String order) throws Exception {
         try {
             ArrayList<String> acceptedParameters = new ArrayList<>();
             acceptedParameters.add("PK_ID");

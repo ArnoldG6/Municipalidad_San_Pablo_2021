@@ -66,7 +66,7 @@ public class Risk implements Serializable {
     
     public Risk(String name, String desc, String generalType, String areaType, 
             String specificType,Float probability, Integer impact, 
-            Integer affectationLevel,  String mitigationMeasures) {
+            Integer affectationLevel,  String mitigationMeasures, List<Plan> plans) {
         this.name = name;
         this.description = desc;
         this.generalType = generalType;
@@ -76,6 +76,7 @@ public class Risk implements Serializable {
         this.impact = impact;
         this.affectationLevel = affectationLevel;
         this.mitigationMeasures = mitigationMeasures;
+        this.plans = plans;
         
     }
 
@@ -171,17 +172,18 @@ public class Risk implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append("Risk:");
         sb.append("{");
-        sb.append("\"id\": \"").append(id).append("\", ");
-        sb.append("\"name\": \"").append(name).append("\", ");
-        sb.append("\"description\": \"").append(description).append("\", ");
-        sb.append("\"generalType\": \"").append(generalType).append("\", ");
-        sb.append("\"specType\": \"").append(specType).append("\", ");
-        sb.append("\"areaType\": \"").append(areaType).append("\", ");
-        sb.append("\"probability\": ").append(probability).append(", ");
-        sb.append("\"impact\": ").append(impact).append(", ");
-        sb.append("\"affectationLevel\": ").append(affectationLevel).append(", ");
-        sb.append("\"mitigationMeasures\": \"").append(mitigationMeasures).append("\"");
-        sb.append("}");
+        sb.append("\"id\": \"").append(id).append("\", \n");
+        sb.append("\"name\": \"").append(name).append("\", \n");
+        sb.append("\"description\": \"").append(description).append("\", \n");
+        sb.append("\"generalType\": \"").append(generalType).append("\", \n");
+        sb.append("\"specType\": \"").append(specType).append("\", \n");
+        sb.append("\"areaType\": \"").append(areaType).append("\", \n");
+        sb.append("\"probability\": ").append(probability).append(", \n");
+        sb.append("\"impact\": ").append(impact).append(", \n");
+        sb.append("\"affectationLevel\": ").append(affectationLevel).append(", \n");
+        sb.append("\"mitigationMeasures\": \"").append(mitigationMeasures).append("\", \n");
+        sb.append("\"plans: \"").append(plans).append("\n");
+        sb.append("} \n");
         return sb.toString();
     }
 }

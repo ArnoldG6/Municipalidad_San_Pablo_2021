@@ -26,6 +26,8 @@ public class Tests {
                 System.out.printf("%s \n",p.toString());
             });
             System.out.printf("%s \n", "---------------------------------------------------");
+            
+            System.out.printf("%s \n", "---------------------------------------------------");
             //System.out.println(RiskDAO.getInstance().listAll());
             RiskDAO.getInstance().listAll().forEach(p -> {
                 System.out.printf("%s \n",p.toString());

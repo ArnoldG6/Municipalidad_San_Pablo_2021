@@ -48,7 +48,7 @@ public class Risk implements Serializable {
     
     @Column(name = "MitigationMeasures")
     private String mitigationMeasures;
-    
+    /*
     @ManyToMany
     @JoinTable(
             name = "T_RISKPLAN",
@@ -56,6 +56,7 @@ public class Risk implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "FK_RISK")
     )
     private List<Plan> plans;
+    */
     public Risk() {
 
     }
@@ -66,7 +67,8 @@ public class Risk implements Serializable {
     
     public Risk(String name, String desc, String generalType, String areaType, 
             String specificType,Float probability, Integer impact, 
-            Integer affectationLevel,  String mitigationMeasures, List<Plan> plans) {
+            //Integer affectationLevel,  String mitigationMeasures, List<Plan> plans) {
+            Integer affectationLevel,  String mitigationMeasures) {
         this.name = name;
         this.description = desc;
         this.generalType = generalType;
@@ -76,7 +78,7 @@ public class Risk implements Serializable {
         this.impact = impact;
         this.affectationLevel = affectationLevel;
         this.mitigationMeasures = mitigationMeasures;
-        this.plans = plans;
+        //this.plans = plans;
         
     }
 
@@ -160,13 +162,13 @@ public class Risk implements Serializable {
         this.mitigationMeasures = mitigationMeasures;
     }
 
-    public List<Plan> getPlans() {
-        return plans;
-    }
-
-    public void setPlans(List<Plan> plans) {
-        this.plans = plans;
-    }
+//    public List<Plan> getPlans() {
+//        return plans;
+//    }
+//
+//    public void setPlans(List<Plan> plans) {
+//        this.plans = plans;
+//    }
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -181,8 +183,9 @@ public class Risk implements Serializable {
         sb.append("\"probability\": ").append(probability).append(", \n");
         sb.append("\"impact\": ").append(impact).append(", \n");
         sb.append("\"affectationLevel\": ").append(affectationLevel).append(", \n");
-        sb.append("\"mitigationMeasures\": \"").append(mitigationMeasures).append("\", \n");
-        sb.append("\"plans: \"").append(plans).append("\n");
+        sb.append("\"mitigationMeasures\": \"").append(mitigationMeasures).append("\" \n");
+        //sb.append("\"mitigationMeasures\": \"").append(mitigationMeasures).append("\", \n");
+        //sb.append("\"plans: \"").append(plans).append("\n");
         sb.append("} \n");
         return sb.toString();
     }

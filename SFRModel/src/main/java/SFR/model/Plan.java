@@ -1,6 +1,5 @@
 package sfr.model;
 
-import common.model.User;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -9,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -52,7 +50,7 @@ public class Plan implements Serializable {
 //            inverseJoinColumns = @JoinColumn(name = "FK_USER")
 //    )
 //    private List<User> involvedList;
-    @ManyToMany
+    @OneToMany
     @JoinTable(
             name = "T_RISKPLAN",
             joinColumns = @JoinColumn(name = "FK_PLAN"),

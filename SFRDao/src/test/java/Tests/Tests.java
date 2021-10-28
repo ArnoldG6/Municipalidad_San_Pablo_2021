@@ -21,15 +21,13 @@ public class Tests {
     @Test
     public void main() {
         try {
-            PlanDAO.getInstance().listAll().forEach(p -> {
-                System.out.printf("%s \n", p.toString());
-            });
-            System.out.printf("%s \n", "---------------------------------------------------");
-            PlanDAO.getInstance().listSearchBy2("name","MOVIMIENTO").forEach(p -> {
-                System.out.printf("%s \n", p.toString());
-            });
-//            RiskDAO.getInstance().listAll().forEach(p -> {
+//            System.out.printf("%s \n", "----------------------PLANES------------------------");
+//            PlanDAO.getInstance().listAll().forEach(p -> {
 //                System.out.printf("%s \n", p.toString());
+//            });
+//            System.out.printf("%s \n", "-----------------------RIESGOS----------------------");
+//            RiskDAO.getInstance().listAll().forEach(r -> {
+//                System.out.printf("%s \n", r.toString());
 //            });
 //            System.out.printf("Buscando al riesgo 2:  \n", RiskDAO.getInstance().searchByIdSmall("2"));
 //            System.out.printf("Buscando al riesgo 777:  \n", RiskDAO.getInstance().searchByIdSmall("777"));
@@ -40,6 +38,10 @@ public class Tests {
 //            System.out.printf("%s \n", "---------------------------------------------------");
 //            System.out.printf("Listando planes por columna: %s\n", PlanDAO.getInstance().listByColumn("PK_ID", "ASC"));
 //            System.out.printf("Listando planes por columna:  %s\n", PlanDAO.getInstance().listByColumn("PK_ID", "DESC"));
+//            System.out.printf("Listando riesgos por columna: %s\n", RiskDAO.getInstance().listByColumn("PK_ID", "ASC"));
+//            System.out.printf("Listando riesgos por columna:  %s\n", RiskDAO.getInstance().listByColumn("PK_ID", "DESC"));
+              //System.out.printf("Buscando por nombre:  %s\n", RiskDAO.getInstance().listSearchBy("name", "algo"));
+              System.out.printf("Buscando por nombre:  %s\n", RiskDAO.getInstance().listSearchBy("name", "CAMBIO").toString());
 
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);

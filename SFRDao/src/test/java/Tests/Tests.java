@@ -41,7 +41,11 @@ public class Tests {
 //            System.out.printf("Listando riesgos por columna: %s\n", RiskDAO.getInstance().listByColumn("PK_ID", "ASC"));
 //            System.out.printf("Listando riesgos por columna:  %s\n", RiskDAO.getInstance().listByColumn("PK_ID", "DESC"));
               //System.out.printf("Buscando por nombre:  %s\n", RiskDAO.getInstance().listSearchBy("name", "algo"));
-              System.out.printf("Buscando por nombre:  %s\n", RiskDAO.getInstance().listSearchBy("name", "CAMBIO").toString());
+              //System.out.printf("Buscando por nombre:  %s\n", RiskDAO.getInstance().listSearchBy("name", "CAMBIO").toString());
+              System.out.printf("Buscando en todas las columnas:  %s\n", RiskDAO.getInstance().searchInAllColumns("AJIOAJIO"));
+              System.out.printf("Buscando en todas las columnas:  %s\n", RiskDAO.getInstance().searchInAllColumns("25"));
+              System.out.printf("Buscando en todas las columnas:  %s\n", RiskDAO.getInstance().searchInAllColumns("POLITICO"));
+              System.out.printf("Buscando en todas las columnas:  %s\n", RiskDAO.getInstance().searchInAllColumns("AGAIN"));
 
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);

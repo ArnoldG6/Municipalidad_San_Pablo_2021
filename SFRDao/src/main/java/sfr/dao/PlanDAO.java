@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 import javax.persistence.Query;
 import sfr.model.Plan;
 import org.hibernate.Session;
@@ -153,6 +154,49 @@ public class PlanDAO extends GenericDAO {
             p.setType(String.valueOf(obj[6]));
 
             return p;
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        }
+    }
+
+    public List<Plan> listSearchBy2(String toSearch, String value) {
+        try {
+            List<Plan> listSearch = PlanDAO.getInstance().listAll();
+            List<Plan> result = new ArrayList<>();
+            Pattern p = Pattern.compile(value);
+            switch (toSearch) {
+                case "name":
+                    for (Plan s : listSearch) {
+                        if (p.matcher(s.getName()).find()) {
+                            result.add(s);
+                        }
+                    }
+                    break;
+                case "id":
+                    for (Plan s : listSearch) {
+                        if (p.matcher(s.getId()).find()) {
+                            result.add(s);
+                        }
+                    }
+                    break;
+                case "authorName":
+                    for (Plan s : listSearch) {
+                        if (p.matcher(s.getAuthorName()).find()) {
+                            result.add(s);
+                        }
+                    }
+                    break;
+                case "type":
+                    for (Plan s : listSearch) {
+                        if (p.matcher(s.getType()).find()) {
+                            result.add(s);
+                        }
+                    }
+                    break;
+            }
+            return result;
         } catch (Exception e) {
             e.printStackTrace(System.out);
             System.err.println(e.getMessage());

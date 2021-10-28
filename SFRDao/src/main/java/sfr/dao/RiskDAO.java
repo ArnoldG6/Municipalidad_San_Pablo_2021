@@ -4,12 +4,14 @@
  * and open the template in the editor.
  */
 package sfr.dao;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Query;
 import static sfr.dao.GenericDAO.em;
+import sfr.model.Plan;
 import sfr.model.Risk;
 
 /**
@@ -40,9 +42,51 @@ public class RiskDAO extends GenericDAO {
             throw e;
         }
     }
+        public String translateColumnName(String column, String order) throws IOException {
+        order = order.toUpperCase();
+        if (!(order.toUpperCase().equals("ASC")
+                || order.toUpperCase().equals("DESC"))) {
+            throw new IOException("Invalid order parameter");
+        }
+        switch (column.toUpperCase()) {
+            case "PK_ID":
+                return "id";
+            case "NAME":
+                return "name";
+            case "DESCRIPTION":
+                return "description";
+            case "GENERALTYPE":
+                return "generalType";
+            case "AREATYPE":
+                return "areaType";
+            case "SPECTYPE":
+                return "specType";
+            case "PROBABILITY":
+                return "probability";
+            case "IMPACT":
+                return "impact";
+            case "AFFECTATIONLEVEL":
+                return "affectationLevel";
+            case "MITIGATIONMEASURES":
+                return "mitigationMeasures";
+            default:
+                throw new IOException("Invalid column");
+        }
+    }
 
     public List<Risk> listByColumn(String column, String order) throws Exception {
-        throw new UnsupportedOperationException("Not implemented yet!");
+         try {
+            order = order.toUpperCase();
+            column = this.translateColumnName(column, order);
+            String cmd = "SELECT r from Risk r order by r." + column + " " + order;
+            em = getEntityManager();
+            Query query = em.createQuery(cmd);
+            return (List<Risk>) query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        }
     }
 
     public HashMap<String, Risk> listAllHM() {

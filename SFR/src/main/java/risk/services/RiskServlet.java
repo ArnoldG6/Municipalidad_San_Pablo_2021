@@ -56,7 +56,7 @@ public class RiskServlet extends HttpServlet {
                     requestData = request.getReader().lines().collect(Collectors.joining());
                     jsonObj = new JSONObject(requestData);
                     String name = jsonObj.getString("searchRisk");
-                    json = new Gson().toJson(RiskDAO.getInstance().listSearchBy("name", name));
+                    json = new Gson().toJson(RiskDAO.getInstance().searchInAllColumns(name));
                     response.getWriter().write(json);
                     response.getWriter().flush();
                     response.getWriter().close();

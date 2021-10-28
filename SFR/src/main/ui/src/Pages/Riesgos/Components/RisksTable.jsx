@@ -43,7 +43,9 @@ class RisksTable extends Component {
 
                         <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('pk_id') }}>ID</button></th>
                         <th><button className='header-button' id="nameButton" onClick={() => { this.handleSort('name') }}> Nombre</button></th>
-                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('generalType') }}>Tipo</button></th>
+                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('generalType') }}>Tipo General</button></th>
+                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('areaType') }}>Tipo por Área</button></th>
+                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('specType') }}>Tipo Específico</button></th>
                         <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('probability') }}>Probabilidad</button></th>
                         <th><button className='header-button' id="stateButton" onClick={() => { this.handleSort('impact') }}>Impacto</button></th>
                         <th><button className='header-button' id="typeButton" onClick={() => { this.handleSort('affectationLevel') }}>Nivel de Afectación</button></th>
@@ -77,6 +79,8 @@ class RisksTable extends Component {
                                 <td>{risk.id}</td>
                                 <td className="nameSlot">{risk.name}</td>
                                 <td>{risk.generalType}</td>
+                                <td>{risk.areaType}</td>
+                                <td>{risk.specType}</td>
                                 <td>{risk.probability}</td>
                                 <td>{risk.impact}</td>
                                 <td>{risk.affectationLevel}</td>
@@ -89,17 +93,3 @@ class RisksTable extends Component {
     }
 };
 export default RisksTable;
-/*
-datos quemados:
-
-                    <tr>
-                        <td>2021-abc12345</td>
-                        <td><a href='/'>Poliza de chet prueba</a></td>
-                        <td>13/10/2021</td>
-                        <td><div class="accepted">Aceptado</div></td>
-                        <td >Ricardo Milos</td>
-                        <td >Proyecto</td>
-                    </tr>
-
-
-*/

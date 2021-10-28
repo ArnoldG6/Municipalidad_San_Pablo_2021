@@ -38,6 +38,8 @@ public class Tests {
 //            System.out.printf("%s \n", "---------------------------------------------------");
 //            System.out.printf("Listando planes por columna: %s\n", PlanDAO.getInstance().listByColumn("PK_ID", "ASC"));
 //            System.out.printf("Listando planes por columna:  %s\n", PlanDAO.getInstance().listByColumn("PK_ID", "DESC"));
+
+
             System.out.printf("Listando riesgos por columna: %s\n", RiskDAO.getInstance().listByColumn("PK_ID", "ASC"));
             System.out.printf("Listando riesgos por columna:  %s\n", RiskDAO.getInstance().listByColumn("PK_ID", "DESC"));
 

@@ -18,14 +18,14 @@ class Search extends Component {
         event.preventDefault();
 
         let options = {
-            url: `http://localhost:8080/SFR/API/PlanSearch`,
+            url: `http://localhost:8080/SFR/API/RiskSearch`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             data: {
-                'searchPlan': event.target.searchPlan.value
+                'searchRisk': event.target.searchRisk.value
             }
         }
 
@@ -36,7 +36,7 @@ class Search extends Component {
                 console.log(response.data.name);
             }).catch(error => {
                 console.log(error);
-                toast.error("Funca!", {
+                toast.error("Error al realizar la busqueda", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',

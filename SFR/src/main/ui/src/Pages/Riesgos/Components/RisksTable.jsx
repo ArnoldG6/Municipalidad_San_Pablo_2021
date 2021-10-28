@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './RisksTable.css';
 import { Table } from "react-bootstrap";
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 
 class RisksTable extends Component {
     constructor(props) {
@@ -40,22 +40,23 @@ class RisksTable extends Component {
             <Table hover>
                 <thead>
                     <tr>
-                       
-                        <th><button className='header-button' id="nameButton" onClick={() => { this.handleSort('name') }}> Nombre</button></th>
+
                         <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('pk_id') }}>ID</button></th>
-                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('GeneralType') }}>Tipo</button></th>
-                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('Probability') }}>Probabilidad</button></th>
+                        <th><button className='header-button' id="nameButton" onClick={() => { this.handleSort('name') }}> Nombre</button></th>
+                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('generalType') }}>Tipo</button></th>
+                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('probability') }}>Probabilidad</button></th>
                         <th><button className='header-button' id="stateButton" onClick={() => { this.handleSort('impact') }}>Impacto</button></th>
-                        <th><button className='header-button' id="typeButton" onClick={() => { this.handleSort('affectationlevel') }}>Nivel de Afectación</button></th>
-                        
-                        
+                        <th><button className='header-button' id="typeButton" onClick={() => { this.handleSort('affectationLevel') }}>Nivel de Afectación</button></th>
+
+
                     </tr>
                 </thead>
                 <tbody>
 
 
 
-                    {this.props.riesgos.map((plan) => {
+                    {this.props.riesgos.map((risk) => {
+                        /*
                         let statusClass = "";
                         switch (plan.status) {
                             case 'Activo':
@@ -70,15 +71,15 @@ class RisksTable extends Component {
                             default:
                                 statusClass = 'unknown bubble';
                                 break;
-                        }
+                        }*/
                         return (
-                            <tr key={plan.id}>
-                                <td>{plan.id}</td>
-                                <td className="nameSlot"><Link to={{ pathname: "/plan", search: `?id=${plan.id}` }}>{plan.name}</Link></td>
-                                <td>{plan.entryDate}</td>
-                                <td><div className={statusClass}>{plan.status}</div></td>
-                                <td>{plan.authorName}</td>
-                                <td>{plan.type}</td>
+                            <tr key={risk.id}>
+                                <td>{risk.id}</td>
+                                <td className="nameSlot">{risk.name}</td>
+                                <td>{risk.generalType}</td>
+                                <td>{risk.probability}</td>
+                                <td>{risk.impact}</td>
+                                <td>{risk.affectationLevel}</td>
                             </tr>
                         )
                     })}

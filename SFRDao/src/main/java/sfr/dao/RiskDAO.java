@@ -159,35 +159,11 @@ public class RiskDAO extends GenericDAO {
 
     public List<Risk> listSearchBy(String toSearch, String value) {
         try {
-            String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p WHERE p." + toSearch + " LIKE '" + value + "%'";
+            String cmd = "SELECT r FROM Risk r WHERE "
+                    + "r." + toSearch + " LIKE '" + value + "%'";
             em = getEntityManager();
             Query query = em.createQuery(cmd);
-            List<Risk> objList = (List<Risk>) query.getResultList();
-
-            List<Risk> l = new ArrayList<>();
-            Iterator itr = objList.iterator();
-
-            //Hibernate consigue lista de Object
-            //Realizar conversion al objeto correcto
-            //Posiciones estan basadas en las posiciones de la tabla en la base de datos
-            while (itr.hasNext()) {
-                Object[] obj = (Object[]) itr.next();
-
-                Risk p = new Risk(String.valueOf(obj[0]));
-                p.setName(String.valueOf(obj[1]));
-                p.setDescription(String.valueOf(obj[2]));
-                p.setGeneralType(String.valueOf(obj[3]));
-                p.setAreaType(String.valueOf(obj[4]));
-                p.setSpecType(String.valueOf(obj[5]));
-                p.setImpact(Integer.parseInt(obj[6].toString()));
-                p.setProbability(Float.parseFloat((obj[7].toString())));
-                p.setAffectationLevel(Integer.parseInt(obj[8].toString()));
-                p.setMitigationMeasures(String.valueOf(obj[9]));
-
-                l.add(p);
-            }
-
-            return l;
+            return (List<Risk>) query.getResultList();
         } catch (Exception e) {
             e.printStackTrace(System.out);
             System.err.println(e.getMessage());

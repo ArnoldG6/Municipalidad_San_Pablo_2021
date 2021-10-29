@@ -54,9 +54,8 @@ public class PlanServlet extends HttpServlet {
                     response.setCharacterEncoding("UTF-8");
                     requestData = request.getReader().lines().collect(Collectors.joining());
                     jsonObj = new JSONObject(requestData);
-                    String name = jsonObj.getString("searchPlan");
-//                    json = new Gson().toJson(PlanDAO.getInstance().listSearchBy("name", name));
-                    json = new Gson().toJson(PlanDAO.getInstance().listSearchBy2("name", name.toUpperCase()));
+                    String value = jsonObj.getString("searchPlan");
+                    json = new Gson().toJson(PlanDAO.getInstance().searchInAllColumns(value));
                     response.getWriter().write(json);
                     response.getWriter().flush();
                     response.getWriter().close();

@@ -203,7 +203,26 @@ public class PlanDAO extends GenericDAO {
             throw e;
         }
     }
-
+        public List<Plan> searchInAllColumns(String value) {
+        try {
+            HashMap<String, Plan> resultHM = this.listAllHM();
+            Pattern p = Pattern.compile(value, Pattern.CASE_INSENSITIVE);
+            ArrayList<Plan> result = new ArrayList<>();
+            for (HashMap.Entry<String, Plan> plan : resultHM.entrySet()) {
+                Plan pl = plan.getValue();
+                if(p.matcher(pl.getId()).find()|| p.matcher(pl.getAuthorName()).find()|| 
+                  p.matcher(pl.getName()).find()|| p.matcher(pl.getDesc()).find() ||
+                  p.matcher(pl.getEntryDate().toString()).find() || p.matcher(pl.getStatus()).find()
+                  ||p.matcher(pl.getType()).find())
+                    result.add(pl);
+            }
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        }
+    }
     public List<Plan> listSearchBy(String toSearch, String value) {
         try {
             String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p WHERE p." + toSearch + " LIKE '" + value + "%'";

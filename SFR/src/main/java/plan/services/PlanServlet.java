@@ -23,9 +23,9 @@ import sfr.dao.PlanDAO;
  * @author arnol
  */
 @WebServlet(name = "PlanServlet", urlPatterns = {
-    "/API/PlanServlet", 
-    "/API/PlanSearch", 
-    "/API/RetrievePlans", 
+    "/API/PlanServlet",
+    "/API/PlanSearch",
+    "/API/RetrievePlans",
     "/API/RetrievePlan"})
 public class PlanServlet extends HttpServlet {
 

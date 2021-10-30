@@ -4,27 +4,41 @@
 .Plan-Container {
     height: 93%;
 }
-.mt-4 h1{
-   margin: 0px;
-   font-size: 30px; 
+.mt-4 h1 {
+    margin: 0;
+    font-size: 30px;
 }
-.mt-4 h2{
-    margin: 0px;
+.mt-4 h2 {
+    margin: 0;
     font-size: 23px;
 }
-.mt-4 h4{
-    margin: 0px;
+.mt-4 h4 {
+    margin: 0;
     font-size: 20px;
     color: darkgray;
 }
-.mt-4 p{
+.mt-4 p {
     margin-top: 1vh;
     font-size: 16px;
     max-width: 75%;
 }
-.card-body{
+.card-body {
     min-height: 100%;
 }
-.card-body{
+.card-body {
     height: 48vh;
+}
+
+#submit-button-new-item {
+    margin-top: 35px;
+    margin-left: 185px;
+
+}
+input:required:focus:valid {
+    background: no-repeat 95% 50% rgba(144, 238, 144, 0.466);
+    background-size: 25px;
+}
+input:focus:invalid {
+    background: no-repeat 95% 50% rgba(231, 128, 128, 0.514);
+    background-size: 25px;
 }

@@ -21,7 +21,7 @@ import sfr.model.Plan;
  *
  * @author arnol
  */
-@WebServlet(name = "PlanManager", urlPatterns = {"/API/PlanManager/insert"})
+@WebServlet(name = "PlanManager", urlPatterns = {"/API/PlanManager/insert" , "/API/PlanManager/edit"})
 public class PlanManager extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -44,6 +44,12 @@ public class PlanManager extends HttpServlet {
                         throw new IOException();
                     }
                     PlanDAO.getInstance().add(newPlan);
+                    break;
+                case "/API/PlanManager/edit":
+                    String objeto = request.getReader().lines().collect(Collectors.joining());
+                    Gson json = new Gson();
+                    Plan editPlan = json.fromJson(objeto, Plan.class);
+                    PlanDAO.getInstance().update(editPlan);
                     break;
             }
             response.setContentType("text/html");

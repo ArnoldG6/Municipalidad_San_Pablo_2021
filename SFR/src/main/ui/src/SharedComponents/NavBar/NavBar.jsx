@@ -17,6 +17,7 @@ class NavBar extends Component {
                             <Nav.Link href="#/perfil">Perfil</Nav.Link>
                             <Nav.Link href="#/mensajes">Mensajes</Nav.Link>
                             <Nav.Link href="#/reportes">Reportes</Nav.Link>
+                            <Nav.Link href="#/tempLogin">tempLogin</Nav.Link>
                         </Nav>
                         <Nav>
                             <Nav.Link href="#deets">Login</Nav.Link>

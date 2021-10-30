@@ -3,6 +3,7 @@ import './Plan.css'
 import { Row, Card, Nav } from "react-bootstrap";
 import CommentSideBar from './Components/CommentSideBar';
 import TopButtons from './Components/TopButtons';
+import RiskTable from './Components/RiskTable';
 import axios from 'axios';
 
 
@@ -10,6 +11,7 @@ class Plan extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            table: "risks",
             id: "",
             authorName: "",
             name: "",
@@ -18,6 +20,8 @@ class Plan extends Component {
             status: "",
             type: ""
         };
+        this.tableAssign = this.tableAssign.bind(this);
+        this.tableHandler = this.tableHandler.bind(this);
     }
 
     componentDidMount() {
@@ -51,7 +55,25 @@ class Plan extends Component {
             });
     }
 
+    tableHandler(table) {
+        this.setState({ "table": table })
+    }
+
+    tableAssign() {
+        switch (this.state.table) {
+            case "risks":
+                return <h1>Riesgos Aqui</h1>;
+            case "incidents":
+                return <h1>Incidentes Aqui</h1>;
+            case "involved":
+                return <h1>Involucrados Aqui</h1>;
+            default:
+                return <h1>Error</h1>;
+        }
+    }
+
     render() {
+        let tableData = this.tableAssign();
         return (
             <div className="Plan-Container">
                 {/* Comentarios del Plan */}
@@ -62,7 +84,7 @@ class Plan extends Component {
 
                     {/* Botones de uso en el Plan */}
                     <Row>
-                        <TopButtons status={this.state.status}/>
+                        <TopButtons status={this.state.status} />
                     </Row>
 
                     {/* Datos del Plan */}
@@ -75,25 +97,22 @@ class Plan extends Component {
                     </Row>
 
                     {/* Listas de Datos del Plan */}
-                    <Card>
+                    <Card id="card">
                         <Card.Header>
-                            <Nav variant="tabs" defaultActiveKey="#first">
-                                {/*para que se vea la tab seleccionada ponerle como atributo active al nav.link*/}
+                            <Nav justify variant="tabs" defaultActiveKey="riesgosTab">
                                 <Nav.Item>
-                                    <Nav.Link href="">Riesgos</Nav.Link>
+                                    <Nav.Link eventKey="riesgosTab" onClick={() => { this.tableHandler("risks") }}>Riesgos</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link href="">Incidencias</Nav.Link>
+                                    <Nav.Link eventKey="incidenciasTab" onClick={() => { this.tableHandler("incidents") }}>Incidencias</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link href="">
-                                        Involucrados
-                                    </Nav.Link>
+                                    <Nav.Link eventKey="involucradosTab" onClick={() => { this.tableHandler("involved") }}>Involucrados</Nav.Link>
                                 </Nav.Item>
                             </Nav>
                         </Card.Header>
                         <Card.Body>
-
+                            {tableData}
                         </Card.Body>
                     </Card>
 

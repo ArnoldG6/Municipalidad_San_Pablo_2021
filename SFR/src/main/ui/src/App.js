@@ -11,6 +11,7 @@ import Planes from './Pages/Planes/Planes';
 import Plan from './Pages/Plan/Plan';
 import Riesgos from './Pages/Riesgos/Riesgos';
 import Error from './Pages/Error/Error';
+import TempLogIn from './SharedComponents/TempLogIn';
 
 class App extends Component {
   render() {
@@ -33,6 +34,7 @@ class App extends Component {
           <Route path="/reportes">
             <h1>Reportes</h1>
           </Route>
+          <Route path="/tempLogin" component={TempLogIn} />
           <Route render={() => <Error status={404} text={'Página no encontrada'} />} />
         </Switch>
       </Router>

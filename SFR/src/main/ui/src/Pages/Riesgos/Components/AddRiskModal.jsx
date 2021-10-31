@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import '../Riesgos.css'
-import { Modal, Button, Form } from "react-bootstrap";
+
+import { Modal, Button, Form, Row } from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import '../Riesgos.css'
 class AddRiskModal extends Component {
     constructor(props) {
         super(props);
@@ -54,18 +54,23 @@ class AddRiskModal extends Component {
         return (
             <Modal show={render} onHide={closeModal} id="modalRisks" >
                 <Modal.Header closeButton>
-                    Nuevo Item
+                    Nuevo Riesgo
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={this.handleSubmit}>
+                        
                         <div className="form-group">
-                            <label>Nombre: &nbsp;&nbsp;</label>
-                            <input name="name" id="name" type="text" placeholder="Nombre" className="form-control" required />
+                            <div className="number-input-container">
+                            <label>Probabilidad: </label>
+                            <input name="probability" id="probability" type="text" placeholder="0.0" className="form-control number-input " required />
+                            </div>
+                            <div className="number-input-container">
+                            <label>Impacto:</label>
+                            <input name="impact" id="impact" type="text" className="form-control number-input" placeholder="0%" required />
+                            </div>
                         </div>
-                        <div className="form-group">
-                            <label>ID:</label>
-                            <input name="id" id="id " type="text" className="form-control" placeholder="ID" required />
-                        </div>
+
+                      
                         <div className="form-group">
                             <label>Estado: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             <Form.Select name="status" id="status">

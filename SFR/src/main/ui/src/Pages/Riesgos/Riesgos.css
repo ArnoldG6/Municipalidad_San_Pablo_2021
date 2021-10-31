@@ -39,3 +39,14 @@ input:focus:invalid {
     margin: 0;
     text-align: center;
 }
+.number-input-container{
+    min-width: 75px;   
+    float: left;
+    margin-right: -60px;
+}
+
+.number-input{
+
+   width: 50% !important;
+}
+

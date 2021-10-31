@@ -84,7 +84,8 @@ class Plan extends Component {
 
                     {/* Botones de uso en el Plan */}
                     <Row>
-                        <TopButtons status={this.state.status} />
+                        <TopButtons name={this.state.name} type={this.state.type} id={this.state.id}
+                        authorName={this.state.authorName} description={this.state.description} status={this.state.status} />
                     </Row>
 
                     {/* Datos del Plan */}

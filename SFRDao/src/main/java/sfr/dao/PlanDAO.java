@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import javax.persistence.Query;
 import sfr.model.Plan;
 import org.hibernate.Session;
+import sfr.model.Risk;
 
 /**
  *
@@ -223,6 +224,8 @@ public class PlanDAO extends GenericDAO {
             throw e;
         }
     }
+        
+    
     public List<Plan> listSearchBy(String toSearch, String value) {
         try {
             String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p WHERE p." + toSearch + " LIKE '" + value + "%'";

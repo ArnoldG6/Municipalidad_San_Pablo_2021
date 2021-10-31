@@ -8,20 +8,23 @@ package plan.services;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONObject;
 import sfr.dao.PlanDAO;
 import sfr.model.Plan;
+import sfr.model.Risk;
 
 /**
  *
  * @author arnol
  */
-@WebServlet(name = "PlanManager", urlPatterns = {"/API/PlanManager/insert" , "/API/PlanManager/edit"})
+@WebServlet(name = "PlanManager", urlPatterns = {"/API/PlanManager/insert", "/API/PlanManager/edit", "/API/PlanManager/delete"})
 public class PlanManager extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -51,6 +54,20 @@ public class PlanManager extends HttpServlet {
                     Plan editPlan = json.fromJson(objeto, Plan.class);
                     PlanDAO.getInstance().update(editPlan);
                     break;
+                case "/API/PlanManager/deleteRisk":
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    String requestData = request.getReader().lines().collect(Collectors.joining());
+                    JSONObject jsonObj = new JSONObject(requestData);
+                    String planId = jsonObj.getString("plan_id");
+                    String riskId = jsonObj.getString("risk_id");
+                    Plan p = PlanDAO.getInstance().searchByIdSmall(planId);
+                    List<Risk> riskList = p.getRiskList();
+                    riskList.removeIf(r -> (r.getId().equals(riskId)));
+                    p.setRiskList(riskList);
+                    PlanDAO.getInstance().update(p);
+                    break;
+
             }
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");

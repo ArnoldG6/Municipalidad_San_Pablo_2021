@@ -23,6 +23,11 @@ class TopButtons extends Component {
     };
     render() {
         let statusClass = "";
+        let name = this.props.name;
+        let type = this.props.type;
+        let id = this.props.id;
+        let authorName = this.props.authorName;
+        let description = this.props.description;
         switch (this.props.status) {
             case 'Activo':
                 statusClass = 'in-progress';
@@ -45,7 +50,8 @@ class TopButtons extends Component {
                 <Button className="ms-auto" variant="light">Generar reporte</Button>{' '}
                 <div className="vr" />
                 <Button className={statusClass} variant="success">{this.props.status}</Button>{' '}
-                <EditPlanModal show={this.state.show} closeModal={this.closeModal} />
+                <EditPlanModal name={name} type={type} id={id} authorName={authorName}
+                description={description} status={this.props.status} show={this.state.show} closeModal={this.closeModal} />
             </Stack>
         );
     }

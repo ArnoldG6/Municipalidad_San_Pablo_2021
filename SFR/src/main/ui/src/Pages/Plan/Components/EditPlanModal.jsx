@@ -51,6 +51,21 @@ class EditPlanModal extends Component {
     render() {
         let render = this.props.show
         let closeModal = this.props.closeModal
+
+        let name = this.props.name;
+        let typePlan = "";
+        switch(this.props.type) {
+            case 'PROYECTO':
+                typePlan = 'Proyecto';
+                break;
+            case 'PROCESO':
+                typePlan = 'Proceso';
+                break;
+        }
+        let id = this.props.id;
+        let authorName = this.props.authorName;
+        let description = this.props.description;
+        let status = this.props.status;
         return (
             <Modal show={render} onHide={closeModal} >
                 <Modal.Header closeButton>
@@ -60,16 +75,16 @@ class EditPlanModal extends Component {
                     <Form onSubmit={this.handleSubmit}>
                         <div className="form-group">
                             <label>Nombre: &nbsp;&nbsp;</label>
-                            <input name="name" id="name" type="text" placeholder="Nombre" className="form-control" required />
+                            <input name="name" id="name" type="text" placeholder="Nombre" className="form-control" defaultValue={name} required />
                         </div>
                         <div className="form-group">
                             <label>ID:</label>
-                            <input name="id" id="id " type="text" className="form-control" placeholder="ID" required />
+                            <input name="id" id="id " type="text" className="form-control" placeholder="ID" defaultValue={id} required />
                         </div>
                         <div className="form-group">
                             <label>Estado: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                            <Form.Select name="status" id="status">
-                                <option value="" defaultValue disabled hidden>Seleccione un estado</option>
+                            <Form.Select name="status" id="status" defaultValue={status}>
+                                
                                 <option value="Activo">Activo</option>
                                 <option value="Inactivo">Inactivo</option>
                                 <option value="Completo">Completo</option>
@@ -77,19 +92,19 @@ class EditPlanModal extends Component {
                         </div>
                         <div className="form-group">
                             <label>Autor: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                            <input name="authorName" id="authorName" type="text" placeholder="Autor" className="form-control" required />
+                            <input name="authorName" id="authorName" type="text" placeholder="Autor" className="form-control" defaultValue={authorName} required />
                         </div>
                         <div className="form-group">
                             <label>Tipo: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                            <Form.Select name="type" id="type">
-                                <option value="" defaultValue disabled hidden>Seleccione un tipo</option>
+                            <Form.Select name="type" id="type" defaultValue={typePlan}>
+                                
                                 <option value="Proceso">Proceso</option>
                                 <option value="Proyecto">Proyecto</option>
                             </Form.Select>
                         </div>
                         <div className="form-group">
                             <label>Descripción: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                            <textarea name="description" id="description" type="text" placeholder="Descripción" className="form-control" />
+                            <textarea name="description" id="description" type="text" placeholder="Descripción" className="form-control" defaultValue={description} />
                         </div>
                         <Button className='btn-sfr' type="submit" id="submit-button-new-item">
                             Guardar

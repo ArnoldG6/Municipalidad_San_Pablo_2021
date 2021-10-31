@@ -50,3 +50,17 @@ input:focus:invalid {
    width: 50% !important;
 }
 
+.radio-group-type .Radio-element{
+    float: left;
+
+}
+
+input[type="radio"] {
+    margin-top: -16px;
+    vertical-align: middle;
+    margin-right:  5px;
+  }
+
+  .Radio-element{      
+        margin-right: 10px;           
+  }

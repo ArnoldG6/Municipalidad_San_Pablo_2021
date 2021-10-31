@@ -78,7 +78,7 @@ class Plan extends Component {
 
     removeRisks(idRisk) {
         let options = {
-            url: "http://localhost:8080/SFR/API/RetrievePlan",
+            url: "http://localhost:8080/SFR/API/PlanManager/deleteRisk",
             method: "DELETE",
             header: {
                 'Accept': 'application/json',

@@ -59,8 +59,9 @@ public class PlanManager extends HttpServlet {
                     response.setCharacterEncoding("UTF-8");
                     String requestData = request.getReader().lines().collect(Collectors.joining());
                     JSONObject jsonObj = new JSONObject(requestData);
-                    String planId = jsonObj.getString("plan_id");
-                    String riskId = jsonObj.getString("risk_id");
+                    String planId = jsonObj.getString("planID");
+                    String riskId = jsonObj.getString("riskID");
+                    System.out.println("WEA_CUANTICA: "+planId+riskId);
                     Plan p = PlanDAO.getInstance().searchByIdSmall(planId);
                     List<Risk> riskList = p.getRiskList();
                     riskList.removeIf(r -> (r.getId().equals(riskId)));
@@ -106,7 +107,11 @@ public class PlanManager extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
     /**
      * Returns a short description of the servlet.
      *

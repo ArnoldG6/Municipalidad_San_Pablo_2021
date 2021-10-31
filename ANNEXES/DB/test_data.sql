@@ -51,4 +51,7 @@ INSERT INTO `SFR`.`T_Risk` (`PK_ID`, `Name`, `Description`, `GeneralType`, `Area
 INSERT INTO `sfr`.`T_Risk` (`PK_ID`, `Name`, `Description`, `GeneralType`, `AreaType`, `SpecType`, `Probability`, `Impact`, `AffectationLevel`, `MitigationMeasures`) VALUES ('3', 'RIESGO DE PRUEBA', 'ESTA ES OTRA DESCRIPCION DE PRUEBA', 'EXTERNO', 'ECONÓMICOS', 'Cambios en las condiciones económicas del país.', '0.7', '30', '21', 'ESTA ES OTRA MEDIDA DE MITIGACION');
 INSERT INTO `sfr`.`T_Risk` (`PK_ID`, `Name`, `Description`, `GeneralType`, `AreaType`, `SpecType`, `Probability`, `Impact`, `AffectationLevel`, `MitigationMeasures`) VALUES ('1', 'CAMBIO CLIMATICO', 'El cambio climático puede traer efectos en la prestación de servicios básicos.', 'EXTERNO', 'AMBIENTALES', 'Cambio climático.', '0.5', '50', '25', 'ESTA ES UNA MEDIDA DE MITIGACION');
 
+INSERT INTO SFR.T_RiskPlan (FK_PLAN, FK_RISK) VALUES ('2020LA-00002-01', '2');
+INSERT INTO SFR.T_RiskPlan (FK_PLAN, FK_RISK) VALUES ('2020LA-00003-01', '2');
+
 commit;

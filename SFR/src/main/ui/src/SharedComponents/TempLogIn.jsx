@@ -46,8 +46,6 @@ class TempLogIn extends Component {
                     autoClose: 10000
                 });
             });
-        let a = sessionStorage.getItem("userRol");
-        let b = sessionStorage.getItem("userID");
     }
 
     render() {

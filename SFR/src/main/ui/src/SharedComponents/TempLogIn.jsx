@@ -28,8 +28,10 @@ class TempLogIn extends Component {
         }
         axios(options)
             .then(response => {
-                let a = sessionStorage.getItem("userRol");
-                let b = sessionStorage.getItem("userID");
+                //let a = sessionStorage.getItem("userRol");
+                //let b = sessionStorage.getItem("userID");
+                //sessionStorage.setItem("userRol",response.data.userRol);
+                //sessionStorage.setItem("userID",response.data.userID);
                 toast.success("Usuario cambiado!" + a + " " + b, {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
@@ -44,6 +46,8 @@ class TempLogIn extends Component {
                     autoClose: 10000
                 });
             });
+        let a = sessionStorage.getItem("userRol");
+        let b = sessionStorage.getItem("userID");
     }
 
     render() {

@@ -40,6 +40,7 @@ public class LoginManager extends HttpServlet {
         response.setHeader("Access-Control-Allow-Headers", "application/json, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
         response.addHeader("Access-Control-Max-Age", "86400");
         response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setContentType("application/json");
         try {
             switch (request.getServletPath()) {
                 case "/API/LoginManager/test":
@@ -53,6 +54,9 @@ public class LoginManager extends HttpServlet {
                             //u = UserDAO.getInstance().searchById(50);
                             session.setAttribute("userID",50);
                             session.setAttribute("userRol","SUPER_ADMIN");
+                            response.getWriter().write("{\"userID\": 50, \"userRol\": \"SUPER_ADMIN\"}");
+                            response.getWriter().flush();
+                            response.getWriter().close();
                             break; 
                         case 2: 
                             //u = UserDAO.getInstance().searchById(51);
@@ -60,14 +64,23 @@ public class LoginManager extends HttpServlet {
                             //session.setAttribute("userRol",u.getRoles().get(0).getDescription());
                             session.setAttribute("userID",51);
                             session.setAttribute("userRol","ADMIN");
-                            break;
+                            response.getWriter().write("{\"userID\": 51, \"userRol\": \"ADMIN\"}");
+                            response.getWriter().flush();
+                            response.getWriter().close();
+                            break; 
                         case 3: 
                             session.setAttribute("userID",52);
                             session.setAttribute("userRol","USER");
+                            response.getWriter().write("{\"userID\": 52, \"userRol\": \"USER\"}");
+                            response.getWriter().flush();
+                            response.getWriter().close();
                             break;
                         case 4: 
                             session.setAttribute("userID",53);
                             session.setAttribute("userRol","USER");
+                            response.getWriter().write("{\"userID\": 53, \"userRol\": \"USER\"}");
+                            response.getWriter().flush();
+                            response.getWriter().close();
                             break;
                         default: throw new IOException("Invalid parameters");
                     }

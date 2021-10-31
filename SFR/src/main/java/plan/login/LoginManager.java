@@ -45,29 +45,29 @@ public class LoginManager extends HttpServlet {
                 case "/API/LoginManager/test":
                     String requestData = request.getReader().lines().collect(Collectors.joining());
                     JSONObject jsonObj = new JSONObject(requestData);
-                    String value = jsonObj.getString("type");
+                    Integer value = jsonObj.getInt("type");
                     HttpSession session = request.getSession(true);
-                    User u;
-                    switch(Integer.parseInt(value)){
+                    //User u;
+                    switch(value){
                         case 1: 
-                            u = UserDAO.getInstance().searchById(50);
-                            session.setAttribute("userID",u.getIdUser());
-                            session.setAttribute("userRol",u.getRoles().get(0).getDescription());
+                            //u = UserDAO.getInstance().searchById(50);
+                            session.setAttribute("userID",50);
+                            session.setAttribute("userRol","SUPER_ADMIN");
                             break; 
                         case 2: 
-                            u = UserDAO.getInstance().searchById(51);
-                            session.setAttribute("userID",u.getIdUser());
-                            session.setAttribute("userRol",u.getRoles().get(0).getDescription());
+                            //u = UserDAO.getInstance().searchById(51);
+                            //session.setAttribute("userID",u.getIdUser());
+                            //session.setAttribute("userRol",u.getRoles().get(0).getDescription());
+                            session.setAttribute("userID",51);
+                            session.setAttribute("userRol","ADMIN");
                             break;
                         case 3: 
-                            u = UserDAO.getInstance().searchById(52);
-                            session.setAttribute("userID",u.getIdUser());
-                            session.setAttribute("userRol",u.getRoles().get(0).getDescription());
+                            session.setAttribute("userID",52);
+                            session.setAttribute("userRol","USER");
                             break;
                         case 4: 
-                            u = UserDAO.getInstance().searchById(53);
-                            session.setAttribute("userID",u.getIdUser());
-                            session.setAttribute("userRol",u.getRoles().get(0).getDescription());
+                            session.setAttribute("userID",53);
+                            session.setAttribute("userRol","USER");
                             break;
                         default: throw new IOException("Invalid parameters");
                     }

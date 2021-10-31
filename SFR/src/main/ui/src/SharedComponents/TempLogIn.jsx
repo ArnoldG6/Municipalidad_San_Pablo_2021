@@ -28,9 +28,11 @@ class TempLogIn extends Component {
         }
         axios(options)
             .then(response => {
-                let a = sessionStorage.getItem("userRol");
-                let b = sessionStorage.getItem("userID");
-                toast.success("Usuario cambiado!" + a + " " + b, {
+                sessionStorage.setItem("userRol", response.data.userRol);
+                sessionStorage.setItem("userID", response.data.userID);
+                console.log(sessionStorage.getItem("userRol"));
+                console.log(sessionStorage.getItem("userID"));
+                toast.success("Usuario cambiado!", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',

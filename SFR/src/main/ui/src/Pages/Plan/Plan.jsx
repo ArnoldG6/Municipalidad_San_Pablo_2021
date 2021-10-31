@@ -4,6 +4,7 @@ import { Row, Card, Nav } from "react-bootstrap";
 import CommentSideBar from './Components/CommentSideBar';
 import TopButtons from './Components/TopButtons';
 import RiskTable from './Components/RiskTable';
+import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 
 
@@ -18,10 +19,12 @@ class Plan extends Component {
             description: "",
             entryDate: "",
             status: "",
-            type: ""
+            type: "",
+            riskList: []
         };
         this.tableAssign = this.tableAssign.bind(this);
         this.tableHandler = this.tableHandler.bind(this);
+        this.removeRisks = this.removeRisks.bind(this);
     }
 
     componentDidMount() {
@@ -48,7 +51,8 @@ class Plan extends Component {
                     description: plan.description,
                     entryDate: plan.entryDate,
                     status: plan.status,
-                    type: plan.type
+                    type: plan.type,
+                    riskList: plan.riskList
                 });
             }).catch(error => {
                 this.props.history.push('/planes');
@@ -62,7 +66,7 @@ class Plan extends Component {
     tableAssign() {
         switch (this.state.table) {
             case "risks":
-                return <h1>Riesgos Aqui</h1>;
+                return <RiskTable riesgos={this.state.riskList} removeRisks={this.removeRisks}/>;
             case "incidents":
                 return <h1>Incidentes Aqui</h1>;
             case "involved":
@@ -70,6 +74,32 @@ class Plan extends Component {
             default:
                 return <h1>Error</h1>;
         }
+    }
+
+    removeRisks(idRisk) {
+        let options = {
+            url: "http://localhost:8080/SFR/API/PlanManager/deleteRisk",
+            method: "DELETE",
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: {
+                'planID': this.state.id,
+                'riskID': idRisk
+            }
+        }
+        axios(options)
+            .then(response => {
+                this.props.history.push('/plan?id=' + this.state.id);
+            }).catch(error => {
+                toast.error("Error al remover el riesgo seleccionado.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 10000
+                });
+            });
     }
 
     render() {
@@ -84,7 +114,8 @@ class Plan extends Component {
 
                     {/* Botones de uso en el Plan */}
                     <Row>
-                        <TopButtons status={this.state.status} />
+                        <TopButtons name={this.state.name} type={this.state.type} id={this.state.id}
+                        authorName={this.state.authorName} description={this.state.description} status={this.state.status} />
                     </Row>
 
                     {/* Datos del Plan */}
@@ -115,10 +146,7 @@ class Plan extends Component {
                             {tableData}
                         </Card.Body>
                     </Card>
-
-
-
-
+                    <ToastContainer />
                 </div>
             </div>
         );

@@ -16,7 +16,7 @@ class TempLogIn extends Component {
     buttonLogin(type) {
 
         let options = {
-            url: "http://localhost:8080/SFR/API/RetrievePlan",
+            url: "http://localhost:8080/SFR/API/LoginManager/test",
             method: "POST",
             header: {
                 'Accept': 'application/json',
@@ -28,6 +28,10 @@ class TempLogIn extends Component {
         }
         axios(options)
             .then(response => {
+                sessionStorage.setItem("userRol", response.data.userRol);
+                sessionStorage.setItem("userID", response.data.userID);
+                console.log(sessionStorage.getItem("userRol"));
+                console.log(sessionStorage.getItem("userID"));
                 toast.success("Usuario cambiado!", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
@@ -42,6 +46,8 @@ class TempLogIn extends Component {
                     autoClose: 10000
                 });
             });
+        let a = sessionStorage.getItem("userRol");
+        let b = sessionStorage.getItem("userID");
     }
 
     render() {

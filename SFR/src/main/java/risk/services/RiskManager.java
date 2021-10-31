@@ -20,7 +20,7 @@ import sfr.model.Risk;
  *
  * @author GONCAR4
  */
-@WebServlet(name = "RiskManager", urlPatterns = {"/API/RiskManager/insert"})
+@WebServlet(name = "RiskManager", urlPatterns = {"/API/RiskManager/insert","/API/RiskManager/delete"})
 public class RiskManager extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -42,6 +42,16 @@ public class RiskManager extends HttpServlet {
                         throw new IOException();
                     }
                     RiskDAO.getInstance().add(newRisk);
+                    break;
+                case "/API/RiskManager/delete":
+                    String obj = request.getReader().lines().collect(Collectors.joining());
+                    Gson json = new Gson();
+                    Risk newR = json.fromJson(obj, Risk.class);
+                    Risk riskE = RiskDAO.getInstance().searchByIdSmall(newR.getId());
+                    if (riskE == null) {
+                        throw new IOException();
+                    }
+                    RiskDAO.getInstance().delete(riskE);
                     break;
             }
             response.setContentType("text/html");

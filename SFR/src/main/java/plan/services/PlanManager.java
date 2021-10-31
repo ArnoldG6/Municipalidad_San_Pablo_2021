@@ -26,7 +26,11 @@ import sfr.model.Risk;
  *
  * @author arnol
  */
-@WebServlet(name = "PlanManager", urlPatterns = {"/API/PlanManager/insert", "/API/PlanManager/edit", "/API/PlanManager/delete"})
+@WebServlet(name = "PlanManager", urlPatterns = {
+    "/API/PlanManager/insert", 
+    "/API/PlanManager/edit", 
+    "/API/PlanManager/delete",
+    "/API/PlanManager/deleteRisk"})
 public class PlanManager extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -68,7 +72,6 @@ public class PlanManager extends HttpServlet {
                     JSONObject jsonObj = new JSONObject(requestData);
                     String planId = jsonObj.getString("planID");
                     String riskId = jsonObj.getString("riskID");
-                    System.out.println("WEA_CUANTICA: "+planId+riskId);
                     Plan p = PlanDAO.getInstance().searchByIdSmall(planId);
                     List<Risk> riskList = p.getRiskList();
                     riskList.removeIf(r -> (r.getId().equals(riskId)));

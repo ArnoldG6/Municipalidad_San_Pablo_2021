@@ -91,7 +91,7 @@ class Plan extends Component {
         }
         axios(options)
             .then(response => {
-                this.props.history.push('/plan?id=' + this.state.id);
+                window.location.reload(false);
             }).catch(error => {
                 toast.error("Error al remover el riesgo seleccionado.", {
                     position: toast.POSITION.TOP_RIGHT,

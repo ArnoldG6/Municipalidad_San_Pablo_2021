@@ -6,7 +6,6 @@
 package Test;
 
 import common.dao.UserDAO;
-import common.model.User;
 
 /**
  *
@@ -15,9 +14,14 @@ import common.model.User;
 public class Test {
 
     public static void main(String[] args) {
-        UserDAO.getInstance().listAll().forEach(u -> {
-            System.out.printf("%s \n", u.toString());
-        });
+        //UserDAO.getInstance().listAll().forEach(u -> {
+        //    System.out.printf("%s \n", u.toString());
+        //});
+        System.out.println(UserDAO.getInstance().searchById(50));
+        System.out.println(UserDAO.getInstance().searchById(51));
+        System.out.println(UserDAO.getInstance().searchById(52));
+        System.out.println(UserDAO.getInstance().searchById(53));
+        System.out.println(UserDAO.getInstance().searchById(54));
     }
 
 }

@@ -8,6 +8,10 @@
         <servlet-name>PlanManager</servlet-name>
         <servlet-class>plan.services.PlanManager</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginManager</servlet-name>
+        <servlet-class>plan.login.LoginManager</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PlanServlet</servlet-name>
         <url-pattern>/API/PlanServlet</url-pattern>
@@ -20,6 +24,10 @@
         <url-pattern>/API/PlanManager/insert</url-pattern>
         <url-pattern>/API/PlanManager/edit</url-pattern>
         <url-pattern>/API/PlanManager/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginManager</servlet-name>
+        <url-pattern>/API/LoginManager/test</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

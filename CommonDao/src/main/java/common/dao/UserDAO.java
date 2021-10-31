@@ -98,9 +98,9 @@ public class UserDAO extends GenericDAO {
         }
     }
    
-    public User searchById(User user) {
+    public User searchById(int id) {
         em = getEntityManager();
-        return (User) em.find(User.class, user.getIdUser());
+        return (User) em.find(User.class, id);
     }
     public User searchByEmail(User user) {
         em = getEntityManager();

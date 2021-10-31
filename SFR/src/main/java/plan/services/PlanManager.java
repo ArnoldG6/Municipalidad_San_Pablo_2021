@@ -21,12 +21,17 @@ import sfr.model.Plan;
  *
  * @author arnol
  */
-@WebServlet(name = "PlanManager", urlPatterns = {"/API/PlanManager/insert" , "/API/PlanManager/edit"})
+@WebServlet(name = "PlanManager", urlPatterns = {"/API/PlanManager/insert", "/API/PlanManager/edit", "/API/PlanManager/delete"})
 public class PlanManager extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
+        response.setHeader("Access-Control-Allow-Headers", "application/json, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+        response.addHeader("Access-Control-Max-Age", "86400");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
         try {
             switch (request.getServletPath()) {
                 case "/API/PlanManager/insert":
@@ -41,10 +46,16 @@ public class PlanManager extends HttpServlet {
                     PlanDAO.getInstance().add(newPlan);
                     break;
                 case "/API/PlanManager/edit":
-                    String objeto = request.getReader().lines().collect(Collectors.joining());
-                    Gson json = new Gson();
-                    Plan editPlan = json.fromJson(objeto, Plan.class);
+                    String objetoEditado = request.getReader().lines().collect(Collectors.joining());
+                    Gson gsonEdit = new Gson();
+                    Plan editPlan = gsonEdit.fromJson(objetoEditado, Plan.class);
                     PlanDAO.getInstance().update(editPlan);
+                    break;
+                case "/API/PlanManager/delete":
+                    String objetoEliminado  = request.getReader().lines().collect(Collectors.joining());
+                    Gson gsonDelete = new Gson();
+                    Plan deletePlan = gsonDelete.fromJson(objetoEliminado, Plan.class);
+                    PlanDAO.getInstance().delete(deletePlan);
                     break;
             }
             response.setContentType("text/html");
@@ -55,7 +66,7 @@ public class PlanManager extends HttpServlet {
         }
 
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

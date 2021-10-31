@@ -1,37 +1,18 @@
 import React, { Component } from 'react';
-import { Table } from "react-bootstrap";
-//import { Link } from 'react-router-dom';
+import { Table, Button } from "react-bootstrap";
 
 class RiskTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            sortingWay: 'desc',
-            value: 'date'
+            riesgos: []
         };
+        this.removeRisk = this.removeRisk.bind(this);
 
     }
 
-    handleSort(parameter) {
-        let sort = this.state.sortingWay;
-        if (parameter === this.state.value) {
-            if (sort === 'desc') {
-                sort = 'asc';
-            } else {
-                sort = 'desc';
-            }
-        }
-        else {
-            sort = 'desc';
-        }
-        this.setState(
-            {
-                sortingWay: sort,
-                value: parameter
-            }, () => {
-                this.props.updateRiesgosSort(parameter, sort);
-            }
-        );
+    removeRisk(id) {
+        this.props.removeRisks(id);
     }
 
     render() {
@@ -39,14 +20,12 @@ class RiskTable extends Component {
             <Table hover>
                 <thead>
                     <tr>
-                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('pk_id') }}>ID</button></th>
-                        <th><button className='header-button' id="nameButton" onClick={() => { this.handleSort('name') }}> Nombre</button></th>
-                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('generalType') }}>Tipo General</button></th>
-                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('areaType') }}>Tipo por Área</button></th>
-                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('specType') }}>Tipo Específico</button></th>
-                        <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('probability') }}>Probabilidad</button></th>
-                        <th><button className='header-button' id="stateButton" onClick={() => { this.handleSort('impact') }}>Impacto</button></th>
-                        <th><button className='header-button' id="typeButton" onClick={() => { this.handleSort('affectationLevel') }}>Nivel de Afectación</button></th>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Tipo General</th>
+                        <th>Tipo por Área</th>
+                        <th>Tipo Específico</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,9 +37,7 @@ class RiskTable extends Component {
                                 <td>{risk.generalType}</td>
                                 <td>{risk.areaType}</td>
                                 <td>{risk.specType}</td>
-                                <td>{risk.probability}</td>
-                                <td>{risk.impact}</td>
-                                <td>{risk.affectationLevel}</td>
+                                <td><Button variant="outline-danger" onClick={() => this.removeRisk(risk.id)}>Eliminar</Button></td>
                             </tr>
                         )
                     })}

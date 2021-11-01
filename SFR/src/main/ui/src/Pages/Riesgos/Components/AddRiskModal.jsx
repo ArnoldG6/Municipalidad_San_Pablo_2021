@@ -21,7 +21,7 @@ class AddRiskModal extends Component {
         event.preventDefault();
 
         let options = {
-            url: `http://localhost:8080/SFR/API/PlanManager/insert`,
+            url: `http://localhost:8080/SFR/API/RiskManager/insert`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',
@@ -29,14 +29,15 @@ class AddRiskModal extends Component {
             },
             data: {
                 'name': event.target.name.value,
-                'id': event.target.id.value,
-                'status': event.target.status.value,
-                'authorName': event.target.authorName.value,
-                'type': event.target.type.value,
-                'description': event.target.description.value
+                'probability': event.target.probability.value,
+                'area-type': event.target.areatype.value,
+                'impact': event.target.impact.value,
+                'generalType': event.target.value.value,
+                'description': event.target.factor.value,
+                'specType' : event.target.specific_factor.value
             }
         }
-
+      
         axios(options)
             .then(response => {
                 this.props.updateRiesgos("add-success");
@@ -56,6 +57,10 @@ class AddRiskModal extends Component {
         this.setState({ value: e.target.value })
     }
 
+    numberValidation (e){
+
+        
+    }
 
     render() {
 
@@ -73,24 +78,24 @@ class AddRiskModal extends Component {
                     <Form onSubmit={this.handleSubmit}>
 
                         <div className="form-group">
-                            <label>Nombre: &nbsp;&nbsp;</label>
+                            <label>Nombre: </label>
                             <input name="name" id="name" type="text" placeholder="Nombre" className="form-control" required />
                         </div>
 
                         <div className="form-group">
                             <div className="number-input-container">
                                 <label>Probabilidad: </label>
-                                <input name="probability" id="probability" type="text" placeholder="0.0" className="form-control number-input " required />
+                                <input min="0" max="1" name="probability" id="probability" type="number" placeholder="0.0" className="form-control number-input " required />
                             </div>
                             <div className="number-input-container">
                                 <label>Impacto:</label>
-                                <input name="impact" id="impact" type="text" className="form-control number-input" placeholder="0%" required />
+                                <input min="0" max="10" name="impact" id="impact" type="number" className="form-control number-input" placeholder="0%" required />
                             </div>
                         </div>
 
                         <FormGroup>
                             <label>Tipo de Riesgo:</label>
-                            <FormGroup className="radio-group-type">
+                            <FormGroup className="radio-group-type" name="type">
                                 <FormGroup className="Radio-element">
 
                                     <input
@@ -120,7 +125,7 @@ class AddRiskModal extends Component {
 
                         <div className="form-group">
                             <label>Tipo: </label>
-                            <Form.Select name="area-type" id="area-type" hidden={value === "interno"}>
+                            <Form.Select name="areatype" id="areatype" hidden={value === "interno"}>
                                 <option value="" defaultValue disabled hidden>Seleccione una fuente por área</option>
                                 <option value="political">Político</option>
                                 <option value="legal">Legal</option>
@@ -131,7 +136,7 @@ class AddRiskModal extends Component {
 
                             </Form.Select>
 
-                            <Form.Select name="area-type" id="area-type" hidden={value === "externo"}>
+                            <Form.Select name="areatype" id="areatype" hidden={value === "externo"}>
                                 <option value="stretegic">Estratégicos</option>
                                 <option value="financial">Financieros</option>
                                 <option value="process_development">Desarrollo de los procesos</option>
@@ -143,7 +148,7 @@ class AddRiskModal extends Component {
                         </div>
                         <div className="form-group">
                             <label>Fuente por área específica:</label>
-                            <input name="specific_factor" id="specific_author" type="text" placeholder="" className="form-control" required />
+                            <input name="specific_factor" id="specific_factor" type="text" placeholder="" className="form-control" required />
                         </div>
 
                         <div className="form-group">

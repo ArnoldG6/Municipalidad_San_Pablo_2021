@@ -38,13 +38,10 @@ input:focus:invalid {
 .number-input-container{
     min-width: 75px;   
     float: left;
-    margin-right: -60px;
+    margin-right: 60px;
 }
 
-.number-input{
 
-   width: 50% !important;
-}
 
 .radio-group-type .Radio-element{
     float: left;
@@ -52,7 +49,17 @@ input:focus:invalid {
 }
 
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 
 input[type="radio"] {
     margin-top: -16px;

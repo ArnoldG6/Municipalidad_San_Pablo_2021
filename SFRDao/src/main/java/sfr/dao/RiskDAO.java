@@ -54,8 +54,8 @@ public class RiskDAO extends GenericDAO {
                 return "id";
             case "NAME":
                 return "name";
-            case "DESCRIPTION":
-                return "description";
+            case "FACTORS":
+                return "factors";
             case "GENERALTYPE":
                 return "generalType";
             case "AREATYPE":
@@ -66,8 +66,8 @@ public class RiskDAO extends GenericDAO {
                 return "probability";
             case "IMPACT":
                 return "impact";
-            case "AFFECTATIONLEVEL":
-                return "affectationLevel";
+            case "MAGNITUDE":
+                return "magnitude";
             case "MITIGATIONMEASURES":
                 return "mitigationMeasures";
             default:
@@ -180,10 +180,10 @@ public class RiskDAO extends GenericDAO {
             for (HashMap.Entry<String, Risk> risk : resultHM.entrySet()) {
                 Risk r = risk.getValue();
                 if(p.matcher(r.getId()).find()||p.matcher(r.getName()).find()||
-                   p.matcher(r.getDescription()).find()||p.matcher(r.getGeneralType()).find() ||
+                   p.matcher(r.getFactors()).find()||p.matcher(r.getGeneralType()).find() ||
                    p.matcher(r.getAreaType()).find()||p.matcher(r.getSpecType()).find() || 
                    p.matcher(String.valueOf(r.getProbability())).find()||p.matcher(String.valueOf(r.getImpact())).find() ||
-                   p.matcher(String.valueOf(r.getAffectationLevel())).find()||p.matcher(r.getMitigationMeasures()).find()
+                   p.matcher(String.valueOf(r.getMagnitude())).find()||p.matcher(r.getMitigationMeasures()).find()
                 )
                     result.add(r);
             }

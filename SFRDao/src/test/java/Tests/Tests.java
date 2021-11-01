@@ -25,10 +25,10 @@ public class Tests {
 //            PlanDAO.getInstance().listAll().forEach(p -> {
 //                System.out.printf("%s \n", p.toString());
 //            });
-//            System.out.printf("%s \n", "-----------------------RIESGOS----------------------");
-//            RiskDAO.getInstance().listAll().forEach(r -> {
-//                System.out.printf("%s \n", r.toString());
-//            });
+            System.out.printf("%s \n", "-----------------------RIESGOS----------------------");
+            RiskDAO.getInstance().listAll().forEach(r -> {
+                System.out.printf("%s \n", r.toString());
+            });
 //            System.out.printf("Buscando al riesgo 2:  \n", RiskDAO.getInstance().searchByIdSmall("2"));
 //            System.out.printf("Buscando al riesgo 777:  \n", RiskDAO.getInstance().searchByIdSmall("777"));
 //            System.out.printf("Buscando al riesgo 2:  \n", RiskDAO.getInstance().searchById("2"));
@@ -42,10 +42,10 @@ public class Tests {
 //            System.out.printf("Listando riesgos por columna:  %s\n", RiskDAO.getInstance().listByColumn("PK_ID", "DESC"));
               //System.out.printf("Buscando por nombre:  %s\n", RiskDAO.getInstance().listSearchBy("name", "algo"));
               //System.out.printf("Buscando por nombre:  %s\n", RiskDAO.getInstance().listSearchBy("name", "CAMBIO").toString());
-              System.out.printf("Buscando en todas las columnas:  %s\n", RiskDAO.getInstance().searchInAllColumns("AJIOAJIO"));
-              System.out.printf("Buscando en todas las columnas:  %s\n", RiskDAO.getInstance().searchInAllColumns("25"));
-              System.out.printf("Buscando en todas las columnas:  %s\n", RiskDAO.getInstance().searchInAllColumns("POLITICO"));
-              System.out.printf("Buscando en todas las columnas:  %s\n", RiskDAO.getInstance().searchInAllColumns("AGAIN"));
+              //System.out.printf("Buscando en todas las columnas:  %s\n", RiskDAO.getInstance().searchInAllColumns("AJIOAJIO"));
+              //System.out.printf("Buscando en todas las columnas:  %s\n", RiskDAO.getInstance().searchInAllColumns("25"));
+              //System.out.printf("Buscando en todas las columnas:  %s\n", RiskDAO.getInstance().searchInAllColumns("POLITICO"));
+              //System.out.printf("Buscando en todas las columnas:  %s\n", RiskDAO.getInstance().searchInAllColumns("AGAIN"));
 
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);

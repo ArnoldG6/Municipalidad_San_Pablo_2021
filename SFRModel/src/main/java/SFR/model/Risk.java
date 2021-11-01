@@ -68,7 +68,7 @@ public class Risk implements Serializable {
     public Risk(String name, String desc, String generalType, String areaType, 
             String specificType,Float probability, Integer impact, 
             //Integer affectationLevel,  String mitigationMeasures, List<Plan> plans) {
-            Integer affectationLevel,  String mitigationMeasures) {
+            String mitigationMeasures) {
         this.name = name;
         this.description = desc;
         this.generalType = generalType;
@@ -76,7 +76,7 @@ public class Risk implements Serializable {
         this.areaType = areaType;
         this.probability = probability;
         this.impact = impact;
-        this.affectationLevel = affectationLevel;
+        this.affectationLevel = (int)(probability*impact);
         this.mitigationMeasures = mitigationMeasures;
         //this.plans = plans;
         

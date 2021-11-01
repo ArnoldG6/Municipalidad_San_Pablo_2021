@@ -17,7 +17,7 @@ class EditPlanModal extends Component {
         event.preventDefault();
 
         let options = {
-            url: `http://localhost:8080/SFR/API/PlanManager/insert`,
+            url: `http://localhost:8080/SFR/API/PlanManager/edit`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',
@@ -37,15 +37,7 @@ class EditPlanModal extends Component {
             .then(response => {
                 this.props.updatePlanes("add-success");
                 this.props.closeModal();
-            }).catch(error => {
-                toast.error("ID del plan ya se encuentra registrado en el sistema.", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    pauseOnHover: true,
-                    theme: 'colored',
-                    autoClose: 10000
-                });
             });
-
     }
 
     render() {
@@ -54,7 +46,7 @@ class EditPlanModal extends Component {
 
         let name = this.props.name;
         let typePlan = "";
-        switch(this.props.type) {
+        switch (this.props.type) {
             case 'PROYECTO':
                 typePlan = 'Proyecto';
                 break;
@@ -79,12 +71,12 @@ class EditPlanModal extends Component {
                         </div>
                         <div className="form-group">
                             <label>ID:</label>
-                            <input name="id" id="id " type="text" className="form-control" placeholder="ID" defaultValue={id} required />
+                            <input name="id" id="id " type="text" className="form-control" placeholder="ID" defaultValue={id} disabled />
                         </div>
                         <div className="form-group">
                             <label>Estado: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             <Form.Select name="status" id="status" defaultValue={status}>
-                                
+
                                 <option value="Activo">Activo</option>
                                 <option value="Inactivo">Inactivo</option>
                                 <option value="Completo">Completo</option>
@@ -97,7 +89,7 @@ class EditPlanModal extends Component {
                         <div className="form-group">
                             <label>Tipo: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             <Form.Select name="type" id="type" defaultValue={typePlan}>
-                                
+
                                 <option value="Proceso">Proceso</option>
                                 <option value="Proyecto">Proyecto</option>
                             </Form.Select>

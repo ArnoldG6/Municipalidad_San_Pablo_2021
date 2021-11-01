@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import './TopButtons.css';
 import EditPlanModal from './EditPlanModal';
+import DeletePlanModal from './DeletePlanModal';
 import { Stack, Button } from "react-bootstrap";
-import { toast } from 'react-toastify';
+//import { toast } from 'react-toastify';
 
 class TopButtons extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            show: false
+            show: false,
+            showDel: false
         };
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
-        this.updatePlan = this.updatePlan.bind(this);
+        this.openModalDelete = this.openModalDelete.bind(this);
+        this.closeModalDelete = this.closeModalDelete.bind(this);
     }
     
     openModal = () => {
@@ -24,15 +27,12 @@ class TopButtons extends Component {
         this.setState({ show: false });
     };
 
-    updatePlan(type) {
-        if (type === "add-success") {
-            toast.success("El Plan ha sido editado satisfactoriamente!", {
-                position: toast.POSITION.TOP_RIGHT,
-                pauseOnHover: true,
-                theme: 'colored',
-                autoClose: 10000
-            });
-        }
+    openModalDelete = () => {
+        this.setState({ showDel: true });
+    };
+
+    closeModalDelete = () => {
+        this.setState({ showDel: false });
     };
 
     render() {
@@ -59,6 +59,7 @@ class TopButtons extends Component {
         return (
             <Stack className="mt-4" direction="horizontal" gap={3}>
                 <Button id="menu-button" onClick={this.openModal} >Editar Plan</Button>{' '}
+                <Button id="menu-button" onClick={this.openModalDelete} >Eliminar Plan</Button>{' '}
                 <Button id="menu-button"  >Agregar involucrados</Button>{' '}
                 <Button variant="warning">Matriz de riesgos</Button>{' '}
                 <Button className="ms-auto" variant="light">Generar reporte</Button>{' '}
@@ -66,6 +67,7 @@ class TopButtons extends Component {
                 <Button className={statusClass} variant="success">{this.props.status}</Button>{' '}
                 <EditPlanModal name={name} type={type} id={id} authorName={authorName}
                 description={description} status={this.props.status} show={this.state.show} closeModal={this.closeModal} />
+                <DeletePlanModal showDel={this.state.showDel} closeModalDelete={this.closeModalDelete} />
             </Stack>
         );
     }

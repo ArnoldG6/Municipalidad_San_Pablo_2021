@@ -17,7 +17,7 @@ class DeletePlanModal extends Component {
         event.preventDefault();
         let options = {
             url: `http://localhost:8080/SFR/API/PlanManager/delete`,
-            method: 'POST',
+            method: 'DELETE',
             header: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ class DeletePlanModal extends Component {
         axios(options)
             .then(response => {
                 this.props.updatePlanes("add-success");
-                this.props.closeModal();
+                this.props.closeModalDelete();
             }).catch(error => {
                 toast.error("No se ha podido eliminar el plan.", {
                     position: toast.POSITION.TOP_RIGHT,
@@ -45,13 +45,9 @@ class DeletePlanModal extends Component {
             });
     }
 
-    handleOnClick = (event) => {
-        this.props.closeModal();
-    }
-
     render() {
-        let render = this.props.show
-        let closeModal = this.props.closeModal
+        let render = this.props.showDel
+        let closeModal = this.props.closeModalDelete
         return (
             <Modal show={render} onHide={closeModal} >
                 <Modal.Header closeButton>
@@ -65,7 +61,7 @@ class DeletePlanModal extends Component {
                     <Button className='btn-sfr' type="submit" id="submit-button-delete-item">
                         Aceptar
                     </Button>
-                    <Button className='btn-sfr' type="button" id="cancel-button" onClick={this.handleOnClick}>
+                    <Button className='btn-sfr' type="button" id="cancel-button" onClick={closeModal}>
                         Cancelar
                     </Button>
                 </Modal.Body>

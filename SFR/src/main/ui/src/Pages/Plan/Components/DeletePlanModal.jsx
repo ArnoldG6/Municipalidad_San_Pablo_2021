@@ -33,16 +33,9 @@ class DeletePlanModal extends Component {
         }
         axios(options)
             .then(response => {
-                this.props.updatePlanes("add-success");
+                //this.props.updatePlanes("add-success");
                 this.props.closeModalDelete();
-            }).catch(error => {
-                toast.error("No se ha podido eliminar el plan.", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    pauseOnHover: true,
-                    theme: 'colored',
-                    autoClose: 10000
-                });
-            });
+            })
     }
 
     render() {

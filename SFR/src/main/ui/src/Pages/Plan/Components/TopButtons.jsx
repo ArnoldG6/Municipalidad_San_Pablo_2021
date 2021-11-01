@@ -42,6 +42,7 @@ class TopButtons extends Component {
         let id = this.props.id;
         let authorName = this.props.authorName;
         let description = this.props.description;
+        let entryDate = this.props.entryDate;
         switch (this.props.status) {
             case 'Activo':
                 statusClass = 'in-progress';
@@ -66,7 +67,7 @@ class TopButtons extends Component {
                 <div className="vr" />
                 <Button className={statusClass} variant="success">{this.props.status}</Button>{' '}
                 <EditPlanModal name={name} type={type} id={id} authorName={authorName}
-                description={description} status={this.props.status} show={this.state.show} closeModal={this.closeModal} />
+                description={description} status={this.props.status} entryDate={entryDate} show={this.state.show} closeModal={this.closeModal} />
                 <DeletePlanModal showDel={this.state.showDel} closeModalDelete={this.closeModalDelete} />
             </Stack>
         );

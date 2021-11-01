@@ -18,7 +18,7 @@ class EditPlanModal extends Component {
 
         let options = {
             url: `http://localhost:8080/SFR/API/PlanManager/edit`,
-            method: 'POST',
+            method: 'PUT',
             header: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -35,8 +35,11 @@ class EditPlanModal extends Component {
 
         axios(options)
             .then(response => { 
+                window.location.reload(false);
                 this.props.closeModal();
-            })
+            }).catch(error => {
+                console.log(error);
+            });
     }
 
     render() {
@@ -50,6 +53,12 @@ class EditPlanModal extends Component {
                 typePlan = 'Proyecto';
                 break;
             case 'PROCESO':
+                typePlan = 'Proceso';
+                break;
+            case 'Proyecto':
+                typePlan = 'Proyecto';
+                break;
+            case 'Proceso':
                 typePlan = 'Proceso';
                 break;
             default:

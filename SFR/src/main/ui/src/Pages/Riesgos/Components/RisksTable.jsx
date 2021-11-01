@@ -48,7 +48,7 @@ class RisksTable extends Component {
                         <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('specType') }}>Tipo Específico</button></th>
                         <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('probability') }}>Probabilidad</button></th>
                         <th><button className='header-button' id="stateButton" onClick={() => { this.handleSort('impact') }}>Impacto</button></th>
-                        <th><button className='header-button' id="typeButton" onClick={() => { this.handleSort('affectationLevel') }}>Magnitud</button></th>
+                        <th><button className='header-button' id="typeButton" onClick={() => { this.handleSort('magnitude') }}>Magnitud</button></th>
 
 
                     </tr>

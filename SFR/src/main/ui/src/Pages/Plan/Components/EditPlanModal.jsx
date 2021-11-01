@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../Plan.css'
 import { Modal, Button, Form } from "react-bootstrap";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 class EditPlanModal extends Component {
@@ -18,7 +18,7 @@ class EditPlanModal extends Component {
 
         let options = {
             url: `http://localhost:8080/SFR/API/PlanManager/edit`,
-            method: 'POST',
+            method: 'PUT',
             header: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -37,6 +37,13 @@ class EditPlanModal extends Component {
             .then(response => {
                 this.props.updatePlanes("add-success");
                 this.props.closeModal();
+            }).catch(error => {
+                toast.error("ID del plan ya se encuentra registrado en el sistema.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 10000
+                });
             });
     }
 
@@ -53,6 +60,9 @@ class EditPlanModal extends Component {
             case 'PROCESO':
                 typePlan = 'Proceso';
                 break;
+            default:
+            typePlan = 'unknown';
+                break;        
         }
         let id = this.props.id;
         let authorName = this.props.authorName;

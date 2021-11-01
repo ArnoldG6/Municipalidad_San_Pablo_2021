@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './TopButtons.css';
 import EditPlanModal from './EditPlanModal';
 import { Stack, Button } from "react-bootstrap";
+import { toast } from 'react-toastify';
 
 class TopButtons extends Component {
 
@@ -12,6 +13,7 @@ class TopButtons extends Component {
         };
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.updatePlan = this.updatePlan.bind(this);
     }
     
     openModal = () => {
@@ -21,6 +23,18 @@ class TopButtons extends Component {
     closeModal = () => {
         this.setState({ show: false });
     };
+
+    updatePlan(type) {
+        if (type === "add-success") {
+            toast.success("El Plan ha sido editado satisfactoriamente!", {
+                position: toast.POSITION.TOP_RIGHT,
+                pauseOnHover: true,
+                theme: 'colored',
+                autoClose: 10000
+            });
+        }
+    };
+
     render() {
         let statusClass = "";
         let name = this.props.name;

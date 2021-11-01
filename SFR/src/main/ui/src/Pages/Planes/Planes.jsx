@@ -25,7 +25,7 @@ class Planes extends Component {
     //On load
     componentDidMount() {
         let options = {
-            url: "http://localhost:8080/SFR/API/PlanServlet",
+            url: process.env.REACT_APP_API_URL + "/PlanServlet",
             method: "GET",
             header: {
                 'Accept': 'application/json',
@@ -50,7 +50,7 @@ class Planes extends Component {
             });
         }
         let options = {
-            url: "http://localhost:8080/SFR/API/PlanServlet",
+            url: process.env.REACT_APP_API_URL + "/PlanServlet",
             method: "GET",
             header: {
                 'Accept': 'application/json',
@@ -83,7 +83,7 @@ class Planes extends Component {
 
         let options = {
             /*cambiar el link*/
-            url: "http://localhost:8080/SFR/API/RetrievePlans",
+            url: process.env.REACT_APP_API_URL + "/RetrievePlans",
             method: "POST",
             header: {
                 'Accept': 'application/json',

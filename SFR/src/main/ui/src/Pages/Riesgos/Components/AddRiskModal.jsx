@@ -22,7 +22,7 @@ class AddRiskModal extends Component {
         event.preventDefault();
 
         let options = {
-            url: `http://localhost:8080/SFR/API/RiskManager/insert`,
+            url: process.env.REACT_APP_API_URL + `/RiskManager/insert`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',

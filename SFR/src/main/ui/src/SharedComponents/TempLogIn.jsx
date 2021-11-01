@@ -16,7 +16,7 @@ class TempLogIn extends Component {
     buttonLogin(type) {
 
         let options = {
-            url: "http://localhost:8080/SFR/API/LoginManager/test",
+            url: process.env.REACT_APP_API_URL + "/LoginManager/test",
             method: "POST",
             header: {
                 'Accept': 'application/json',

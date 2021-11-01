@@ -30,11 +30,11 @@ class AddRiskModal extends Component {
             },
             data: {
                 'name': event.target.name.value,
-                'probability': event.target.probability.value,
-                'area-type': this.state.area,
-                'impact': event.target.impact.value,
+                'probability': parseFloat(event.target.probability.value),
+                'areaType': this.state.area,
+                'impact': parseInt(event.target.impact.value),
                 'generalType': this.state.value,
-                'description': event.target.factor.value,
+                'factors': event.target.factor.value,
                 'specType' : event.target.specific_factor.value                   
             }
         }

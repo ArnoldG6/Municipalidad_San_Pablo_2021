@@ -27,6 +27,10 @@ class Plan extends Component {
         this.removeRisks = this.removeRisks.bind(this);
     }
 
+    refreshPage(){
+        window.location.reload(false);
+    }
+
     componentDidMount() {
         let query = new URLSearchParams(this.props.location.search);
 
@@ -115,7 +119,8 @@ class Plan extends Component {
                     {/* Botones de uso en el Plan */}
                     <Row>
                         <TopButtons name={this.state.name} type={this.state.type} id={this.state.id}
-                        authorName={this.state.authorName} description={this.state.description} status={this.state.status} entryDate={this.state.entryDate} />
+                        authorName={this.state.authorName} description={this.state.description} status={this.state.status} 
+                        entryDate={this.state.entryDate} riskList={this.state.riskList} refreshPage={this.refreshPage} />
                     </Row>
 
                     {/* Datos del Plan */}

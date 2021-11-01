@@ -29,13 +29,15 @@ class EditPlanModal extends Component {
                 'status': event.target.status.value,
                 'authorName': event.target.authorName.value,
                 'type': event.target.type.value,
-                'description': event.target.description.value
+                'description': event.target.description.value,
+                'riskList': this.props.riskList,
+                'entryDate': this.props.entryDate,
             }
         }
 
         axios(options)
             .then(response => { 
-                window.location.reload(false);
+                this.props.refreshPage();
                 this.props.closeModal();
             }).catch(error => {
                 console.log(error);
@@ -45,7 +47,6 @@ class EditPlanModal extends Component {
     render() {
         let render = this.props.show
         let closeModal = this.props.closeModal
-
         let name = this.props.name;
         let typePlan = "";
         switch (this.props.type) {

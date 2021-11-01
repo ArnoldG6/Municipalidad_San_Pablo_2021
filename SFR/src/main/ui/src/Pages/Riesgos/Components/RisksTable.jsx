@@ -83,7 +83,7 @@ class RisksTable extends Component {
                                 <td>{risk.specType}</td>
                                 <td>{risk.probability}</td>
                                 <td>{risk.impact}</td>
-                                <td>{risk.affectationLevel}</td>
+                                <td>{risk.magnitude}</td>
                             </tr>
                         )
                     })}

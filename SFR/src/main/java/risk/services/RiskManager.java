@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package risk.services;
-
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -36,12 +35,13 @@ public class RiskManager extends HttpServlet {
         try {
             switch (request.getServletPath()) {
                 case "/API/RiskManager/insert":
-                    String algo = request.getReader().lines().collect(Collectors.joining());
+                    String riskData = request.getReader().lines().collect(Collectors.joining());
                     Gson gson = new Gson();
-                    Risk newRisk = gson.fromJson(algo, Risk.class);
-                    Risk riskExist = RiskDAO.getInstance().searchByIdSmall(newRisk.getId());
-                    if (riskExist != null) {
-                        throw new IOException();
+                    System.out.println(riskData);
+                    Risk newRisk = gson.fromJson(riskData, Risk.class);
+                    Risk planExist = RiskDAO.getInstance().searchByIdSmall(newRisk.getId());
+                    if (planExist != null) {
+                        throw new IOException("El riesgo que se insertó ya existe");
                     }
                     RiskDAO.getInstance().add(newRisk);
                     break;

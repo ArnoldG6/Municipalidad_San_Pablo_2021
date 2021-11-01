@@ -1,13 +1,10 @@
 package sfr.model;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -19,7 +16,8 @@ import javax.persistence.Table;
 public class Risk implements Serializable {
     @Id
     @Column(name = "PK_ID")
-    private String id;
+    @GeneratedValue(generator = "increment")
+    private int id;
     @Column(name = "Name")
     private String name;
     @Column(name = "Factors")
@@ -51,14 +49,16 @@ public class Risk implements Serializable {
 
     }
 
-    public Risk(String id) {
+    public Risk(int id) {
         this.id = id;
     }
     
-    public Risk(String name, String desc, String generalType, String areaType, 
-            String specificType,Float probability, Integer impact, 
+    public Risk(int id, String name, String desc, String generalType, String areaType, 
+            String specificType,Float probability, Integer impact) 
             //Integer affectationLevel,  String mitigationMeasures, List<Plan> plans) {
-            String mitigationMeasures) {
+            //String mitigationMeasures) {
+            {
+        this.id = id;
         this.name = name;
         this.factors = desc;
         this.generalType = generalType;
@@ -67,16 +67,18 @@ public class Risk implements Serializable {
         this.probability = probability;
         this.impact = impact;
         this.magnitude = (int)(probability*impact);
-        this.mitigationMeasures = mitigationMeasures;
+        //this.mitigationMeasures = mitigationMeasures;
         //this.plans = plans;
         
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
-
-    public void setId(String id) {
+    public void updateMagnitude(){
+        this.setMagnitude((int)(probability*impact));
+    }
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -172,8 +174,9 @@ public class Risk implements Serializable {
         sb.append("\"areaType\": \"").append(areaType).append("\", \n");
         sb.append("\"probability\": ").append(probability).append(", \n");
         sb.append("\"impact\": ").append(impact).append(", \n");
-        sb.append("\"magnitude\": ").append(magnitude).append(", \n");
-        sb.append("\"mitigationMeasures\": \"").append(mitigationMeasures).append("\" \n");
+        sb.append("\"magnitude\": ").append(magnitude).append("\n");
+        //sb.append("\"magnitude\": ").append(magnitude).append(", \n");
+        //sb.append("\"mitigationMeasures\": \"").append(mitigationMeasures).append("\" \n");
         //sb.append("\"mitigationMeasures\": \"").append(mitigationMeasures).append("\", \n");
         //sb.append("\"plans: \"").append(plans).append("\n");
         sb.append("} \n");

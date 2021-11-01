@@ -90,8 +90,8 @@ public class RiskDAO extends GenericDAO {
         }
     }
 
-    public HashMap<String, Risk> listAllHM() {
-        HashMap<String, Risk> Risks = new HashMap<>();
+    public HashMap<Integer, Risk> listAllHM() {
+        HashMap<Integer, Risk> Risks = new HashMap<>();
         List<Risk> RisksList = this.listAll();
         RisksList.forEach(p -> {
             Risks.put(p.getId(), p);
@@ -142,7 +142,7 @@ public class RiskDAO extends GenericDAO {
         }
     }
 
-    public Risk searchByIdSmall(String id) {
+    public Risk searchByIdSmall(int id) {
         em = getEntityManager();
         return (Risk) em.find(Risk.class, id);
     }
@@ -174,12 +174,12 @@ public class RiskDAO extends GenericDAO {
 
     public List<Risk> searchInAllColumns(String value) {
         try {
-            HashMap<String, Risk> resultHM = this.listAllHM();
+            HashMap<Integer, Risk> resultHM = this.listAllHM();
             Pattern p = Pattern.compile(value, Pattern.CASE_INSENSITIVE);
             ArrayList<Risk> result = new ArrayList<>();
-            for (HashMap.Entry<String, Risk> risk : resultHM.entrySet()) {
+            for (HashMap.Entry<Integer, Risk> risk : resultHM.entrySet()) {
                 Risk r = risk.getValue();
-                if(p.matcher(r.getId()).find()||p.matcher(r.getName()).find()||
+                if(p.matcher(String.valueOf(r.getId())).find()||p.matcher(r.getName()).find()||
                    p.matcher(r.getFactors()).find()||p.matcher(r.getGeneralType()).find() ||
                    p.matcher(r.getAreaType()).find()||p.matcher(r.getSpecType()).find() || 
                    p.matcher(String.valueOf(r.getProbability())).find()||p.matcher(String.valueOf(r.getImpact())).find() ||

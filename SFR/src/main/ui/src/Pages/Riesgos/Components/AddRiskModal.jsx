@@ -11,7 +11,8 @@ class AddRiskModal extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
         this.state = {
-            value: "externo"
+            value: "externo",
+            area: "Politico"
         };
     }
 
@@ -30,11 +31,11 @@ class AddRiskModal extends Component {
             data: {
                 'name': event.target.name.value,
                 'probability': event.target.probability.value,
-                'area-type': event.target.areatype.value,
+                'area-type': this.state.area,
                 'impact': event.target.impact.value,
-                'generalType': event.target.value.value,
+                'generalType': this.state.value,
                 'description': event.target.factor.value,
-                'specType' : event.target.specific_factor.value
+                'specType' : event.target.specific_factor.value                   
             }
         }
       
@@ -57,9 +58,8 @@ class AddRiskModal extends Component {
         this.setState({ value: e.target.value })
     }
 
-    numberValidation (e){
-
-        
+    handleAreaType = e =>{
+        this.setState({area: e.target.value})
     }
 
     render() {
@@ -125,7 +125,7 @@ class AddRiskModal extends Component {
 
                         <div className="form-group">
                             <label>Tipo: </label>
-                            <Form.Select name="areatype" id="areatype" hidden={value === "interno"}>
+                            <Form.Select name="areatype" id="areatype" hidden={value === "interno"} onChange={this.handleAreaType}>
                                 <option value="" defaultValue disabled hidden>Seleccione una fuente por área</option>
                                 <option value="political">Político</option>
                                 <option value="legal">Legal</option>
@@ -136,7 +136,7 @@ class AddRiskModal extends Component {
 
                             </Form.Select>
 
-                            <Form.Select name="areatype" id="areatype" hidden={value === "externo"}>
+                            <Form.Select name="areatype" id="areatype" hidden={value === "externo"} onChange={this.handleAreaType}>
                                 <option value="stretegic">Estratégicos</option>
                                 <option value="financial">Financieros</option>
                                 <option value="process_development">Desarrollo de los procesos</option>

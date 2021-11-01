@@ -85,7 +85,7 @@ class AddRiskModal extends Component {
                         <div className="form-group">
                             <div className="number-input-container">
                                 <label>Probabilidad: </label>
-                                <input min="0" max="1" name="probability" id="probability" type="number" placeholder="0.0" className="form-control number-input " required />
+                                <input step=".1" min="0" max="1" name="probability" id="probability" type="number" placeholder="0.0" className="form-control number-input " required />
                             </div>
                             <div className="number-input-container">
                                 <label>Impacto:</label>

@@ -37,7 +37,11 @@ class RiskTable extends Component {
                                 <td>{risk.generalType}</td>
                                 <td>{risk.areaType}</td>
                                 <td>{risk.specType}</td>
-                                <td><Button variant="outline-danger" onClick={() => this.removeRisk(risk.id)}>Eliminar</Button></td>
+                                <td>
+                                    <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
+                                        onClick={() => this.removeRisk(risk.id)}
+                                        disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>Eliminar</Button>
+                                </td>
                             </tr>
                         )
                     })}

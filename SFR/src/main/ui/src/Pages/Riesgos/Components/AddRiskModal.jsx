@@ -9,12 +9,12 @@ class AddRiskModal extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
-        
+
         this.state = {
-            value:"externo"
+            value: "externo"
         };
     }
-    
+
     //closeModal() { }
 
     handleSubmit = (event) => {
@@ -52,14 +52,14 @@ class AddRiskModal extends Component {
 
     }
 
-    onChange = e =>{
-        this.setState({value: e.target.value})
+    onChange = e => {
+        this.setState({ value: e.target.value })
     }
-    
+
 
     render() {
-        
-        const{value} = this.state;
+
+        const { value } = this.state;
 
 
         let render = this.props.show
@@ -71,6 +71,11 @@ class AddRiskModal extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={this.handleSubmit}>
+
+                        <div className="form-group">
+                            <label>Nombre: &nbsp;&nbsp;</label>
+                            <input name="name" id="name" type="text" placeholder="Nombre" className="form-control" required />
+                        </div>
 
                         <div className="form-group">
                             <div className="number-input-container">
@@ -85,26 +90,26 @@ class AddRiskModal extends Component {
 
                         <FormGroup>
                             <label>Tipo de Riesgo:</label>
-                            <FormGroup  className="radio-group-type">
+                            <FormGroup className="radio-group-type">
                                 <FormGroup className="Radio-element">
-                                    
+
                                     <input
-                                    id="risktype1"
-                                    type="radio"
-                                    value="externo"
-                                    checked={value === "externo"}
-                                    onChange={this.onChange}
+                                        id="risktype1"
+                                        type="radio"
+                                        value="externo"
+                                        checked={value === "externo"}
+                                        onChange={this.onChange}
                                     />
                                     <label for="risktype1">Externo</label>
                                 </FormGroup>
                                 <FormGroup className="Radio-element">
-                                    
+
                                     <input
-                                    id="risktype2"
-                                    type="radio"
-                                    value="interno"
-                                    checked={value === "interno"}
-                                    onChange={this.onChange}
+                                        id="risktype2"
+                                        type="radio"
+                                        value="interno"
+                                        checked={value === "interno"}
+                                        onChange={this.onChange}
                                     />
                                     <label for="risktype2">Interno</label>
                                 </FormGroup>
@@ -112,10 +117,10 @@ class AddRiskModal extends Component {
 
                         </FormGroup>
 
-  
+
                         <div className="form-group">
                             <label>Tipo: </label>
-                            <Form.Select name="external-area-type" id="external-area-type" show={value === "externo"} onChange={this.onChange}>
+                            <Form.Select name="area-type" id="area-type" hidden={value === "interno"}>
                                 <option value="" defaultValue disabled hidden>Seleccione una fuente por área</option>
                                 <option value="political">Político</option>
                                 <option value="legal">Legal</option>
@@ -123,12 +128,27 @@ class AddRiskModal extends Component {
                                 <option value="it">Tecnologías de la información</option>
                                 <option value="natural-events">Eventos naturales</option>
                                 <option value="environmental">Ambiental</option>
-                                
+
+                            </Form.Select>
+
+                            <Form.Select name="area-type" id="area-type" hidden={value === "externo"}>
+                                <option value="stretegic">Estratégicos</option>
+                                <option value="financial">Financieros</option>
+                                <option value="process_development">Desarrollo de los procesos</option>
+                                <option value="tecnological_information">Tecnológicos y de información</option>
+                                <option value="substantive_process_management">Gestión de procesos sustantivos</option>
+                                <option value="municipal_official">Funcionario municipal</option>
+
                             </Form.Select>
                         </div>
                         <div className="form-group">
-                            <label>Descripción:</label>
-                            <textarea name="description" id="description" type="text" placeholder="Descripción" className="form-control" />
+                            <label>Fuente por área específica:</label>
+                            <input name="specific_factor" id="specific_author" type="text" placeholder="" className="form-control" required />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Factores:</label>
+                            <textarea name="factor" id="factor" type="text" placeholder="¿Por qué puede suceder?" className="form-control" />
                         </div>
                         <Button id="submitRiskBtn" className='btn-sfr' type="submit" >
                             Guardar

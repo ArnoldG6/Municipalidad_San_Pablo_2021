@@ -25,7 +25,7 @@ class Riesgos extends Component {
     //On load
     componentDidMount() {
         let options = {
-            url: "http://localhost:8080/SFR/API/RiskServlet",
+            url: process.env.REACT_APP_API_URL + "/RiskServlet",
             method: "GET",
             header: {
                 'Accept': 'application/json',
@@ -50,7 +50,7 @@ class Riesgos extends Component {
             });
         }
         let options = {
-            url: "http://localhost:8080/SFR/API/RiskServlet",
+            url: process.env.REACT_APP_API_URL + "/RiskServlet",
             method: "GET",
             header: {
                 'Accept': 'application/json',
@@ -83,7 +83,7 @@ class Riesgos extends Component {
 
         let options = {
             /*cambiar el link*/
-            url: "http://localhost:8080/SFR/API/RetrieveRisks",
+            url: process.env.REACT_APP_API_URL + "/RetrieveRisks",
             method: "POST",
             header: {
                 'Accept': 'application/json',

@@ -18,7 +18,7 @@ class Search extends Component {
         event.preventDefault();
 
         let options = {
-            url: `http://localhost:8080/SFR/API/RiskSearch`,
+            url: process.env.REACT_APP_API_URL + `/RiskSearch`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',

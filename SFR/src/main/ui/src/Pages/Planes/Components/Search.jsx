@@ -18,7 +18,7 @@ class Search extends Component {
         event.preventDefault();
 
         let options = {
-            url: `http://localhost:8080/SFR/API/PlanSearch`,
+            url: process.env.REACT_APP_API_URL + `/PlanSearch`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',

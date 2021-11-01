@@ -18,7 +18,7 @@ class AddPlanModal extends Component {
         event.preventDefault();
 
         let options = {
-            url: `http://localhost:8080/SFR/API/PlanManager/insert`,
+            url: process.env.REACT_APP_API_URL + `/PlanManager/insert`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',

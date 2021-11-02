@@ -183,7 +183,8 @@ public class RiskDAO extends GenericDAO {
                    p.matcher(r.getFactors()).find()||p.matcher(r.getGeneralType()).find() ||
                    p.matcher(r.getAreaType()).find()||p.matcher(r.getSpecType()).find() || 
                    p.matcher(String.valueOf(r.getProbability())).find()||p.matcher(String.valueOf(r.getImpact())).find() ||
-                   p.matcher(String.valueOf(r.getMagnitude())).find()||p.matcher(r.getMitigationMeasures()).find()
+                  // p.matcher(String.valueOf(r.getMagnitude())).find()||p.matcher(r.getMitigationMeasures()).find()
+                   p.matcher(String.valueOf(r.getMagnitude())).find()
                 )
                     result.add(r);
             }

@@ -67,7 +67,7 @@ public class Risk implements Serializable {
         this.probability = probability;
         this.impact = impact;
         this.magnitude = (int)(probability*impact);
-        //this.mitigationMeasures = mitigationMeasures;
+        this.mitigationMeasures = "";
         //this.plans = plans;
         
     }

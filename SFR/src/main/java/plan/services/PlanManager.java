@@ -60,9 +60,10 @@ public class PlanManager extends HttpServlet {
                     PlanDAO.getInstance().update(editPlan);
                     break;
                 case "/API/PlanManager/delete":
-                    String objetoEliminado  = request.getReader().lines().collect(Collectors.joining());
+                    String idObject  = request.getReader().lines().collect(Collectors.joining());
                     Gson gsonDelete = new Gson();
-                    Plan deletePlan = gsonDelete.fromJson(objetoEliminado, Plan.class);
+                    String id = gsonDelete.fromJson(idObject, String.class);
+                    Plan deletePlan = PlanDAO.getInstance().searchById(id);
                     PlanDAO.getInstance().delete(deletePlan);
                     break;
                 case "/API/PlanManager/deleteRisk":

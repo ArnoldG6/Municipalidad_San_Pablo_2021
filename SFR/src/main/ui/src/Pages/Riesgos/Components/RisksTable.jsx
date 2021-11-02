@@ -84,7 +84,7 @@ class RisksTable extends Component {
                                 <td>{risk.impact}</td>
                                 <td>{risk.magnitude}</td>
                                 <td><Button>Editar</Button></td>
-                                <td><Button>Eliminar</Button></td>
+                                <td><Button onClick={() => {this.props.openModalDelete(risk.id)}}>Eliminar</Button></td>
                             </tr>
                         )
                     })}

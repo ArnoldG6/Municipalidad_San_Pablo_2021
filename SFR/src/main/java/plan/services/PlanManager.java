@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 import sfr.dao.PlanDAO;
 import sfr.model.Plan;
@@ -27,8 +28,8 @@ import sfr.model.Risk;
  * @author arnol
  */
 @WebServlet(name = "PlanManager", urlPatterns = {
-    "/API/PlanManager/insert", 
-    "/API/PlanManager/edit", 
+    "/API/PlanManager/insert",
+    "/API/PlanManager/edit",
     "/API/PlanManager/delete",
     "/API/PlanManager/deleteRisk"})
 public class PlanManager extends HttpServlet {
@@ -60,24 +61,27 @@ public class PlanManager extends HttpServlet {
                     PlanDAO.getInstance().update(editPlan);
                     break;
                 case "/API/PlanManager/delete":
-                    String idObject  = request.getReader().lines().collect(Collectors.joining());
+                    String idObject = request.getReader().lines().collect(Collectors.joining());
                     JSONObject jsonObjDelete = new JSONObject(idObject);
                     String id = jsonObjDelete.getString("id");
                     Plan toDelete = new Plan(id);
                     PlanDAO.getInstance().delete(toDelete);
                     break;
                 case "/API/PlanManager/deleteRisk":
-                    response.setContentType("application/json");
-                    response.setCharacterEncoding("UTF-8");
-                    String requestData = request.getReader().lines().collect(Collectors.joining());
-                    JSONObject jsonObj = new JSONObject(requestData);
-                    String planId = jsonObj.getString("planID");
-                    String riskId = jsonObj.getString("riskID");
-                    Plan p = PlanDAO.getInstance().searchByIdSmall(planId);
-                    List<Risk> riskList = p.getRiskList();
-                    riskList.removeIf(r -> (String.valueOf(r.getId()).equals(riskId)));
-                    p.setRiskList(riskList);
-                    PlanDAO.getInstance().update(p);
+                    HttpSession session = request.getSession(true);
+                    if (session.getAttribute("userRol").equals("SUPER_ADMIN") || session.getAttribute("userRol").equals("ADMIN")) {
+                        response.setContentType("application/json");
+                        response.setCharacterEncoding("UTF-8");
+                        String requestData = request.getReader().lines().collect(Collectors.joining());
+                        JSONObject jsonObj = new JSONObject(requestData);
+                        String planId = jsonObj.getString("planID");
+                        String riskId = jsonObj.getString("riskID");
+                        Plan p = PlanDAO.getInstance().searchByIdSmall(planId);
+                        List<Risk> riskList = p.getRiskList();
+                        riskList.removeIf(r -> (String.valueOf(r.getId()).equals(riskId)));
+                        p.setRiskList(riskList);
+                        PlanDAO.getInstance().update(p);
+                    }
                     break;
 
             }
@@ -89,7 +93,7 @@ public class PlanManager extends HttpServlet {
         }
 
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -130,7 +134,7 @@ public class PlanManager extends HttpServlet {
             Logger.getLogger(PlanServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -140,6 +144,7 @@ public class PlanManager extends HttpServlet {
             Logger.getLogger(PlanServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /**
      * Returns a short description of the servlet.
      *

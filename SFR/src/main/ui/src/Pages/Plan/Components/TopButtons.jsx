@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './TopButtons.css';
 import EditPlanModal from './EditPlanModal';
-import DeletePlanModal from './DeletePlanModal';
 import { Stack, Button } from "react-bootstrap";
+import GenericModal from '../../../SharedComponents/GenericModal/GenericModal';
 //import { toast } from 'react-toastify';
 
 class TopButtons extends Component {
@@ -18,7 +18,7 @@ class TopButtons extends Component {
         this.openModalDelete = this.openModalDelete.bind(this);
         this.closeModalDelete = this.closeModalDelete.bind(this);
     }
-    
+
     openModal = () => {
         this.setState({ show: true });
     };
@@ -67,8 +67,13 @@ class TopButtons extends Component {
                 <div className="vr" />
                 <Button className={statusClass} variant="success">{this.props.status}</Button>{' '}
                 <EditPlanModal name={name} type={type} id={id} authorName={authorName}
-                description={description} status={this.props.status} entryDate={entryDate} show={this.state.show} closeModal={this.closeModal} />
-                <DeletePlanModal showDel={this.state.showDel} closeModalDelete={this.closeModalDelete} />
+                    description={description} status={this.props.status} entryDate={entryDate} show={this.state.show} closeModal={this.closeModal} />
+                <GenericModal
+                    show={this.state.showDel}
+                    close={this.closeModalDelete}
+                    action={this.props.deletePlan}
+                    header={"Eliminar Plan"}
+                    body={"¿Desea eliminar este plan? Una vez eliminado no se podra recuperar el plan seleccionado"} />
             </Stack>
         );
     }

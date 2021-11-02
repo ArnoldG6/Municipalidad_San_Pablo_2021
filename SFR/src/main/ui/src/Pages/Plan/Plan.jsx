@@ -25,13 +25,14 @@ class Plan extends Component {
         this.tableAssign = this.tableAssign.bind(this);
         this.tableHandler = this.tableHandler.bind(this);
         this.removeRisks = this.removeRisks.bind(this);
+        this.deletePlan = this.deletePlan.bind(this);
     }
 
     componentDidMount() {
         let query = new URLSearchParams(this.props.location.search);
 
         let options = {
-            url: "http://localhost:8080/SFR/API/RetrievePlan",
+            url: process.env.REACT_APP_API_URL + "/RetrievePlan",
             method: "POST",
             header: {
                 'Accept': 'application/json',
@@ -66,7 +67,7 @@ class Plan extends Component {
     tableAssign() {
         switch (this.state.table) {
             case "risks":
-                return <RiskTable riesgos={this.state.riskList} removeRisks={this.removeRisks}/>;
+                return <RiskTable riesgos={this.state.riskList} removeRisks={this.removeRisks} />;
             case "incidents":
                 return <h1>Incidentes Aqui</h1>;
             case "involved":
@@ -78,7 +79,7 @@ class Plan extends Component {
 
     removeRisks(idRisk) {
         let options = {
-            url: "http://localhost:8080/SFR/API/PlanManager/deleteRisk",
+            url: process.env.REACT_APP_API_URL + "/PlanManager/deleteRisk",
             method: "DELETE",
             header: {
                 'Accept': 'application/json',
@@ -102,6 +103,24 @@ class Plan extends Component {
             });
     }
 
+    deletePlan() {
+        let options = {
+            url: process.env.REACT_APP_API_URL + `/PlanManager/delete`,
+            method: 'DELETE',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: {
+                'id': this.state.id
+            }
+        }
+        axios(options)
+            .then(response => {
+                this.props.history.push('/planes');
+            })
+    }
+
     render() {
         let tableData = this.tableAssign();
         return (
@@ -114,8 +133,15 @@ class Plan extends Component {
 
                     {/* Botones de uso en el Plan */}
                     <Row>
-                        <TopButtons name={this.state.name} type={this.state.type} id={this.state.id}
-                        authorName={this.state.authorName} description={this.state.description} status={this.state.status} entryDate={this.state.entryDate} />
+                        <TopButtons
+                            name={this.state.name} 
+                            type={this.state.type} 
+                            id={this.state.id}
+                            authorName={this.state.authorName}
+                            description={this.state.description}
+                            status={this.state.status}
+                            entryDate={this.state.entryDate}
+                            deletePlan={this.deletePlan} />
                     </Row>
 
                     {/* Datos del Plan */}

@@ -74,7 +74,7 @@ public class PlanManager extends HttpServlet {
                     String riskId = jsonObj.getString("riskID");
                     Plan p = PlanDAO.getInstance().searchByIdSmall(planId);
                     List<Risk> riskList = p.getRiskList();
-                    riskList.removeIf(r -> (r.getId().equals(riskId)));
+                    riskList.removeIf(r -> (String.valueOf(r.getId()).equals(riskId)));
                     p.setRiskList(riskList);
                     PlanDAO.getInstance().update(p);
                     break;

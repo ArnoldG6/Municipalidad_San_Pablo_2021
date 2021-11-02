@@ -28,6 +28,10 @@ class Plan extends Component {
         this.deletePlan = this.deletePlan.bind(this);
     }
 
+    refreshPage(){
+        window.location.reload(false);
+    }
+
     componentDidMount() {
         let query = new URLSearchParams(this.props.location.search);
 
@@ -141,6 +145,8 @@ class Plan extends Component {
                             description={this.state.description}
                             status={this.state.status}
                             entryDate={this.state.entryDate}
+                            riskList={this.state.riskList}
+                            refreshPage={this.refreshPage}
                             deletePlan={this.deletePlan} />
                     </Row>
 

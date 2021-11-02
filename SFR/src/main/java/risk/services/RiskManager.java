@@ -39,6 +39,7 @@ public class RiskManager extends HttpServlet {
                     Gson gson = new Gson();
                     System.out.println(riskData);
                     Risk newRisk = gson.fromJson(riskData, Risk.class);
+                    newRisk.updateMagnitude();
                     Risk planExist = RiskDAO.getInstance().searchByIdSmall(newRisk.getId());
                     if (planExist != null) {
                         throw new IOException("El riesgo que se insertó ya existe");

@@ -92,7 +92,8 @@ public class PlanManager extends HttpServlet {
                     response.setCharacterEncoding("UTF-8");
                     requestData = request.getReader().lines().collect(Collectors.joining());
                     jsonObj = new JSONObject(requestData);
-                    PlanDAO.getInstance().associatePlanToRisk(jsonObj.getString("planID"), jsonObj.getString("riskID"));
+                    PlanDAO.getInstance().associatePlanToRisk(jsonObj.getString("planID"), 
+                    (List<Integer>) jsonObj.getJSONObject("riskIDs"));
                     break;
                 case "/API/PlanManager/getRiskListByPlanNoRep":
                     response.setContentType("application/json");

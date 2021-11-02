@@ -31,7 +31,8 @@ import sfr.model.Risk;
     "/API/PlanManager/insert",
     "/API/PlanManager/edit",
     "/API/PlanManager/delete",
-    "/API/PlanManager/deleteRisk"})
+    "/API/PlanManager/deleteRisk",
+    "/API/PlanManager/associateRiskToPlan"})
 public class PlanManager extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -82,6 +83,13 @@ public class PlanManager extends HttpServlet {
                         p.setRiskList(riskList);
                         PlanDAO.getInstance().update(p);
                     }
+                    break;
+                case "/API/PlanManager/associateRiskToPlan":
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    String requestData = request.getReader().lines().collect(Collectors.joining());
+                    JSONObject jsonObj = new JSONObject(requestData);
+                    PlanDAO.getInstance().associatePlanToRisk(jsonObj.getString("planID"), jsonObj.getString("riskID"));
                     break;
 
             }

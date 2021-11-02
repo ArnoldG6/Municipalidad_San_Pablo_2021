@@ -134,9 +134,69 @@ public class PlanDAO extends GenericDAO {
         }
     }
 
+    /**
+     * @author ArnoldGQ sets a list of risks, adding a risk identified by @param
+     * riskID, owned by a Plan identified by @param planID
+     */
+    public void associatePlanToRisk(String planID, String riskID) throws Exception {
+        try {
+            if (planID == null) 
+                throw new IOException("Invalid planID field");
+            
+            if (riskID == null) 
+                throw new IOException("Invalid RiskID field");
+            
+            Plan p = PlanDAO.getInstance().searchByIdSmall(planID);
+            Risk r = RiskDAO.getInstance().searchByIdSmall(Integer.parseInt(riskID));
+            List<Risk> riskList = p.getRiskList();
+            if (p.getRiskList().contains(r)) 
+                throw new IOException("This plan already has this risk");
+            
+            if (riskList == null) 
+                throw new IOException("Empty riskList exception");
+            
+            riskList.add(r);
+            p.setRiskList(riskList);
+            PlanDAO.getInstance().update(p);
+        } catch (Exception ex) {
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
+    }
+
+    /**
+     * @author ArnoldGQ
+     * @return a list of risks, owned by a Plan identified by @param planID,
+     * filtered by a non-repited @param riskID
+     */
+    public List<Risk> getRiskListByPlanNoRep(String planID, String riskID) throws Exception {
+        try {
+            if (planID == null) 
+                throw new IOException("Invalid planID field"); 
+            if (riskID == null) 
+                throw new IOException("Invalid riskID field");
+            Plan p = PlanDAO.getInstance().searchByIdSmall(planID);
+            List<Risk> riskList = p.getRiskList();
+            if (riskList == null) 
+                throw new IOException("Empty riskList exception");   
+            riskList.removeIf(r -> (String.valueOf(r.getId()).equals(Integer.parseInt(riskID))));
+            return riskList;
+        } catch (Exception ex) {
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
+    }
+
     public Plan searchByIdSmall(String id) {
         em = getEntityManager();
-        return (Plan) em.find(Plan.class, id);
+        return (Plan) em.find(Plan.class,
+                 id);
     }
 
     public Plan searchById(String id) {
@@ -204,18 +264,20 @@ public class PlanDAO extends GenericDAO {
             throw e;
         }
     }
-        public List<Plan> searchInAllColumns(String value) {
+
+    public List<Plan> searchInAllColumns(String value) {
         try {
             HashMap<String, Plan> resultHM = this.listAllHM();
             Pattern p = Pattern.compile(value, Pattern.CASE_INSENSITIVE);
             ArrayList<Plan> result = new ArrayList<>();
             for (HashMap.Entry<String, Plan> plan : resultHM.entrySet()) {
                 Plan pl = plan.getValue();
-                if(p.matcher(pl.getId()).find()|| p.matcher(pl.getAuthorName()).find()|| 
-                  p.matcher(pl.getName()).find()|| p.matcher(pl.getDesc()).find() ||
-                  p.matcher(pl.getEntryDate().toString()).find() || p.matcher(pl.getStatus()).find()
-                  ||p.matcher(pl.getType()).find())
+                if (p.matcher(pl.getId()).find() || p.matcher(pl.getAuthorName()).find()
+                        || p.matcher(pl.getName()).find() || p.matcher(pl.getDesc()).find()
+                        || p.matcher(pl.getEntryDate().toString()).find() || p.matcher(pl.getStatus()).find()
+                        || p.matcher(pl.getType()).find()) {
                     result.add(pl);
+                }
             }
             return result;
         } catch (Exception e) {
@@ -224,8 +286,7 @@ public class PlanDAO extends GenericDAO {
             throw e;
         }
     }
-        
-    
+
     public List<Plan> listSearchBy(String toSearch, String value) {
         try {
             String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p WHERE p." + toSearch + " LIKE '" + value + "%'";
@@ -266,7 +327,8 @@ public class PlanDAO extends GenericDAO {
             String cmd = "CALL selectTenPlans(" + page + "0)";
 
             em = getEntityManager();
-            Session session = em.unwrap(Session.class);
+            Session session = em.unwrap(Session.class
+            );
 
             Query query = session.createSQLQuery(cmd);
             List<Plan> objList = (List<Plan>) query.getResultList();

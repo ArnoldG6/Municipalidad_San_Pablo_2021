@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './RisksTable.css';
-import { Table } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 //import { Link } from 'react-router-dom';
 
 class RisksTable extends Component {
@@ -40,7 +40,6 @@ class RisksTable extends Component {
             <Table hover>
                 <thead>
                     <tr>
-
                         <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('pk_id') }}>ID</button></th>
                         <th><button className='header-button' id="nameButton" onClick={() => { this.handleSort('name') }}> Nombre</button></th>
                         <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('generalType') }}>Tipo General</button></th>
@@ -49,8 +48,8 @@ class RisksTable extends Component {
                         <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('probability') }}>Probabilidad</button></th>
                         <th><button className='header-button' id="stateButton" onClick={() => { this.handleSort('impact') }}>Impacto</button></th>
                         <th><button className='header-button' id="typeButton" onClick={() => { this.handleSort('magnitude') }}>Magnitud</button></th>
-
-
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,6 +83,8 @@ class RisksTable extends Component {
                                 <td>{risk.probability}</td>
                                 <td>{risk.impact}</td>
                                 <td>{risk.magnitude}</td>
+                                <td><Button>Editar</Button></td>
+                                <td><Button>Eliminar</Button></td>
                             </tr>
                         )
                     })}

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package risk.services;
+
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -22,7 +23,7 @@ import sfr.model.Risk;
  *
  * @author GONCAR4
  */
-@WebServlet(name = "RiskManager", urlPatterns = {"/API/RiskManager/insert", "/API/RiskManager/delete"})
+@WebServlet(name = "RiskManager", urlPatterns = {"/API/RiskManager/insert", "/API/RiskManager/delete", "/API/RiskManager/edit"})
 public class RiskManager extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -55,6 +56,12 @@ public class RiskManager extends HttpServlet {
                         throw new IOException();
                     }
                     RiskDAO.getInstance().delete(riskE);
+                    break;
+                case "/API/RiskManager/edit":
+                    String objetoEditado = request.getReader().lines().collect(Collectors.joining());
+                    Gson gsonEdit = new Gson();
+                    Risk riskEdit = gsonEdit.fromJson(objetoEditado, Risk.class);
+                    RiskDAO.getInstance().update(riskEdit);
                     break;
             }
             response.setContentType("text/html");

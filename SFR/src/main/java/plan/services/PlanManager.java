@@ -61,8 +61,8 @@ public class PlanManager extends HttpServlet {
                     break;
                 case "/API/PlanManager/delete":
                     String idObject  = request.getReader().lines().collect(Collectors.joining());
-                    Gson gsonDelete = new Gson();
-                    String id = gsonDelete.fromJson(idObject, String.class);
+                    JSONObject jsonObjDelete = new JSONObject(idObject);
+                    String id = jsonObjDelete.getString("id");
                     Plan deletePlan = PlanDAO.getInstance().searchById(id);
                     PlanDAO.getInstance().delete(deletePlan);
                     break;

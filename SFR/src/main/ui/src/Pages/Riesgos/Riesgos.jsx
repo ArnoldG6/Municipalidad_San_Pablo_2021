@@ -8,12 +8,15 @@ import AddRiskModal from './Components/AddRiskModal';
 import axios from 'axios';
 import RisksTable from './Components/RisksTable';
 import Search from './Components/Search';
+import GenericModal from '../../SharedComponents/GenericModal/GenericModal';
 
 class Riesgos extends Component {
     constructor(props) {
         super(props);
         this.state = {
             show: false,
+            showDel: false,
+            delId: "",
             riesgos: []
         };
         this.openModal = this.openModal.bind(this);
@@ -21,6 +24,9 @@ class Riesgos extends Component {
         this.updateRiesgos = this.updateRiesgos.bind(this);
         this.updateRiesgosBySearch = this.updateRiesgosBySearch.bind(this);
         this.updateRiesgosSort = this.updateRiesgosSort.bind(this);
+        this.deleteRisk = this.deleteRisk.bind(this);
+        this.openModalDelete = this.openModalDelete.bind(this);
+        this.closeModalDelete = this.closeModalDelete.bind(this);
     }
     //On load
     componentDidMount() {
@@ -101,6 +107,32 @@ class Riesgos extends Component {
 
     };
 
+    openModalDelete = (id) => {
+        this.setState({ showDel: true, delId: id });
+    };
+
+    closeModalDelete = () => {
+        this.setState({ showDel: false, delId: "" });
+    };
+
+    deleteRisk() {
+        let options = {
+            url: process.env.REACT_APP_API_URL + `/RiskManager/delete`,
+            method: 'DELETE',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: {
+                'id': this.state.delId
+            }
+        }
+        axios(options)
+            .then(response => {
+                window.location.reload(false);
+            })
+    }
+
     render() {
         return (
             <div className="Riesgos-Container container-fluid">
@@ -111,10 +143,16 @@ class Riesgos extends Component {
                     </Stack>
                 </Row>
                 <Row>
-                    <RisksTable riesgos={this.state.riesgos} updateRiesgosSort={this.updateRiesgosSort} />
+                    <RisksTable riesgos={this.state.riesgos} updateRiesgosSort={this.updateRiesgosSort} openModalDelete={this.openModalDelete}/>
                 </Row>
                 <AddRiskModal updateRiesgos={this.updateRiesgos} show={this.state.show} closeModal={this.closeModal} />
                 <ToastContainer />
+                <GenericModal
+                    show={this.state.showDel}
+                    close={this.closeModalDelete}
+                    action={this.deleteRisk}
+                    header={"Eliminar Riegos"}
+                    body={"¿Desea eliminar este riesgo? Una vez eliminado no se podra recuperar el riesgo seleccionado"} />
             </div>
         );
     }

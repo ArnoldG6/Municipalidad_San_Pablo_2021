@@ -62,7 +62,7 @@ class TopButtons extends Component {
         return (
             <Stack className="mt-4" direction="horizontal" gap={3}>
                 <Button id="menu-button" onClick={this.openModal} >Editar Plan</Button>{' '}
-                <Button id="menu-button" onClick={this.openModalDelete} >Eliminar Plan</Button>{' '}
+                <Button id="menu-button" onClick={this.openModalDelete} disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>Eliminar Plan</Button>{' '}
                 <Button id="menu-button"  >Agregar involucrados</Button>{' '}
                 <Button variant="warning">Matriz de riesgos</Button>{' '}
                 <Button className="ms-auto" variant="light">Generar reporte</Button>{' '}

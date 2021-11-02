@@ -63,8 +63,8 @@ public class PlanManager extends HttpServlet {
                     String idObject  = request.getReader().lines().collect(Collectors.joining());
                     JSONObject jsonObjDelete = new JSONObject(idObject);
                     String id = jsonObjDelete.getString("id");
-                    Plan deletePlan = PlanDAO.getInstance().searchById(id);
-                    PlanDAO.getInstance().delete(deletePlan);
+                    Plan toDelete = new Plan(id);
+                    PlanDAO.getInstance().delete(toDelete);
                     break;
                 case "/API/PlanManager/deleteRisk":
                     response.setContentType("application/json");

@@ -10,9 +10,6 @@ class PlansTable extends Component {
             sortingWay: 'desc',
             value: 'date'
         };
-
-
-
     }
 
     handleSort(parameter) {
@@ -37,8 +34,6 @@ class PlansTable extends Component {
         );
     }
 
-    /* {this.props.updatePlanesSort('name',true)} */
-
     render() {
         return (
             <Table hover>
@@ -53,9 +48,6 @@ class PlansTable extends Component {
                     </tr>
                 </thead>
                 <tbody>
-
-
-
                     {this.props.planes.map((plan) => {
                         let statusClass = "";
                         switch (plan.status) {
@@ -89,17 +81,3 @@ class PlansTable extends Component {
     }
 };
 export default PlansTable;
-/*
-datos quemados:
-
-                    <tr>
-                        <td>2021-abc12345</td>
-                        <td><a href='/'>Poliza de chet prueba</a></td>
-                        <td>13/10/2021</td>
-                        <td><div class="accepted">Aceptado</div></td>
-                        <td >Ricardo Milos</td>
-                        <td >Proyecto</td>
-                    </tr>
-
-
-*/

@@ -85,11 +85,11 @@ class AddRiskModal extends Component {
                         <div className="form-group">
                             <div className="number-input-container">
                                 <label>Probabilidad: </label>
-                                <input step=".1" min="0" max="1" name="probability" id="probability" type="number" placeholder="0.0" className="form-control number-input " required />
+                                <input step=".1" min="0.1" max="0.9" name="probability" id="probability" type="number" placeholder="0,1" className="form-control number-input " required />
                             </div>
                             <div className="number-input-container">
                                 <label>Impacto:</label>
-                                <input min="0" max="10" name="impact" id="impact" type="number" className="form-control number-input" placeholder="0%" required />
+                                <input min="10" max="90" step="10" name="impact" id="impact" type="number" className="form-control number-input" placeholder="10%" required />
                             </div>
                         </div>
 
@@ -101,7 +101,7 @@ class AddRiskModal extends Component {
                                     <input
                                         id="risktype1"
                                         type="radio"
-                                        value="externo"
+                                        value="EXTERNO"
                                         checked={value === "externo"}
                                         onChange={this.onChange}
                                     />
@@ -112,7 +112,7 @@ class AddRiskModal extends Component {
                                     <input
                                         id="risktype2"
                                         type="radio"
-                                        value="interno"
+                                        value="INTERNO"
                                         checked={value === "interno"}
                                         onChange={this.onChange}
                                     />
@@ -127,22 +127,22 @@ class AddRiskModal extends Component {
                             <label>Tipo: </label>
                             <Form.Select name="areatype" id="areatype" hidden={value === "interno"} onChange={this.handleAreaType}>
                                 <option value="" defaultValue disabled hidden>Seleccione una fuente por área</option>
-                                <option value="political">Político</option>
-                                <option value="legal">Legal</option>
-                                <option value="economic">Económico</option>
-                                <option value="it">Tecnologías de la información</option>
-                                <option value="natural-events">Eventos naturales</option>
-                                <option value="environmental">Ambiental</option>
+                                <option value="Político">Político</option>
+                                <option value="Legal">Legal</option>
+                                <option value="Económico">Económico</option>
+                                <option value="Tecnologías de la información">Tecnologías de la información</option>
+                                <option value="Eventos naturales">Eventos naturales</option>
+                                <option value="Ambiental">Ambiental</option>
 
                             </Form.Select>
 
                             <Form.Select name="areatype" id="areatype" hidden={value === "externo"} onChange={this.handleAreaType}>
-                                <option value="stretegic">Estratégicos</option>
-                                <option value="financial">Financieros</option>
-                                <option value="process_development">Desarrollo de los procesos</option>
-                                <option value="tecnological_information">Tecnológicos y de información</option>
-                                <option value="substantive_process_management">Gestión de procesos sustantivos</option>
-                                <option value="municipal_official">Funcionario municipal</option>
+                                <option value="Estratégicos">Estratégicos</option>
+                                <option value="Financieros">Financieros</option>
+                                <option value="Desarrollo de los procesos">Desarrollo de los procesos</option>
+                                <option value="Tecnológicos y de información">Tecnológicos y de información</option>
+                                <option value="Gestión de procesos sustantivos">Gestión de procesos sustantivos</option>
+                                <option value="Funcionario municipal">Funcionario municipal</option>
 
                             </Form.Select>
                         </div>

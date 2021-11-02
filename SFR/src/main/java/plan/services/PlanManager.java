@@ -32,7 +32,8 @@ import sfr.model.Risk;
     "/API/PlanManager/edit",
     "/API/PlanManager/delete",
     "/API/PlanManager/deleteRisk",
-    "/API/PlanManager/associateRiskToPlan"})
+    "/API/PlanManager/associateRiskToPlan",
+    "/API/PlanManager/getRiskListByPlanNoRep"})
 public class PlanManager extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

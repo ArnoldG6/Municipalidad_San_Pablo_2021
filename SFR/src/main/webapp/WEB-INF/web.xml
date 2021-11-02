@@ -25,6 +25,8 @@
         <url-pattern>/API/PlanManager/edit</url-pattern>
         <url-pattern>/API/PlanManager/delete</url-pattern>
         <url-pattern>/API/PlanManager/deleteRisk</url-pattern>
+        <url-pattern>/API/PlanManager/associateRiskToPlan</url-pattern>
+        <url-pattern>/API/PlanManager/getRiskListByPlanNoRep</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginManager</servlet-name>

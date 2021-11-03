@@ -14,6 +14,9 @@ class EditRiskModal extends Component {
             value: "externo",
             area: "Politico"
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.handleAreaType = this.handleAreaType.bind(this);
     }
 
     //closeModal() { }

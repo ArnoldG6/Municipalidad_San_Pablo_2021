@@ -47,35 +47,38 @@ class PlansTable extends Component {
                         <th><button className='header-button' id="typeButton" onClick={() => { this.handleSort('type') }}>Tipo</button></th>
                     </tr>
                 </thead>
-                <tbody>
-                    {this.props.planes.map((plan) => {
-                        let statusClass = "";
-                        switch (plan.status) {
-                            case 'Activo':
-                                statusClass = 'in-progress bubble';
-                                break;
-                            case 'Inactivo':
-                                statusClass = 'no-progress bubble';
-                                break;
-                            case 'Completo':
-                                statusClass = 'completed bubble';
-                                break;
-                            default:
-                                statusClass = 'unknown bubble';
-                                break;
-                        }
-                        return (
-                            <tr key={plan.id}>
-                                <td>{plan.id}</td>
-                                <td className="nameSlot"><Link to={{ pathname: "/plan", search: `?id=${plan.id}` }}>{plan.name}</Link></td>
-                                <td>{plan.entryDate}</td>
-                                <td><div className={statusClass}>{plan.status}</div></td>
-                                <td>{plan.authorName}</td>
-                                <td>{plan.type}</td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
+                {(typeof this.props.planes === 'undefined' || this.props.planes === null) ? <h1>No se han agregado planes</h1> :
+                    this.props.planes.length === 0 ? <h1>No se han agregado planes</h1> :
+                        <tbody>
+                            {this.props.planes.map((plan) => {
+                                let statusClass = "";
+                                switch (plan.status) {
+                                    case 'Activo':
+                                        statusClass = 'in-progress bubble';
+                                        break;
+                                    case 'Inactivo':
+                                        statusClass = 'no-progress bubble';
+                                        break;
+                                    case 'Completo':
+                                        statusClass = 'completed bubble';
+                                        break;
+                                    default:
+                                        statusClass = 'unknown bubble';
+                                        break;
+                                }
+                                return (
+                                    <tr key={plan.id}>
+                                        <td>{plan.id}</td>
+                                        <td className="nameSlot"><Link to={{ pathname: "/plan", search: `?id=${plan.id}` }}>{plan.name}</Link></td>
+                                        <td>{plan.entryDate}</td>
+                                        <td><div className={statusClass}>{plan.status}</div></td>
+                                        <td>{plan.authorName}</td>
+                                        <td>{plan.type}</td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                }
             </Table>
         );
     }

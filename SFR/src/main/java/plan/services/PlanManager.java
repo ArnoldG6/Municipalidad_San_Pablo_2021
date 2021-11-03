@@ -18,7 +18,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sfr.dao.PlanDAO;
@@ -45,7 +44,7 @@ public class PlanManager extends HttpServlet {
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
         response.addHeader("Access-Control-Allow-Credentials", "true");
         response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
-        String requestData,json;
+        String requestData, json;
         JSONObject jsonObj;
         try {
             switch (request.getServletPath()) {
@@ -74,32 +73,31 @@ public class PlanManager extends HttpServlet {
                     PlanDAO.getInstance().delete(toDelete);
                     break;
                 case "/API/PlanManager/deleteRisk":
-                    HttpSession session = request.getSession(true);
-                    if (session.getAttribute("userRol").equals("SUPER_ADMIN") || session.getAttribute("userRol").equals("ADMIN")) {
-                        response.setContentType("application/json");
-                        response.setCharacterEncoding("UTF-8");
-                        requestData = request.getReader().lines().collect(Collectors.joining());
-                        jsonObj = new JSONObject(requestData);
-                        String planId = jsonObj.getString("planID");
-                        String riskId = jsonObj.getString("riskID");
-                        Plan p = PlanDAO.getInstance().searchByIdSmall(planId);
-                        List<Risk> riskList = p.getRiskList();
-                        riskList.removeIf(r -> (String.valueOf(r.getId()).equals(riskId)));
-                        p.setRiskList(riskList);
-                        PlanDAO.getInstance().update(p);
-                    }
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    requestData = request.getReader().lines().collect(Collectors.joining());
+                    jsonObj = new JSONObject(requestData);
+                    String planId = jsonObj.getString("planID");
+                    String riskId = jsonObj.getString("riskID");
+                    Plan p = PlanDAO.getInstance().searchByIdSmall(planId);
+                    List<Risk> riskList = p.getRiskList();
+                    riskList.removeIf(r -> (String.valueOf(r.getId()).equals(riskId)));
+                    p.setRiskList(riskList);
+                    PlanDAO.getInstance().update(p);
                     break;
                 case "/API/PlanManager/associateRiskToPlan":
                     response.setContentType("application/json");
                     response.setCharacterEncoding("UTF-8");
                     requestData = request.getReader().lines().collect(Collectors.joining());
-                    jsonObj = new JSONObject(requestData); 
+                    jsonObj = new JSONObject(requestData);
                     JSONArray riskIdsJ = jsonObj.getJSONArray("riskIDs");
-                    if (riskIdsJ == null)
+                    if (riskIdsJ == null) {
                         throw new IOException("");
+                    }
                     List<Integer> riskIds = new ArrayList<>();
-                    for (int i = 0; i<riskIdsJ.length(); i++)
+                    for (int i = 0; i < riskIdsJ.length(); i++) {
                         riskIds.add((Integer) riskIdsJ.get(i));
+                    }
                     PlanDAO.getInstance().associateRisksToPlan(jsonObj.getString("planID"), riskIds);
                     break;
                 case "/API/PlanManager/getRiskListByPlanNoRep":
@@ -147,7 +145,11 @@ public class PlanManager extends HttpServlet {
     protected void doOptions(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            processRequest(request, response);
+            response.addHeader("Access-Control-Allow-Origin", "*");
+            response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+            response.addHeader("Access-Control-Allow-Credentials", "true");
+            response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
+            //processRequest(request, response);
         } catch (Exception ex) {
             Logger.getLogger(PlanServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

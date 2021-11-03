@@ -7,6 +7,7 @@ package plan.services;
 
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import sfr.dao.PlanDAO;
 import sfr.model.Plan;
@@ -91,9 +93,14 @@ public class PlanManager extends HttpServlet {
                     response.setContentType("application/json");
                     response.setCharacterEncoding("UTF-8");
                     requestData = request.getReader().lines().collect(Collectors.joining());
-                    jsonObj = new JSONObject(requestData);
-                    PlanDAO.getInstance().associatePlanToRisk(jsonObj.getString("planID"), 
-                    (List<Integer>) jsonObj.getJSONObject("riskIDs"));
+                    jsonObj = new JSONObject(requestData); 
+                    JSONArray riskIdsJ = jsonObj.getJSONArray("riskIDs");
+                    if (riskIdsJ == null)
+                        throw new IOException("");
+                    List<Integer> riskIds = new ArrayList<>();
+                    for (int i = 0; i<riskIdsJ.length(); i++)
+                        riskIds.add((Integer) riskIdsJ.get(i));
+                    PlanDAO.getInstance().associateRisksToPlan(jsonObj.getString("planID"), riskIds);
                     break;
                 case "/API/PlanManager/getRiskListByPlanNoRep":
                     response.setContentType("application/json");

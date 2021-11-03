@@ -139,7 +139,7 @@ public class PlanDAO extends GenericDAO {
      * @author ArnoldGQ sets a list of risks, adding a list of risks, all identified by @param
      * riskIDs, owned by a Plan identified by @param planID
      */
-    public void associatePlanToRisk(String planID, List<Integer> riskIDs) throws Exception {
+    public void associateRisksToPlan(String planID, List<Integer> riskIDs) throws Exception {
         try {
             if (planID == null) {
                 throw new IOException("Invalid planID field");
@@ -155,6 +155,8 @@ public class PlanDAO extends GenericDAO {
             if (riskList == null) {
                 throw new IOException("Empty riskList exception");
             }
+            if(riskIDs.isEmpty())
+                throw new IOException("Empty riskIDs field exception");
             Risk r;
             for (int i = 0; i < riskIDs.size(); i++) {
                 r = RiskDAO.getInstance().searchByIdSmall(riskIDs.get(i));

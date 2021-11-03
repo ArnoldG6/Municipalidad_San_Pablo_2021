@@ -52,44 +52,31 @@ class RisksTable extends Component {
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
 
-
-
-                    {this.props.riesgos.map((risk) => {
-                        /*
-                        let statusClass = "";
-                        switch (plan.status) {
-                            case 'Activo':
-                                statusClass = 'in-progress bubble';
-                                break;
-                            case 'Inactivo':
-                                statusClass = 'no-progress bubble';
-                                break;
-                            case 'Completo':
-                                statusClass = 'completed bubble';
-                                break;
-                            default:
-                                statusClass = 'unknown bubble';
-                                break;
-                        }*/
-                        return (
-                            <tr key={risk.id}>
-                                <td>{risk.id}</td>
-                                <td className="nameSlot">{risk.name}</td>
-                                <td>{risk.generalType}</td>
-                                <td>{risk.areaType}</td>
-                                <td>{risk.specType}</td>
-                                <td>{risk.probability}</td>
-                                <td>{risk.impact}</td>
-                                <td>{risk.magnitude}</td>
-                                <td><Button onClick={() => {this.props.openModalEdit(risk.id)}}>Editar </Button></td>
-                                <td><Button onClick={() => {this.props.openModalDelete(risk.id)}}>Eliminar</Button></td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </Table>
+                {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado riesgos</h1> :
+                    this.props.riesgos.length === 0 ? <h1>No se han agregado riesgos</h1> :
+                        <tbody>
+                            {this.props.riesgos.map((risk) => {
+                                return (
+                                    <tr key={risk.id}>
+                                        <td>{risk.id}</td>
+                                        <td className="nameSlot">{risk.name}</td>
+                                        <td>{risk.generalType}</td>
+                                        <td>{risk.areaType}</td>
+                                        <td>{risk.specType}</td>
+                                        <td>{risk.probability}</td>
+                                        <td>{risk.impact}</td>
+                                        <td>{risk.magnitude}</td>
+                                        <td><Button>Editar</Button></td>
+                                        <td><Button
+                                            onClick={() => { this.props.openModalDelete(risk.id) }}
+                                            disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>Eliminar</Button></td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                }
+            </Table >
         );
     }
 };

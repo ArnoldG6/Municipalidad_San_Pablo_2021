@@ -36,7 +36,7 @@ class Search extends Component {
                 console.log(response.data.name);
             }).catch(error => {
                 console.log(error);
-                toast.error("Funca!", {
+                toast.error("Hubo un error realizando la busqueda", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',

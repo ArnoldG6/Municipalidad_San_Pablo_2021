@@ -65,7 +65,7 @@ class RiskTable extends Component {
 
                 <AddExistingRiskModal
                     risks={this.props.availableRisks}
-                    planID={this.props.planID}
+                    addRisk={this.props.addRisk}
                     show={this.state.show}
                     closeModal={this.closeModalAddRisk} />
             </div>

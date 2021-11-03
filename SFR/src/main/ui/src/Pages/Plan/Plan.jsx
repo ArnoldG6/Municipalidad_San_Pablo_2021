@@ -28,7 +28,7 @@ class Plan extends Component {
         this.removeRisks = this.removeRisks.bind(this);
         this.deletePlan = this.deletePlan.bind(this);
         this.refreshPage = this.refreshPage.bind(this);
-
+        this.addRisk = this.addRisk.bind(this);
     }
 
     componentDidMount() {
@@ -62,27 +62,27 @@ class Plan extends Component {
                     type: plan.type,
                     riskList: plan.riskList
                 });
+
+                let options2 = {
+                    url: process.env.REACT_APP_API_URL + "/PlanManager/getRiskListByPlanNoRep",
+                    method: "POST",
+                    header: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        'planID': query.get('id')
+                    }
+                }
+        
+                axios(options2).then(response => {
+                    this.setState({ availableRisks: response.data })
+                }).catch((error) => {
+                    console.error(error.message);
+                });
             }).catch(error => {
                 this.props.history.push('/planes');
             });
-
-        let options2 = {
-            url: process.env.REACT_APP_API_URL + "/PlanManager/getRiskListByPlanNoRep",
-            method: "POST",
-            header: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            data: {
-                'planID': query.get('id')
-            }
-        }
-
-        axios(options2).then(response => {
-            this.setState({ availableRisks: response.data })
-        }).catch((error) => {
-            console.error(error.message);
-        });
     }
 
     tableHandler(table) {
@@ -93,7 +93,7 @@ class Plan extends Component {
         console.log(this.state.id);
         switch (this.state.table) {
             case "risks":
-                return <RiskTable riesgos={this.state.riskList} removeRisks={this.removeRisks} planID={this.state.id} availableRisks={this.state.availableRisks} />;
+                return <RiskTable riesgos={this.state.riskList} removeRisks={this.removeRisks} addRisk={this.addRisk} availableRisks={this.state.availableRisks} />;
             case "incidents":
                 return <h1>Incidentes Aqui</h1>;
             case "involved":
@@ -101,6 +101,39 @@ class Plan extends Component {
             default:
                 return <h1>Error</h1>;
         }
+    }
+
+    addRisk(risksID) {
+        let options = {
+            url: process.env.REACT_APP_API_URL + `/PlanManager/associateRiskToPlan`,
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: {
+                'planID': this.state.id,
+                'riskIDs': risksID
+            }
+        }
+
+        axios(options)
+            .then(response => {
+                this.refreshPage();
+                toast.success("Se agregaron los riesgos correctamente!", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 10000
+                });
+            }).catch(error => {
+                toast.error("Hubo un error agregando los riesgos al plan.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 10000
+                });
+            });
     }
 
     removeRisks(idRisk) {
@@ -119,6 +152,12 @@ class Plan extends Component {
         axios(options)
             .then(response => {
                 this.refreshPage();
+                toast.success("El riesgo fue eliminado correctamente!", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 10000
+                });
             }).catch(error => {
                 toast.error("Error al remover el riesgo seleccionado.", {
                     position: toast.POSITION.TOP_RIGHT,

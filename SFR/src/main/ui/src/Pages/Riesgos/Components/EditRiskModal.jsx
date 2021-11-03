@@ -67,20 +67,22 @@ class EditRiskModal extends Component {
         const { value } = this.state;
         //let id = this.props.id
         //let magnitude = this.props.magnitude
-
         let render = this.props.show
-        let closeModal = this.props.closeModal
+        let closeModal = this.props.closeModalEdit
+        //let risk = this.props.bringRiskToModal
+        
         return (
             <Modal show={render} onHide={closeModal} id="modalRisks" >
                 <Modal.Header closeButton>
-                    Nuevo Riesgo
+                    Editar Riesgo
                 </Modal.Header>
                 <Modal.Body>
+
                     <Form onSubmit={this.handleSubmit}>
 
                         <div className="form-group">
                             <label>Nombre: </label>
-                            <input name="name" id="name" type="text" placeholder="Nombre" className="form-control"  required />
+                            <input name="name" id="name" type="text" placeholder="Nombre" className="form-control" required />
                         </div>
 
                         <div className="form-group">

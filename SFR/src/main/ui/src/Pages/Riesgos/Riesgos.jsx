@@ -9,13 +9,15 @@ import axios from 'axios';
 import RisksTable from './Components/RisksTable';
 import Search from './Components/Search';
 import GenericModal from '../../SharedComponents/GenericModal/GenericModal';
-
+import EditRiskModal from './Components/EditRiskModal';
 class Riesgos extends Component {
     constructor(props) {
         super(props);
         this.state = {
             show: false,
             showDel: false,
+            showEdit: false,
+            risk: null,
             delId: "",
             riesgos: []
         };
@@ -27,6 +29,8 @@ class Riesgos extends Component {
         this.deleteRisk = this.deleteRisk.bind(this);
         this.openModalDelete = this.openModalDelete.bind(this);
         this.closeModalDelete = this.closeModalDelete.bind(this);
+        this.openModalEdit = this.openModalEdit.bind(this);
+        this.closeModalEdit = this.closeModalEdit.bind(this);
     }
     //On load
     componentDidMount() {
@@ -73,7 +77,6 @@ class Riesgos extends Component {
 
     updateRiesgosBySearch(type) {
         this.setState({ riesgos: type });
-
     }
 
     openModal = () => {
@@ -105,6 +108,20 @@ class Riesgos extends Component {
         });
 
     };
+
+    openModalEdit = (id) => {
+        this.setState({showEdit: true, risk: this.state.riesgos[id]});
+        console.log(this.state.risk)
+    };
+    closeModalEdit = () => {
+        this.setState({showEdit: false});
+    };
+    
+    bringRiskToModal(){
+    }
+
+    updateRisk(){
+    }
 
     openModalDelete = (id) => {
         this.setState({ showDel: true, delId: id });
@@ -142,9 +159,22 @@ class Riesgos extends Component {
                     </Stack>
                 </Row>
                 <Row>
-                    <RisksTable riesgos={this.state.riesgos} updateRiesgosSort={this.updateRiesgosSort} openModalDelete={this.openModalDelete}/>
+                    <RisksTable 
+                    riesgos={this.state.riesgos} 
+                    updateRiesgosSort={this.updateRiesgosSort} 
+                    openModalDelete={this.openModalDelete}
+                    openModalEdit={this.openModalEdit}
+                    />
                 </Row>
-                <AddRiskModal updateRiesgos={this.updateRiesgos} show={this.state.show} closeModal={this.closeModal} />
+                <EditRiskModal
+                bringRiskToModal={this.bringRiskToModal}
+                show={this.state.showEdit}
+                closeModalEdit={this.closeModalEdit}
+                 />
+                <AddRiskModal 
+                show={this.state.show}
+                updateRiesgos={this.updateRiesgos}  
+                closeModal={this.closeModal} />
                 <ToastContainer />
                 <GenericModal
                     show={this.state.showDel}

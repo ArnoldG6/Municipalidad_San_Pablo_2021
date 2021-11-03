@@ -52,6 +52,7 @@ class RisksTable extends Component {
                         <th></th>
                     </tr>
                 </thead>
+
                 {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado riesgos</h1> :
                     this.props.riesgos.length === 0 ? <h1>No se han agregado riesgos</h1> :
                         <tbody>

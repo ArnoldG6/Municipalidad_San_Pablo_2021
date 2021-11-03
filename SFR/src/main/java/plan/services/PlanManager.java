@@ -55,6 +55,7 @@ public class PlanManager extends HttpServlet {
                     newPlan.setEntryDate(new Date());
                     Plan planExist = PlanDAO.getInstance().searchByIdSmall(newPlan.getId());
                     if (planExist != null) {
+                        response.sendError(409);
                         throw new IOException("El plan que se insertó ");
                     }
                     PlanDAO.getInstance().add(newPlan);

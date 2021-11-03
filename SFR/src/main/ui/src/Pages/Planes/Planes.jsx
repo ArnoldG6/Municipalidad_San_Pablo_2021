@@ -47,7 +47,7 @@ class Planes extends Component {
                         position: toast.POSITION.TOP_RIGHT,
                         pauseOnHover: true,
                         theme: 'colored',
-                        autoClose: 10000
+                        autoClose: 5000
                     });
                 });
         }
@@ -74,7 +74,7 @@ class Planes extends Component {
                 position: toast.POSITION.TOP_RIGHT,
                 pauseOnHover: true,
                 theme: 'colored',
-                autoClose: 10000
+                autoClose: 5000
             });
         }
         let options = {

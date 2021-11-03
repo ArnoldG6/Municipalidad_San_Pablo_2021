@@ -34,14 +34,14 @@ class TempLogIn extends Component {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
-                    autoClose: 10000
+                    autoClose: 5000
                 });
             }).catch(error => {
                 toast.error("Error al cambiar el tipo de usuario", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
-                    autoClose: 10000
+                    autoClose: 5000
                 });
             });
     }

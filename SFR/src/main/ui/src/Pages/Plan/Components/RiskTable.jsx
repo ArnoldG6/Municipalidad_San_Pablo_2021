@@ -1,29 +1,43 @@
 import React, { Component } from 'react';
 import { Table, Button } from "react-bootstrap";
 import AddExistingRiskModal from './AddExistingRiskModal';
+import GenericModal from '../../../SharedComponents/GenericModal/GenericModal';
 
 class RiskTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
             riesgos: [],
-            show: false
+            showRiskModal: false,
+            showDel: false,
+            delID: ""
         };
         this.removeRisk = this.removeRisk.bind(this);
         this.openModalAddRisk = this.openModalAddRisk.bind(this);
         this.closeModalAddRisk = this.closeModalAddRisk.bind(this);
+        this.openModalDelRisk = this.openModalDelRisk.bind(this);
+        this.closeModalDelRisk = this.closeModalDelRisk.bind(this);
     }
 
-    removeRisk(id) {
-        this.props.removeRisks(id);
+    removeRisk() {
+        this.props.removeRisks(this.state.delID);
+        this.closeModalDelRisk();
     }
 
     openModalAddRisk() {
-        this.setState({ show: true });
+        this.setState({ showRiskModal: true });
     };
 
     closeModalAddRisk() {
-        this.setState({ show: false });
+        this.setState({ showRiskModal: false });
+    };
+
+    openModalDelRisk(id) {
+        this.setState({ showDel: true, delID: id });
+    };
+
+    closeModalDelRisk() {
+        this.setState({ showDel: false, delID: "" });
     };
 
     render() {
@@ -53,7 +67,7 @@ class RiskTable extends Component {
                                             <td>{risk.specType}</td>
                                             <td>
                                                 <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
-                                                    onClick={() => this.removeRisk(risk.id)}
+                                                    onClick={() => this.openModalDelRisk(risk.id)}
                                                     disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>Eliminar</Button>
                                             </td>
                                         </tr>
@@ -66,8 +80,14 @@ class RiskTable extends Component {
                 <AddExistingRiskModal
                     risks={this.props.availableRisks}
                     addRisk={this.props.addRisk}
-                    show={this.state.show}
+                    show={this.state.showRiskModal}
                     closeModal={this.closeModalAddRisk} />
+                <GenericModal
+                    show={this.state.showDel}
+                    close={this.closeModalDelRisk}
+                    action={this.removeRisk}
+                    header={"Eliminar Riesgo de un Plan"}
+                    body={"¿Esta seguro que desea eliminar este riesgo del Plan?"} />
             </div>
         );
     }

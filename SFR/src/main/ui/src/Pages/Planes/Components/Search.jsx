@@ -38,7 +38,7 @@ class Search extends Component {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
-                    autoClose: 10000
+                    autoClose: 5000
                 });
             });
 

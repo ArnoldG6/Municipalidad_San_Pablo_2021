@@ -123,14 +123,14 @@ class Plan extends Component {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
-                    autoClose: 10000
+                    autoClose: 5000
                 });
             }).catch(error => {
                 toast.error("Hubo un error agregando los riesgos al plan.", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
-                    autoClose: 10000
+                    autoClose: 5000
                 });
             });
     }
@@ -155,14 +155,14 @@ class Plan extends Component {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
-                    autoClose: 10000
+                    autoClose: 5000
                 });
             }).catch(error => {
                 toast.error("Error al remover el riesgo seleccionado.", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
-                    autoClose: 10000
+                    autoClose: 5000
                 });
             });
     }

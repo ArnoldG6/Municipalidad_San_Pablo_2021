@@ -87,17 +87,17 @@ class EditRiskModal extends Component {
                                 <div className="form-group">
                                     <div className="number-input-container">
                                         <label>Probabilidad: </label>
-                                        <input step=".1" min="0.1" max="0.9" name="probability" id="probability" type="number" placeholder="0,1" className="form-control number-input" required />
+                                        <input step=".1" min="0.1" max="0.9" name="probability" id="probability" type="number" placeholder="0,1" className="form-control number-input" defaultValue={risk.probability} required />
                                     </div>
                                     <div className="number-input-container">
                                         <label>Impacto:</label>
-                                        <input min="10" max="90" step="10" name="impact" id="impact" type="number" className="form-control number-input" placeholder="10%" required />
+                                        <input min="10" max="90" step="10" name="impact" id="impact" type="number" className="form-control number-input" placeholder="10%" defaultValue={risk.impact} required />
                                     </div>
                                 </div>
 
                                 <FormGroup>
                                     <label>Tipo de Riesgo:</label>
-                                    <FormGroup className="radio-group-type" name="type" >
+                                    <FormGroup className="radio-group-type" name="type" defaultValue={risk.generalType} >
                                         <FormGroup className="Radio-element">
 
                                             <input
@@ -127,7 +127,7 @@ class EditRiskModal extends Component {
 
                                 <div className="form-group">
                                     <label>Tipo: </label>
-                                    <Form.Select name="areatype" id="areatype" hidden={value === "interno"} onChange={this.handleAreaType} >
+                                    <Form.Select name="areatype" id="areatype" hidden={value === "interno"} onChange={this.handleAreaType} defaultValue={risk.areaType}>
 
                                         <option value="Político">Político</option>
                                         <option value="Legal">Legal</option>
@@ -138,7 +138,7 @@ class EditRiskModal extends Component {
 
                                     </Form.Select>
 
-                                    <Form.Select name="areatype" id="areatype" hidden={value === "externo"} onChange={this.handleAreaType} >
+                                    <Form.Select name="areatype" id="areatype" hidden={value === "externo"} onChange={this.handleAreaType} defaultValue={risk.areaType}>
                                         <option value="Estratégicos">Estratégicos</option>
                                         <option value="Financieros">Financieros</option>
                                         <option value="Desarrollo de los procesos">Desarrollo de los procesos</option>
@@ -150,7 +150,7 @@ class EditRiskModal extends Component {
                                 </div>
                                 <div className="form-group">
                                     <label>Fuente por área específica:</label>
-                                    <input name="specific_factor" id="specific_factor" type="text" placeholder="" className="form-control" required />
+                                    <input name="specific_factor" id="specific_factor" type="text" placeholder="" className="form-control" defaultValue={risk.specType} required />
                                 </div>
 
                                 {/*<div className="form-group">

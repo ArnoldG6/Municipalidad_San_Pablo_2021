@@ -33,23 +33,11 @@ class Riesgos extends Component {
         this.closeModalDelete = this.closeModalDelete.bind(this);
         this.openModalEdit = this.openModalEdit.bind(this);
         this.closeModalEdit = this.closeModalEdit.bind(this);
+        this.refreshPage = this.refreshPage.bind(this);
     }
     //On load
     componentDidMount() {
-        let options = {
-            url: process.env.REACT_APP_API_URL + "/RiskServlet",
-            method: "GET",
-            header: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        }
-        //axios(options).then(toast.promise({pending: 'Cargando...'})).then(response => {
-        axios(options).then(response => {
-            this.setState({ riesgos: response.data })
-        }).catch((error) => {
-            console.error(error.message);
-        });
+        this.refreshPage();
     }
 
     updateRiesgos(type) {
@@ -113,7 +101,6 @@ class Riesgos extends Component {
 
     openModalEdit = (id) => {
         let risk = this.state.riesgos.find(risk => risk.id === id);
-        console.log(risk);
         this.setState({
             editRisk: risk,
             showEdit: true
@@ -123,9 +110,6 @@ class Riesgos extends Component {
     closeModalEdit = () => {
         this.setState({ showEdit: false, editRisk: null });
     };
-
-    updateRisk() {
-    }
 
     openModalDelete = (id) => {
         this.setState({ showDel: true, delId: id });
@@ -152,7 +136,22 @@ class Riesgos extends Component {
                 window.location.reload(false);
             })
     }
-
+    refreshPage(){
+        let options = {
+            url: process.env.REACT_APP_API_URL + "/RiskServlet",
+            method: "GET",
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        }
+        //axios(options).then(toast.promise({pending: 'Cargando...'})).then(response => {
+        axios(options).then(response => {
+            this.setState({ riesgos: response.data })
+        }).catch((error) => {
+            console.error(error.message);
+        });
+    }
     render() {
         return (
             <div className="Riesgos-Container container-fluid">

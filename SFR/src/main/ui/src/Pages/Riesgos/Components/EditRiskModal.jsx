@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import { Modal, Button, Form, FormGroup } from "react-bootstrap";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../Riesgos.css'
 class EditRiskModal extends Component {
@@ -11,7 +11,7 @@ class EditRiskModal extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
         this.state = {
-            value: "externo",
+            value: "EXTERNO",
             area: "Politico"
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,36 +25,30 @@ class EditRiskModal extends Component {
         event.preventDefault();
 
         let options = {
-            url: process.env.REACT_APP_API_URL + `/RiskManager/insert`,
-            method: 'POST',
+            url: process.env.REACT_APP_API_URL + `/RiskManager/edit`,
+            method: 'PUT',
             header: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             data: {
+                'id': event.target.id.value,
                 'name': event.target.name.value,
                 'probability': parseFloat(event.target.probability.value),
                 'areaType': this.state.area,
                 'impact': parseInt(event.target.impact.value),
                 'generalType': this.state.value,
-                'factors': event.target.factor.value,
                 'specType': event.target.specific_factor.value
             }
         }
-
+        console.log(event.target.id.value)
         axios(options)
             .then(response => {
-                this.props.updateRiesgos("add-success");
-                this.props.closeModal();
+                this.props.refreshPage();
+                this.props.closeModalEdit();
             }).catch(error => {
-                toast.error("ID del riesgo ya se encuentra registrado en el sistema.", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    pauseOnHover: true,
-                    theme: 'colored',
-                    autoClose: 5000
-                });
+                console.log(error);
             });
-
     }
 
     onChange = e => {
@@ -81,7 +75,10 @@ class EditRiskModal extends Component {
                 <Modal.Body>
                     {(typeof risk === 'undefined' || risk === null) ? <h1>Error cargando el riesgo</h1> :
                             <Form onSubmit={this.handleSubmit}>
-
+                                <div className="form-group">
+                                    <label>ID: </label>
+                                    <input name="ID" id="ID" type="text" placeholder="ID" className="form-control" disabled defaultValue={risk.id} required />
+                                </div>
                                 <div className="form-group">
                                     <label>Nombre: </label>
                                     <input name="name" id="name" type="text" placeholder="Nombre" className="form-control" defaultValue={risk.name} required />
@@ -107,7 +104,7 @@ class EditRiskModal extends Component {
                                                 id="risktype1"
                                                 type="radio"
                                                 value="EXTERNO"
-                                                checked={value === "externo"}
+                                                checked={value === "EXTERNO"}
                                                 onChange={this.onChange}
                                             />
                                             <label for="risktype1">Externo</label>
@@ -118,7 +115,7 @@ class EditRiskModal extends Component {
                                                 id="risktype2"
                                                 type="radio"
                                                 value="INTERNO"
-                                                checked={value === "interno"}
+                                                checked={value === "INTERNO"}
                                                 onChange={this.onChange}
                                             />
                                             <label for="risktype2">Interno</label>
@@ -130,7 +127,7 @@ class EditRiskModal extends Component {
 
                                 <div className="form-group">
                                     <label>Tipo: </label>
-                                    <Form.Select name="areatype" id="areatype" hidden={value === "interno"} onChange={this.handleAreaType} defaultValue={risk.areaType}>
+                                    <Form.Select name="areatype" id="areatype" hidden={value === "INTERNO"} onChange={this.handleAreaType} defaultValue={risk.areaType}>
 
                                         <option value="Político">Político</option>
                                         <option value="Legal">Legal</option>
@@ -141,7 +138,7 @@ class EditRiskModal extends Component {
 
                                     </Form.Select>
 
-                                    <Form.Select name="areatype" id="areatype" hidden={value === "externo"} onChange={this.handleAreaType} defaultValue={risk.areaType}>
+                                    <Form.Select name="areatype" id="areatype" hidden={value === "EXTERNO"} onChange={this.handleAreaType} defaultValue={risk.areaType}>
                                         <option value="Estratégicos">Estratégicos</option>
                                         <option value="Financieros">Financieros</option>
                                         <option value="Desarrollo de los procesos">Desarrollo de los procesos</option>

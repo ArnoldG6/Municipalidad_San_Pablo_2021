@@ -34,7 +34,7 @@ class AddExistingRiskModal extends Component {
         let show = this.props.show;
         let closeModal = this.props.closeModal;
         return (
-            <Modal show={show} onHide={closeModal} >
+            <Modal id="ModalAddRisk" show={show} onHide={closeModal} >
                 <Modal.Header closeButton>
                     Agregar Riesgos al Plan
                 </Modal.Header>
@@ -74,11 +74,13 @@ class AddExistingRiskModal extends Component {
                                 </tbody>
                             </Table>
                     }
-                    <Button className='btn-sfr' id="submit-button-new-item" onClick={this.handleSubmit}
-                        disabled={(typeof this.props.risks === 'undefined' || this.props.risks === null) ? true :
-                            this.props.risks.length === 0 ? true : false}>
-                        Guardar
-                    </Button>
+                    <div className="text-center">
+                        <Button className='btn-sfr' onClick={this.handleSubmit}
+                            disabled={(typeof this.props.risks === 'undefined' || this.props.risks === null) ? true :
+                                this.props.risks.length === 0 ? true : false}>
+                            Guardar
+                        </Button>
+                    </div>
                 </Modal.Body>
             </Modal >
         );

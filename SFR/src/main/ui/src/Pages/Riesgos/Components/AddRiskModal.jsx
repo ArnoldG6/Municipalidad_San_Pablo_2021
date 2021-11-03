@@ -11,9 +11,12 @@ class AddRiskModal extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
         this.state = {
-            value: "externo",
+            value: "EXTERNO",
             area: "Politico"
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.handleAreaType = this.handleAreaType.bind(this);
     }
 
     //closeModal() { }
@@ -55,6 +58,7 @@ class AddRiskModal extends Component {
     }
 
     onChange = e => {
+        console.log(e.target.value); 
         this.setState({ value: e.target.value })
     }
 
@@ -102,7 +106,7 @@ class AddRiskModal extends Component {
                                         id="risktype1"
                                         type="radio"
                                         value="EXTERNO"
-                                        checked={value === "externo"}
+                                        checked={value === "EXTERNO"}
                                         onChange={this.onChange}
                                     />
                                     <label for="risktype1">Externo</label>
@@ -113,7 +117,7 @@ class AddRiskModal extends Component {
                                         id="risktype2"
                                         type="radio"
                                         value="INTERNO"
-                                        checked={value === "interno"}
+                                        checked={value === "INTERNO"}
                                         onChange={this.onChange}
                                     />
                                     <label for="risktype2">Interno</label>
@@ -125,7 +129,7 @@ class AddRiskModal extends Component {
 
                         <div className="form-group">
                             <label>Tipo: </label>
-                            <Form.Select name="areatype" id="areatype" hidden={value === "interno"} onChange={this.handleAreaType}>
+                            <Form.Select name="areatype" id="areatype" hidden={value === "INTERNO"} onChange={this.handleAreaType}>
                                 <option value="" defaultValue disabled hidden>Seleccione una fuente por área</option>
                                 <option value="Político">Político</option>
                                 <option value="Legal">Legal</option>
@@ -136,7 +140,7 @@ class AddRiskModal extends Component {
 
                             </Form.Select>
 
-                            <Form.Select name="areatype" id="areatype" hidden={value === "externo"} onChange={this.handleAreaType}>
+                            <Form.Select name="areatype" id="areatype" hidden={value === "EXTERNO"} onChange={this.handleAreaType}>
                                 <option value="Estratégicos">Estratégicos</option>
                                 <option value="Financieros">Financieros</option>
                                 <option value="Desarrollo de los procesos">Desarrollo de los procesos</option>

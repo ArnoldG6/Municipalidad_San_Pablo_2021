@@ -24,6 +24,34 @@ class Planes extends Component {
     }
     //On load
     componentDidMount() {
+
+        //Temp Login
+        if (sessionStorage.getItem("userRol") === null) {
+            let options = {
+                url: process.env.REACT_APP_API_URL + "/LoginManager/test",
+                method: "POST",
+                header: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    'type': 3
+                }
+            }
+            axios(options)
+                .then(response => {
+                    sessionStorage.setItem("userRol", response.data.userRol);
+                    sessionStorage.setItem("userID", response.data.userID);
+                }).catch(error => {
+                    toast.error("Error al cambiar el tipo de usuario", {
+                        position: toast.POSITION.TOP_RIGHT,
+                        pauseOnHover: true,
+                        theme: 'colored',
+                        autoClose: 10000
+                    });
+                });
+        }
+
         let options = {
             url: process.env.REACT_APP_API_URL + "/PlanServlet",
             method: "GET",

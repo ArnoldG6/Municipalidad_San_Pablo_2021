@@ -84,12 +84,14 @@ class RisksTable extends Component {
                                 <td>{risk.impact}</td>
                                 <td>{risk.magnitude}</td>
                                 <td><Button>Editar</Button></td>
-                                <td><Button onClick={() => {this.props.openModalDelete(risk.id)}}>Eliminar</Button></td>
+                                <td><Button
+                                    onClick={() => { this.props.openModalDelete(risk.id) }}
+                                    disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>Eliminar</Button></td>
                             </tr>
-                        )
+                )
                     })}
-                </tbody>
-            </Table>
+            </tbody>
+            </Table >
         );
     }
 };

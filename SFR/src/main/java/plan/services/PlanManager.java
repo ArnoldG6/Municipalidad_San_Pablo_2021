@@ -7,6 +7,7 @@ package plan.services;
 
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import sfr.dao.PlanDAO;
 import sfr.model.Plan;
@@ -43,6 +45,8 @@ public class PlanManager extends HttpServlet {
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
         response.addHeader("Access-Control-Allow-Credentials", "true");
         response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
+        String requestData,json;
+        JSONObject jsonObj;
         try {
             switch (request.getServletPath()) {
                 case "/API/PlanManager/insert":
@@ -74,8 +78,8 @@ public class PlanManager extends HttpServlet {
                     if (session.getAttribute("userRol").equals("SUPER_ADMIN") || session.getAttribute("userRol").equals("ADMIN")) {
                         response.setContentType("application/json");
                         response.setCharacterEncoding("UTF-8");
-                        String requestData = request.getReader().lines().collect(Collectors.joining());
-                        JSONObject jsonObj = new JSONObject(requestData);
+                        requestData = request.getReader().lines().collect(Collectors.joining());
+                        jsonObj = new JSONObject(requestData);
                         String planId = jsonObj.getString("planID");
                         String riskId = jsonObj.getString("riskID");
                         Plan p = PlanDAO.getInstance().searchByIdSmall(planId);
@@ -88,11 +92,26 @@ public class PlanManager extends HttpServlet {
                 case "/API/PlanManager/associateRiskToPlan":
                     response.setContentType("application/json");
                     response.setCharacterEncoding("UTF-8");
-                    String requestData = request.getReader().lines().collect(Collectors.joining());
-                    JSONObject jsonObj = new JSONObject(requestData);
-                    PlanDAO.getInstance().associatePlanToRisk(jsonObj.getString("planID"), jsonObj.getString("riskID"));
+                    requestData = request.getReader().lines().collect(Collectors.joining());
+                    jsonObj = new JSONObject(requestData); 
+                    JSONArray riskIdsJ = jsonObj.getJSONArray("riskIDs");
+                    if (riskIdsJ == null)
+                        throw new IOException("");
+                    List<Integer> riskIds = new ArrayList<>();
+                    for (int i = 0; i<riskIdsJ.length(); i++)
+                        riskIds.add((Integer) riskIdsJ.get(i));
+                    PlanDAO.getInstance().associateRisksToPlan(jsonObj.getString("planID"), riskIds);
                     break;
-
+                case "/API/PlanManager/getRiskListByPlanNoRep":
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    requestData = request.getReader().lines().collect(Collectors.joining());
+                    jsonObj = new JSONObject(requestData);
+                    json = new Gson().toJson(PlanDAO.getInstance().getRiskListByPlanNoRep(jsonObj.getString("planID")));
+                    response.getWriter().write(json);
+                    response.getWriter().flush();
+                    response.getWriter().close();
+                    break;
             }
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");

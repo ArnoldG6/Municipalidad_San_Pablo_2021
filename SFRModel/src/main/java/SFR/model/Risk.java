@@ -161,6 +161,9 @@ public class Risk implements Serializable {
 //    public void setPlans(List<Plan> plans) {
 //        this.plans = plans;
 //    }
+    public boolean equals(Risk other){
+        return (this.id == other.id);
+    }
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();

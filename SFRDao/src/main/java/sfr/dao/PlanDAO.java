@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import javax.persistence.Query;
 import sfr.model.Plan;
@@ -135,29 +136,38 @@ public class PlanDAO extends GenericDAO {
     }
 
     /**
-     * @author ArnoldGQ sets a list of risks, adding a risk identified by @param
-     * riskID, owned by a Plan identified by @param planID
+     * @author ArnoldGQ sets a list of risks, adding a list of risks, all identified by @param
+     * riskIDs, owned by a Plan identified by @param planID
      */
-    public void associatePlanToRisk(String planID, String riskID) throws Exception {
+    public void associateRisksToPlan(String planID, List<Integer> riskIDs) throws Exception {
         try {
-            if (planID == null) 
+            if (planID == null) {
                 throw new IOException("Invalid planID field");
-            
-            if (riskID == null) 
-                throw new IOException("Invalid RiskID field");
-            
+            }
+            if (riskIDs == null) {
+                throw new IOException("Invalid RiskIDs field");
+            }
             Plan p = PlanDAO.getInstance().searchByIdSmall(planID);
-            Risk r = RiskDAO.getInstance().searchByIdSmall(Integer.parseInt(riskID));
+            if (p == null) {
+                throw new IOException("Invalid planID field");
+            }
             List<Risk> riskList = p.getRiskList();
-            if (p.getRiskList().contains(r)) 
-                throw new IOException("This plan already has this risk");
-            
-            if (riskList == null) 
+            if (riskList == null) {
                 throw new IOException("Empty riskList exception");
-            
-            riskList.add(r);
+            }
+            if(riskIDs.isEmpty())
+                throw new IOException("Empty riskIDs field exception");
+            Risk r;
+            for (int i = 0; i < riskIDs.size(); i++) {
+                r = RiskDAO.getInstance().searchByIdSmall(riskIDs.get(i));
+                if (!riskList.contains(r)) 
+                    riskList.add(r);
+                else
+                    throw new IOException("This plan already contains this risk");
+            }
             p.setRiskList(riskList);
             PlanDAO.getInstance().update(p);
+
         } catch (Exception ex) {
             ex.printStackTrace(System.out);
             System.err.println(ex.getMessage());
@@ -169,20 +179,25 @@ public class PlanDAO extends GenericDAO {
 
     /**
      * @author ArnoldGQ
-     * @return a list of risks, owned by a Plan identified by @param planID,
-     * filtered by a non-repited @param riskID
+     * @return a list of risks, including all risks, except for the ones in the
+     * Plan identified by @param planID
      */
-    public List<Risk> getRiskListByPlanNoRep(String planID, String riskID) throws Exception {
+    public List<Risk> getRiskListByPlanNoRep(String planID) throws Exception {
         try {
-            if (planID == null) 
-                throw new IOException("Invalid planID field"); 
-            if (riskID == null) 
-                throw new IOException("Invalid riskID field");
+            if (planID == null) {
+                throw new IOException("Invalid planID field");
+            }
             Plan p = PlanDAO.getInstance().searchByIdSmall(planID);
-            List<Risk> riskList = p.getRiskList();
-            if (riskList == null) 
-                throw new IOException("Empty riskList exception");   
-            riskList.removeIf(r -> (String.valueOf(r.getId()).equals(Integer.parseInt(riskID))));
+            List<Risk> pRiskList = p.getRiskList(); //risks of an specific Plan.
+            List<Risk> riskList = RiskDAO.getInstance().listAll();
+            if (pRiskList == null || riskList == null) {
+                throw new IOException("Empty riskList exception");
+            }
+            for (int i = 0; i < pRiskList.size(); i++) {
+                if (riskList.contains(pRiskList.get(i))) {
+                    riskList.remove(pRiskList.get(i));
+                }
+            }
             return riskList;
         } catch (Exception ex) {
             ex.printStackTrace(System.out);
@@ -196,7 +211,7 @@ public class PlanDAO extends GenericDAO {
     public Plan searchByIdSmall(String id) {
         em = getEntityManager();
         return (Plan) em.find(Plan.class,
-                 id);
+                id);
     }
 
     public Plan searchById(String id) {

@@ -26,7 +26,7 @@ class RiskTable extends Component {
                             <th>Tipo General</th>
                             <th>Tipo por Área</th>
                             <th>Tipo Específico</th>
-                            <th><Button size="sm" variant="success">Agregar Riesgo</Button></th>
+                            <th><Button size="sm" onClick={this.props.openModalRisk()} variant="success">Agregar Riesgo</Button></th>
                         </tr>
                     </thead>
                     <tbody>

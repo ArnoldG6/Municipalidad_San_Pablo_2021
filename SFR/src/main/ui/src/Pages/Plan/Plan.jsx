@@ -4,6 +4,7 @@ import { Row, Card, Nav } from "react-bootstrap";
 import CommentSideBar from './Components/CommentSideBar';
 import TopButtons from './Components/TopButtons';
 import RiskTable from './Components/RiskTable';
+import AddRiskModal from './Components/AddExistingRiskModal';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 
@@ -20,12 +21,17 @@ class Plan extends Component {
             entryDate: "",
             status: "",
             type: "",
-            riskList: []
+            riskList: [],
+
+            show:false
         };
         this.tableAssign = this.tableAssign.bind(this);
         this.tableHandler = this.tableHandler.bind(this);
         this.removeRisks = this.removeRisks.bind(this);
         this.deletePlan = this.deletePlan.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+
     }
 
     refreshPage(){
@@ -71,7 +77,7 @@ class Plan extends Component {
     tableAssign() {
         switch (this.state.table) {
             case "risks":
-                return <RiskTable riesgos={this.state.riskList} removeRisks={this.removeRisks} />;
+                return <RiskTable openModalRisk={this.openModal} riesgos={this.state.riskList} removeRisks={this.removeRisks} />;
             case "incidents":
                 return <h1>Incidentes Aqui</h1>;
             case "involved":
@@ -124,6 +130,16 @@ class Plan extends Component {
                 this.props.history.push('/planes');
             })
     }
+
+    openModal = () => {
+        this.setState({ show: true });
+    };
+
+    closeModal = () => {
+        this.setState({ show: false });
+    };
+
+
 
     render() {
         let tableData = this.tableAssign();
@@ -178,6 +194,7 @@ class Plan extends Component {
                             {tableData}
                         </Card.Body>
                     </Card>
+                    <AddRiskModal idplan={this.state.id}   show={this.state.show} closeModal={this.closeModal}/>
                     <ToastContainer />
                 </div>
             </div>

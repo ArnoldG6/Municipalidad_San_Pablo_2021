@@ -42,3 +42,8 @@ input:focus:invalid {
     background: no-repeat 95% 50% rgba(231, 128, 128, 0.514);
     background-size: 25px;
 }
+
+#ModalAddRisk{
+    max-width: 100% !important;
+    width: 70%;
+}

@@ -67,7 +67,7 @@ class RisksTable extends Component {
                                         <td>{risk.probability}</td>
                                         <td>{risk.impact}</td>
                                         <td>{risk.magnitude}</td>
-                                        <td><Button>Editar</Button></td>
+                                        <td><Button onClick={() => { this.props.openModalEdit(risk.id) }} >Editar</Button></td>
                                         <td><Button
                                             onClick={() => { this.props.openModalDelete(risk.id) }}
                                             disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>Eliminar</Button></td>

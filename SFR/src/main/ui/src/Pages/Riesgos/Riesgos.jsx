@@ -10,6 +10,8 @@ import RisksTable from './Components/RisksTable';
 import Search from './Components/Search';
 import GenericModal from '../../SharedComponents/GenericModal/GenericModal';
 import EditRiskModal from './Components/EditRiskModal';
+
+
 class Riesgos extends Component {
     constructor(props) {
         super(props);
@@ -17,7 +19,7 @@ class Riesgos extends Component {
             show: false,
             showDel: false,
             showEdit: false,
-            risk: null,
+            editRisk: null,
             delId: "",
             riesgos: []
         };
@@ -110,17 +112,19 @@ class Riesgos extends Component {
     };
 
     openModalEdit = (id) => {
-        this.setState({showEdit: true, risk: this.state.riesgos[id]});
-        console.log(this.state.risk)
+        let risk = this.state.riesgos.find(risk => risk.id === id);
+        console.log(risk);
+        this.setState({
+            editRisk: risk,
+            showEdit: true
+        });
     };
-    closeModalEdit = () => {
-        this.setState({showEdit: false});
-    };
-    
-    bringRiskToModal(){
-    }
 
-    updateRisk(){
+    closeModalEdit = () => {
+        this.setState({ showEdit: false, editRisk: null });
+    };
+
+    updateRisk() {
     }
 
     openModalDelete = (id) => {
@@ -159,22 +163,22 @@ class Riesgos extends Component {
                     </Stack>
                 </Row>
                 <Row>
-                    <RisksTable 
-                    riesgos={this.state.riesgos} 
-                    updateRiesgosSort={this.updateRiesgosSort} 
-                    openModalDelete={this.openModalDelete}
-                    openModalEdit={this.openModalEdit}
+                    <RisksTable
+                        riesgos={this.state.riesgos}
+                        updateRiesgosSort={this.updateRiesgosSort}
+                        openModalDelete={this.openModalDelete}
+                        openModalEdit={this.openModalEdit}
                     />
                 </Row>
                 <EditRiskModal
-                bringRiskToModal={this.bringRiskToModal}
-                show={this.state.showEdit}
-                closeModalEdit={this.closeModalEdit}
-                 />
-                <AddRiskModal 
-                show={this.state.show}
-                updateRiesgos={this.updateRiesgos}  
-                closeModal={this.closeModal} />
+                    risk={this.state.editRisk}
+                    show={this.state.showEdit}
+                    closeModalEdit={this.closeModalEdit}
+                />
+                <AddRiskModal
+                    show={this.state.show}
+                    updateRiesgos={this.updateRiesgos}
+                    closeModal={this.closeModal} />
                 <ToastContainer />
                 <GenericModal
                     show={this.state.showDel}

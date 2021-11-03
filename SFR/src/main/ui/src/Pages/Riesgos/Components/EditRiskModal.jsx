@@ -35,10 +35,10 @@ class EditRiskModal extends Component {
                 'impact': parseInt(event.target.impact.value),
                 'generalType': this.state.value,
                 'factors': event.target.factor.value,
-                'specType' : event.target.specific_factor.value                   
+                'specType': event.target.specific_factor.value
             }
         }
-      
+
         axios(options)
             .then(response => {
                 this.props.updateRiesgos("add-success");
@@ -58,8 +58,8 @@ class EditRiskModal extends Component {
         this.setState({ value: e.target.value })
     }
 
-    handleAreaType = e =>{
-        this.setState({area: e.target.value})
+    handleAreaType = e => {
+        this.setState({ area: e.target.value })
     }
 
     render() {
@@ -69,99 +69,99 @@ class EditRiskModal extends Component {
         //let magnitude = this.props.magnitude
         let render = this.props.show
         let closeModal = this.props.closeModalEdit
-        //let risk = this.props.bringRiskToModal
-        
+        let risk = this.props.risk
         return (
             <Modal show={render} onHide={closeModal} id="modalRisks" >
                 <Modal.Header closeButton>
                     Editar Riesgo
                 </Modal.Header>
                 <Modal.Body>
+                    {(typeof risk === 'undefined' || risk === null) ? <h1>Error cargando el riesgo</h1> :
+                            <Form onSubmit={this.handleSubmit}>
 
-                    <Form onSubmit={this.handleSubmit}>
+                                <div className="form-group">
+                                    <label>Nombre: </label>
+                                    <input name="name" id="name" type="text" placeholder="Nombre" className="form-control" defaultValue={risk.name} required />
+                                </div>
 
-                        <div className="form-group">
-                            <label>Nombre: </label>
-                            <input name="name" id="name" type="text" placeholder="Nombre" className="form-control" required />
-                        </div>
+                                <div className="form-group">
+                                    <div className="number-input-container">
+                                        <label>Probabilidad: </label>
+                                        <input step=".1" min="0.1" max="0.9" name="probability" id="probability" type="number" placeholder="0,1" className="form-control number-input" required />
+                                    </div>
+                                    <div className="number-input-container">
+                                        <label>Impacto:</label>
+                                        <input min="10" max="90" step="10" name="impact" id="impact" type="number" className="form-control number-input" placeholder="10%" required />
+                                    </div>
+                                </div>
 
-                        <div className="form-group">
-                            <div className="number-input-container">
-                                <label>Probabilidad: </label>
-                                <input step=".1" min="0.1" max="0.9" name="probability" id="probability" type="number" placeholder="0,1" className="form-control number-input"  required />
-                            </div>
-                            <div className="number-input-container">
-                                <label>Impacto:</label>
-                                <input min="10" max="90" step="10" name="impact" id="impact" type="number" className="form-control number-input" placeholder="10%"  required />
-                            </div>
-                        </div>
+                                <FormGroup>
+                                    <label>Tipo de Riesgo:</label>
+                                    <FormGroup className="radio-group-type" name="type" >
+                                        <FormGroup className="Radio-element">
 
-                        <FormGroup>
-                            <label>Tipo de Riesgo:</label>
-                            <FormGroup className="radio-group-type" name="type" >
-                                <FormGroup className="Radio-element">
+                                            <input
+                                                id="risktype1"
+                                                type="radio"
+                                                value="EXTERNO"
+                                                checked={value === "externo"}
+                                                onChange={this.onChange}
+                                            />
+                                            <label for="risktype1">Externo</label>
+                                        </FormGroup>
+                                        <FormGroup className="Radio-element">
 
-                                    <input
-                                        id="risktype1"
-                                        type="radio"
-                                        value="EXTERNO"
-                                        checked={value === "externo"}
-                                        onChange={this.onChange}
-                                    />
-                                    <label for="risktype1">Externo</label>
+                                            <input
+                                                id="risktype2"
+                                                type="radio"
+                                                value="INTERNO"
+                                                checked={value === "interno"}
+                                                onChange={this.onChange}
+                                            />
+                                            <label for="risktype2">Interno</label>
+                                        </FormGroup>
+                                    </FormGroup>
+
                                 </FormGroup>
-                                <FormGroup className="Radio-element">
-
-                                    <input
-                                        id="risktype2"
-                                        type="radio"
-                                        value="INTERNO"
-                                        checked={value === "interno"}
-                                        onChange={this.onChange}
-                                    />
-                                    <label for="risktype2">Interno</label>
-                                </FormGroup>
-                            </FormGroup>
-
-                        </FormGroup>
 
 
-                        <div className="form-group">
-                            <label>Tipo: </label>
-                            <Form.Select name="areatype" id="areatype" hidden={value === "interno"} onChange={this.handleAreaType} >
-                                
-                                <option value="Político">Político</option>
-                                <option value="Legal">Legal</option>
-                                <option value="Económico">Económico</option>
-                                <option value="Tecnologías de la información">Tecnologías de la información</option>
-                                <option value="Eventos naturales">Eventos naturales</option>
-                                <option value="Ambiental">Ambiental</option>
+                                <div className="form-group">
+                                    <label>Tipo: </label>
+                                    <Form.Select name="areatype" id="areatype" hidden={value === "interno"} onChange={this.handleAreaType} >
 
-                            </Form.Select>
+                                        <option value="Político">Político</option>
+                                        <option value="Legal">Legal</option>
+                                        <option value="Económico">Económico</option>
+                                        <option value="Tecnologías de la información">Tecnologías de la información</option>
+                                        <option value="Eventos naturales">Eventos naturales</option>
+                                        <option value="Ambiental">Ambiental</option>
 
-                            <Form.Select name="areatype" id="areatype" hidden={value === "externo"} onChange={this.handleAreaType} >
-                                <option value="Estratégicos">Estratégicos</option>
-                                <option value="Financieros">Financieros</option>
-                                <option value="Desarrollo de los procesos">Desarrollo de los procesos</option>
-                                <option value="Tecnológicos y de información">Tecnológicos y de información</option>
-                                <option value="Gestión de procesos sustantivos">Gestión de procesos sustantivos</option>
-                                <option value="Funcionario municipal">Funcionario municipal</option>
+                                    </Form.Select>
 
-                            </Form.Select>
-                        </div>
-                        <div className="form-group">
-                            <label>Fuente por área específica:</label>
-                            <input name="specific_factor" id="specific_factor" type="text" placeholder="" className="form-control"  required />
-                        </div>
-                        
-                        {/*<div className="form-group">
+                                    <Form.Select name="areatype" id="areatype" hidden={value === "externo"} onChange={this.handleAreaType} >
+                                        <option value="Estratégicos">Estratégicos</option>
+                                        <option value="Financieros">Financieros</option>
+                                        <option value="Desarrollo de los procesos">Desarrollo de los procesos</option>
+                                        <option value="Tecnológicos y de información">Tecnológicos y de información</option>
+                                        <option value="Gestión de procesos sustantivos">Gestión de procesos sustantivos</option>
+                                        <option value="Funcionario municipal">Funcionario municipal</option>
+
+                                    </Form.Select>
+                                </div>
+                                <div className="form-group">
+                                    <label>Fuente por área específica:</label>
+                                    <input name="specific_factor" id="specific_factor" type="text" placeholder="" className="form-control" required />
+                                </div>
+
+                                {/*<div className="form-group">
                             <label>Factores:</label>
                             <textarea name="factor" id="factor" type="text" placeholder="¿Por qué puede suceder?" className="form-control" />
                         </div>*/}
-                        <Button id="submitRiskBtn" className='btn-sfr' type="submit" >
-                            Guardar
-                        </Button>
-                    </Form>
+                                <Button id="submitRiskBtn" className='btn-sfr' type="submit" >
+                                    Guardar
+                                </Button>
+                            </Form>
+                    }
                 </Modal.Body>
                 <ToastContainer />
             </Modal>

@@ -40,6 +40,22 @@ class Riesgos extends Component {
         this.refreshPage();
     }
 
+    refreshPage() {
+        let options = {
+            url: process.env.REACT_APP_API_URL + "/RiskServlet",
+            method: "GET",
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        }
+        axios(options).then(response => {
+            this.setState({ riesgos: response.data })
+        }).catch((error) => {
+            console.error(error.message);
+        });
+    }
+
     updateRiesgos(type) {
         if (type === "add-success") {
             toast.success("El Riesgo ha sido agregado satisfactoriamente!", {
@@ -136,22 +152,7 @@ class Riesgos extends Component {
                 window.location.reload(false);
             })
     }
-    refreshPage(){
-        let options = {
-            url: process.env.REACT_APP_API_URL + "/RiskServlet",
-            method: "GET",
-            header: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        }
-        //axios(options).then(toast.promise({pending: 'Cargando...'})).then(response => {
-        axios(options).then(response => {
-            this.setState({ riesgos: response.data })
-        }).catch((error) => {
-            console.error(error.message);
-        });
-    }
+
     render() {
         return (
             <div className="Riesgos-Container container-fluid">
@@ -170,6 +171,7 @@ class Riesgos extends Component {
                     />
                 </Row>
                 <EditRiskModal
+                    refreshPage={this.refreshPage}
                     risk={this.state.editRisk}
                     show={this.state.showEdit}
                     closeModalEdit={this.closeModalEdit}

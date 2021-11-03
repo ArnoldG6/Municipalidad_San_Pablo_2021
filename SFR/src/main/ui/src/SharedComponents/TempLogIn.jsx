@@ -30,8 +30,6 @@ class TempLogIn extends Component {
             .then(response => {
                 sessionStorage.setItem("userRol", response.data.userRol);
                 sessionStorage.setItem("userID", response.data.userID);
-                console.log(sessionStorage.getItem("userRol"));
-                console.log(sessionStorage.getItem("userID"));
                 toast.success("Usuario cambiado!", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,

@@ -87,7 +87,6 @@ class Planes extends Component {
         }
         axios(options).then(response => {
             this.setState({ planes: response.data })
-            //console.log(response.data)
         }).catch((error) => {
             console.error(error.message);
         });

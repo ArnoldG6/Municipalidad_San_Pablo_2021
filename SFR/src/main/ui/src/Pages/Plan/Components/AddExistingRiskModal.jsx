@@ -28,7 +28,6 @@ class AddExistingRiskModal extends Component {
             list.push(id);
             this.setState({ riskIDs: list });
         }
-        console.log(list);
     }
 
     render() {
@@ -83,10 +82,6 @@ class AddExistingRiskModal extends Component {
                 </Modal.Body>
             </Modal >
         );
-
     };
-
-
-
 };
 export default AddExistingRiskModal;

@@ -65,7 +65,6 @@ class Riesgos extends Component {
         }
         axios(options).then(response => {
             this.setState({ riesgos: response.data })
-            //console.log(response.data)
         }).catch((error) => {
             console.error(error.message);
         });

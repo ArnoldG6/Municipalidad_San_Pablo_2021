@@ -32,8 +32,6 @@ class Search extends Component {
         axios(options)
             .then(response => {
                 this.props.updatePlanes(response.data);
-                console.log(response.data);
-                console.log(response.data.name);
             }).catch(error => {
                 console.log(error);
                 toast.error("Hubo un error realizando la busqueda", {

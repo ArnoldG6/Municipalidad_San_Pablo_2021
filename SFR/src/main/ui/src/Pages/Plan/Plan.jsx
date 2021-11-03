@@ -90,7 +90,6 @@ class Plan extends Component {
     }
 
     tableAssign() {
-        console.log(this.state.id);
         switch (this.state.table) {
             case "risks":
                 return <RiskTable riesgos={this.state.riskList} removeRisks={this.removeRisks} addRisk={this.addRisk} availableRisks={this.state.availableRisks} />;

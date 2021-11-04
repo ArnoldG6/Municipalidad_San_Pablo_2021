@@ -144,6 +144,9 @@ public class Plan implements Serializable {
     public void setType(String type) {
         this.type = type;
     }
+    public boolean equals(Plan other){
+        return (this.id.equals(other.id));
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

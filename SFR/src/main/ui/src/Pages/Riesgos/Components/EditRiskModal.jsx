@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
 import { Modal, Button, Form, FormGroup } from "react-bootstrap";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,7 +10,7 @@ class EditRiskModal extends Component {
         super(props);
         this.state = {
             value: "EXTERNO",
-            area: "Politico"
+            area: "Político"
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -19,10 +18,11 @@ class EditRiskModal extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    //closeModal() { }
-
     handleSubmit = (event) => {
         event.preventDefault();
+        console.log(event.target);
+        console.log(event.target[6].value);
+        console.log(event.target[7].value);
         let options = {
             url: process.env.REACT_APP_API_URL + `/RiskManager/edit`,
             method: 'PUT',
@@ -35,8 +35,8 @@ class EditRiskModal extends Component {
                 'name': event.target[1].value,
                 'probability': parseFloat(event.target[2].value),
                 'impact': parseInt(event.target[3].value),
-                'areaType': this.state.area,
-                'generalType': this.state.value,
+                'areaType': event.target[4].checked ? event.target[6].value : event.target[7].value,
+                'generalType': event.target[4].checked ? event.target[4].value : event.target[5].value,
                 'specType': event.target[8].value,
                 'magnitude': parseFloat(event.target[2].value) * parseInt(event.target[3].value)
             }
@@ -51,21 +51,19 @@ class EditRiskModal extends Component {
     }
 
     onChange = e => {
+        this.props.risk.generalType = e.target.value;
         this.setState({ value: e.target.value })
     }
 
     handleAreaType = e => {
+        this.props.risk.areaType = e.target.value;
         this.setState({ area: e.target.value })
     }
 
     render() {
-
-        const { value } = this.state;
-        //let id = this.props.id
-        //let magnitude = this.props.magnitude
-        let render = this.props.show
-        let closeModal = this.props.closeModalEdit
-        let risk = this.props.risk
+        let render = this.props.show;
+        let closeModal = this.props.closeModalEdit;
+        let risk = this.props.risk;
         return (
             <Modal show={render} onHide={closeModal} id="modalRisks" >
                 <Modal.Header closeButton>
@@ -98,23 +96,21 @@ class EditRiskModal extends Component {
                                 <label>Tipo de Riesgo:</label>
                                 <FormGroup className="radio-group-type" name="type" defaultValue={risk.generalType} >
                                     <FormGroup className="Radio-element">
-
                                         <input
                                             id="risktype1"
                                             type="radio"
                                             value="EXTERNO"
-                                            checked={value === "EXTERNO"}
+                                            checked={risk.generalType === "EXTERNO"}
                                             onChange={this.onChange}
                                         />
                                         <label for="risktype1">Externo</label>
                                     </FormGroup>
                                     <FormGroup className="Radio-element">
-
                                         <input
                                             id="risktype2"
                                             type="radio"
                                             value="INTERNO"
-                                            checked={value === "INTERNO"}
+                                            checked={risk.generalType === "INTERNO"}
                                             onChange={this.onChange}
                                         />
                                         <label for="risktype2">Interno</label>
@@ -126,7 +122,7 @@ class EditRiskModal extends Component {
 
                             <div className="form-group">
                                 <label>Tipo: </label>
-                                <Form.Select name="areatype" id="areatype" hidden={value === "INTERNO"} onChange={this.handleAreaType} defaultValue={risk.areaType}>
+                                <Form.Select name="areatype" id="areatype" hidden={risk.generalType === "INTERNO"} defaultValue={risk.areaType}>
 
                                     <option value="Político">Político</option>
                                     <option value="Legal">Legal</option>
@@ -137,7 +133,7 @@ class EditRiskModal extends Component {
 
                                 </Form.Select>
 
-                                <Form.Select name="areatype" id="areatype" hidden={value === "EXTERNO"} onChange={this.handleAreaType} defaultValue={risk.areaType}>
+                                <Form.Select name="areatype" id="areatype" hidden={risk.generalType === "EXTERNO"} defaultValue={risk.areaType}>
                                     <option value="Estratégicos">Estratégicos</option>
                                     <option value="Financieros">Financieros</option>
                                     <option value="Desarrollo de los procesos">Desarrollo de los procesos</option>

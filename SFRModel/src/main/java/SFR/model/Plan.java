@@ -3,6 +3,7 @@ package sfr.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -50,6 +51,7 @@ public class Plan implements Serializable {
 //            inverseJoinColumns = @JoinColumn(name = "FK_USER")
 //    )
 //    private List<User> involvedList;
+    //@OneToMany(orphanRemoval = true, cascade = CascadeType.PERSIST)
     @OneToMany(orphanRemoval = true)
     @JoinTable(
             name = "T_RISKPLAN",
@@ -139,7 +141,24 @@ public class Plan implements Serializable {
     public String getType() {
         return type;
     }
-
+    public void addRisk(Risk risk){
+        try{
+            this.riskList.add(risk);
+        }catch(Exception e){
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        }
+    }
+    public void removeRisk(Risk risk){
+        try{
+            this.riskList.remove(risk);
+        }catch(Exception e){
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        }
+    }
     public void setType(String type) {
         this.type = type;
     }

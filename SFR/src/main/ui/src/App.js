@@ -15,7 +15,9 @@ import TempLogIn from './SharedComponents/TempLogIn';
 
 class App extends Component {
   render() {
+    document.title = 'SFR'
     return (
+      
       <Router>
         <NavBar />
         <Switch>

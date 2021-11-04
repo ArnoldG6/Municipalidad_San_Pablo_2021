@@ -61,7 +61,11 @@ public class RiskManager extends HttpServlet {
                     String objetoEditado = request.getReader().lines().collect(Collectors.joining());
                     Gson gsonEdit = new Gson();
                     Risk riskEdit = gsonEdit.fromJson(objetoEditado, Risk.class);
-                    RiskDAO.getInstance().update(riskEdit);
+                    if (RiskDAO.getInstance().searchByIdSmall(riskEdit.getId()) != null) {
+                        RiskDAO.getInstance().update(riskEdit);
+                    } else {
+                        throw new IOException("Este riesgo no esta registrado en el sistema");
+                    }
                     break;
             }
             response.setContentType("text/html");

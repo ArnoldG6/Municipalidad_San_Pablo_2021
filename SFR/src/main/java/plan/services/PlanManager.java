@@ -64,7 +64,11 @@ public class PlanManager extends HttpServlet {
                     String objetoEditado = request.getReader().lines().collect(Collectors.joining());
                     Gson gsonEdit = new Gson();
                     Plan editPlan = gsonEdit.fromJson(objetoEditado, Plan.class);
-                    PlanDAO.getInstance().update(editPlan);
+                    if (PlanDAO.getInstance().searchByIdSmall(editPlan.getId()) != null) {
+                        PlanDAO.getInstance().update(editPlan);
+                    } else {
+                        throw new IOException("Este plan no esta registrado en el sistema");
+                    }
                     break;
                 case "/API/PlanManager/delete":
                     String idObject = request.getReader().lines().collect(Collectors.joining());

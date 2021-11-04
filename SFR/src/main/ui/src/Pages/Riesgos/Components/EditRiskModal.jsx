@@ -38,7 +38,8 @@ class EditRiskModal extends Component {
                 'areaType': event.target[4].checked ? event.target[6].value : event.target[7].value,
                 'generalType': event.target[4].checked ? event.target[4].value : event.target[5].value,
                 'specType': event.target[8].value,
-                'magnitude': parseFloat(event.target[2].value) * parseInt(event.target[3].value)
+                'magnitude': parseFloat(event.target[2].value) * parseInt(event.target[3].value),
+                'factors': event.target.factor.value
             }
         }
         axios(options)
@@ -148,10 +149,10 @@ class EditRiskModal extends Component {
                                 <input name="specific_factor" id="specific_factor" type="text" placeholder="" className="form-control" defaultValue={risk.specType} required />
                             </div>
 
-                            {/*<div className="form-group">
+                            <div className="form-group">
                             <label>Factores:</label>
-                            <textarea name="factor" id="factor" type="text" placeholder="¿Por qué puede suceder?" className="form-control" />
-                        </div>*/}
+                            <textarea name="factor" id="factor" type="text" placeholder="¿Por qué puede suceder?" defaultValue={risk.factors} className="form-control" />
+                        </div>
                             <Button id="submitRiskBtn" className='btn-sfr' type="submit" >
                                 Guardar
                             </Button>

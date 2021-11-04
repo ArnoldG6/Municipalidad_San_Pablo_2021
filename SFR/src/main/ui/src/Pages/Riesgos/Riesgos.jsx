@@ -121,6 +121,7 @@ class Riesgos extends Component {
             editRisk: risk,
             showEdit: true
         });
+        
     };
 
     closeModalEdit = () => {

@@ -51,7 +51,7 @@ public class Plan implements Serializable {
 //            inverseJoinColumns = @JoinColumn(name = "FK_USER")
 //    )
 //    private List<User> involvedList;
-    @OneToMany//(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(orphanRemoval = true)
     @JoinTable(
             name = "T_RISKPLAN",
             joinColumns = @JoinColumn(name = "FK_PLAN"),

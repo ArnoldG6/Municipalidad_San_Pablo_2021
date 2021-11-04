@@ -40,7 +40,7 @@ public class Risk implements Serializable {
     @ManyToMany
     @JoinTable(
             name = "T_RISKPLAN",
-            joinColumns = @JoinColumn(name = "FK_PLAN"),
+            joinColumwns = @JoinColumn(name = "FK_PLAN"),
             inverseJoinColumns = @JoinColumn(name = "FK_RISK")
     )
     private List<Plan> plans;

@@ -12,14 +12,14 @@ import Plan from './Pages/Plan/Plan';
 import Riesgos from './Pages/Riesgos/Riesgos';
 import Error from './Pages/Error/Error';
 import TempLogIn from './SharedComponents/TempLogIn';
-
+import Footer from "./SharedComponents/Footer/Footer"
 class App extends Component {
   render() {
     document.title = 'SFR'
     return (
       
       <Router>
-        <NavBar />
+        <NavBar/>
         <Switch>
           <Route exact path="/">
             <h1>Home</h1>
@@ -39,6 +39,7 @@ class App extends Component {
           <Route path="/tempLogin" component={TempLogIn} />
           <Route render={() => <Error status={404} text={'Página no encontrada'} />} />
         </Switch>
+        <Footer/>
       </Router>
     );
   }

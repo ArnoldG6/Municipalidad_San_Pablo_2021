@@ -130,12 +130,23 @@ class Planes extends Component {
     render() {
         return (
             <div className="Planes-Container container-fluid">
-                <Row className="mt-2">
+                {/* Mobile */}
+                <Row className="mt-2 d-lg-none">
+                    <Stack direction="horizontal">
+                        <Button className="btn-sfr" id="NewItemButton" size="sm" onClick={this.openModal}>Crear Item</Button>
+                    </Stack>
+                </Row>
+                <Row className='d-lg-none'>
+                    <Search updatePlanes={this.updatePlanesBySearch} />
+                </Row>
+                {/* PC */}
+                <Row className="mt-2 d-none d-lg-block">
                     <Stack direction="horizontal" gap={3}>
                         <Button className="btn-sfr" id="NewItemButton" size="sm" onClick={this.openModal}>Crear Item</Button>
                         <Search updatePlanes={this.updatePlanesBySearch} />
                     </Stack>
                 </Row>
+                
                 <Row>
                     <PlansTable planes={this.state.planes} updatePlanesSort={this.updatePlanesSort} />
                 </Row>

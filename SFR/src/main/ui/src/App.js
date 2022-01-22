@@ -17,10 +17,11 @@ class App extends Component {
   render() {
     document.title = 'SFR'
     return (
-      
+      <div className="page-container">
       <Router>
+      <div className="content-wrap">
         <NavBar/>
-        <Switch>
+        <Switch classname = "App">
           <Route exact path="/">
             <h1>Home</h1>
           </Route>
@@ -39,8 +40,10 @@ class App extends Component {
           <Route path="/tempLogin" component={TempLogIn} />
           <Route render={() => <Error status={404} text={'Página no encontrada'} />} />
         </Switch>
+        </div>
         <Footer/>
       </Router>
+      </div>
     );
   }
 };

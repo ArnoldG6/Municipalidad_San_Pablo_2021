@@ -60,7 +60,7 @@ class PlansTable extends Component {
                                     }
                                     return (
                                         <Accordion.Item eventKey={plan.id}>
-                                            <Accordion.Header>
+                                            <Accordion.Header >
                                                 {plan.name}
                                             </Accordion.Header>
                                             <Accordion.Body>
@@ -117,7 +117,7 @@ class PlansTable extends Component {
                                         return (
                                             <tr key={plan.id}>
                                                 <td>{plan.id}</td>
-                                                <td className="nameSlot"><Link to={{ pathname: "/plan", search: `?id=${plan.id}` }}>{plan.name}</Link></td>
+                                                <td className="nameSlot"><Link  to={{ pathname: "/plan", search: `?id=${plan.id}` }}><p className='nameText'>{plan.name}</p></Link></td>
                                                 <td>{plan.entryDate}</td>
                                                 <td><div className={statusClass}>{plan.status}</div></td>
                                                 <td>{plan.authorName}</td>
@@ -125,6 +125,7 @@ class PlansTable extends Component {
                                             </tr>
                                         )
                                     })}
+                                
                                 </tbody>
                         }
                     </Table>

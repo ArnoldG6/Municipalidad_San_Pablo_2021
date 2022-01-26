@@ -1,6 +1,8 @@
 package sfr.dao;
 
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -245,13 +247,19 @@ public class PlanDAO extends GenericDAO {
     public List<Plan> searchInAllColumns(String value) {
         try {
             HashMap<String, Plan> resultHM = this.listAllHM();
-            Pattern p = Pattern.compile(value, Pattern.CASE_INSENSITIVE);
+            SimpleDateFormat dateFor = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+            
+            Pattern p = Pattern.compile(new StringBuilder().append("(.*)").append(value).append("(.*)").toString(), 
+                        Pattern.CASE_INSENSITIVE);
             ArrayList<Plan> result = new ArrayList<>();
             for (HashMap.Entry<String, Plan> plan : resultHM.entrySet()) {
                 Plan pl = plan.getValue();
+                
+                //
                 if (p.matcher(pl.getId()).find() || p.matcher(pl.getAuthorName()).find()
                         || p.matcher(pl.getName()).find() || p.matcher(pl.getDesc()).find()
-                        || p.matcher(pl.getEntryDate().toString()).find() || p.matcher(pl.getStatus()).find()
+                        || p.matcher(dateFor.format(pl.getEntryDate())).find() || p.matcher(pl.getStatus()).find()
+                        || p.matcher(String.format("%tB",pl.getEntryDate())).find() 
                         || p.matcher(pl.getType()).find()) {
                     result.add(pl);
                 }

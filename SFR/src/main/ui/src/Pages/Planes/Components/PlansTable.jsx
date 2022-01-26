@@ -4,36 +4,6 @@ import { Table, Accordion } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 
 class PlansTable extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            sortingWay: 'desc',
-            value: 'date'
-        };
-    }
-
-    handleSort(parameter) {
-        let sort = this.state.sortingWay;
-        if (parameter === this.state.value) {
-            if (sort === 'desc') {
-                sort = 'asc';
-            } else {
-                sort = 'desc';
-            }
-        }
-        else {
-            sort = 'desc';
-        }
-        this.setState(
-            {
-                sortingWay: sort,
-                value: parameter
-            }, () => {
-                this.props.updatePlanesSort(parameter, sort);
-            }
-        );
-    }
-
     render() {
         return (
             <div>
@@ -87,12 +57,12 @@ class PlansTable extends Component {
                     <Table hover>
                         <thead>
                             <tr>
-                                <th><button className='header-button' id="idButton" onClick={() => { this.handleSort('pk_id') }}>ID</button></th>
-                                <th><button className='header-button' id="nameButton" onClick={() => { this.handleSort('name') }}> Nombre</button></th>
-                                <th><button className='header-button' id="dateButton" onClick={() => { this.handleSort('entryDate') }}>Fecha de Ingreso</button></th>
-                                <th><button className='header-button' id="stateButton" onClick={() => { this.handleSort('status') }}>Estado</button></th>
-                                <th><button className='header-button' id="authorButton" onClick={() => { this.handleSort('authorName') }}>Autor</button></th>
-                                <th><button className='header-button' id="typeButton" onClick={() => { this.handleSort('type') }}>Tipo</button></th>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Fecha de Ingreso</th>
+                                <th>Estado</th>
+                                <th>Autor</th>
+                                <th>Tipo</th>
                             </tr>
                         </thead>
                         {(typeof this.props.planes === 'undefined' || this.props.planes === null) ? <h1>No se han agregado planes</h1> :

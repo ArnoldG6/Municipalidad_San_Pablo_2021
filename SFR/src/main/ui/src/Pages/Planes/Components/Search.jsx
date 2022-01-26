@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '../Planes.css'
-import {Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -42,7 +42,7 @@ class Search extends Component {
                 });
             });
 
-            
+
 
     }
 
@@ -51,10 +51,10 @@ class Search extends Component {
 
         return (
             <Form onSubmit={this.handleSubmit} className='ms-auto'>
-                
-                <button  className="btn-sfr" type="submit">Buscar</button>
+
+                <button className="btn-sfr" type="submit">Buscar</button>
                 <input type="text" id="searchPlan" name="searchPlan" placeholder="Buscar"></input>
-               
+
             </Form>
         );
     }

@@ -77,7 +77,7 @@ public class PlanServlet extends HttpServlet {
                     requestData = request.getReader().lines().collect(Collectors.joining());
                     jsonObj = new JSONObject(requestData);
                     String planID = jsonObj.getString("planID");
-                    json = new Gson().toJson(PlanDAO.getInstance().searchByIdSmall(planID));
+                    json = new Gson().toJson(PlanDAO.getInstance().searchById(planID));
                     response.getWriter().write(json);
                     response.getWriter().flush();
                     response.getWriter().close();

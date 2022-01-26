@@ -53,7 +53,7 @@ public class PlanManager extends HttpServlet {
                     Gson gson = new Gson();
                     Plan newPlan = gson.fromJson(algo, Plan.class);
                     newPlan.setEntryDate(new Date());
-                    Plan planExist = PlanDAO.getInstance().searchByIdSmall(newPlan.getId());
+                    Plan planExist = PlanDAO.getInstance().searchById(newPlan.getId());
                     if (planExist != null) {
                         response.sendError(409);
                         throw new IOException("El plan que se insertó ");
@@ -64,7 +64,7 @@ public class PlanManager extends HttpServlet {
                     String objetoEditado = request.getReader().lines().collect(Collectors.joining());
                     Gson gsonEdit = new Gson();
                     Plan editPlan = gsonEdit.fromJson(objetoEditado, Plan.class);
-                    if (PlanDAO.getInstance().searchByIdSmall(editPlan.getId()) != null) {
+                    if (PlanDAO.getInstance().searchById(editPlan.getId()) != null) {
                         PlanDAO.getInstance().update(editPlan);
                     } else {
                         throw new IOException("Este plan no esta registrado en el sistema");
@@ -84,7 +84,7 @@ public class PlanManager extends HttpServlet {
                     jsonObj = new JSONObject(requestData);
                     String planId = jsonObj.getString("planID");
                     String riskId = jsonObj.getString("riskID");
-                    Plan p = PlanDAO.getInstance().searchByIdSmall(planId);
+                    Plan p = PlanDAO.getInstance().searchById(planId);
                     List<Risk> riskList = p.getRiskList();
                     riskList.removeIf(r -> (String.valueOf(r.getId()).equals(riskId)));
                     p.setRiskList(riskList);

@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import javax.persistence.Query;
 import sfr.model.Plan;
@@ -15,19 +14,22 @@ import sfr.model.Risk;
 
 /**
  *
- * @author arnold
+ * @author ArnoldG6
+ * PlanDAO class is it's responsible of stablishing connection with Hibernate framework
+ * in order to cast Java objects from HQL queries.
  */
 public class PlanDAO extends GenericDAO {
-
-    private static PlanDAO uniqueInstance;
-
+    private static PlanDAO uniqueInstance; //Singleton Pattern Object
+    //Returns Singleton Pattern Object of PlanDAO class.
     public static PlanDAO getInstance() {
-        if (uniqueInstance == null) {
+        if (uniqueInstance == null) 
             uniqueInstance = new PlanDAO();
-        }
         return uniqueInstance;
-    }
 
+    }
+    /**
+    *  @return a casted list of Plan objects from an HQL query sorted in descending order by entryDate.
+    */
     public List<Plan> listAll() {
         try {
             String cmd = "SELECT p from Plan p order by p.entryDate desc";
@@ -40,8 +42,13 @@ public class PlanDAO extends GenericDAO {
             throw e;
         }
     }
-
-//Translates and verifies column name into attribute's name in order to use Hibernate selections.
+    /**
+    *  @return a translated column name into an attribute's name (of Plan class) 
+    *  in order to use Hibernate's queries defined in this file.
+    *  @param column specifies the desired column name to check if it can be translated.
+    *  @param order specifies the ascendent or descendent order keyword to be translated. 
+     * @throws java.io.IOException 
+    */
     public String translateColumnName(String column, String order) throws IOException {
         order = order.toUpperCase();
         if (!(order.toUpperCase().equals("ASC")
@@ -49,25 +56,23 @@ public class PlanDAO extends GenericDAO {
             throw new IOException("Invalid order parameter");
         }
         switch (column.toUpperCase()) {
-            case "PK_ID":
-                return "id";
-            case "NAME":
-                return "name";
-            case "DESCRIPTION":
-                return "description";
-            case "AUTHORNAME":
-                return "authorName";
-            case "ENTRYDATE":
-                return "entryDate";
-            case "STATUS":
-                return "status";
-            case "TYPE":
-                return "type";
+            case "PK_ID": return "id";
+            case "NAME":  return "name";
+            case "DESCRIPTION": return "description";
+            case "AUTHORNAME": return "authorName";
+            case "ENTRYDATE": return "entryDate";
+            case "STATUS": return "status";
+            case "TYPE": return "type";
             default:
                 throw new IOException("Invalid column");
         }
     }
-
+    /**
+    *  @return a sorted list of Plan objects depending on the next parameters: 
+    *  @param column specifies the sorting criteria from the selected column.
+    *  @param order specifies the ascendent or descendent order criteria.
+     * @throws java.lang.Exception
+    */
     public List<Plan> listByColumn(String column, String order) throws Exception {
         try {
             order = order.toUpperCase();
@@ -82,7 +87,9 @@ public class PlanDAO extends GenericDAO {
             throw e;
         }
     }
-
+    /**
+    *  @return a casted HashMap of Plan objects from an HQL query sorted in descending order by entryDate.
+    */
     public HashMap<String, Plan> listAllHM() {
         HashMap<String, Plan> plans = new HashMap<>();
         List<Plan> plansList = this.listAll();
@@ -91,7 +98,10 @@ public class PlanDAO extends GenericDAO {
         });
         return plans;
     }
-
+    /**
+    * This method adds a Plan object into the DB record, using HQL.
+    * @param plan is the Plan Object to be added.
+    */
     public void add(Plan plan) {
         try {
             em = getEntityManager();
@@ -105,7 +115,10 @@ public class PlanDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-
+    /**
+    * This method updates a Plan object into the DB record, using HQL.
+    * @param plan is the Plan Object to be updated.
+    */
     public void update(Plan plan) {
         try {
             em = getEntityManager();
@@ -120,7 +133,10 @@ public class PlanDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-
+    /**
+    * This method deletes a Plan object into the DB record, using HQL.
+     * @param plan is the Plan Object to be deleted.
+    */
     public void delete(Plan plan) {
         try {
             em = getEntityManager();
@@ -135,9 +151,11 @@ public class PlanDAO extends GenericDAO {
         }
     }
 
-    /**
-     * @author ArnoldGQ sets a list of risks, adding a list of risks, all identified by @param
-     * riskIDs, owned by a Plan identified by @param planID
+     /**
+     * This method associates a single Plan object to n Risk objects.
+     * @param planID the Plan object that will be associated to the Risk objects
+     * @param riskIDs List of riskIDs to associate with planID parameter.
+     * @throws java.lang.Exception
      */
     public void associateRisksToPlan(String planID, List<Integer> riskIDs) throws Exception {
         try {
@@ -147,7 +165,7 @@ public class PlanDAO extends GenericDAO {
             if (riskIDs == null) {
                 throw new IOException("Invalid RiskIDs field");
             }
-            Plan p = PlanDAO.getInstance().searchByIdSmall(planID);
+            Plan p = PlanDAO.getInstance().searchById(planID);
             if (p == null) {
                 throw new IOException("Invalid planID field");
             }
@@ -178,16 +196,18 @@ public class PlanDAO extends GenericDAO {
     }
 
     /**
-     * @author ArnoldGQ
+     * 
      * @return a list of risks, including all risks, except for the ones in the
-     * Plan identified by @param planID
+     * Plan identified by 
+     * @param planID
+     * @throws java.lang.Exception
      */
     public List<Risk> getRiskListByPlanNoRep(String planID) throws Exception {
         try {
             if (planID == null) {
                 throw new IOException("Invalid planID field");
             }
-            Plan p = PlanDAO.getInstance().searchByIdSmall(planID);
+            Plan p = PlanDAO.getInstance().searchById(planID);
             List<Risk> pRiskList = p.getRiskList(); //risks of an specific Plan.
             List<Risk> riskList = RiskDAO.getInstance().listAll();
             if (pRiskList == null || riskList == null) {
@@ -207,79 +227,21 @@ public class PlanDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-
-    public Plan searchByIdSmall(String id) {
-        em = getEntityManager();
-        return (Plan) em.find(Plan.class,
-                id);
-    }
-
+     /**
+     * 
+     * @param id
+     * @return a Plan object that matches with
+     */
     public Plan searchById(String id) {
-        try {
-            String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p WHERE p.id = '" + id + "'";
-            em = getEntityManager();
-            Query query = em.createQuery(cmd);
-            Object[] obj = (Object[]) query.getSingleResult();
-
-            Plan p = new Plan(String.valueOf(obj[0]));
-            p.setName(String.valueOf(obj[1]));
-            p.setDesc(String.valueOf(obj[2]));
-            p.setEntryDate((Date) (obj[3]));
-            p.setStatus(String.valueOf(obj[4]));
-            p.setAuthorName(String.valueOf(obj[5]));
-            p.setType(String.valueOf(obj[6]));
-
-            return p;
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            System.err.println(e.getMessage());
-            throw e;
-        }
+        em = getEntityManager();
+        return (Plan) em.find(Plan.class,id);
     }
-
-    public List<Plan> listSearchBy2(String toSearch, String value) {
-        try {
-            List<Plan> listSearch = PlanDAO.getInstance().listAll();
-            List<Plan> result = new ArrayList<>();
-            Pattern p = Pattern.compile(value);
-            switch (toSearch) {
-                case "name":
-                    for (Plan s : listSearch) {
-                        if (p.matcher(s.getName()).find()) {
-                            result.add(s);
-                        }
-                    }
-                    break;
-                case "id":
-                    for (Plan s : listSearch) {
-                        if (p.matcher(s.getId()).find()) {
-                            result.add(s);
-                        }
-                    }
-                    break;
-                case "authorName":
-                    for (Plan s : listSearch) {
-                        if (p.matcher(s.getAuthorName()).find()) {
-                            result.add(s);
-                        }
-                    }
-                    break;
-                case "type":
-                    for (Plan s : listSearch) {
-                        if (p.matcher(s.getType()).find()) {
-                            result.add(s);
-                        }
-                    }
-                    break;
-            }
-            return result;
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            System.err.println(e.getMessage());
-            throw e;
-        }
-    }
-
+     /**
+     * 
+     *
+     * @return a Plan object list which contains matched attribute toString() values with
+     * @param value 
+     */
     public List<Plan> searchInAllColumns(String value) {
         try {
             HashMap<String, Plan> resultHM = this.listAllHM();
@@ -302,41 +264,12 @@ public class PlanDAO extends GenericDAO {
         }
     }
 
-    public List<Plan> listSearchBy(String toSearch, String value) {
-        try {
-            String cmd = "SELECT p.id, p.name, p.description, p.entryDate, p.status, p.authorName, p.type FROM Plan p WHERE p." + toSearch + " LIKE '" + value + "%'";
-            em = getEntityManager();
-            Query query = em.createQuery(cmd);
-            List<Plan> objList = (List<Plan>) query.getResultList();
-
-            List<Plan> l = new ArrayList<>();
-            Iterator itr = objList.iterator();
-
-            //Hibernate consigue lista de Object
-            //Realizar conversion al objeto correcto
-            //Posiciones estan basadas en las posiciones de la tabla en la base de datos
-            while (itr.hasNext()) {
-                Object[] obj = (Object[]) itr.next();
-
-                Plan p = new Plan(String.valueOf(obj[0]));
-                p.setName(String.valueOf(obj[1]));
-                p.setDesc(String.valueOf(obj[2]));
-                p.setEntryDate((Date) (obj[3]));
-                p.setStatus(String.valueOf(obj[4]));
-                p.setAuthorName(String.valueOf(obj[5]));
-                p.setType(String.valueOf(obj[6]));
-
-                l.add(p);
-            }
-
-            return l;
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            System.err.println(e.getMessage());
-            throw e;
-        }
-    }
-
+     /**
+     * 
+     *
+     * @return a Plan object list that is paged according to 
+     * @param page 
+     */
     public List<Plan> listTenPlans(int page) {
         try {
             String cmd = "CALL selectTenPlans(" + page + "0)";
@@ -375,7 +308,10 @@ public class PlanDAO extends GenericDAO {
             throw e;
         }
     }
-
+    /**
+     * @return a Plan object list that is paged according to 
+     * @param page 
+     */
     public long countPlans() {
         try {
             String cmd = "SELECT count(*) FROM Plan";

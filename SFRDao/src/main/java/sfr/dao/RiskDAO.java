@@ -6,14 +6,10 @@
 package sfr.dao;
 
 import java.io.IOException;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
-import javax.jms.Connection;
-import javax.jms.JMSException;
 import javax.persistence.Query;
 import static sfr.dao.GenericDAO.em;
 import sfr.model.Plan;
@@ -28,30 +24,14 @@ public class RiskDAO extends GenericDAO {
     private static RiskDAO uniqueInstance;
 
     public static RiskDAO getInstance() {
-        if (uniqueInstance == null) {
+        if (uniqueInstance == null)
             uniqueInstance = new RiskDAO();
-        }
-
         return uniqueInstance;
-    }
-
-    public List<Risk> listAll() {
-        try {
-            String cmd = "SELECT r FROM Risk r";
-            em = getEntityManager();
-            Query query = em.createQuery(cmd);
-            return (List<Risk>) query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            System.err.println(e.getMessage());
-            throw e;
-        }
     }
 
     public String translateColumnName(String column, String order) throws IOException {
         order = order.toUpperCase();
-        if (!(order.toUpperCase().equals("ASC")
-                || order.toUpperCase().equals("DESC"))) {
+        if (!(order.equals("ASC")|| order.equals("DESC"))) {
             throw new IOException("Invalid order parameter");
         }
         switch (column.toUpperCase()) {
@@ -84,7 +64,8 @@ public class RiskDAO extends GenericDAO {
         try {
             order = order.toUpperCase();
             column = this.translateColumnName(column, order);
-            String cmd = "SELECT r from Risk r order by r." + column + " " + order;
+            String cmd = new StringBuilder().append("SELECT r from Risk r order by r.")
+            .append(column).append(" ").append(order).toString();
             em = getEntityManager();
             Query query = em.createQuery(cmd);
             return (List<Risk>) query.getResultList();
@@ -95,9 +76,9 @@ public class RiskDAO extends GenericDAO {
         }
     }
 
-    public HashMap<Integer, Risk> listAllHM() {
+    public HashMap<Integer, Risk> listAllHM() throws Exception {
         HashMap<Integer, Risk> Risks = new HashMap<>();
-        List<Risk> RisksList = this.listAll();
+        List<Risk> RisksList = this.listByColumn("PK_ID","DESC");
         RisksList.forEach(p -> {
             Risks.put(p.getId(), p);
         });
@@ -133,9 +114,9 @@ public class RiskDAO extends GenericDAO {
         }
     }
 
-    public void delete(Risk risk) {
+    public void delete(Risk risk) throws Exception {
         try {
-            List<Plan> pl = PlanDAO.getInstance().listAll();
+            List<Plan> pl = PlanDAO.getInstance().listByColumn("ENTRYDATE","DESC");
             List<Risk> rl;
             for (int i = 0; i < pl.size(); i++) {
                 try {
@@ -161,46 +142,6 @@ public class RiskDAO extends GenericDAO {
             System.err.println(e.getMessage());
             throw e;
         }
-        /*
-        try {
-            try {
-                Connection cnx = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/sfr?useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true", "root", "root");
-                Statement stm = (Statement) cnx.createStatement("delete from sfr.T_riskplan where fk_risk = ?;");
-                stm.clearParameters();
-                stm.setString(1, String.valueOf(risk.getId()));
-                if (stm.executeUpdate() != 1) {
-                    throw new IllegalArgumentException();
-                }
-            }
-        } catch (SQLException ex) {
-            System.err.printf("Exception: '%s'%n", ex.getMessage());
-            throw new IllegalArgumentException(ex.getMessage());
-        }
-                try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-         */
-        //      try
-        //{ 
-        // create the mysql database connection
-        //String myDriver = "org.gjt.mm.mysql.Driver";
-        //String myUrl = "jdbc:mysql://localhost/test";
-        //Class.forName(myDriver);
-        //Connection conn = (Connection) DriverManager.getConnection(myUrl, "root", "");
-        //String query = "delete from users where id = ?";
-        //PreparedStatement preparedStmt = conn.prepareStatement(query);
-        //preparedStmt.setInt(1, 3);
-        //preparedStmt.execute();   
-        //conn.close();
-        //}
-        //catch (Exception e)
-        // {
-        //  System.err.println("Got an exception! ");
-        //  System.err.println(e.getMessage());
-        // }
-
     }
 
     public Risk searchByIdSmall(int id) {
@@ -233,7 +174,7 @@ public class RiskDAO extends GenericDAO {
         }
     }
 
-    public List<Risk> searchInAllColumns(String value) {
+    public List<Risk> searchInAllColumns(String value) throws Exception {
         try {
             HashMap<Integer, Risk> resultHM = this.listAllHM();
             Pattern p = Pattern.compile(value, Pattern.CASE_INSENSITIVE);

@@ -41,7 +41,7 @@ public class PlanServlet extends HttpServlet {
             JSONObject jsonObj;
             switch (request.getServletPath()) {
                 case "/API/PlanServlet":
-                    json = new Gson().toJson(PlanDAO.getInstance().listAll());
+                    json = new Gson().toJson(PlanDAO.getInstance().listByColumn("ENTRYDATE","DESC"));
                     response.setContentType("application/json");
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write(json);

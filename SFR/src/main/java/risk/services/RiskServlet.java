@@ -43,7 +43,7 @@ public class RiskServlet extends HttpServlet {
             JSONObject jsonObj;
             switch (request.getServletPath()) {
                 case "/API/RiskServlet":
-                    json = new Gson().toJson(RiskDAO.getInstance().listAll());
+                    json = new Gson().toJson(RiskDAO.getInstance().listByColumn("PK_ID","ASC"));
                     response.setContentType("application/json");
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write(json);

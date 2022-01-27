@@ -1,6 +1,5 @@
 package sfr.dao;
 
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import sfr.model.Risk;
 /**
  *
  * @author ArnoldG6
- * PlanDAO class is it's responsible of stablishing connection with Hibernate framework
+ * PlanDAO class is it's responsible of establishing connection with Hibernate framework
  * in order to cast Java objects from HQL queries.
  */
 public class PlanDAO extends GenericDAO {
@@ -30,21 +29,6 @@ public class PlanDAO extends GenericDAO {
 
     }
     /**
-    *  @return a casted list of Plan objects from an HQL query sorted in descending order by entryDate.
-    */
-    public List<Plan> listAll() {
-        try {
-            String cmd = "SELECT p from Plan p order by p.entryDate desc";
-            em = getEntityManager();
-            Query query = em.createQuery(cmd);
-            return (List<Plan>) query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            System.err.println(e.getMessage());
-            throw e;
-        }
-    }
-    /**
     *  @return a translated column name into an attribute's name (of Plan class) 
     *  in order to use Hibernate's queries defined in this file.
     *  @param column specifies the desired column name to check if it can be translated.
@@ -53,8 +37,7 @@ public class PlanDAO extends GenericDAO {
     */
     public String translateColumnName(String column, String order) throws IOException {
         order = order.toUpperCase();
-        if (!(order.toUpperCase().equals("ASC")
-                || order.toUpperCase().equals("DESC"))) {
+        if (!(equals("ASC")|| order.equals("DESC"))) {
             throw new IOException("Invalid order parameter");
         }
         switch (column.toUpperCase()) {
@@ -79,7 +62,8 @@ public class PlanDAO extends GenericDAO {
         try {
             order = order.toUpperCase();
             column = this.translateColumnName(column, order);
-            String cmd = "SELECT p from Plan p order by p." + column + " " + order;
+            String cmd = new StringBuilder().append("SELECT p from Plan p order by p.")
+            .append(column).append(" ").append(order).toString();
             em = getEntityManager();
             Query query = em.createQuery(cmd);
             return (List<Plan>) query.getResultList();
@@ -91,10 +75,11 @@ public class PlanDAO extends GenericDAO {
     }
     /**
     *  @return a casted HashMap of Plan objects from an HQL query sorted in descending order by entryDate.
+     * @throws java.lang.Exception
     */
-    public HashMap<String, Plan> listAllHM() {
+    public HashMap<String, Plan> listAllHM() throws Exception {
         HashMap<String, Plan> plans = new HashMap<>();
-        List<Plan> plansList = this.listAll();
+        List<Plan> plansList = this.listByColumn("ENTRYDATE","DESC");
         plansList.forEach(p -> {
             plans.put(p.getId(), p);
         });
@@ -211,7 +196,7 @@ public class PlanDAO extends GenericDAO {
             }
             Plan p = PlanDAO.getInstance().searchById(planID);
             List<Risk> pRiskList = p.getRiskList(); //risks of an specific Plan.
-            List<Risk> riskList = RiskDAO.getInstance().listAll();
+            List<Risk> riskList = RiskDAO.getInstance().listByColumn("ENTRYDATE","DESC");
             if (pRiskList == null || riskList == null) {
                 throw new IOException("Empty riskList exception");
             }
@@ -244,11 +229,10 @@ public class PlanDAO extends GenericDAO {
      * @return a Plan object list which contains matched attribute toString() values with
      * @param value 
      */
-    public List<Plan> searchInAllColumns(String value) {
+    public List<Plan> searchInAllColumns(String value) throws Exception {
         try {
             HashMap<String, Plan> resultHM = this.listAllHM();
             SimpleDateFormat dateFor = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-            
             Pattern p = Pattern.compile(new StringBuilder().append("(.*)").append(value).append("(.*)").toString(), 
                         Pattern.CASE_INSENSITIVE);
             ArrayList<Plan> result = new ArrayList<>();

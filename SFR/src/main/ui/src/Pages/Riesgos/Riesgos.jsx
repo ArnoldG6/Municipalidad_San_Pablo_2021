@@ -1,7 +1,7 @@
 //import { render } from '@testing-library/react';
 import React, { Component } from 'react';
 import './Riesgos.css';
-import { Button, Stack, Row } from "react-bootstrap";
+import { Button, Stack, Row, FormSelect, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddRiskModal from './Components/AddRiskModal';
@@ -21,6 +21,8 @@ class Riesgos extends Component {
             showEdit: false,
             editRisk: null,
             delId: "",
+            sortingValue: 'pk_id',
+            sortingWay: 'desc',
             riesgos: []
         };
         this.openModal = this.openModal.bind(this);
@@ -34,6 +36,8 @@ class Riesgos extends Component {
         this.openModalEdit = this.openModalEdit.bind(this);
         this.closeModalEdit = this.closeModalEdit.bind(this);
         this.refreshPage = this.refreshPage.bind(this);
+        this.handleSortSelect = this.handleSortSelect.bind(this);
+        this.handleSortClick = this.handleSortClick.bind(this);
     }
     //On load
     componentDidMount() {
@@ -93,8 +97,9 @@ class Riesgos extends Component {
         this.setState({ show: false });
     };
 
-    updateRiesgosSort(sortingValue, sortingWay) {
-
+    updateRiesgosSort() {
+        let sortingValue = this.state.sortingValue;
+        let sortingWay = this.state.sortingWay;
         let options = {
             /*cambiar el link*/
             url: process.env.REACT_APP_API_URL + "/RetrieveRisks",
@@ -121,7 +126,7 @@ class Riesgos extends Component {
             editRisk: risk,
             showEdit: true
         });
-        
+
     };
 
     closeModalEdit = () => {
@@ -154,12 +159,99 @@ class Riesgos extends Component {
             })
     }
 
+    handleSortSelect = e => {
+        console.log(e.target.value)
+        this.setState(
+            {
+                sortingValue: e.target.value
+            }, () => {
+                this.updateRiesgosSort();
+            }
+        );
+    }
+
+    handleSortClick() {
+        let sort = this.state.sortingWay;
+        if (sort === 'desc') {
+            sort = 'asc';
+        } else {
+            sort = 'desc';
+        }
+        this.setState(
+            {
+                sortingWay: sort
+            }, () => {
+                this.updateRiesgosSort();
+            }
+        );
+    }
+
     render() {
         return (
             <div className="Riesgos-Container container-fluid">
-                <Row className="mt-2">
+
+                {/* Mobile */}
+                <Row className='mt-2 d-lg-none'>
+                    <Search updateRiesgos={this.updateRiesgosBySearch} />
+                </Row>
+
+                <Row className="d-lg-none">
+                    <Stack direction="horizontal">
+                        <Button className="btn-sfr" id="NewItemButton" size="sm" onClick={this.openModal}>Crear Item</Button>
+                        <FormSelect className='w-50' onChange={this.handleSortSelect}>
+                            <option selected disabled>Ordenar por...</option>
+                            <option value='pk_id' defaultValue>ID</option>
+                            <option value='name'>Nombre</option>
+                            <option value='generalType'>Tipo General</option>
+                            <option value='areaType'>Tipo por Área</option>
+                            <option value='specType'>Tipo Específico</option>
+                            <option value='probability'>Probabilidad</option>
+                            <option value='impact'>Impacto</option>
+                            <option value='magnitude'>Magnitud</option>
+                        </FormSelect>
+                        <OverlayTrigger
+                            delay={{ hide: 450, show: 300 }}
+                            overlay={(props) => (
+                                <Tooltip {...props}>
+                                    {(this.state.sortingWay === 'desc' ? "Descendente" : "Ascendente")}
+                                </Tooltip>
+                            )}
+                            placement="bottom"
+                        >
+                            <Button id="sortButton" variant={(this.state.sortingWay === 'desc' ? "primary" : "danger")} onClick={this.handleSortClick}>
+                                <i className="bi bi-arrow-down-up"></i>
+                            </Button>
+                        </OverlayTrigger>
+                    </Stack>
+                </Row>
+
+                {/* PC */}
+                <Row className="mt-2 d-none d-lg-block">
                     <Stack direction="horizontal" gap={3}>
                         <Button className="btn-sfr" id="NewItemButton" size="sm" onClick={this.openModal}>Crear Item</Button>
+                        <FormSelect className='w-50' onChange={this.handleSortSelect}>
+                            <option selected disabled>Ordenar por...</option>
+                            <option value='pk_id'>ID</option>
+                            <option value='name'>Nombre</option>
+                            <option value='entryDate' defaultValue>Fecha de Ingreso</option>
+                            <option value='status'>Estado</option>
+                            <option value='authorName'>Autor</option>
+                            <option value='type'>Tipo</option>
+                        </FormSelect>
+                        <OverlayTrigger
+                            delay={{ hide: 450, show: 300 }}
+                            overlay={(props) => (
+                                <Tooltip {...props}>
+                                    {(this.state.sortingWay === 'desc' ? "Descendente" : "Ascendente")}
+                                </Tooltip>
+                            )}
+                            placement="bottom"
+                        >
+                            <Button id="sortButton" variant={(this.state.sortingWay === 'desc' ? "primary" : "danger")} onClick={this.handleSortClick}>
+                                <i className="bi bi-arrow-down-up"></i>
+                            </Button>
+                        </OverlayTrigger>
+
                         <Search updateRiesgos={this.updateRiesgosBySearch} />
                     </Stack>
                 </Row>

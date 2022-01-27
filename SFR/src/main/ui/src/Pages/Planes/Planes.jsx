@@ -196,11 +196,6 @@ class Planes extends Component {
                     </Stack>
                 </Row>
 
-                <Row className='mt-2 d-lg-none ms-auto'>
-                    <Stack direction="horizontal">
-                    </Stack>
-                </Row>
-
                 {/* PC */}
                 <Row className="mt-2 d-none d-lg-block">
                     <Stack direction="horizontal" gap={3}>

@@ -37,7 +37,7 @@ public class PlanDAO extends GenericDAO {
     */
     public String translateColumnName(String column, String order) throws IOException {
         order = order.toUpperCase();
-        if (!(equals("ASC")|| order.equals("DESC"))) {
+        if (!(order.equals("ASC")|| order.equals("DESC"))) {
             throw new IOException("Invalid order parameter");
         }
         switch (column.toUpperCase()) {
@@ -196,7 +196,7 @@ public class PlanDAO extends GenericDAO {
             }
             Plan p = PlanDAO.getInstance().searchById(planID);
             List<Risk> pRiskList = p.getRiskList(); //risks of an specific Plan.
-            List<Risk> riskList = RiskDAO.getInstance().listByColumn("ENTRYDATE","DESC");
+            List<Risk> riskList = RiskDAO.getInstance().listByColumn("PK_ID","DESC");
             if (pRiskList == null || riskList == null) {
                 throw new IOException("Empty riskList exception");
             }

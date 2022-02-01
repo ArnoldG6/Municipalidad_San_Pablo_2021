@@ -20,7 +20,7 @@ import sfr.dao.PlanDAO;
 
 /**
  *
- * @author ArnoldG6
+ * @author Arnold
  */
 @WebServlet(name = "PlanServlet", urlPatterns = {
     "/API/PlanServlet",

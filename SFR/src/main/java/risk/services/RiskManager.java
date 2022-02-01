@@ -1,10 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author GONCAR4
+ * @author ArnoldG6
+ * RiskManager class is in charge of handling requests from the clients 
+ * in order to create, delete or edit 'Risk' entries in the DB.
  */
 package risk.services;
-
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -18,65 +18,77 @@ import javax.servlet.http.HttpServletResponse;
 import plan.services.PlanServlet;
 import sfr.dao.RiskDAO;
 import sfr.model.Risk;
-
-/**
- *
- * @author GONCAR4
- */
-@WebServlet(name = "RiskManager", urlPatterns = {"/API/RiskManager/insert", "/API/RiskManager/delete", "/API/RiskManager/edit"})
+@WebServlet(name = "RiskManager", urlPatterns = {
+    "/API/RiskManager/insert", 
+    "/API/RiskManager/delete", 
+    "/API/RiskManager/edit"
+    }
+)
 public class RiskManager extends HttpServlet {
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-        response.addHeader("Access-Control-Allow-Credentials", "true");
-        response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
         try {
+            request.setCharacterEncoding("UTF-8");
+            response.addHeader("Access-Control-Allow-Origin", "*");
+            response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+            response.addHeader("Access-Control-Allow-Credentials", "true");
+            response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
             switch (request.getServletPath()) {
-                case "/API/RiskManager/insert":
-                    String riskData = request.getReader().lines().collect(Collectors.joining());
-                    Gson gson = new Gson();
-                    System.out.println(riskData);
-                    Risk newRisk = gson.fromJson(riskData, Risk.class);
-                    newRisk.updateMagnitude();
-                    Risk planExist = RiskDAO.getInstance().searchById(newRisk.getId());
-                    if (planExist != null) {
-                        throw new IOException("El riesgo que se insertó ya existe");
-                    }
-                    RiskDAO.getInstance().add(newRisk);
-                    break;
-                case "/API/RiskManager/delete":
-                    String obj = request.getReader().lines().collect(Collectors.joining());
-                    Gson json = new Gson();
-                    Risk newR = json.fromJson(obj, Risk.class);
-                    Risk riskE = RiskDAO.getInstance().searchById(newR.getId());
-                    if (riskE == null) {
-                        throw new IOException();
-                    }
-                    RiskDAO.getInstance().delete(riskE);
-                    break;
-                case "/API/RiskManager/edit":
-                    String objetoEditado = request.getReader().lines().collect(Collectors.joining());
-                    Gson gsonEdit = new Gson();
-                    Risk riskEdit = gsonEdit.fromJson(objetoEditado, Risk.class);
-                    if (RiskDAO.getInstance().searchById(riskEdit.getId()) != null) {
-                        RiskDAO.getInstance().update(riskEdit);
-                    } else {
-                        throw new IOException("Este riesgo no esta registrado en el sistema");
-                    }
-                    break;
+                case "/API/RiskManager/insert": insertRisk(request); break;
+                case "/API/RiskManager/delete": deleteRisk(request); break;
+                case "/API/RiskManager/edit": editRisk(request); break;
             }
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(request.getServletPath());
         } catch (Exception e) {
-            throw new IOException();
+            System.err.println(e.toString());
+            throw e;
         }
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="Risk Management methods.">
+     /**
+     * @param request contains the JSON data that is sent by the client and other useful information from the client request.
+     * deleteRisk method verifies the user's credentials and verifies that the Risk ID that wants to be deleted corresponds to an existing Risk.
+     */
+    private void deleteRisk(HttpServletRequest request) throws IOException, Exception{
+                    String obj = request.getReader().lines().collect(Collectors.joining());
+                    Gson json = new Gson();
+                    Risk newR = json.fromJson(obj, Risk.class);
+                    Risk riskE = RiskDAO.getInstance().searchById(newR.getId());
+                    if (riskE == null)  throw new IOException();
+                    RiskDAO.getInstance().delete(riskE);
+    }
+     /**
+     * @param request contains the JSON data that is sent by the client and other useful information from the client request.
+     * insertRisk verifies that the Risk ID that wants to be inserted does not correspond to an existing Risk entry.
+     */
+    private void insertRisk(HttpServletRequest request) throws IOException{
+        String riskData = request.getReader().lines().collect(Collectors.joining());
+        Gson gson = new Gson();
+        //System.out.println(riskData);
+        Risk newRisk = gson.fromJson(riskData, Risk.class);
+        newRisk.updateMagnitude();
+        if (RiskDAO.getInstance().searchById(newRisk.getId()) != null) 
+            throw new IOException("El riesgo que se insertó ya existe");
+        
+        RiskDAO.getInstance().add(newRisk); 
+    }
+    /**
+     * @param request contains the JSON data that is sent by the client and other useful information from the client request.
+     * editRisk verifies that the Risk ID that wants to be inserted does not correspond to an existing Risk entry and also
+     * verifies that the user is able to do it in terms of permissions.
+     */
+    private void editRisk(HttpServletRequest request) throws IOException{
+        String objetoEditado = request.getReader().lines().collect(Collectors.joining());
+        Gson gsonEdit = new Gson();
+        Risk riskEdit = gsonEdit.fromJson(objetoEditado, Risk.class);
+        if (RiskDAO.getInstance().searchById(riskEdit.getId()) != null)
+            RiskDAO.getInstance().update(riskEdit);
+          else 
+            throw new IOException("Este riesgo no esta registrado en el sistema");       
+    }
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods.">
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

@@ -28,7 +28,9 @@ import sfr.dao.RiskDAO;
     "/API/RiskServlet",
     "/API/RiskSearch",
     "/API/RetrieveRisks",
-    "/API/RetrieveRisk"})
+    "/API/RetrieveRisk"
+    }
+)
 public class RiskServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -91,7 +93,7 @@ public class RiskServlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods.">
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

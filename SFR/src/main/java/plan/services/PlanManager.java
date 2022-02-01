@@ -26,7 +26,7 @@ import sfr.model.Risk;
 
 /**
  *
- * @author arnol
+ * @author ArnoldG6
  */
 @WebServlet(name = "PlanManager", urlPatterns = {
     "/API/PlanManager/insert",

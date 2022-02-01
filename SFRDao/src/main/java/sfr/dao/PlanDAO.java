@@ -4,7 +4,6 @@
  * PlanDAO class is responsible of establishing connection with Hibernate framework
  * in order to cast Java objects from HQL queries.
  */
-
 package sfr.dao;
 import java.io.IOException;
 import java.text.SimpleDateFormat;

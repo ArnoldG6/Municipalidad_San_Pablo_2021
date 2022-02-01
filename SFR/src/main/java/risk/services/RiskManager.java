@@ -41,7 +41,7 @@ public class RiskManager extends HttpServlet {
                     System.out.println(riskData);
                     Risk newRisk = gson.fromJson(riskData, Risk.class);
                     newRisk.updateMagnitude();
-                    Risk planExist = RiskDAO.getInstance().searchByIdSmall(newRisk.getId());
+                    Risk planExist = RiskDAO.getInstance().searchById(newRisk.getId());
                     if (planExist != null) {
                         throw new IOException("El riesgo que se insertó ya existe");
                     }
@@ -51,7 +51,7 @@ public class RiskManager extends HttpServlet {
                     String obj = request.getReader().lines().collect(Collectors.joining());
                     Gson json = new Gson();
                     Risk newR = json.fromJson(obj, Risk.class);
-                    Risk riskE = RiskDAO.getInstance().searchByIdSmall(newR.getId());
+                    Risk riskE = RiskDAO.getInstance().searchById(newR.getId());
                     if (riskE == null) {
                         throw new IOException();
                     }
@@ -61,7 +61,7 @@ public class RiskManager extends HttpServlet {
                     String objetoEditado = request.getReader().lines().collect(Collectors.joining());
                     Gson gsonEdit = new Gson();
                     Risk riskEdit = gsonEdit.fromJson(objetoEditado, Risk.class);
-                    if (RiskDAO.getInstance().searchByIdSmall(riskEdit.getId()) != null) {
+                    if (RiskDAO.getInstance().searchById(riskEdit.getId()) != null) {
                         RiskDAO.getInstance().update(riskEdit);
                     } else {
                         throw new IOException("Este riesgo no esta registrado en el sistema");

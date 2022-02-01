@@ -1,7 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author ArnoldG6
+ * RiskDAO class is responsible of establishing connection with Hibernate framework
+ * in order to cast Java objects from HQL queries.
  */
 package sfr.dao;
 
@@ -15,20 +16,24 @@ import static sfr.dao.GenericDAO.em;
 import sfr.model.Plan;
 import sfr.model.Risk;
 
-/**
- *
- * @author Arnold y Migue
- */
 public class RiskDAO extends GenericDAO {
 
     private static RiskDAO uniqueInstance;
-
+       /**
+     @return the Singleton Pattern Object of RiskDAO class.
+      */
     public static RiskDAO getInstance() {
         if (uniqueInstance == null)
             uniqueInstance = new RiskDAO();
         return uniqueInstance;
     }
-
+    /**
+    *  @return a translated column name into an attribute's name (of Risk class) 
+    *  in order to use Hibernate's queries defined in this file.
+    *  @param column specifies the desired column name to check if it can be translated.
+    *  @param order specifies the 'ascendent' or 'descendent' order keyword to be translated. 
+     * @throws java.io.IOException 
+    */
     public String translateColumnName(String column, String order) throws IOException {
         order = order.toUpperCase();
         if (!(order.equals("ASC")|| order.equals("DESC"))) {
@@ -59,7 +64,12 @@ public class RiskDAO extends GenericDAO {
                 throw new IOException("Invalid column");
         }
     }
-
+    /**
+    *  @return a sorted list of Risk objects depending on the next parameters: 
+    *  @param column specifies the sorting criteria from the selected column. Default value for this project is: "PK_ID".
+    *  @param order specifies the 'ascendent' or 'descendent' sorting criteria. Default value for this project is: "DESC".
+     * @throws java.lang.Exception
+    */
     public List<Risk> listByColumn(String column, String order) throws Exception {
         try {
             order = order.toUpperCase();
@@ -75,7 +85,10 @@ public class RiskDAO extends GenericDAO {
             throw e;
         }
     }
-
+    /**
+    *  @return a casted HashMap of Risk objects from an HQL query sorted by default param values (defined in this project).
+     * @throws java.lang.Exception
+    */
     public HashMap<Integer, Risk> listAllHM() throws Exception {
         HashMap<Integer, Risk> Risks = new HashMap<>();
         List<Risk> RisksList = this.listByColumn("PK_ID","DESC");
@@ -84,7 +97,10 @@ public class RiskDAO extends GenericDAO {
         });
         return Risks;
     }
-
+    /**
+    * This method adds a Risk object into the DB record, using HQL.
+    * @param risk is the Risk Object to be added.
+    */
     public void add(Risk risk) {
         try {
             em = getEntityManager();
@@ -98,7 +114,10 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-
+       /**
+     * This method updates a Risk object from the DB record, using HQL.
+     * @param risk is the Risk Object to be updated.
+     */
     public void update(Risk risk) {
         try {
             em = getEntityManager();
@@ -113,7 +132,10 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-
+     /**
+     * This method deletes a Risk object from the DB record, using HQL.
+     * @param risk is the Risk Object to be deleted.
+     */
     public void delete(Risk risk) throws Exception {
         try {
             List<Plan> pl = PlanDAO.getInstance().listByColumn("ENTRYDATE","DESC");
@@ -143,13 +165,13 @@ public class RiskDAO extends GenericDAO {
             throw e;
         }
     }
+     /**
+     * 
+     * @return a Risk object that matches with
+     *@param id
+     */
 
-    public Risk searchByIdSmall(int id) {
-        em = getEntityManager();
-        return (Risk) em.find(Risk.class, id);
-    }
-
-    public Risk searchById(String id) {
+    public Risk searchById(int id) {
         try {
             em = getEntityManager();
             return (Risk) em.find(Risk.class, id);
@@ -159,7 +181,12 @@ public class RiskDAO extends GenericDAO {
             throw e;
         }
     }
-
+     /**
+     * 
+     * @return a List<Risk> object that matches with 
+     * @param value, also considering 
+     * @param toSearch, which is the attribute's name.
+     */
     public List<Risk> listSearchBy(String toSearch, String value) {
         try {
             String cmd = "SELECT r FROM Risk r WHERE "
@@ -173,7 +200,12 @@ public class RiskDAO extends GenericDAO {
             throw e;
         }
     }
-
+    /**
+     * 
+     *
+     * @return a List<Risk> object which contains matched attribute toString() values with
+     * @param value 
+     */
     public List<Risk> searchInAllColumns(String value) throws Exception {
         try {
             HashMap<Integer, Risk> resultHM = this.listAllHM();
@@ -197,12 +229,19 @@ public class RiskDAO extends GenericDAO {
             throw e;
         }
     }
-
+         /**
+     * 
+     *
+     * @return a List<Risk> object that is paged according to 
+     * @param page 
+     */
     public List<Risk> listTenRisks(int page) {
         throw new UnsupportedOperationException("Not implemented yet!");
     }
-
-    public long countRisks() {
+     /**
+     * @return the entry count of Plan objects.
+     */
+    public long riskCount() {
         try {
             String cmd = "SELECT count(*) FROM Risk";
             em = getEntityManager();

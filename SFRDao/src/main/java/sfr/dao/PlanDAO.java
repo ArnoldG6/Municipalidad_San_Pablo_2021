@@ -1,5 +1,11 @@
-package sfr.dao;
+/**
+ *
+ * @author ArnoldG6
+ * PlanDAO class is responsible of establishing connection with Hibernate framework
+ * in order to cast Java objects from HQL queries.
+ */
 
+package sfr.dao;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,16 +18,11 @@ import javax.persistence.Query;
 import sfr.model.Plan;
 import org.hibernate.Session;
 import sfr.model.Risk;
-
-/**
- *
- * @author ArnoldG6
- * PlanDAO class is it's responsible of establishing connection with Hibernate framework
- * in order to cast Java objects from HQL queries.
- */
 public class PlanDAO extends GenericDAO {
     private static PlanDAO uniqueInstance; //Singleton Pattern Object
-    //Returns Singleton Pattern Object of PlanDAO class.
+    /**
+    @return the Singleton Pattern Object of PlanDAO class.
+     */
     public static PlanDAO getInstance() {
         if (uniqueInstance == null) 
             uniqueInstance = new PlanDAO();
@@ -32,7 +33,7 @@ public class PlanDAO extends GenericDAO {
     *  @return a translated column name into an attribute's name (of Plan class) 
     *  in order to use Hibernate's queries defined in this file.
     *  @param column specifies the desired column name to check if it can be translated.
-    *  @param order specifies the ascendent or descendent order keyword to be translated. 
+    *  @param order specifies the 'ascendent' or 'descendent' order keyword to be translated. 
      * @throws java.io.IOException 
     */
     public String translateColumnName(String column, String order) throws IOException {
@@ -54,8 +55,8 @@ public class PlanDAO extends GenericDAO {
     }
     /**
     *  @return a sorted list of Plan objects depending on the next parameters: 
-    *  @param column specifies the sorting criteria from the selected column.
-    *  @param order specifies the ascendent or descendent order criteria.
+    *  @param column specifies the sorting criteria from the selected column. Default value for this project is: "ENTRYDATE".
+    *  @param order specifies the 'ascendent' or 'descendent' sorting criteria. Default value for this project is: "DESC".
      * @throws java.lang.Exception
     */
     public List<Plan> listByColumn(String column, String order) throws Exception {
@@ -141,7 +142,7 @@ public class PlanDAO extends GenericDAO {
      /**
      * This method associates a single Plan object to n Risk objects.
      * @param planID the Plan object that will be associated to the Risk objects
-     * @param riskIDs List of riskIDs to associate with planID parameter.
+     * @param riskIDs List of riskIDs to associate with planID parameter. 
      * @throws java.lang.Exception
      */
     public void associateRisksToPlan(String planID, List<Integer> riskIDs) throws Exception {
@@ -164,7 +165,7 @@ public class PlanDAO extends GenericDAO {
                 throw new IOException("Empty riskIDs field exception");
             Risk r;
             for (int i = 0; i < riskIDs.size(); i++) {
-                r = RiskDAO.getInstance().searchByIdSmall(riskIDs.get(i));
+                r = RiskDAO.getInstance().searchById(riskIDs.get(i));
                 if (!riskList.contains(r)) 
                     riskList.add(r);
                 else
@@ -216,8 +217,8 @@ public class PlanDAO extends GenericDAO {
     }
      /**
      * 
-     * @param id
      * @return a Plan object that matches with
+     *@param id
      */
     public Plan searchById(String id) {
         em = getEntityManager();
@@ -301,10 +302,9 @@ public class PlanDAO extends GenericDAO {
         }
     }
     /**
-     * @return a Plan object list that is paged according to 
-     * @param page 
+     * @return the entry count of Plan objects.
      */
-    public long countPlans() {
+    public long planCount() {
         try {
             String cmd = "SELECT count(*) FROM Plan";
             em = getEntityManager();

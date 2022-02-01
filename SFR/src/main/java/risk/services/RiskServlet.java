@@ -79,7 +79,7 @@ public class RiskServlet extends HttpServlet {
                     requestData = request.getReader().lines().collect(Collectors.joining());
                     jsonObj = new JSONObject(requestData);
                     String riskID = jsonObj.getString("riskID");
-                    json = new Gson().toJson(RiskDAO.getInstance().searchById(riskID));
+                    json = new Gson().toJson(RiskDAO.getInstance().searchById(Integer.parseInt(riskID)));
                     response.getWriter().write(json);
                     response.getWriter().flush();
                     response.getWriter().close();

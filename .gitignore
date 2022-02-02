@@ -29,3 +29,4 @@ SFR/target/*
 CommonDomain/target/*
 CommonDao/target/*
 
+*.bak

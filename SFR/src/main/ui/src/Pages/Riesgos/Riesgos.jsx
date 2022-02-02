@@ -197,7 +197,20 @@ class Riesgos extends Component {
 
                 <Row className="d-lg-none">
                     <Stack direction="horizontal">
-                        <Button className="btn-sfr" id="NewItemButton" size="sm" onClick={this.openModal}>Crear Item</Button>
+                        {/* Agregar Riesgo */}
+                        <OverlayTrigger
+                            delay={{ hide: 450, show: 300 }}
+                            overlay={(props) => (
+                                <Tooltip {...props}>
+                                    Agregar Riesgo
+                                </Tooltip>
+                            )}
+                            placement="bottom"
+                        >
+                            <Button className="btn-sfr" size="lg" onClick={this.openModal}>
+                                <i className="bi bi-plus-circle"></i>
+                            </Button>
+                        </OverlayTrigger>
                         <FormSelect className='w-50' onChange={this.handleSortSelect}>
                             <option selected disabled>Ordenar por...</option>
                             <option value='pk_id' defaultValue>ID</option>
@@ -228,7 +241,21 @@ class Riesgos extends Component {
                 {/* PC */}
                 <Row className="mt-2 d-none d-lg-block">
                     <Stack direction="horizontal" gap={3}>
-                        <Button className="btn-sfr" id="NewItemButton" size="sm" onClick={this.openModal}>Crear Item</Button>
+                        {/* Agregar Riesgo */}
+                        <OverlayTrigger
+                            delay={{ hide: 450, show: 300 }}
+                            overlay={(props) => (
+                                <Tooltip {...props}>
+                                    Agregar Riesgo
+                                </Tooltip>
+                            )}
+                            placement="bottom"
+                        >
+                            <Button className="btn-sfr" size="lg" onClick={this.openModal}>
+                                <i className="bi bi-plus-circle"></i>
+                            </Button>
+                        </OverlayTrigger>
+
                         <FormSelect className='w-50' onChange={this.handleSortSelect}>
                             <option selected disabled>Ordenar por...</option>
                             <option value='pk_id'>ID</option>

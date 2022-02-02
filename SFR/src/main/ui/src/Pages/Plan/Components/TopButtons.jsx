@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './TopButtons.css';
 import EditPlanModal from './EditPlanModal';
-import { Stack, Button } from "react-bootstrap";
+import { Stack, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import GenericModal from '../../../SharedComponents/GenericModal/GenericModal';
 //import { toast } from 'react-toastify';
 
@@ -60,14 +60,145 @@ class TopButtons extends Component {
                 break;
         }
         return (
-            <Stack className="mt-4" direction="horizontal" gap={3}>
-                <Button id="menu-button" onClick={this.openModal} >Editar Plan</Button>{' '}
-                <Button id="menu-button" onClick={this.openModalDelete} disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>Eliminar Plan</Button>{' '}
-                <Button id="menu-button"  >Agregar involucrados</Button>{' '}
-                <Button variant="warning">Matriz de riesgos</Button>{' '}
-                <Button className="ms-auto" variant="light">Generar reporte</Button>{' '}
-                <div className="vr" />
-                <Button className={statusClass} variant="success">{this.props.status}</Button>{' '}
+            <div>
+                {/* Mobile */}
+                <div className='d-lg-none'>
+                    <Stack className="mt-4" direction="horizontal" gap={3}>
+                        {/* Editar */}
+                        <OverlayTrigger
+                            delay={{ hide: 450, show: 300 }}
+                            overlay={(props) => (
+                                <Tooltip {...props}>
+                                    Editar Plan
+                                </Tooltip>
+                            )}
+                            placement="bottom"
+                        >
+                            <Button variant="outline-primary" onClick={this.openModal} >
+                                <h2><i className="bi bi-pencil-square"></i></h2>
+                            </Button>
+                        </OverlayTrigger>
+
+                        {/* Eliminar */}
+                        <OverlayTrigger
+                            delay={{ hide: 450, show: 300 }}
+                            overlay={(props) => (
+                                <Tooltip {...props}>
+                                    Eliminar Plan
+                                </Tooltip>
+                            )}
+                            placement="bottom"
+                        >
+                            <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"} onClick={this.openModalDelete} disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
+                                <h2><i className="bi bi-trash"></i></h2>
+                            </Button>
+                        </OverlayTrigger>
+
+                        {/* Agregar Involucrado */}
+                        <OverlayTrigger
+                            delay={{ hide: 450, show: 300 }}
+                            overlay={(props) => (
+                                <Tooltip {...props}>
+                                    Agregar Involucrado
+                                </Tooltip>
+                            )}
+                            placement="bottom"
+                        >
+                            <Button variant="outline-success">
+                                <h2><i className="bi bi-person-plus"></i></h2>
+                            </Button>
+                        </OverlayTrigger>
+
+                        {/* Matriz de Riesgos */}
+                        <OverlayTrigger
+                            delay={{ hide: 450, show: 300 }}
+                            overlay={(props) => (
+                                <Tooltip {...props}>
+                                    Matriz de Riesgos
+                                </Tooltip>
+                            )}
+                            placement="bottom"
+                        >
+                            <Button variant="outline-warning">
+                                <h2><i className="bi bi-clipboard-data"></i></h2>
+                            </Button>
+                        </OverlayTrigger>
+                        <Button variant="light">
+                            <h2><i className="bi bi-download"></i></h2>
+                        </Button>
+                    </Stack>
+                </div>
+                {/* PC */}
+                <div className="d-none d-lg-block">
+                    <Stack className="mt-4" direction="horizontal" gap={3}>
+                        {/* Editar */}
+                        <OverlayTrigger
+                            delay={{ hide: 450, show: 300 }}
+                            overlay={(props) => (
+                                <Tooltip {...props}>
+                                    Editar Plan
+                                </Tooltip>
+                            )}
+                            placement="bottom"
+                        >
+                            <Button variant="outline-primary" onClick={this.openModal} >
+                                <h2><i className="bi bi-pencil-square"></i></h2>
+                            </Button>
+                        </OverlayTrigger>
+
+                        {/* Eliminar */}
+                        <OverlayTrigger
+                            delay={{ hide: 450, show: 300 }}
+                            overlay={(props) => (
+                                <Tooltip {...props}>
+                                    Eliminar Plan
+                                </Tooltip>
+                            )}
+                            placement="bottom"
+                        >
+                            <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"} onClick={this.openModalDelete} disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
+                                <h2><i className="bi bi-trash"></i></h2>
+                            </Button>
+                        </OverlayTrigger>
+
+                        {/* Agregar Involucrado */}
+                        <OverlayTrigger
+                            delay={{ hide: 450, show: 300 }}
+                            overlay={(props) => (
+                                <Tooltip {...props}>
+                                    Agregar Involucrado
+                                </Tooltip>
+                            )}
+                            placement="bottom"
+                        >
+                            <Button variant="outline-success">
+                                <h2><i className="bi bi-person-plus"></i></h2>
+                            </Button>
+                        </OverlayTrigger>
+
+                        {/* Matriz de Riesgos */}
+                        <OverlayTrigger
+                            delay={{ hide: 450, show: 300 }}
+                            overlay={(props) => (
+                                <Tooltip {...props}>
+                                    Matriz de Riesgos
+                                </Tooltip>
+                            )}
+                            placement="bottom"
+                        >
+                            <Button variant="outline-warning">
+                                <h2><i className="bi bi-clipboard-data"></i></h2>
+                            </Button>
+                        </OverlayTrigger>
+
+
+                        <Button className="ms-auto" variant="light">
+                            <h2><i className="bi bi-download"></i></h2>
+                        </Button>{' '}
+                        <div className="vr" />
+                        <Button className={statusClass} variant="success">{this.props.status}</Button>{' '}
+                    </Stack>
+                </div>
                 <EditPlanModal
                     name={name}
                     type={type}
@@ -86,7 +217,7 @@ class TopButtons extends Component {
                     action={this.props.deletePlan}
                     header={"Eliminar Plan"}
                     body={"¿Desea eliminar este plan? Una vez eliminado no se podra recuperar el plan seleccionado"} />
-            </Stack>
+            </div>
         );
     }
 };

@@ -170,9 +170,23 @@ class Planes extends Component {
 
                 <Row className="d-lg-none">
                     <Stack direction="horizontal">
-                        <Button className="btn-sfr" id="NewItemButton" size="sm" onClick={this.openModal}>Crear Item</Button>
-                        <FormSelect className='w-50' onChange={this.handleSortSelect}>
-                            <option selected disabled>Ordenar por...</option>
+                        {/* Agregar Plan */}
+                        <OverlayTrigger
+                            delay={{ hide: 450, show: 300 }}
+                            overlay={(props) => (
+                                <Tooltip {...props}>
+                                    Agregar Plan
+                                </Tooltip>
+                            )}
+                            placement="bottom"
+                        >
+                            <Button className="btn-sfr" size="lg" onClick={this.openModal}>
+                                <i className="bi bi-plus-circle"></i>
+                            </Button>
+                        </OverlayTrigger>
+
+                        <FormSelect className='w-50' onChange={this.handleSortSelect} defaultValue='default'>
+                            <option value='default' disabled>Ordenar por...</option>
                             <option value='pk_id'>ID</option>
                             <option value='name'>Nombre</option>
                             <option value='entryDate' defaultValue>Fecha de Ingreso</option>
@@ -199,10 +213,23 @@ class Planes extends Component {
                 {/* PC */}
                 <Row className="mt-2 d-none d-lg-block">
                     <Stack direction="horizontal" gap={3}>
-                        <Button className="btn-sfr" id="NewItemButton" size="sm" onClick={this.openModal}>Crear Item</Button>
+                        {/* Agregar Plan */}
+                        <OverlayTrigger
+                            delay={{ hide: 450, show: 300 }}
+                            overlay={(props) => (
+                                <Tooltip {...props}>
+                                    Agregar Plan
+                                </Tooltip>
+                            )}
+                            placement="bottom"
+                        >
+                            <Button className="btn-sfr" size="lg" onClick={this.openModal}>
+                                <i className="bi bi-plus-circle"></i>
+                            </Button>
+                        </OverlayTrigger>
 
-                        <FormSelect className='w-50' onChange={this.handleSortSelect}>
-                            <option selected disabled>Ordenar por...</option>
+                        <FormSelect className='w-50' onChange={this.handleSortSelect} defaultValue='default'>
+                            <option value='default' disabled>Ordenar por...</option>
                             <option value='pk_id'>ID</option>
                             <option value='name'>Nombre</option>
                             <option value='entryDate' defaultValue>Fecha de Ingreso</option>

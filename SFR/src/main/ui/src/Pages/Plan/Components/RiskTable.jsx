@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Accordion, OverlayTrigger, Tooltip } from "react-bootstrap";
 import AddExistingRiskModal from './AddExistingRiskModal';
 import GenericModal from '../../../SharedComponents/GenericModal/GenericModal';
 
@@ -43,40 +43,100 @@ class RiskTable extends Component {
     render() {
         return (
             <div>
-                <Table hover>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Tipo General</th>
-                            <th>Tipo por Área</th>
-                            <th>Tipo Específico</th>
-                            <th><Button size="sm" onClick={this.openModalAddRisk} variant="success">Agregar Riesgo</Button></th>
-                        </tr>
-                    </thead>
+                {/* Mobile */}
+                <div className='d-lg-none container-fluid'>
+                    <Button size="sm" onClick={this.openModalAddRisk} variant="success">Agregar Riesgo</Button>
                     {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado riesgos</h1> :
                         this.props.riesgos.length === 0 ? <h1>No se han agregado riesgos</h1> :
-                            <tbody>
-                                {this.props.riesgos.map((risk) => {
-                                    return (
-                                        <tr key={risk.id}>
-                                            <td>{risk.id}</td>
-                                            <td>{risk.name}</td>
-                                            <td>{risk.generalType}</td>
-                                            <td>{risk.areaType}</td>
-                                            <td>{risk.specType}</td>
-                                            <td>
-                                                <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
-                                                    onClick={() => this.openModalDelRisk(risk.id)}
-                                                    disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>Eliminar</Button>
-                                            </td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
+                            this.props.riesgos.map((risk) => {
+                                return (
+                                    <Accordion.Item eventKey={risk.id}>
+                                        <Accordion.Header >
+                                            {risk.name}
+                                        </Accordion.Header>
+                                        <Accordion.Body>
+                                            <p>
+                                                ID: {risk.id} <br />
+                                                Tipo General: {risk.generalType} <br />
+                                                Tipo por Área: {risk.areaType} <br />
+                                                Tipo Específico: {risk.specType} <br />
+                                                Probabilidad: {risk.probability} <br />
+                                                Impacto: {risk.impact} <br />
+                                                Magnitud: {risk.magnitude} <br />
+                                            </p>
+                                            <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
+                                                onClick={() => this.openModalDelRisk(risk.id)}
+                                                disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>Eliminar</Button>
+                                        </Accordion.Body>
+                                    </Accordion.Item>
+                                );
+                            })
                     }
-                </Table>
+                </div>
+                <div className="d-none d-lg-block">
+                    <Table hover>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Tipo General</th>
+                                <th>Tipo por Área</th>
+                                <th>Tipo Específico</th>
+                                <th>
+                                    {/* Agregar Riesgo */}
+                                    <OverlayTrigger
+                                        delay={{ hide: 450, show: 300 }}
+                                        overlay={(props) => (
+                                            <Tooltip {...props}>
+                                                Agregar Riesgo
+                                            </Tooltip>
+                                        )}
+                                        placement="left"
+                                    >
+                                        <Button size="lg" onClick={this.openModalAddRisk} variant="outline-success">
+                                            <i className="bi bi-plus-square-fill"></i>
+                                        </Button>
+                                    </OverlayTrigger>
 
+                                </th>
+                            </tr>
+                        </thead>
+                        {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado riesgos</h1> :
+                            this.props.riesgos.length === 0 ? <h1>No se han agregado riesgos</h1> :
+                                <tbody>
+                                    {this.props.riesgos.map((risk) => {
+                                        return (
+                                            <tr key={risk.id}>
+                                                <td>{risk.id}</td>
+                                                <td>{risk.name}</td>
+                                                <td>{risk.generalType}</td>
+                                                <td>{risk.areaType}</td>
+                                                <td>{risk.specType}</td>
+                                                <td>
+                                                    {/* Eliminar Riesgo */}
+                                                    <OverlayTrigger
+                                                        delay={{ hide: 450, show: 300 }}
+                                                        overlay={(props) => (
+                                                            <Tooltip {...props}>
+                                                                Remover Riesgo
+                                                            </Tooltip>
+                                                        )}
+                                                        placement="left"
+                                                    >
+                                                        <Button size="lg" variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
+                                                            onClick={() => this.openModalDelRisk(risk.id)}
+                                                            disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
+                                                            <i className="bi bi-dash-square-fill"></i>
+                                                        </Button>
+                                                    </OverlayTrigger>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                        }
+                    </Table>
+                </div>
                 <AddExistingRiskModal
                     risks={this.props.availableRisks}
                     addRisk={this.props.addRisk}

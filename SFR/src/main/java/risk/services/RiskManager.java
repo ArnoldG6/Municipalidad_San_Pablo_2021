@@ -2,7 +2,7 @@
  * @author GONCAR4
  * @author ArnoldG6
  * RiskManager class is in charge of handling requests from the clients 
- * in order to create, delete or edit 'Risk' entries in the DB.
+ * in order to create, delete or edit 'Risk' entries from the DB.
  */
 package risk.services;
 import com.google.gson.Gson;

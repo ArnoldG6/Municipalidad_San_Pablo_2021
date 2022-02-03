@@ -9,7 +9,7 @@ class PlansTable extends Component {
             <div className='mt-2'>
                 {/* Mobile */}
                 <div className='d-lg-none'>
-                    <Accordion flush>
+                    <Accordion>
                         {(typeof this.props.planes === 'undefined' || this.props.planes === null) ? <h1>No se han agregado planes</h1> :
                             this.props.planes.length === 0 ? <h1>No se han agregado planes</h1> :
                                 this.props.planes.map((plan) => {

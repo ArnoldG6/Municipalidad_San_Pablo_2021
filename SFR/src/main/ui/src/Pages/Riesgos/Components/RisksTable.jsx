@@ -9,7 +9,7 @@ class RisksTable extends Component {
             <div className='mt-2'>
                 {/* Mobile */}
                 <div className='d-lg-none'>
-                    <Accordion flush>
+                    <Accordion>
                         {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado riesgos</h1> :
                             this.props.riesgos.length === 0 ? <h1>No se han agregado riesgos</h1> :
                                 this.props.riesgos.map((risk) => {

@@ -33,8 +33,6 @@ class Plan extends Component {
 
     componentDidMount() {
         this.refreshPage();
-        console.log(this.state.riskList);
-        console.log(this.state.availableRisks);
     }
 
     refreshPage() {
@@ -217,7 +215,7 @@ class Plan extends Component {
                     </Row>
                     <Card id="card">
                         <Card.Header>
-                            <Nav justify variant="tabs" defaultActiveKey="riesgosTab">
+                            <Nav fill variant="tabs" defaultActiveKey="riesgosTab">
                                 <Nav.Item>
                                     <Nav.Link eventKey="riesgosTab" onClick={() => { this.tableHandler("risks") }}>Riesgos</Nav.Link>
                                 </Nav.Item>

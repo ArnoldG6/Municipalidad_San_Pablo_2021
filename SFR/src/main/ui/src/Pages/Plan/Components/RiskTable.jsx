@@ -45,34 +45,43 @@ class RiskTable extends Component {
             <div>
                 {/* Mobile */}
                 <div className='d-lg-none container-fluid'>
-                    <Button size="sm" onClick={this.openModalAddRisk} variant="success">Agregar Riesgo</Button>
-                    {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado riesgos</h1> :
-                        this.props.riesgos.length === 0 ? <h1>No se han agregado riesgos</h1> :
-                            this.props.riesgos.map((risk) => {
-                                return (
-                                    <Accordion.Item eventKey={risk.id}>
-                                        <Accordion.Header >
-                                            {risk.name}
-                                        </Accordion.Header>
-                                        <Accordion.Body>
-                                            <p>
-                                                ID: {risk.id} <br />
-                                                Tipo General: {risk.generalType} <br />
-                                                Tipo por Área: {risk.areaType} <br />
-                                                Tipo Específico: {risk.specType} <br />
-                                                Probabilidad: {risk.probability} <br />
-                                                Impacto: {risk.impact} <br />
-                                                Magnitud: {risk.magnitude} <br />
-                                            </p>
-                                            <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
-                                                onClick={() => this.openModalDelRisk(risk.id)}
-                                                disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>Eliminar</Button>
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                );
-                            })
-                    }
+                    <Button size="sm" onClick={this.openModalAddRisk} variant="success">
+                        <i className="bi bi-plus-square"></i> {' '}
+                        Agregar Riesgo
+                    </Button>
+                    <Accordion className='mt-2'>
+                        {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado riesgos</h1> :
+                            this.props.riesgos.length === 0 ? <h1>No se han agregado riesgos</h1> :
+                                this.props.riesgos.map((risk) => {
+                                    return (
+                                        <Accordion.Item eventKey={risk.id}>
+                                            <Accordion.Header >
+                                                {risk.name}
+                                            </Accordion.Header>
+                                            <Accordion.Body>
+                                                <p>
+                                                    ID: {risk.id} <br />
+                                                    Tipo General: {risk.generalType} <br />
+                                                    Tipo por Área: {risk.areaType} <br />
+                                                    Tipo Específico: {risk.specType} <br />
+                                                    Probabilidad: {risk.probability} <br />
+                                                    Impacto: {risk.impact} <br />
+                                                    Magnitud: {risk.magnitude} <br />
+                                                </p>
+                                                <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
+                                                    onClick={() => this.openModalDelRisk(risk.id)}
+                                                    disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
+                                                    <i className="bi bi-dash-square-fill"></i>{' '}
+                                                    Remover Riesgo
+                                                </Button>
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                    );
+                                })
+                        }
+                    </Accordion>
                 </div>
+                {/* PC */}
                 <div className="d-none d-lg-block">
                     <Table hover>
                         <thead>

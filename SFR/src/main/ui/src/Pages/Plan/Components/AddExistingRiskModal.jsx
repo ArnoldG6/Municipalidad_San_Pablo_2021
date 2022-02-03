@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../Plan.css';
-import { Modal, Button, Table, InputGroup } from "react-bootstrap";
+import { Modal, Button, Table, Form, Accordion } from "react-bootstrap";
 import 'react-toastify/dist/ReactToastify.css';
 
 class AddExistingRiskModal extends Component {
@@ -34,55 +34,121 @@ class AddExistingRiskModal extends Component {
         let show = this.props.show;
         let closeModal = this.props.closeModal;
         return (
-            <Modal id="ModalAddRisk" show={show} onHide={closeModal} >
-                <Modal.Header closeButton>
-                    Agregar Riesgos al Plan
-                </Modal.Header>
-                <Modal.Body>
-                    {(typeof this.props.risks === 'undefined' || this.props.risks === null) ? <h1>No se han agregado riesgos</h1> :
-                        this.props.risks.length === 0 ? <h1>No hay riesgos disponibles</h1> :
-                            <Table>
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Nombre</th>
-                                        <th>Tipo General</th>
-                                        <th>Tipo por Área</th>
-                                        <th>Tipo Específico</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.props.risks.map((risk) => {
-                                        return (
-                                            <tr key={risk.id}>
-                                                <td>{risk.id}</td>
-                                                <td className="nameSlot">{risk.name}</td>
-                                                <td>{risk.generalType}</td>
-                                                <td>{risk.areaType}</td>
-                                                <td>{risk.specType}</td>
-                                                <td>
-                                                    <InputGroup.Checkbox
-                                                        aria-label="Seleccionar Riesgo"
-                                                        name="selectRisk"
-                                                        value={risk.id}
-                                                        onClick={() => { this.handleSelect(risk.id) }} />
-                                                </td>
-                                            </tr>
-                                        )
-                                    })}
-                                </tbody>
-                            </Table>
-                    }
-                    <div className="text-center">
-                        <Button className='btn-sfr' onClick={this.handleSubmit}
-                            disabled={(typeof this.props.risks === 'undefined' || this.props.risks === null) ? true :
-                                this.props.risks.length === 0 ? true : false}>
-                            Guardar
-                        </Button>
-                    </div>
-                </Modal.Body>
-            </Modal >
+            <div>
+                {/* Mobile */}
+                <Modal className='d-lg-none' show={show} onHide={closeModal}>
+                    <Modal.Header closeButton>
+                        Seleccione los Riesgos que desea agregar al Plan
+                    </Modal.Header>
+                    <Modal.Body >
+                        {(typeof this.props.risks === 'undefined' || this.props.risks === null) ? <h1>No se han agregado riesgos</h1> :
+                            this.props.risks.length === 0 ? <h1>No hay riesgos disponibles</h1> :
+                                <Table>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.props.risks.map((risk) => {
+                                            return (
+                                                <tr key={risk.id}>
+                                                    <td className="align-middle">
+                                                        <h3><Form.Check
+                                                            aria-label="Seleccionar Riesgo"
+                                                            name="selectRisk"
+                                                            value={risk.id}
+                                                            onClick={() => { this.handleSelect(risk.id) }} /></h3>
+                                                    </td>
+                                                    <td>
+                                                        <Accordion flush>
+                                                            <Accordion.Item eventKey={risk.id}>
+                                                                <Accordion.Header>
+                                                                    {risk.name}
+                                                                </Accordion.Header>
+                                                                <Accordion.Body>
+                                                                    <p>
+                                                                        ID: {risk.id} <br />
+                                                                        Tipo General: {risk.generalType} <br />
+                                                                        Tipo por Área: {risk.areaType} <br />
+                                                                        Tipo Específico: {risk.specType} <br />
+                                                                        Probabilidad: {risk.probability} <br />
+                                                                        Impacto: {risk.impact} <br />
+                                                                        Magnitud: {risk.magnitude} <br />
+                                                                    </p>
+                                                                </Accordion.Body>
+                                                            </Accordion.Item>
+                                                        </Accordion>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })}
+                                    </tbody>
+                                </Table>
+                        }
+                        <div className="text-center">
+                            <Button className='btn-sfr' onClick={this.handleSubmit}
+                                disabled={(typeof this.props.risks === 'undefined' || this.props.risks === null) ? true :
+                                    this.props.risks.length === 0 ? true : false}>
+                                Guardar
+                            </Button>
+                        </div>
+                    </Modal.Body>
+                </Modal>
+                {/* PC */}
+                <Modal className="d-none d-lg-block" id="ModalAddRisk" show={show} onHide={closeModal} >
+                    <Modal.Header closeButton>
+                        Seleccione los Riesgos que desea agregar al Plan
+                    </Modal.Header>
+                    <Modal.Body>
+                        {(typeof this.props.risks === 'undefined' || this.props.risks === null) ? <h1>No se han agregado riesgos</h1> :
+                            this.props.risks.length === 0 ? <h1>No hay riesgos disponibles</h1> :
+                                <Table>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>ID</th>
+                                            <th>Nombre</th>
+                                            <th>Tipo General</th>
+                                            <th>Tipo por Área</th>
+                                            <th>Tipo Específico</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.props.risks.map((risk) => {
+                                            return (
+                                                <tr key={risk.id}>
+                                                    <td className="align-middle">
+                                                        <h5>
+                                                            <Form.Check
+                                                                aria-label="Seleccionar Riesgo"
+                                                                name="selectRisk"
+                                                                value={risk.id}
+                                                                onClick={() => { this.handleSelect(risk.id) }} />
+                                                        </h5>
+                                                    </td>
+                                                    <td>{risk.id}</td>
+                                                    <td className="nameSlot">{risk.name}</td>
+                                                    <td>{risk.generalType}</td>
+                                                    <td>{risk.areaType}</td>
+                                                    <td>{risk.specType}</td>
+                                                </tr>
+                                            )
+                                        })}
+                                    </tbody>
+                                </Table>
+                        }
+                        <div className="text-center">
+                            <Button className='btn-sfr' onClick={this.handleSubmit}
+                                disabled={(typeof this.props.risks === 'undefined' || this.props.risks === null) ? true :
+                                    this.props.risks.length === 0 ? true : false}>
+                                Guardar
+                            </Button>
+                        </div>
+                    </Modal.Body>
+                </Modal >
+            </div>
         );
     };
 };

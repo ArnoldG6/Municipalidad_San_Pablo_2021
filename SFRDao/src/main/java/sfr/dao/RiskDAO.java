@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.persistence.Query;
 import static sfr.dao.GenericDAO.em;
@@ -79,10 +81,12 @@ public class RiskDAO extends GenericDAO {
             em = getEntityManager();
             Query query = em.createQuery(cmd);
             return (List<Risk>) query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            System.err.println(e.getMessage());
-            throw e;
+        } catch (Exception ex) {
+            Logger.getLogger(RiskDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
         }
     }
     /**
@@ -108,8 +112,9 @@ public class RiskDAO extends GenericDAO {
             em.persist(risk);
             em.getTransaction().commit();
         } catch (Exception ex) {
-            ex.printStackTrace(System.out);
+            Logger.getLogger(RiskDAO.class.getName()).log(Level.SEVERE, null, ex);
             System.err.println(ex.getMessage());
+            throw ex;
         } finally {
             closeEntityManager();
         }
@@ -126,8 +131,9 @@ public class RiskDAO extends GenericDAO {
             em.getTransaction().commit();
 
         } catch (Exception ex) {
-            ex.printStackTrace(System.out);
+            Logger.getLogger(RiskDAO.class.getName()).log(Level.SEVERE, null, ex);
             System.err.println(ex.getMessage());
+            throw ex;
         } finally {
             closeEntityManager();
         }
@@ -159,10 +165,12 @@ public class RiskDAO extends GenericDAO {
             em.getTransaction().begin();
             em.remove(em.merge(risk));
             em.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            System.err.println(e.getMessage());
-            throw e;
+        } catch (Exception ex) {
+            Logger.getLogger(RiskDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
         }
     }
      /**
@@ -175,10 +183,12 @@ public class RiskDAO extends GenericDAO {
         try {
             em = getEntityManager();
             return (Risk) em.find(Risk.class, id);
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            System.err.println(e.getMessage());
-            throw e;
+        } catch (Exception ex) {
+            Logger.getLogger(RiskDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
         }
     }
      /**
@@ -194,10 +204,12 @@ public class RiskDAO extends GenericDAO {
             em = getEntityManager();
             Query query = em.createQuery(cmd);
             return (List<Risk>) query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            System.err.println(e.getMessage());
-            throw e;
+        } catch (Exception ex) {
+            Logger.getLogger(RiskDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
         }
     }
     /**
@@ -223,10 +235,12 @@ public class RiskDAO extends GenericDAO {
                 }
             }
             return result;
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            System.err.println(e.getMessage());
-            throw e;
+        } catch (Exception ex) {
+            Logger.getLogger(RiskDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
         }
     }
          /**
@@ -248,10 +262,12 @@ public class RiskDAO extends GenericDAO {
             Query query = em.createQuery(cmd);
             long cantRisks = (long) query.getSingleResult();
             return cantRisks;
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            System.err.println(e.getMessage());
-            throw e;
+        } catch (Exception ex) {
+            Logger.getLogger(RiskDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
         }
     }
 

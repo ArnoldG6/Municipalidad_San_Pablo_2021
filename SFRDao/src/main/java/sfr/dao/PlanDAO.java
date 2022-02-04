@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.persistence.Query;
 import sfr.model.Plan;
@@ -296,9 +298,11 @@ public class PlanDAO extends GenericDAO {
 
             return l;
         } catch (Exception e) {
-            e.printStackTrace(System.out);
+            Logger.getLogger(PlanDAO.class.getName()).log(Level.SEVERE, null, e);
             System.err.println(e.getMessage());
             throw e;
+        }finally {
+            closeEntityManager();
         }
     }
     /**
@@ -312,9 +316,11 @@ public class PlanDAO extends GenericDAO {
             long cantPlans = (long) query.getSingleResult();
             return cantPlans;
         } catch (Exception e) {
-            e.printStackTrace(System.out);
+            Logger.getLogger(PlanDAO.class.getName()).log(Level.SEVERE, null, e);
             System.err.println(e.getMessage());
             throw e;
+        }finally {
+            closeEntityManager();
         }
     }
 

@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
-import plan.services.PlanServlet;
 import sfr.dao.RiskDAO;
 @WebServlet(name = "RiskServlet", urlPatterns = {
     "/API/RiskServlet",
@@ -26,7 +25,15 @@ import sfr.dao.RiskDAO;
     }
 )
 public class RiskServlet extends HttpServlet {
-
+         /**
+     * Processes requests for <code>GET</code>, <code>POST</code> ,<code>OPTIONS</code>,
+     *   <code>PUT</code>, <code>DELETE</code> HTTP methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
         try {
             request.setCharacterEncoding("UTF-8");
@@ -35,47 +42,46 @@ public class RiskServlet extends HttpServlet {
             response.addHeader("Access-Control-Allow-Credentials", "true");
             response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
             switch (request.getServletPath()) {
-                case "/API/RiskServlet": listAll(request,response); break;
+                case "/API/RiskServlet": listAllRisks(request,response); break;
                 case "/API/RiskSearch": searchRisk(request,response); break;
                 case "/API/RetrieveRisks": retrieveRisks(request,response); break;
                 case "/API/RetrieveRisk": retrieveRisk(request,response); break;
             }
-        } catch (Exception e) {
-            System.err.println(e);
-            throw e;
+        } catch (Exception ex) {
+            System.err.println(ex);
+            Logger.getLogger(RiskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
         }
     }
     // <editor-fold defaultstate="collapsed" desc="Risk Management methods.">
      /**
      * @param request contains the JSON data that is sent by the client and other useful information from the client request.
      * @param response is the object that obtains the requested JSON data by the client.
-     * listAll returns a JSON formatted list of Risk objects that are sorted by default parameters.
+     * listAllRisks returns a JSON formatted list of Risk objects that are sorted by default parameters.
      */
-    private void listAll(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        String json;
-        json = new Gson().toJson(RiskDAO.getInstance().listByColumn("PK_ID","ASC"));
+    private void listAllRisks(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        String responseJSON;
+        responseJSON = new Gson().toJson(RiskDAO.getInstance().listByColumn("PK_ID","DESC"));
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(json);
+        response.getWriter().write(responseJSON);
         response.getWriter().flush();
         response.getWriter().close();
     }
      /**
      * @param request contains the JSON data that is sent by the client and other useful information from the client request.
      * @param response is the object that obtains the requested JSON formatted 'Risk' object.
-     * searchRisk method verifies the user's identity and returns a JSON formmated 'Risk' object that matches with the search
+     * searchRisk method verifies the user's identity and returns a JSON formatted 'Risk' object that matches with the search
      * data sent by the client with any of the 'Risk' class attributes.. 
      */
     private void searchRisk(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        String json, requestData;
-        JSONObject jsonObj;
+        String responseJSON;
+        JSONObject requestJSON;
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        requestData = request.getReader().lines().collect(Collectors.joining());
-        jsonObj = new JSONObject(requestData);
-        String name = jsonObj.getString("searchRisk");
-        json = new Gson().toJson(RiskDAO.getInstance().searchInAllColumns(name));
-        response.getWriter().write(json);
+        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        responseJSON = new Gson().toJson(RiskDAO.getInstance().searchInAllColumns(requestJSON.getString("searchRisk")));
+        response.getWriter().write(responseJSON);
         response.getWriter().flush();
         response.getWriter().close();
     }
@@ -85,34 +91,30 @@ public class RiskServlet extends HttpServlet {
      * retrieveRisk search for an specific 'Risk' ID in order to match with a 'Risk' entry and returns it as an JSON.
      */
     private void retrieveRisk(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        String json, requestData;
-        JSONObject jsonObj;
+        String responseJSON;
+        JSONObject requestJSON;
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        requestData = request.getReader().lines().collect(Collectors.joining());
-        jsonObj = new JSONObject(requestData);
-        String riskID = jsonObj.getString("riskID");
-        json = new Gson().toJson(RiskDAO.getInstance().searchById(Integer.parseInt(riskID)));
-        response.getWriter().write(json);
+        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        responseJSON = new Gson().toJson(RiskDAO.getInstance().searchById(Integer.parseInt(requestJSON.getString("riskID"))));
+        response.getWriter().write(responseJSON);
         response.getWriter().flush();
         response.getWriter().close();  
     }
-     /**
+    /**
     * @param request contains the JSON data that is sent by the client and other useful information from the client request.
-     * @param response is the object that obtains the requested JSON formatted List 'Risk object.
-     * retrieveRisks returns a JSON list that contains the requested 'Risk' list defined by a sorting criteria.
-     */
+    * @param response is the object that obtains the requested JSON formatted List 'Risk object.
+    * retrieveRisks returns a JSON list that contains the requested 'Risk' list defined by a sorting criteria.
+    */
     private void retrieveRisks(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        String json, requestData;
-        JSONObject jsonObj;
+        String responseJSON;
+        JSONObject requestJSON;
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        requestData = request.getReader().lines().collect(Collectors.joining());
-        jsonObj = new JSONObject(requestData);
-        String sortingValue = jsonObj.getString("sortingValue");
-        String sortingWay = jsonObj.getString("sortingWay");
-        json = new Gson().toJson(RiskDAO.getInstance().listByColumn(sortingValue, sortingWay));
-        response.getWriter().write(json);
+        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        responseJSON = new Gson().toJson(RiskDAO.getInstance()
+        .listByColumn(requestJSON.getString("sortingValue"), requestJSON.getString("sortingWay")));
+        response.getWriter().write(responseJSON);
         response.getWriter().flush();
         response.getWriter().close();
     }
@@ -124,7 +126,7 @@ public class RiskServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(PlanServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RiskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -134,7 +136,7 @@ public class RiskServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(PlanServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RiskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -148,7 +150,7 @@ public class RiskServlet extends HttpServlet {
             response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
             //processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(PlanServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RiskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -158,7 +160,7 @@ public class RiskServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(PlanServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RiskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -168,7 +170,7 @@ public class RiskServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(PlanServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RiskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

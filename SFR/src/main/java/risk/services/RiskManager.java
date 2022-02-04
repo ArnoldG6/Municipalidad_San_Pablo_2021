@@ -15,7 +15,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import plan.services.PlanServlet;
 import sfr.dao.RiskDAO;
 import sfr.model.Risk;
 @WebServlet(name = "RiskManager", urlPatterns = {
@@ -25,6 +24,15 @@ import sfr.model.Risk;
     }
 )
 public class RiskManager extends HttpServlet {
+     /**
+     * Processes requests for <code>GET</code>, <code>POST</code> ,<code>OPTIONS</code>,
+     *   <code>PUT</code>, <code>DELETE</code> HTTP methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
         try {
             request.setCharacterEncoding("UTF-8");
@@ -40,9 +48,10 @@ public class RiskManager extends HttpServlet {
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(request.getServletPath());
-        } catch (Exception e) {
-            System.err.println(e.toString());
-            throw e;
+        } catch (Exception ex) {
+            System.err.println(ex);
+            Logger.getLogger(RiskManager.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
         }
     }
     // <editor-fold defaultstate="collapsed" desc="Risk Management methods.">
@@ -51,26 +60,23 @@ public class RiskManager extends HttpServlet {
      * deleteRisk method verifies the user's credentials and verifies that the Risk ID that wants to be deleted corresponds to an existing Risk.
      */
     private void deleteRisk(HttpServletRequest request) throws IOException, Exception{
-                    String obj = request.getReader().lines().collect(Collectors.joining());
-                    Gson json = new Gson();
-                    Risk newR = json.fromJson(obj, Risk.class);
-                    Risk riskE = RiskDAO.getInstance().searchById(newR.getId());
-                    if (riskE == null)  throw new IOException();
-                    RiskDAO.getInstance().delete(riskE);
+        String requestJSON = request.getReader().lines().collect(Collectors.joining());
+        Risk newR = new Gson().fromJson(requestJSON, Risk.class);
+        Risk riskE = RiskDAO.getInstance().searchById(newR.getId());
+        if (riskE == null)  
+            throw new IOException();
+        RiskDAO.getInstance().delete(riskE);
     }
      /**
      * @param request contains the JSON data that is sent by the client and other useful information from the client request.
      * insertRisk verifies that the Risk ID that wants to be inserted does not correspond to an existing Risk entry.
      */
     private void insertRisk(HttpServletRequest request) throws IOException{
-        String riskData = request.getReader().lines().collect(Collectors.joining());
-        Gson gson = new Gson();
-        //System.out.println(riskData);
-        Risk newRisk = gson.fromJson(riskData, Risk.class);
+        String requestJSON = request.getReader().lines().collect(Collectors.joining());
+        Risk newRisk = new Gson().fromJson(requestJSON, Risk.class);
         newRisk.updateMagnitude();
         if (RiskDAO.getInstance().searchById(newRisk.getId()) != null) 
             throw new IOException("El riesgo que se insertó ya existe");
-        
         RiskDAO.getInstance().add(newRisk); 
     }
     /**
@@ -79,9 +85,8 @@ public class RiskManager extends HttpServlet {
      * verifies that the user is able to do it in terms of permissions.
      */
     private void editRisk(HttpServletRequest request) throws IOException{
-        String objetoEditado = request.getReader().lines().collect(Collectors.joining());
-        Gson gsonEdit = new Gson();
-        Risk riskEdit = gsonEdit.fromJson(objetoEditado, Risk.class);
+        String requestJSON = request.getReader().lines().collect(Collectors.joining());
+        Risk riskEdit = new Gson().fromJson(requestJSON, Risk.class);
         if (RiskDAO.getInstance().searchById(riskEdit.getId()) != null)
             RiskDAO.getInstance().update(riskEdit);
           else 
@@ -95,7 +100,7 @@ public class RiskManager extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(PlanServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RiskManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -105,7 +110,7 @@ public class RiskManager extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(PlanServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RiskManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -119,7 +124,7 @@ public class RiskManager extends HttpServlet {
             response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
             //processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(PlanServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RiskManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -129,7 +134,7 @@ public class RiskManager extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(PlanServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RiskManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -139,7 +144,7 @@ public class RiskManager extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(PlanServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RiskManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

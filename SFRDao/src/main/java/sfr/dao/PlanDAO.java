@@ -228,6 +228,7 @@ public class PlanDAO extends GenericDAO {
      *
      * @return a Plan object list which contains matched attribute toString() values with
      * @param value 
+     * @throws java.lang.Exception 
      */
     public List<Plan> searchInAllColumns(String value) throws Exception {
         try {

@@ -20,9 +20,6 @@ class EditRiskModal extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log(event.target);
-        console.log(event.target[6].value);
-        console.log(event.target[7].value);
         let options = {
             url: process.env.REACT_APP_API_URL + `/RiskManager/edit`,
             method: 'PUT',

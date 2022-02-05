@@ -8,6 +8,7 @@ import AddPlanModal from './Components/AddPlanModal';
 import axios from 'axios';
 import PlansTable from './Components/PlansTable';
 import Search from './Components/Search';
+import Pages from '../../SharedComponents/Pagination/Pages';
 
 class Planes extends Component {
     constructor(props) {
@@ -16,7 +17,9 @@ class Planes extends Component {
             show: false,
             sortingValue: 'entryDate',
             sortingWay: 'desc',
-            planes: []
+            planes: [],
+            planesView: [],
+            currentPage: 1
         };
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -25,7 +28,10 @@ class Planes extends Component {
         this.updatePlanesSort = this.updatePlanesSort.bind(this);
         this.handleSortSelect = this.handleSortSelect.bind(this);
         this.handleSortClick = this.handleSortClick.bind(this);
+        this.handlePlanesRender = this.handlePlanesRender.bind(this);
+        this.updatePage = this.updatePage.bind(this);
     }
+
     //On load
     componentDidMount() {
 
@@ -56,66 +62,13 @@ class Planes extends Component {
                 });
         }
 
-        let options = {
-            url: process.env.REACT_APP_API_URL + "/PlanServlet",
-            method: "GET",
-            header: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        }
-        //axios(options).then(toast.promise({pending: 'Cargando...'})).then(response => {
-        axios(options).then(response => {
-            this.setState({ planes: response.data })
-        }).catch((error) => {
-            console.error(error.message);
-        });
+        this.updatePlanesSort();
     }
-
-    updatePlanes(type) {
-        if (type === "add-success") {
-            toast.success("El Plan ha sido agregado satisfactoriamente!", {
-                position: toast.POSITION.TOP_RIGHT,
-                pauseOnHover: true,
-                theme: 'colored',
-                autoClose: 5000
-            });
-        }
-        let options = {
-            url: process.env.REACT_APP_API_URL + "/PlanServlet",
-            method: "GET",
-            header: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }
-        axios(options).then(response => {
-            this.setState({ planes: response.data })
-        }).catch((error) => {
-            console.error(error.message);
-        });
-
-    };
-
-    updatePlanesBySearch(type) {
-        this.setState({ planes: type });
-
-    }
-
-    openModal = () => {
-        this.setState({ show: true });
-    };
-
-    closeModal = () => {
-        this.setState({ show: false });
-    };
 
     updatePlanesSort() {
-
         let sortingValue = this.state.sortingValue;
         let sortingWay = this.state.sortingWay;
         let options = {
-            /*cambiar el link*/
             url: process.env.REACT_APP_API_URL + "/RetrievePlans",
             method: "POST",
             header: {
@@ -128,11 +81,70 @@ class Planes extends Component {
             }
         }
         axios(options).then(response => {
-            this.setState({ planes: response.data })
+            this.setState({
+                planes: response.data,
+                currentPage: 1
+            }, () => {
+                this.handlePlanesRender();
+            });
         });
-
     };
 
+    /* Pagination */
+    updatePage(pageNumber) {
+        this.setState({
+            currentPage: pageNumber
+        }, () => {
+            this.handlePlanesRender();
+        });
+    }
+
+    handlePlanesRender() {
+        let items = [];
+        let itemAmount = process.env.REACT_APP_ITEMS_PER_PAGE_PLANES;
+        let pos = (this.state.currentPage - 1) * itemAmount;
+        for (let i = 0; i < itemAmount; i++) {
+            let item = this.state.planes.at(pos);
+            if (typeof item !== 'undefined' && item !== null) {
+                items.push(item);
+            }
+            pos++;
+        }
+        this.setState({ planesView: items });
+    }
+
+    updatePlanes(type) {
+        if (type === "add-success") {
+            toast.success("El Plan ha sido agregado satisfactoriamente!", {
+                position: toast.POSITION.TOP_RIGHT,
+                pauseOnHover: true,
+                theme: 'colored',
+                autoClose: 5000
+            });
+        }
+        this.updatePlanesSort();
+    };
+
+    /* Search */
+    updatePlanesBySearch(type) {
+        this.setState({
+            planes: type,
+            currentPage: 1
+        }, () => {
+            this.handlePlanesRender();
+        });
+    }
+
+    /* Modal */
+    openModal = () => {
+        this.setState({ show: true });
+    };
+
+    closeModal = () => {
+        this.setState({ show: false });
+    };
+
+    /* Sort */
     handleSortSelect = e => {
         console.log(e.target.value)
         this.setState(
@@ -159,6 +171,7 @@ class Planes extends Component {
             }
         );
     }
+
 
     render() {
         return (
@@ -254,10 +267,18 @@ class Planes extends Component {
                         <Search updatePlanes={this.updatePlanesBySearch} />
                     </Stack>
                 </Row>
+
                 <Row>
-                    <PlansTable planes={this.state.planes} updatePlanesSort={this.updatePlanesSort} />
+                    <PlansTable planes={this.state.planesView} updatePlanesSort={this.updatePlanesSort} />
                 </Row>
 
+                <Row>
+                    <Pages
+                        listLength={this.state.planes.length}
+                        itemAmount={process.env.REACT_APP_ITEMS_PER_PAGE_PLANES}
+                        updatePage={this.updatePage}
+                        currentPage={this.state.currentPage} />
+                </Row>
 
                 <AddPlanModal updatePlanes={this.updatePlanes} show={this.state.show} closeModal={this.closeModal} />
                 <ToastContainer />

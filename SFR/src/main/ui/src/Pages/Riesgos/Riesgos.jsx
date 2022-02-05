@@ -10,7 +10,7 @@ import RisksTable from './Components/RisksTable';
 import Search from './Components/Search';
 import GenericModal from '../../SharedComponents/GenericModal/GenericModal';
 import EditRiskModal from './Components/EditRiskModal';
-
+import Pages from '../../SharedComponents/Pagination/Pages';
 
 class Riesgos extends Component {
     constructor(props) {
@@ -23,7 +23,9 @@ class Riesgos extends Component {
             delId: "",
             sortingValue: 'pk_id',
             sortingWay: 'desc',
-            riesgos: []
+            riesgos: [],
+            riesgosView: [],
+            currentPage: 1
         };
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -35,73 +37,20 @@ class Riesgos extends Component {
         this.closeModalDelete = this.closeModalDelete.bind(this);
         this.openModalEdit = this.openModalEdit.bind(this);
         this.closeModalEdit = this.closeModalEdit.bind(this);
-        this.refreshPage = this.refreshPage.bind(this);
         this.handleSortSelect = this.handleSortSelect.bind(this);
         this.handleSortClick = this.handleSortClick.bind(this);
+        this.handleRiskRender = this.handleRiskRender.bind(this);
+        this.updatePage = this.updatePage.bind(this);
     }
     //On load
     componentDidMount() {
-        this.refreshPage();
+        this.updateRiesgosSort();
     }
-
-    refreshPage() {
-        let options = {
-            url: process.env.REACT_APP_API_URL + "/RiskServlet",
-            method: "GET",
-            header: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        }
-        axios(options).then(response => {
-            this.setState({ riesgos: response.data })
-        }).catch((error) => {
-            console.error(error.message);
-        });
-    }
-
-    updateRiesgos(type) {
-        if (type === "add-success") {
-            toast.success("El Riesgo ha sido agregado satisfactoriamente!", {
-                position: toast.POSITION.TOP_RIGHT,
-                pauseOnHover: true,
-                theme: 'colored',
-                autoClose: 5000
-            });
-        }
-        let options = {
-            url: process.env.REACT_APP_API_URL + "/RiskServlet",
-            method: "GET",
-            header: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }
-        axios(options).then(response => {
-            this.setState({ riesgos: response.data })
-        }).catch((error) => {
-            console.error(error.message);
-        });
-
-    };
-
-    updateRiesgosBySearch(type) {
-        this.setState({ riesgos: type });
-    }
-
-    openModal = () => {
-        this.setState({ show: true });
-    };
-
-    closeModal = () => {
-        this.setState({ show: false });
-    };
 
     updateRiesgosSort() {
         let sortingValue = this.state.sortingValue;
         let sortingWay = this.state.sortingWay;
         let options = {
-            /*cambiar el link*/
             url: process.env.REACT_APP_API_URL + "/RetrieveRisks",
             method: "POST",
             header: {
@@ -115,9 +64,67 @@ class Riesgos extends Component {
             }
         }
         axios(options).then(response => {
-            this.setState({ riesgos: response.data })
+            this.setState({
+                riesgos: response.data,
+                currentPage: 1
+            }, () => {
+                this.handleRiskRender();
+            });
         });
+    };
 
+    /* Pagination */
+    updatePage(pageNumber) {
+        this.setState({
+            currentPage: pageNumber
+        }, () => {
+            this.handleRiskRender();
+        });
+    }
+
+    handleRiskRender() {
+        let items = [];
+        let itemAmount = process.env.REACT_APP_ITEMS_PER_PAGE_RIESGOS;
+        let pos = (this.state.currentPage - 1) * itemAmount;
+        for (let i = 0; i < itemAmount; i++) {
+            let item = this.state.riesgos.at(pos);
+            if (typeof item !== 'undefined' && item !== null) {
+                items.push(item);
+            }
+            pos++;
+        }
+        this.setState({ riesgosView: items });
+    }
+
+    updateRiesgos(type) {
+        if (type === "add-success") {
+            toast.success("El Riesgo ha sido agregado satisfactoriamente!", {
+                position: toast.POSITION.TOP_RIGHT,
+                pauseOnHover: true,
+                theme: 'colored',
+                autoClose: 5000
+            });
+        }
+        this.updateRiesgosSort();
+    };
+
+    /* Search */
+    updateRiesgosBySearch(type) {
+        this.setState({ 
+            riesgos: type,
+            currentPage: 1
+        }, () => {
+            this.handleRiskRender();
+        });
+    }
+
+    /* Modal */
+    openModal = () => {
+        this.setState({ show: true });
+    };
+
+    closeModal = () => {
+        this.setState({ show: false });
     };
 
     openModalEdit = (id) => {
@@ -258,12 +265,14 @@ class Riesgos extends Component {
 
                         <FormSelect className='w-50' onChange={this.handleSortSelect}>
                             <option selected disabled>Ordenar por...</option>
-                            <option value='pk_id'>ID</option>
+                            <option value='pk_id' defaultValue>ID</option>
                             <option value='name'>Nombre</option>
-                            <option value='entryDate' defaultValue>Fecha de Ingreso</option>
-                            <option value='status'>Estado</option>
-                            <option value='authorName'>Autor</option>
-                            <option value='type'>Tipo</option>
+                            <option value='generalType'>Tipo General</option>
+                            <option value='areaType'>Tipo por Área</option>
+                            <option value='specType'>Tipo Específico</option>
+                            <option value='probability'>Probabilidad</option>
+                            <option value='impact'>Impacto</option>
+                            <option value='magnitude'>Magnitud</option>
                         </FormSelect>
                         <OverlayTrigger
                             delay={{ hide: 450, show: 300 }}
@@ -284,14 +293,21 @@ class Riesgos extends Component {
                 </Row>
                 <Row>
                     <RisksTable
-                        riesgos={this.state.riesgos}
+                        riesgos={this.state.riesgosView}
                         updateRiesgosSort={this.updateRiesgosSort}
                         openModalDelete={this.openModalDelete}
                         openModalEdit={this.openModalEdit}
                     />
                 </Row>
+                <Row>
+                    <Pages
+                        listLength={this.state.riesgos.length}
+                        itemAmount={process.env.REACT_APP_ITEMS_PER_PAGE_RIESGOS}
+                        updatePage={this.updatePage}
+                        currentPage={this.state.currentPage} />
+                </Row>
                 <EditRiskModal
-                    refreshPage={this.refreshPage}
+                    refreshPage={this.updateRiesgosSort}
                     risk={this.state.editRisk}
                     show={this.state.showEdit}
                     closeModalEdit={this.closeModalEdit}

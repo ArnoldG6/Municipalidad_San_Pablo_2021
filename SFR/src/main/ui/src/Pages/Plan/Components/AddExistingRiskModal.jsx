@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../Plan.css';
 import { Modal, Button, Table, Form, Accordion } from "react-bootstrap";
 import 'react-toastify/dist/ReactToastify.css';
+//import Pages from '../../../SharedComponents/Pagination/Pages';
 
 class AddExistingRiskModal extends Component {
     constructor(props) {
@@ -87,6 +88,7 @@ class AddExistingRiskModal extends Component {
                                     </tbody>
                                 </Table>
                         }
+
                         <div className="text-center">
                             <Button className='btn-sfr' onClick={this.handleSubmit}
                                 disabled={(typeof this.props.risks === 'undefined' || this.props.risks === null) ? true :
@@ -139,6 +141,7 @@ class AddExistingRiskModal extends Component {
                                     </tbody>
                                 </Table>
                         }
+
                         <div className="text-center">
                             <Button className='btn-sfr' onClick={this.handleSubmit}
                                 disabled={(typeof this.props.risks === 'undefined' || this.props.risks === null) ? true :

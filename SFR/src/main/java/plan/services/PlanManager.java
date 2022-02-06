@@ -111,7 +111,8 @@ public class PlanManager extends HttpServlet {
         Plan toDelete = new Plan(requestJSON.getString("id"));
         if (PlanDAO.getInstance().searchById(toDelete.getId()) != null) 
             PlanDAO.getInstance().delete(toDelete);
-        else 
+        else
+//            response.getWriter().write(new PlanNotFoundEx.jsonify());
             throw new IOException("El plan indicado no está registrado");
     }
      /**

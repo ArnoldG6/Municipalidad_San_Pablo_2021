@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '../Plan.css'
-import { Modal, Button, Form } from "react-bootstrap";
-import { ToastContainer} from 'react-toastify';
+import { Modal, Button, Form, Stack, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 class EditPlanModal extends Component {
@@ -36,7 +36,7 @@ class EditPlanModal extends Component {
         }
 
         axios(options)
-            .then(response => { 
+            .then(response => {
                 this.props.refreshPage();
                 this.props.closeModal();
             }).catch(error => {
@@ -63,8 +63,8 @@ class EditPlanModal extends Component {
                 typePlan = 'Proceso';
                 break;
             default:
-            typePlan = 'unknown';
-                break;        
+                typePlan = 'unknown';
+                break;
         }
         let id = this.props.id;
         let authorName = this.props.authorName;
@@ -78,7 +78,7 @@ class EditPlanModal extends Component {
                 <Modal.Body>
                     <Form onSubmit={this.handleSubmit}>
                         <div className="form-group">
-                            <label>Nombre: &nbsp;&nbsp;</label>
+                            <label>Nombre:</label>
                             <input name="name" id="name" type="text" placeholder="Nombre" className="form-control" defaultValue={name} required />
                         </div>
                         <div className="form-group">
@@ -86,7 +86,7 @@ class EditPlanModal extends Component {
                             <input name="id" id="id " type="text" className="form-control" placeholder="ID" defaultValue={id} disabled />
                         </div>
                         <div className="form-group">
-                            <label>Estado: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <label>Estado:</label>
                             <Form.Select name="status" id="status" defaultValue={status}>
 
                                 <option value="Activo">Activo</option>
@@ -95,11 +95,11 @@ class EditPlanModal extends Component {
                             </Form.Select>
                         </div>
                         <div className="form-group">
-                            <label>Autor: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <label>Autor:</label>
                             <input name="authorName" id="authorName" type="text" placeholder="Autor" className="form-control" defaultValue={authorName} required />
                         </div>
                         <div className="form-group">
-                            <label>Tipo: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <label>Tipo:</label>
                             <Form.Select name="type" id="type" defaultValue={typePlan}>
 
                                 <option value="Proceso">Proceso</option>
@@ -107,7 +107,23 @@ class EditPlanModal extends Component {
                             </Form.Select>
                         </div>
                         <div className="form-group">
-                            <label>Descripción: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <Stack direction="horizontal" gap={3}>
+                                <label>Descripción:</label>
+                                <OverlayTrigger
+
+                                    delay={{ hide: 450, show: 300 }}
+                                    overlay={(props) => (
+                                        <Tooltip {...props}>
+                                            {process.env.REACT_APP_PLANES_HELP_DESC}
+                                        </Tooltip>
+                                    )}
+                                    placement="bottom"
+                                >
+                                    <h5 className='ms-auto mt-1'>
+                                        <i className="bi bi-info-circle"></i>
+                                    </h5>
+                                </OverlayTrigger>
+                            </Stack>
                             <textarea name="description" id="description" type="text" placeholder="Descripción" className="form-control" defaultValue={description} />
                         </div>
                         <Button className='btn-sfr' type="submit" id="submit-button-new-item">

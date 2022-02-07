@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Modal, Button, Form, FormGroup } from "react-bootstrap";
+import { Modal, Button, Form, FormGroup, Stack, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../Riesgos.css'
@@ -81,17 +81,62 @@ class EditRiskModal extends Component {
 
                             <div className="form-group">
                                 <div className="number-input-container">
-                                    <label>Probabilidad: </label>
+                                    <Stack direction="horizontal" gap={3}>
+                                        <label>Probabilidad: </label>
+                                        <OverlayTrigger
+                                            delay={{ hide: 450, show: 300 }}
+                                            overlay={(props) => (
+                                                <Tooltip {...props}>
+                                                    {process.env.REACT_APP_RIESGOS_HELP_PROB}
+                                                </Tooltip>
+                                            )}
+                                            placement="bottom"
+                                        >
+                                            <h5 className='ms-auto mt-1'>
+                                                <i className="bi bi-info-circle"></i>
+                                            </h5>
+                                        </OverlayTrigger>
+                                    </Stack>
                                     <input step=".1" min="0.1" max="0.9" name="probability" id="probability" type="number" placeholder="0,1" className="form-control number-input" defaultValue={risk.probability} required />
                                 </div>
                                 <div className="number-input-container">
-                                    <label>Impacto:</label>
+                                    <Stack direction="horizontal" gap={3}>
+                                        <label>Impacto:</label>
+                                        <OverlayTrigger
+                                            delay={{ hide: 450, show: 300 }}
+                                            overlay={(props) => (
+                                                <Tooltip {...props}>
+                                                    {process.env.REACT_APP_RIESGOS_HELP_IMPACTO}
+                                                </Tooltip>
+                                            )}
+                                            placement="bottom"
+                                        >
+                                            <h5 className='ms-auto mt-1'>
+                                                <i className="bi bi-info-circle"></i>
+                                            </h5>
+                                        </OverlayTrigger>
+                                    </Stack>
                                     <input min="10" max="90" step="10" name="impact" id="impact" type="number" className="form-control number-input" placeholder="10%" defaultValue={risk.impact} required />
                                 </div>
                             </div>
 
                             <FormGroup>
-                                <label>Tipo de Riesgo:</label>
+                                <Stack direction="horizontal" gap={3}>
+                                    <label>Tipo de Riesgo:</label>
+                                    <OverlayTrigger
+                                        delay={{ hide: 450, show: 300 }}
+                                        overlay={(props) => (
+                                            <Tooltip {...props}>
+                                                {process.env.REACT_APP_RIESGOS_HELP_TIPO_RIESGO}
+                                            </Tooltip>
+                                        )}
+                                        placement="bottom"
+                                    >
+                                        <h5 className='ms-auto mt-1'>
+                                            <i className="bi bi-info-circle"></i>
+                                        </h5>
+                                    </OverlayTrigger>
+                                </Stack>
                                 <FormGroup className="radio-group-type" name="type" defaultValue={risk.generalType} >
                                     <FormGroup className="Radio-element">
                                         <input
@@ -119,7 +164,22 @@ class EditRiskModal extends Component {
 
 
                             <div className="form-group">
-                                <label>Tipo: </label>
+                                <Stack direction="horizontal" gap={3}>
+                                    <label>Tipo: </label>
+                                    <OverlayTrigger
+                                        delay={{ hide: 450, show: 300 }}
+                                        overlay={(props) => (
+                                            <Tooltip {...props}>
+                                                {process.env.REACT_APP_RIESGOS_HELP_TIPO}
+                                            </Tooltip>
+                                        )}
+                                        placement="bottom"
+                                    >
+                                        <h5 className='ms-auto mt-1'>
+                                            <i className="bi bi-info-circle"></i>
+                                        </h5>
+                                    </OverlayTrigger>
+                                </Stack>
                                 <Form.Select name="areatype" id="areatype" hidden={risk.generalType === "INTERNO"} defaultValue={risk.areaType}>
 
                                     <option value="Político">Político</option>
@@ -147,9 +207,24 @@ class EditRiskModal extends Component {
                             </div>
 
                             <div className="form-group">
-                            <label>Factores:</label>
-                            <textarea name="factor" id="factor" type="text" placeholder="¿Por qué puede suceder?" defaultValue={risk.factors} className="form-control" />
-                        </div>
+                                <Stack direction="horizontal" gap={3}>
+                                    <label>Factores:</label>
+                                    <OverlayTrigger
+                                        delay={{ hide: 450, show: 300 }}
+                                        overlay={(props) => (
+                                            <Tooltip {...props}>
+                                                {process.env.REACT_APP_RIESGOS_HELP_FACTORES}
+                                            </Tooltip>
+                                        )}
+                                        placement="bottom"
+                                    >
+                                        <h5 className='ms-auto mt-1'>
+                                            <i className="bi bi-info-circle"></i>
+                                        </h5>
+                                    </OverlayTrigger>
+                                </Stack>
+                                <textarea name="factor" id="factor" type="text" placeholder="¿Por qué puede suceder?" defaultValue={risk.factors} className="form-control" />
+                            </div>
                             <Button id="submitRiskBtn" className='btn-sfr' type="submit" >
                                 Guardar
                             </Button>

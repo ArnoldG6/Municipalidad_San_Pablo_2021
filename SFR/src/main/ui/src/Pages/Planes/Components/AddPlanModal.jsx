@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '../Planes.css'
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, OverlayTrigger, Tooltip, Stack } from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -60,7 +60,7 @@ class AddPlanModal extends Component {
                 <Modal.Body>
                     <Form onSubmit={this.handleSubmit}>
                         <div className="form-group">
-                            <label>Nombre: &nbsp;&nbsp;</label>
+                            <label>Nombre:</label>
                             <input name="name" id="name" type="text" placeholder="Nombre" className="form-control" required />
                         </div>
                         <div className="form-group">
@@ -68,7 +68,7 @@ class AddPlanModal extends Component {
                             <input name="id" id="id " type="text" className="form-control" placeholder="ID" required />
                         </div>
                         <div className="form-group">
-                            <label>Estado: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <label>Estado:</label>
                             <Form.Select name="status" id="status">
                                 <option value="" defaultValue disabled hidden>Seleccione un estado</option>
                                 <option value="Activo">Activo</option>
@@ -77,11 +77,11 @@ class AddPlanModal extends Component {
                             </Form.Select>
                         </div>
                         <div className="form-group">
-                            <label>Autor: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <label>Autor:</label>
                             <input name="authorName" id="authorName" type="text" placeholder="Autor" className="form-control" required />
                         </div>
                         <div className="form-group">
-                            <label>Tipo: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <label>Tipo:</label>
                             <Form.Select name="type" id="type">
                                 <option value="" defaultValue disabled hidden>Seleccione un tipo</option>
                                 <option value="Proceso">Proceso</option>
@@ -89,7 +89,23 @@ class AddPlanModal extends Component {
                             </Form.Select>
                         </div>
                         <div className="form-group">
-                            <label>Descripción: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <Stack direction="horizontal" gap={3}>
+                                <label>Descripción:</label>
+                                <OverlayTrigger
+
+                                    delay={{ hide: 450, show: 300 }}
+                                    overlay={(props) => (
+                                        <Tooltip {...props}>
+                                            {process.env.REACT_APP_PLANES_HELP_DESC}
+                                        </Tooltip>
+                                    )}
+                                    placement="bottom"
+                                >
+                                    <h5 className='ms-auto mt-1'>
+                                        <i className="bi bi-info-circle"></i>
+                                    </h5>
+                                </OverlayTrigger>
+                            </Stack>
                             <textarea name="description" id="description" type="text" placeholder="Descripción" className="form-control" />
                         </div>
                         <Button className='btn-sfr' type="submit" id="submit-button-new-item">

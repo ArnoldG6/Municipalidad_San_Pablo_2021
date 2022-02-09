@@ -68,6 +68,7 @@ class AddRiskModal extends Component {
     render() {
 
         const { value } = this.state;
+        console.log(value)
 
 
         let render = this.props.show
@@ -146,7 +147,6 @@ class AddRiskModal extends Component {
 
                             <FormGroup className="radio-group-type" name="type">
                                 <FormGroup className="Radio-element">
-
                                     <input
                                         id="risktype1"
                                         type="radio"
@@ -154,10 +154,9 @@ class AddRiskModal extends Component {
                                         checked={value === "EXTERNO"}
                                         onChange={this.onChange}
                                     />
-                                    <label for="risktype1">Externo</label>
+                                    <label htmlFor="risktype1">Externo</label>
                                 </FormGroup>
                                 <FormGroup className="Radio-element">
-
                                     <input
                                         id="risktype2"
                                         type="radio"
@@ -165,7 +164,17 @@ class AddRiskModal extends Component {
                                         checked={value === "INTERNO"}
                                         onChange={this.onChange}
                                     />
-                                    <label for="risktype2">Interno</label>
+                                    <label htmlFor="risktype2">Interno</label>
+                                </FormGroup>
+                                <FormGroup className="Radio-element">
+                                    <input
+                                        id="risktype3"
+                                        type="radio"
+                                        value="TIC"
+                                        checked={value === "TIC"}
+                                        onChange={this.onChange}
+                                    />
+                                    <label htmlFor="risktype3">TIC</label>
                                 </FormGroup>
                             </FormGroup>
 
@@ -190,25 +199,29 @@ class AddRiskModal extends Component {
                                 </OverlayTrigger>
                             </Stack>
 
-                            <Form.Select name="areatype" id="areatype" hidden={value === "INTERNO"} onChange={this.handleAreaType}>
-                                <option value="" defaultValue disabled hidden>Seleccione una fuente por área</option>
+                            <Form.Select name="areatype" id="areatype" hidden={value === "INTERNO" || value === "TIC"} onChange={this.handleAreaType}>
                                 <option value="Político">Político</option>
                                 <option value="Legal">Legal</option>
                                 <option value="Económico">Económico</option>
-                                <option value="Tecnologías de la información">Tecnologías de la información</option>
                                 <option value="Eventos naturales">Eventos naturales</option>
                                 <option value="Ambiental">Ambiental</option>
-
                             </Form.Select>
-
-                            <Form.Select name="areatype" id="areatype" hidden={value === "EXTERNO"} onChange={this.handleAreaType}>
+                            <Form.Select name="areatype" id="areatype" hidden={value === "EXTERNO" || value === "TIC"} onChange={this.handleAreaType}>
                                 <option value="Estratégicos">Estratégicos</option>
                                 <option value="Financieros">Financieros</option>
                                 <option value="Desarrollo de los procesos">Desarrollo de los procesos</option>
                                 <option value="Tecnológicos y de información">Tecnológicos y de información</option>
                                 <option value="Gestión de procesos sustantivos">Gestión de procesos sustantivos</option>
                                 <option value="Funcionario municipal">Funcionario municipal</option>
-
+                            </Form.Select>
+                            <Form.Select name="areatype" id="areatype" hidden={value === "INTERNO" || value === "EXTERNO"} onChange={this.handleAreaType}>
+                                <option value="Gestión de la información">Gestión de la información</option>
+                                <option value="Gestión de la continuidad">Gestión de la continuidad</option>
+                                <option value="Gestión de las comunicaciones">Gestión de las comunicaciones</option>
+                                <option value="Centros de datos">Centros de datos</option>
+                                <option value="Gestión de proveedores">Gestión de proveedores</option>
+                                <option value="Cumplimiento">Cumplimiento</option>
+                                <option value="Seguridad de la información">Seguridad de la información</option>
                             </Form.Select>
                         </div>
                         <div className="form-group">

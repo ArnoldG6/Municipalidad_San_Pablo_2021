@@ -52,7 +52,7 @@ class Search extends Component {
         return (
             <Form onSubmit={this.handleSubmit} className='ms-auto'>
 
-                <button className="btn-sfr" type="submit"><i class="bi bi-search"></i></button>
+                <button className="btn-sfr" type="submit"><i className="bi bi-search"></i></button>
                 <input type="text" id="searchRisk" name="searchRisk" placeholder="Buscar"></input>
 
             </Form>

@@ -1,11 +1,12 @@
 /**
  * @author GONCAR4
- * @author ArnoldG6
- * PlanManager class is in charge of handling requests from the clients 
- * in order to create, delete or edit 'Plan' entries from the DB.
+ * @author ArnoldG6 PlanManager class is in charge of handling requests from the
+ * clients in order to create, delete or edit 'Plan' entries from the DB.
  */
 package plan.services;
+
 import com.google.gson.Gson;
+import ex.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +24,7 @@ import org.json.JSONObject;
 import sfr.dao.PlanDAO;
 import sfr.model.Plan;
 import sfr.model.Risk;
+
 @WebServlet(name = "PlanManager", urlPatterns = {
     "/API/PlanManager/insert",
     "/API/PlanManager/edit",
@@ -30,20 +32,22 @@ import sfr.model.Risk;
     "/API/PlanManager/deleteRisk",
     "/API/PlanManager/associateRiskToPlan",
     "/API/PlanManager/getRiskListByPlanNoRep"
-    }
+}
 )
 public class PlanManager extends HttpServlet {
+
     /**
-    * Processes requests for <code>GET</code>, <code>POST</code> ,<code>OPTIONS</code>,
-    *   <code>PUT</code>, <code>DELETE</code> HTTP methods.
-    *
-    * @param request servlet request
-    * @param response servlet response
-    * @throws ServletException if a servlet-specific error occurs
-    * @throws IOException if an I/O error occurs
-    */
+     * Processes requests for <code>GET</code>, <code>POST</code>
+     * ,<code>OPTIONS</code>, <code>PUT</code>, <code>DELETE</code> HTTP
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException, Exception {
+            throws ServletException, IOException, Exception {
         try {
             request.setCharacterEncoding("UTF-8");
             response.addHeader("Access-Control-Allow-Origin", "*");
@@ -51,12 +55,24 @@ public class PlanManager extends HttpServlet {
             response.addHeader("Access-Control-Allow-Credentials", "true");
             response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
             switch (request.getServletPath()) {
-                case "/API/PlanManager/insert":insertPlan(request,response); break;
-                case "/API/PlanManager/edit": editPlan(request,response); break;
-                case "/API/PlanManager/delete": deletePlan(request,response); break;
-                case "/API/PlanManager/deleteRisk": deleteRiskFromPlan(request,response); break;
-                case "/API/PlanManager/associateRiskToPlan": associateRiskToPlan(request,response); break;
-                case "/API/PlanManager/getRiskListByPlanNoRep": getRiskListByPlanNoRep (request,response); break;
+                case "/API/PlanManager/insert":
+                    insertPlan(request, response);
+                    break;
+                case "/API/PlanManager/edit":
+                    editPlan(request, response);
+                    break;
+                case "/API/PlanManager/delete":
+                    deletePlan(request, response);
+                    break;
+                case "/API/PlanManager/deleteRisk":
+                    deleteRiskFromPlan(request, response);
+                    break;
+                case "/API/PlanManager/associateRiskToPlan":
+                    associateRiskToPlan(request, response);
+                    break;
+                case "/API/PlanManager/getRiskListByPlanNoRep":
+                    getRiskListByPlanNoRep(request, response);
+                    break;
             }
             //response.setContentType("text/html");
             //response.setCharacterEncoding("UTF-8");
@@ -68,78 +84,107 @@ public class PlanManager extends HttpServlet {
         }
 
     }
+
     // <editor-fold defaultstate="collapsed" desc="Plan Management methods.">
-     /**
-     * @param request contains the JSON data that is sent by the client and other useful information from the client request.
-     * @param response sends the information back to the client with the server's response.
-     * insertPlan creates a new Plan entry in the DB if it does not exists.
+    /**
+     * @param request contains the JSON data that is sent by the client and
+     * other useful information from the client request.
+     * @param response sends the information back to the client with the
+     * server's response. insertPlan creates a new Plan entry in the DB if it
+     * does not exists.
      */
     private void insertPlan(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         String requestJSON = request.getReader().lines().collect(Collectors.joining());
         Plan newPlan = new Gson().fromJson(requestJSON, Plan.class);
         newPlan.setEntryDate(new Date());
         if (PlanDAO.getInstance().searchById(newPlan.getId()) != null) {
-            response.sendError(409);
+            //Custom exception
+            response.getWriter().write(new PlanAlreadyExistEx().jsonify());
             throw new IOException("El plan que se insertó ya existe");
         }
         PlanDAO.getInstance().add(newPlan);
     }
-     /**
-     * @param request contains the JSON data that is sent by the client and other useful information from the client request.
-     * @param response sends the information back to the client with the server's response.
-     * editPlan edits a Plan entry in the DB if it exists according to the requestJSON data.
+
+    /**
+     * @param request contains the JSON data that is sent by the client and
+     * other useful information from the client request.
+     * @param response sends the information back to the client with the
+     * server's response. editPlan edits a Plan entry in the DB if it exists
+     * according to the requestJSON data.
      */
     private void editPlan(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {  
+            throws ServletException, IOException {
         String requestJSON = request.getReader().lines().collect(Collectors.joining());
         Plan editPlan = new Gson().fromJson(requestJSON, Plan.class);
-        if (PlanDAO.getInstance().searchById(editPlan.getId()) != null) 
+        if (PlanDAO.getInstance().searchById(editPlan.getId()) != null) {
             PlanDAO.getInstance().update(editPlan);
-        else 
+        } else {
+            //Custom exception
+            response.getWriter().write(new PlanNotFoundEx().jsonify());
             throw new IOException("El plan indicado no está registrado");
-        
+        }
+
     }
-     /**
-     * @param request contains the JSON data that is sent by the client and other useful information from the client request.
-     * @param response sends the information back to the client with the server's response.
-     * deletePlan deletes a Plan entry in the DB if it exists according to the requestJSON data.
+
+    /**
+     * @param request contains the JSON data that is sent by the client and
+     * other useful information from the client request.
+     * @param response sends the information back to the client with the
+     * server's response. deletePlan deletes a Plan entry in the DB if it exists
+     * according to the requestJSON data.
      */
     private void deletePlan(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         Plan toDelete = new Plan(requestJSON.getString("id"));
-        if (PlanDAO.getInstance().searchById(toDelete.getId()) != null) 
+        if (PlanDAO.getInstance().searchById(toDelete.getId()) != null) {
             PlanDAO.getInstance().delete(toDelete);
-        else
-//            response.getWriter().write(new PlanNotFoundEx.jsonify());
-            throw new IOException("El plan indicado no está registrado");
+        } else //Custom exception
+        {
+            response.getWriter().write(new PlanNotFoundEx().jsonify());
+        }
+        throw new IOException("El plan indicado no está registrado");
     }
-     /**
-     * @param request contains the JSON data that is sent by the client and other useful information from the client request.
-     * @param response sends the information back to the client with the server's response.
-     * deleteRiskFromPlan deletes a Plan list of Risks determined by the requestJSON.
+
+    /**
+     * @param request contains the JSON data that is sent by the client and
+     * other useful information from the client request.
+     * @param response sends the information back to the client with the
+     * server's response. deleteRiskFromPlan deletes a Plan list of Risks
+     * determined by the requestJSON.
      */
     private void deleteRiskFromPlan(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         JSONObject requestJSON;
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         Plan p = PlanDAO.getInstance().searchById(requestJSON.getString("planID"));
+        if (p == null) {
+            //Custom exception
+            response.getWriter().write(new PlanNotFoundEx().jsonify());
+        }
         List<Risk> riskList = p.getRiskList();
+        if(riskList == null){
+            //Custom exception
+            response.getWriter().write(new RisksNotListedEx().jsonify());
+        }
         riskList.removeIf(r -> (String.valueOf(r.getId()).equals(requestJSON.getString("riskID"))));
         p.setRiskList(riskList);
         PlanDAO.getInstance().update(p);
     }
-     /**
-     * @param request contains the JSON data that is sent by the client and other useful information from the client request.
-     * @param response sends the information back to the client with the server's response.
-     * getRiskListByPlanNoRep answers to the client with a List<Risk> object formatted as JSON which contains
-     * the complement of the List<Risk> of the user that sent the request.
+
+    /**
+     * @param request contains the JSON data that is sent by the client and
+     * other useful information from the client request.
+     * @param response sends the information back to the client with the
+     * server's response. getRiskListByPlanNoRep answers to the client with a
+     * List<Risk> object formatted as JSON which contains the complement of the
+     * List<Risk> of the user that sent the request.
      */
     private void getRiskListByPlanNoRep(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException, Exception {
+            throws ServletException, IOException, Exception {
         String responseJSON;
         JSONObject requestJSON;
         response.setContentType("application/json");
@@ -150,26 +195,32 @@ public class PlanManager extends HttpServlet {
         response.getWriter().flush();
         response.getWriter().close();
     }
-      /**
-     * @param request contains the JSON data that is sent by the client and other useful information from the client request.
-     * @param response sends the information back to the client with the server's response.
-     * associateRiskToPlan updates the DB entries of 'Plan' associating it to a list of 'Plan' entries sent
-     * by the client.
+
+    /**
+     * @param request contains the JSON data that is sent by the client and
+     * other useful information from the client request.
+     * @param response sends the information back to the client with the
+     * server's response. associateRiskToPlan updates the DB entries of 'Plan'
+     * associating it to a list of 'Plan' entries sent by the client.
      */
     private void associateRiskToPlan(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException, Exception {
+            throws ServletException, IOException, Exception {
         JSONObject requestJSON;
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         JSONArray riskIdJSONArray = requestJSON.getJSONArray("riskIDs");
-        if (riskIdJSONArray == null) 
-            throw new IOException("Invalid risk ID list");
+        if (riskIdJSONArray == null) {
+            response.getWriter().write(new InvalidRiskIDEx().jsonify());
+//            throw new IOException("Invalid risk ID list");
+        }
         List<Integer> riskIds = new ArrayList<>();
-        for (int i = 0; i < riskIdJSONArray.length(); i++) 
+        for (int i = 0; i < riskIdJSONArray.length(); i++) {
             riskIds.add((Integer) riskIdJSONArray.get(i));
+        }
         PlanDAO.getInstance().associateRisksToPlan(requestJSON.getString("planID"), riskIds);
     }
+
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods.">
     @Override

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -16,7 +17,7 @@ import javax.persistence.Table;
 public class Risk implements Serializable {
     @Id
     @Column(name = "PK_ID")
-    @GeneratedValue(generator = "increment")
+    @GeneratedValue(generator = "increment", strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "Name")
     private String name;

@@ -3,9 +3,11 @@ package sfr.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -22,6 +24,7 @@ import javax.persistence.Temporal;
 public class Plan implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PK_ID")
     private String id;
 
@@ -52,7 +55,7 @@ public class Plan implements Serializable {
 //    )
 //    private List<User> involvedList;
     //@OneToMany(orphanRemoval = true, cascade = CascadeType.PERSIST)
-    @OneToMany(orphanRemoval = true)
+    @OneToMany(orphanRemoval = true,  fetch = FetchType.EAGER)
     @JoinTable(
             name = "T_RISKPLAN",
             joinColumns = @JoinColumn(name = "FK_PLAN"),

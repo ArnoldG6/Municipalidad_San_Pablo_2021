@@ -91,8 +91,8 @@ class AddExistingRiskModal extends Component {
 
                         <div className="text-center">
                             <Button className='btn-sfr' onClick={this.handleSubmit}
-                                disabled={(typeof this.props.risks === 'undefined' || this.props.risks === null) ? true :
-                                    this.props.risks.length === 0 ? true : false}>
+                                disabled={((typeof this.props.risks === 'undefined' || this.props.risks === null) ? true :
+                                this.props.risks.length === 0 ? true : false) || this.state.riskIDs.length === 0}>
                                 Guardar
                             </Button>
                         </div>
@@ -144,8 +144,8 @@ class AddExistingRiskModal extends Component {
 
                         <div className="text-center">
                             <Button className='btn-sfr' onClick={this.handleSubmit}
-                                disabled={(typeof this.props.risks === 'undefined' || this.props.risks === null) ? true :
-                                    this.props.risks.length === 0 ? true : false}>
+                                disabled={((typeof this.props.risks === 'undefined' || this.props.risks === null) ? true :
+                                    this.props.risks.length === 0 ? true : false) || this.state.riskIDs.length === 0}>
                                 Guardar
                             </Button>
                         </div>

@@ -5,6 +5,11 @@
     margin: 0 auto;
     justify-content: center;
 }
+.image_center {
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+}
 .Footer {
     background-color: #1F3140;
     color: white;

@@ -19,8 +19,6 @@ class AddRiskModal extends Component {
         this.handleAreaType = this.handleAreaType.bind(this);
     }
 
-    //closeModal() { }
-
     handleSubmit = (event) => {
         event.preventDefault();
 
@@ -66,10 +64,7 @@ class AddRiskModal extends Component {
     }
 
     render() {
-
         const { value } = this.state;
-        console.log(value)
-
 
         let render = this.props.show
         let closeModal = this.props.closeModal

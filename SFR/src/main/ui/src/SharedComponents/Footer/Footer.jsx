@@ -1,14 +1,19 @@
-import {Navbar, Container} from "react-bootstrap";
+import { Navbar, Container, Image, Stack } from "react-bootstrap";
 import './Footer.css';
+import logoSFR from "../images/logoSFR.png"
+
 export default function Footer() {
     return (
         <div>
             <Navbar className="Footer">
-                    <Container >
-                        <p className = "text_center text-light">
-                            ©{new Date().getFullYear()}. SFR. Municipalidad de San Pablo de Heredia. 
+                <Container fluid>
+                    <Stack direction="vertical" gap={1}>
+                        <Image src={logoSFR} fluid height={25} width={100} className="image_center"/>
+                        <p className="align-middle text_center">
+                            ©{new Date().getFullYear()}. Municipalidad de San Pablo de Heredia.
                         </p>
-                    </Container>
+                    </Stack>
+                </Container>
             </Navbar>
         </div>
     );

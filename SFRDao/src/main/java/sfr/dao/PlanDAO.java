@@ -175,7 +175,7 @@ public class PlanDAO extends GenericDAO {
             p.setRiskList(riskList);
             PlanDAO.getInstance().update(p);
 
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             ex.printStackTrace(System.out);
             System.err.println(ex.getMessage());
             throw ex;

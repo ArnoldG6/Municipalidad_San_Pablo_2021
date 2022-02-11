@@ -101,7 +101,7 @@ public class PlanManager extends HttpServlet {
         if (PlanDAO.getInstance().searchById(newPlan.getId()) != null) {
             //Custom exception
             response.getWriter().write(new PlanAlreadyExistEx().jsonify());
-            throw new IOException("El plan que se insertó ya existe");
+//            throw new IOException("El plan que se insertó ya existe");
         }
         PlanDAO.getInstance().add(newPlan);
     }
@@ -166,7 +166,7 @@ public class PlanManager extends HttpServlet {
             response.getWriter().write(new PlanNotFoundEx().jsonify());
         }
         List<Risk> riskList = p.getRiskList();
-        if(riskList == null){
+        if (riskList == null) {
             //Custom exception
             response.getWriter().write(new RisksNotListedEx().jsonify());
         }
@@ -191,9 +191,15 @@ public class PlanManager extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         responseJSON = new Gson().toJson(PlanDAO.getInstance().getRiskListByPlanNoRep(requestJSON.getString("planID")));
-        response.getWriter().write(responseJSON);
+        if (responseJSON == null) {
+            //Custom exception
+            response.getWriter().write(new EmptyRiskListEx().jsonify());
+        } else {
+            response.getWriter().write(responseJSON);
+        }
         response.getWriter().flush();
         response.getWriter().close();
+
     }
 
     /**
@@ -211,6 +217,7 @@ public class PlanManager extends HttpServlet {
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         JSONArray riskIdJSONArray = requestJSON.getJSONArray("riskIDs");
         if (riskIdJSONArray == null) {
+            //Custom exception
             response.getWriter().write(new InvalidRiskIDEx().jsonify());
 //            throw new IOException("Invalid risk ID list");
         }

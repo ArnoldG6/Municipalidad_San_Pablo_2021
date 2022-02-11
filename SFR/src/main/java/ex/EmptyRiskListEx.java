@@ -11,10 +11,10 @@ import com.google.gson.Gson;
  *
  * @author GONCAR
  */
-public class InvalidPlanListIDEx extends CustomException{
-   public InvalidPlanListIDEx(){
-        this.code = 417;
-        this.message = "El ID de la lista de planes no es el esperado.";
+public class EmptyRiskListEx extends CustomException{
+   public EmptyRiskListEx(){
+        this.code = 404;
+        this.message = "El riesgo no ha sido encontrado.";
     }
    public String jsonify() {
        String answer = new Gson().toJson(this);

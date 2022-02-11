@@ -131,6 +131,9 @@ class TopButtons extends Component {
                 {/* PC */}
                 <div className="d-none d-lg-block">
                     <Stack className="mt-4" direction="horizontal" gap={3}>
+                        <Button variant="link" href="#/planes">
+                            <h5><i className="bi bi-chevron-left"></i> Volver</h5>
+                        </Button>
                         {/* Editar */}
                         <OverlayTrigger
                             delay={{ hide: 450, show: 300 }}

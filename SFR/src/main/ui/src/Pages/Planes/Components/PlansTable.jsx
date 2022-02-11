@@ -89,7 +89,7 @@ class PlansTable extends Component {
                                                 <td>{plan.id}</td>
                                                 <td className="nameSlot"><Link  to={{ pathname: "/plan", search: `?id=${plan.id}` }}><p className='nameText'>{plan.name}</p></Link></td>
                                                 <td>{plan.entryDate}</td>
-                                                <td><div className={statusClass}>{plan.status}</div></td>
+                                                <td width="250px"><div className={statusClass}>{plan.status}</div></td>
                                                 <td>{plan.authorName}</td>
                                                 <td>{plan.type}</td>
                                             </tr>

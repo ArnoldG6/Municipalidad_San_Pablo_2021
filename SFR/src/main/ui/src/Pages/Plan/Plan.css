@@ -24,9 +24,7 @@
 }
 .card-body {
     min-height: 100%;
-}
-.card-body {
-    height: 48vh;
+    height: 70vh;
 }
 
 #submit-button-new-item {

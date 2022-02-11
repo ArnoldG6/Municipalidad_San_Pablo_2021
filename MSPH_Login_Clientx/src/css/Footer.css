@@ -1,0 +1,13 @@
+.text_center {
+    display: flex;
+    width: 100%;
+    max-width: 60%;
+    margin: 0 auto;
+    justify-content: center;
+}
+.Footer {
+    background-color: #1F3140;
+    color: white;
+    height: 6%;
+    overflow-y: hidden;
+}

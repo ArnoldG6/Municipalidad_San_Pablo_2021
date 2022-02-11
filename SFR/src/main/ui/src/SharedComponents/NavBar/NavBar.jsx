@@ -5,7 +5,7 @@ import logoMuni from "../images/logoHeader.png"
 class NavBar extends Component {
     render() {
         return (
-            <div className="Header  container-fluid">
+            <div className="Header container-fluid">
                 <Navbar collapseOnSelect expand="lg" variant="dark">
                     <Navbar.Brand href="#/planes"><Image src={logoMuni} fluid height={25} width={50} /></Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -13,14 +13,12 @@ class NavBar extends Component {
                         <Nav className="me-auto">
                             <Nav.Link href="#/planes">Planes</Nav.Link>
                             <Nav.Link href="#/riesgos">Riesgos</Nav.Link>
-                            <Nav.Link href="#/mensajes">Mensajes</Nav.Link>
-                            <Nav.Link href="#/reportes">Reportes</Nav.Link>
                             <Nav.Link href="#/tempLogin">tempLogin</Nav.Link>
                         </Nav>
                         <Nav>
                             <Nav.Link href="#/perfil">Perfil</Nav.Link>
                             <Nav.Link href="#/">Salir del SFR</Nav.Link>
-                            <Nav.Link href="#deets">Login</Nav.Link>
+                            <Nav.Link href="#/">Logout</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>

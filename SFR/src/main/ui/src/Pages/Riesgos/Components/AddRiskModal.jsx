@@ -8,12 +8,11 @@ import '../Riesgos.css'
 class AddRiskModal extends Component {
     constructor(props) {
         super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
-
         this.state = {
             value: "EXTERNO",
             area: "Politico"
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
         this.handleAreaType = this.handleAreaType.bind(this);
@@ -71,7 +70,7 @@ class AddRiskModal extends Component {
         return (
             <Modal show={render} onHide={closeModal} id="modalRisks" >
                 <Modal.Header closeButton>
-                    Nuevo Riesgo
+                    Ingrese los datos para el nuevo Riesgo
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={this.handleSubmit}>
@@ -243,9 +242,11 @@ class AddRiskModal extends Component {
                             </Stack>
                             <textarea name="factor" id="factor" type="text" placeholder="¿Por qué puede suceder?" className="form-control" />
                         </div>
-                        <Button id="submitRiskBtn" className='btn-sfr' type="submit" >
-                            Guardar
-                        </Button>
+                        <div className='text-center'>
+                            <Button className='btn-sfr' type="submit" >
+                                Guardar
+                            </Button>
+                        </div>
                     </Form>
                 </Modal.Body>
                 <ToastContainer />

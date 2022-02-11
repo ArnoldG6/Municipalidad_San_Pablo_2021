@@ -11,11 +11,6 @@
 .btn-sfr:hover {
     background-color: #2c4253 !important;
 }
-#submit-button-new-item {
-    margin-top: 35px;
-    margin-left: 185px;
-
-}
 
 input:required:focus:valid {
     background: no-repeat 95% 50% rgba(144, 238, 144, 0.466);

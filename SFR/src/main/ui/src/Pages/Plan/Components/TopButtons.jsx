@@ -47,16 +47,16 @@ class TopButtons extends Component {
         let refreshPage = this.props.refreshPage;
         switch (this.props.status) {
             case 'Activo':
-                statusClass = 'in-progress';
+                statusClass = 'success';
                 break;
             case 'Inactivo':
-                statusClass = 'no-progress';
+                statusClass = 'danger';
                 break;
             case 'Completo':
-                statusClass = 'completed';
+                statusClass = 'primary';
                 break;
             default:
-                statusClass = 'unknown';
+                statusClass = 'secondary';
                 break;
         }
         return (
@@ -199,7 +199,7 @@ class TopButtons extends Component {
                             <h2><i className="bi bi-download"></i></h2>
                         </Button>{' '}
                         <div className="vr" />
-                        <Button className={statusClass} variant="success">{this.props.status}</Button>{' '}
+                        <Button variant={statusClass}>{this.props.status}</Button>{' '}
                     </Stack>
                 </div>
                 <EditPlanModal

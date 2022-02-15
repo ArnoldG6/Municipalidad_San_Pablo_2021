@@ -1,3 +1,6 @@
+/**
+ * @author ArnoldG6
+ */
 package common.dao;
 import common.dao.generic.GenericDAO;
 import common.model.User;
@@ -12,43 +15,40 @@ public class UserDAO extends GenericDAO {
         if (uniqueInstance == null) uniqueInstance = new UserDAO();
         return uniqueInstance;
     }
-    public User emailValidation(String emailPrt, String passwordPrt) {
-        String cmd = "CALL authenticateViaEmail(:emailPrt, :passwordPrt)";
-
-        em = getEntityManager();
-        Session session = em.unwrap(Session.class);
-        
-        Query query = session.createSQLQuery(cmd).addEntity(User.class);
-        query.setParameter("emailPrt", emailPrt);
-        query.setParameter("passwordPrt", passwordPrt);
-        
-        User u = (User) query.getSingleResult();
-        
-        closeEntityManager();
-        return u;
-    }
-        public User idValidation(Integer username, String passwordPrt) {
-        String cmd = "CALL authenticateViaUsername(:userPrt, :passwordPrt)";
-        em = getEntityManager();
-        Session session = em.unwrap(Session.class);
-        Query query = session.createSQLQuery(cmd).addEntity(User.class);
-        query.setParameter("userPrt", username);
-        query.setParameter("passwordPrt", passwordPrt);
-        User u = (User) query.getSingleResult();
-        closeEntityManager();
-        return u;
-    }
-        public List<User> listAll() {
+    public User userAuth(String pEmail, String pPwd) {
         try{
-            String cmd = "SELECT u from User u";
             em = getEntityManager();
-            Query query = em.createQuery(cmd);
-            List<User> l = (List<User>) query.getResultList();
-            return l;
+            Session session = em.unwrap(Session.class);
+            Query query = session.createSQLQuery("CALL authUser(:pEmail, :pPwd)").addEntity(User.class);
+            query.setParameter("pEmail", pEmail);
+            query.setParameter("pPwd", pPwd);
+            User u = (User) query.getSingleResult();
+            closeEntityManager();
+            return u;
+        }catch(javax.persistence.NoResultException ex){
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+            return null; //User not found
+        }
+        catch(Exception e)  {  
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;       
+        } finally {
+            closeEntityManager();
+        }
+    }
+
+    public List<User> listAll() {
+        try{
+            Query query = em.createQuery("SELECT u from User u");
+            return(List<User>) query.getResultList();
         }catch(Exception e){
             e.printStackTrace(System.out);
             System.err.println(e.getMessage());
             throw e;
+        } finally {
+            closeEntityManager();
         }
     }
     public HashMap<Integer, User> listAllHM(){ //list all users in HashMap type
@@ -63,22 +63,25 @@ public class UserDAO extends GenericDAO {
             em.getTransaction().begin();
             em.persist(user);
             em.getTransaction().commit();
-        } catch (Exception ex) {
+        }catch (Exception ex) {
             ex.printStackTrace(System.out);
             System.err.println(ex.getMessage());
+            throw ex;
         } finally {
             closeEntityManager();
         }
     }
+    
     public void update(User user) {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             em.merge(user);
             em.getTransaction().commit();
-        } catch (Exception ex) {
+        }catch (Exception ex) {
             ex.printStackTrace(System.out);
             System.err.println(ex.getMessage());
+            throw ex;
         } finally {
             closeEntityManager();
         }
@@ -90,9 +93,10 @@ public class UserDAO extends GenericDAO {
             em.getTransaction().begin();
             em.remove(em.merge(user));
             em.getTransaction().commit();
-        } catch (Exception ex) {
+        }catch (Exception ex) {
             ex.printStackTrace(System.out);
             System.err.println(ex.getMessage());
+            throw ex;
         } finally {
             closeEntityManager();
         }

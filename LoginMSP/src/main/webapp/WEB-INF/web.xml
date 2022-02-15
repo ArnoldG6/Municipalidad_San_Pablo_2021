@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
     <servlet>
-        <servlet-name>LoginService</servlet-name>
-        <servlet-class>services.LoginService</servlet-class>
+        <servlet-name>AuthServlet</servlet-name>
+        <servlet-class>services.AuthServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>LoginService</servlet-name>
-        <url-pattern>/LoginService</url-pattern>
+        <servlet-name>AuthServlet</servlet-name>
+        <url-pattern>/API/Auth</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

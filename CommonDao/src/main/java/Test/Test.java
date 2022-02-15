@@ -1,5 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this license header, choose License Headers in Project Properties.compare varchar vs compare text in sql
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -14,14 +14,8 @@ import common.dao.UserDAO;
 public class Test {
 
     public static void main(String[] args) {
-        //UserDAO.getInstance().listAll().forEach(u -> {
-        //    System.out.printf("%s \n", u.toString());
-        //});
-        System.out.println(UserDAO.getInstance().searchById(50));
-        System.out.println(UserDAO.getInstance().searchById(51));
-        System.out.println(UserDAO.getInstance().searchById(52));
-        System.out.println(UserDAO.getInstance().searchById(53));
-        System.out.println(UserDAO.getInstance().searchById(54));
+        System.out.println(UserDAO.getInstance().userAuth("50", "contra1").getEmail());
+        System.out.println(UserDAO.getInstance().userAuth("informatica@sanpablo.go.cr", "contra1").getEmail());
+        System.out.println(UserDAO.getInstance().userAuth("informatica@sanpablo.go.cr", "contrA1"));
     }
-
 }

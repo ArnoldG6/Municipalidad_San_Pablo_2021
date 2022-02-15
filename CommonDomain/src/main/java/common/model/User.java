@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -23,10 +24,10 @@ public class User implements Serializable {
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private int idUser;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "FK_official", referencedColumnName = "PK_OFFICIAL")
     private Official official;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "SI_USER_ROLES",
             joinColumns = @JoinColumn(name = "FK_user"),
@@ -35,14 +36,10 @@ public class User implements Serializable {
     private List<Rol> roles;
     @Column(name = "FK_email")
     private String email;
-
-    private String password;
-
     public User(int idUser, Official official, String email, String password,List<Rol> roles) {
         this.idUser = idUser;
         this.official = official;
         this.email = email;
-        this.password = password;
         this.roles = roles;
     }
 
@@ -84,14 +81,6 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
         @Override
     public String toString() {

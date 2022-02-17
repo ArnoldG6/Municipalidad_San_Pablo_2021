@@ -17,4 +17,5 @@
             <version>5.5.3.Final</version>
         </dependency>
     </dependencies>
+    <name>CommonModel</name>
 </project>

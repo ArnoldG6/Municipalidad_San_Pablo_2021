@@ -75,7 +75,7 @@ public class RiskManager extends HttpServlet {
     private void deleteRisk(HttpServletRequest request, HttpServletResponse response) throws IOException, Exception {
         String requestJSON = request.getReader().lines().collect(Collectors.joining());
         Risk newR = new Gson().fromJson(requestJSON, Risk.class);
-        Risk riskE = RiskDAO.getInstance().searchById(newR.getId());
+        Risk riskE = RiskDAO.getInstance().searchById(newR.getPkId());
         if (riskE == null) {
             //Custom exception
             response.getWriter().write(new RiskNotFoundEx().jsonify());
@@ -94,7 +94,7 @@ public class RiskManager extends HttpServlet {
         String requestJSON = request.getReader().lines().collect(Collectors.joining());
         Risk newRisk = new Gson().fromJson(requestJSON, Risk.class);
         newRisk.updateMagnitude();
-        if (RiskDAO.getInstance().searchById(newRisk.getId()) != null) {
+        if (RiskDAO.getInstance().searchById(newRisk.getPkId()) != null) {
             //Custom exception
             response.getWriter().write(new RiskAlreadyExistEx().jsonify());
 //            throw new IOException("El riesgo que se insertó ya existe");
@@ -112,7 +112,7 @@ public class RiskManager extends HttpServlet {
     private void editRisk(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String requestJSON = request.getReader().lines().collect(Collectors.joining());
         Risk riskEdit = new Gson().fromJson(requestJSON, Risk.class);
-        if (RiskDAO.getInstance().searchById(riskEdit.getId()) != null) {
+        if (RiskDAO.getInstance().searchById(riskEdit.getPkId()) != null) {
             RiskDAO.getInstance().update(riskEdit);
         } else {
             //Custom exception

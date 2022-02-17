@@ -48,7 +48,7 @@ VALUES
 INSERT INTO `SFR`.`T_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `SpecType`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`)
 VALUES (
 1 , 
-'1'
+'1',
 'CAMBIO DE GOBIERNO DE REPÚBLICA ', 
 'CADA CUATRO AÑOS SE DA UN CAMBIO DE GOBIERNO EN COSTA RICA', 
 'EXTERNO', 

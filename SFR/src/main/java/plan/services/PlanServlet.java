@@ -151,7 +151,7 @@ public class PlanServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        responseJSON = new Gson().toJson(PlanDAO.getInstance().searchById(requestJSON.getString("planID")));
+        responseJSON = new Gson().toJson(PlanDAO.getInstance().searchById(requestJSON.getInt("planPkID")));
         if (responseJSON == null) {
             //Custom exception
             response.getWriter().write(new PlanAlreadyExistEx().jsonify());

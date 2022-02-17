@@ -1,17 +1,4 @@
-.containerPrincipal {
-    position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      border: 1px solid blue;
-      padding: 40px;
-      background-color: white;
-  }
-  
-  .containerSecundario{
-    text-align: center;
-  }
-  .btnSFR{
+.btnSFR{
     background-color: #1F3140 !important;
     border: 0 !important;
     margin: 5px;

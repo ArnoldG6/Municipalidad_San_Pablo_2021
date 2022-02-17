@@ -30,3 +30,4 @@ CommonDomain/target/*
 CommonDao/target/*
 
 *.bak
+/MSPH_Login/target/

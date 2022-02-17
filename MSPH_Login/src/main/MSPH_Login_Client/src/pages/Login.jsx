@@ -66,11 +66,11 @@ export default class Login extends Component {
                     <Form.Group className="mb-3">
                     <Image src={logo}  fluid height={300} width={300} className='img-fluid hover-shadow'/>
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Group className="mb-3">
                         <Form.Label>Nombre de usuario o correo electrónico: </Form.Label>
                         <Form.Control type="text" className="form-control" name="username" onChange={this.handleChange}/>
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Group className="mb-3">
                         <Form.Label>Contraseña: </Form.Label>
                         <Form.Control type="password" className="form-control" name="password" onChange={this.handleChange}/>
                     </Form.Group>

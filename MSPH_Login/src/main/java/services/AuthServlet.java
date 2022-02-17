@@ -6,6 +6,7 @@
 package services;
 import com.google.gson.Gson;
 import common.dao.UserDAO;
+import common.model.User;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,13 +40,21 @@ public class AuthServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="Auth methods.">
     private void authUser(HttpServletRequest request, HttpServletResponse response) 
     throws ServletException, IOException {
-        String responseJSON;
-        JSONObject requestJSON;
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        //requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        //responseJSON = new Gson().toJson(UserDAO.getInstance().userAuth("50", "contra1").getEmail());
-        response.getWriter().write("{\"prueba\":\"1\"}");
+        JSONObject responseJSON = new JSONObject();
+        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        System.out.println(requestJSON);
+        User u = UserDAO.getInstance().userAuth(requestJSON.getString("username"), requestJSON.getString("pwd"));
+        if (u == null){
+            responseJSON.put("authStatus",false);  
+        }else{
+            responseJSON.put("authStatus",true);
+            responseJSON.put("username",u.getIdUser());
+            responseJSON.put("roles", new Gson().toJson(u.getClass()));
+            responseJSON.put("token", "xd");
+        }
+        response.getWriter().write(responseJSON.toString());
         response.getWriter().flush();
         response.getWriter().close();
     }

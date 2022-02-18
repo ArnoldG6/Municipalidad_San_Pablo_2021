@@ -166,7 +166,16 @@
                             <arguments>install axios</arguments>
                         </configuration>
                     </execution>
-
+                    <execution>
+                        <id>npm install js-sha256</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install js-sha256</arguments>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>npm build</id>
                         <goals>

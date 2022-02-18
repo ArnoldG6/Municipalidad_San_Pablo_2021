@@ -51,7 +51,7 @@ public class AuthServlet extends HttpServlet {
         }else{
             responseJSON.put("authStatus",true);
             responseJSON.put("username",u.getIdUser());
-            responseJSON.put("roles", new Gson().toJson(u.getClass()));
+            responseJSON.put("roles", new Gson().toJson(u.getRoles()));
             responseJSON.put("token", "xd");
         }
         response.getWriter().write(responseJSON.toString());

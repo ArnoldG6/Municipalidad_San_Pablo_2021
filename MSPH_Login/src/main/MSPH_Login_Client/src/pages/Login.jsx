@@ -39,24 +39,31 @@ export default class Login extends React.Component {
           }
         }
         axios(options).then(response => {
-          if (response.length > 0)
-            if (response.data.authStatus === false)
-              alert('El usuario o la contraseña no son correctos xd');
-            else
-              window.location.href = "/menu";
-          else
-            alert('El usuario o la contraseña no son correctos');
-        }).catch(ex => {
-          console.log(ex);
-          alert(ex);
-        });
+          console.log(response)
+          if(response.data.authStatus){
+            /*this.setState({
+              username: '',
+              pwd: '',
+              disabled: true
+            });*/
+            (() => {
+            cookies.set("username",response.data.username, {path: "/auth"});
+            cookies.set("full_name",response.data.username, {path: "/auth"});
+            cookies.set("roles",response.data.roles, {path: "/auth"});
+            cookies.set("token",response.data.token, {path: "/auth"});
+            }).then(this.props.history.push('/menu'));
+          }
+          else 
+            alert("Usuario o contraseña inválidos")
+        })
       });
 
   }
-  async componentDidMount() {
-    if (cookies.get('username' && cookies.get('roles') && cookies.get('token'))) {
-      window.location.href = "/menu";
-      alert(cookies);
+  componentDidMount() {
+    if (cookies.get('username',{path: "/auth"}) 
+    && cookies.get('roles',{path: "/auth"}) 
+    && cookies.get('token',{path: "/auth"})) {
+      this.props.history.push('/menu');
     }
   }
   async handleInputChange(e) {

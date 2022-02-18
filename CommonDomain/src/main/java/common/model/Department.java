@@ -1,5 +1,6 @@
 package common.model;
 
+import com.google.gson.Gson;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -58,9 +59,6 @@ public class Department implements Serializable {
     private String description;
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("\"Department\": {\"idDepartment\": ").append(idDepartment).append(", ");
-        sb.append("\"description\": \"").append(description).append("\"}");
-        return sb.toString();
+        return new Gson().toJson(this);
     }
 }

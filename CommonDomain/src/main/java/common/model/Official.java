@@ -1,5 +1,6 @@
 package common.model;
 
+import com.google.gson.Gson;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -82,14 +83,6 @@ public class Official implements Serializable {
     private Department department;
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("\"Official\": {");
-        sb.append("\"idOfficial\": ").append(idOfficial).append(",");
-        sb.append("\"name\": \"").append(name).append("\",");
-        sb.append("\"surname\": \"").append(surname).append(name).append("\",");
-        sb.append("\"email\": \"").append(email).append(name).append("\",");
-        sb.append(department.toString()).append(name).append("\"");
-        sb.append("}");
-        return sb.toString();
+        return new Gson().toJson(this);
     }
 }

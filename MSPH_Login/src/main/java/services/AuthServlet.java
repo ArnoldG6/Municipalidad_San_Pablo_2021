@@ -44,16 +44,17 @@ public class AuthServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         JSONObject responseJSON = new JSONObject();
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        System.out.println(requestJSON);
         User u = UserDAO.getInstance().userAuth(requestJSON.getString("username"), requestJSON.getString("pwd"));
         if (u == null){
             responseJSON.put("authStatus",false);  
         }else{
             responseJSON.put("authStatus",true);
-            responseJSON.put("username",u.getIdUser());
-            responseJSON.put("roles", new Gson().toJson(u.getRoles()));
+            responseJSON.put("username",String.valueOf(u.getIdUser()));
+            responseJSON.put("full_name",u.getOfficial().getName()+" "+u.getOfficial().getSurname());
+            responseJSON.put("roles", u.getRoles());
             responseJSON.put("token", "xd");
         }
+        System.out.println(responseJSON.toString());
         response.getWriter().write(responseJSON.toString());
         response.getWriter().flush();
         response.getWriter().close();

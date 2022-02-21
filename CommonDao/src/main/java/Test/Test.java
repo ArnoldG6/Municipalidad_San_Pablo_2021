@@ -14,8 +14,7 @@ import common.dao.UserDAO;
 public class Test {
 
     public static void main(String[] args) {
-        System.out.println(UserDAO.getInstance().userAuth("50", "contra1").getEmail());
-        System.out.println(UserDAO.getInstance().userAuth("informatica@sanpablo.go.cr", "contra1").getEmail());
-        System.out.println(UserDAO.getInstance().userAuth("informatica@sanpablo.go.cr", "contrA1"));
+        System.out.println(UserDAO.getInstance().
+userAuth("50", "efcc06418ae6b9db034ad644e50c37391f13bc51ece24c84596bcbb677c80adb").toString());
     }
 }

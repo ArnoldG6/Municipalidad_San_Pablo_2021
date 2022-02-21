@@ -1,5 +1,5 @@
 package common.model;
-
+import com.google.gson.Gson;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -82,16 +82,9 @@ public class User implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-        @Override
+    @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("\"User\":{");
-        sb.append("\"idUser\": ").append(idUser).append(",");
-        sb.append("\"email\": \"").append(email).append("\",");
-        sb.append(official.toString()).append(",");
-        sb.append("\"roles\": ").append(roles.toString());
-        sb.append("}");
-        return sb.toString();
+        return new Gson().toJson(this);
     }
-
+    
 }

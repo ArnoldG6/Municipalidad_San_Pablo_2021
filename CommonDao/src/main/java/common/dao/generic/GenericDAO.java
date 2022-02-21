@@ -2,6 +2,7 @@ package common.dao.generic;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.FlushModeType;
 import javax.persistence.Persistence;
 
 public class GenericDAO {
@@ -18,7 +19,10 @@ public class GenericDAO {
 
     protected EntityManager getEntityManager() {
         if (em == null) {
+
             em = emf.createEntityManager();
+            em.setFlushMode(FlushModeType.COMMIT);
+            
         }
         return em;
     }

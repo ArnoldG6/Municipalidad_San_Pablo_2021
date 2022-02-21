@@ -1,5 +1,6 @@
 package common.model;
 
+import com.google.gson.Gson;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -62,12 +63,7 @@ public class Rol implements Serializable {
     private String description;
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("\"Rol\": {");
-        sb.append("\"idRol: \"").append(idRol).append(",");
-        sb.append("\"description: \"").append(description).append("\"");
-        sb.append("}");
-        return sb.toString();
+        return new Gson().toJson(this);
     }
 
 }

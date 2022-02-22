@@ -4,7 +4,7 @@ import '../css/Login.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import { Container, Form, Image, Button } from 'react-bootstrap'
+import {Container, Form, Image, Button} from 'react-bootstrap'
 import logo from "../components/images/MSPH_LOGO.png"
 const requestURL = "http://localhost:8080/auth/API/Auth";
 const cookies = new Cookies();
@@ -22,49 +22,45 @@ export default class Login extends React.Component {
   async handleSubmit(e) {
     e.preventDefault();
     this.setState({
-        username: e.target.username.value,
-        pwd: sha256(e.target.pwd.value),
-        disabled: false
-      }, () => {
+      username: e.target.username.value,
+      pwd: sha256(e.target.pwd.value),
+      disabled: false
+    }, () => {
       var options = {
-          url: requestURL,
-          method: 'POST',
-          header: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          data: {
-            'username': this.state.username,
-            'pwd': this.state.pwd
-          }
+        url: requestURL,
+        method: 'POST',
+        header: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        data: {
+          'username': this.state.username,
+          'pwd': this.state.pwd
         }
-        axios(options).then(response => {
-          console.log(response)
-          if(response.data.authStatus){
-            /*this.setState({
-              username: '',
-              pwd: '',
-              disabled: true
-            });*/
-            (() => {
-            cookies.set("username",response.data.username, {path: "/auth"});
-            cookies.set("full_name",response.data.username, {path: "/auth"});
-            cookies.set("roles",response.data.roles, {path: "/auth"});
-            cookies.set("token",response.data.token, {path: "/auth"});
-            }).then(this.props.history.push('/menu'));
-          }
-          else 
-            alert("Usuario o contraseña inválidos")
-        })
-      });
+      }
+      axios(options).then(response => {
+        console.log(response)
+        if (response.data.authStatus) {
+          /*this.setState({
+            username: '',
+            pwd: '',
+            disabled: true
+          });*/
+          (() => {
+            cookies.set("username", response.data.username, { path: "/auth" });
+            cookies.set("full_name", response.data.username, { path: "/auth" });
+            cookies.set("roles", response.data.roles, { path: "/auth" });
+            cookies.set("token", response.data.token, { path: "/auth" });
+          }).then(this.props.history.push('/menu'));
+        }else
+          alert("Usuario o contraseña inválidos.");
+      })
+    });
 
   }
   componentDidMount() {
-    if (cookies.get('username',{path: "/auth"}) 
-    && cookies.get('roles',{path: "/auth"}) 
-    && cookies.get('token',{path: "/auth"})) {
+    if (cookies.get('username', { path: "/auth" })) 
       this.props.history.push('/menu');
-    }
   }
   async handleInputChange(e) {
     this.setState({ [e.target.name]: e.target.value }, () => {
@@ -72,8 +68,6 @@ export default class Login extends React.Component {
         this.setState({ disabled: true })
       else
         this.setState({ disabled: false })
-      /*console.log(`username: {${this.state.username}}`)
-      console.log(`pwd: {${this.state.pwd}}`)*/
     });
   }
   render() {
@@ -96,7 +90,7 @@ export default class Login extends React.Component {
               Ingresar
             </Button>
           </div>
-          {/*<a href="/auth">Olvidó su contraseña?</a>*/}
+          {<a href="/auth">¿Olvidó su contraseña?</a>}
         </Form>
       </Container>
     );

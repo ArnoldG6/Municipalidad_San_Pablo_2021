@@ -1,11 +1,7 @@
-package sfr.frontDao;
-
-import SFR.frontend.PlanType;
-import java.util.ArrayList;
-import java.util.HashMap;
+package sfr.dao;
+import sfr.model.PlanType;
 import java.util.List;
 import javax.persistence.Query;
-import sfr.dao.GenericDAO;
 
 /**
  *
@@ -19,9 +15,9 @@ public class PlanTypeDAO extends GenericDAO {
      * @return the Singleton Pattern Object of DataDAO class.
      */
     public static PlanTypeDAO getInstance() {
-        if (uniqueInstance == null) {
+        if (uniqueInstance == null) 
             uniqueInstance = new PlanTypeDAO();
-        }
+        
         return uniqueInstance;
     }
 
@@ -89,9 +85,8 @@ public class PlanTypeDAO extends GenericDAO {
      */
     public List<PlanType> listAll() throws Exception {
         try {
-            String cmd = new StringBuilder().append("SELECT d from Data d").toString();
             em = getEntityManager();
-            Query query = em.createQuery(cmd);
+            Query query = em.createQuery("SELECT p from sfr.model.PlanType p");
             return (List<PlanType>) query.getResultList();
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -105,6 +100,7 @@ public class PlanTypeDAO extends GenericDAO {
      * descending order by entryDate.
      * @throws java.lang.Exception
      */
+/*
     public HashMap<String, List<PlanType>> listAllPlanTypeHM() throws Exception {
         HashMap<String, List<PlanType>> plans = new HashMap<>();
         List<PlanType> dataList = this.listAll();
@@ -118,5 +114,5 @@ public class PlanTypeDAO extends GenericDAO {
         
         return plans;
     }
-
+*/
 }

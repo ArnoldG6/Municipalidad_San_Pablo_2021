@@ -7,7 +7,9 @@ package sfr.dao;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 public class GenericDAO {
+    @PersistenceContext
     protected static EntityManager em;
     private static EntityManagerFactory emf;
     private static final String PU = "SFRPU";
@@ -20,9 +22,8 @@ public class GenericDAO {
     * @return a EntityManager object in order to send HQL queries.
     */
     protected EntityManager getEntityManager() {
-        if (em == null) {
+        if (em == null) 
             em = emf.createEntityManager();
-        }
         return em;
     }
     /**

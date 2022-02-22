@@ -96,6 +96,7 @@ public class PlanType implements Serializable {
         if (i != this.sons.size() -1)
             sb.append(",");
         }
+
         sb.append("]");
         sb.append("idName: ").append(this.idName).append("}");
         return sb.toString();

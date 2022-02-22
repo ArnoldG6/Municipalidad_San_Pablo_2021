@@ -98,7 +98,7 @@ public class PlanManager extends HttpServlet {
         String requestJSON = request.getReader().lines().collect(Collectors.joining());
         Plan newPlan = new Gson().fromJson(requestJSON, Plan.class);
         newPlan.setEntryDate(new Date());
-        if (PlanDAO.getInstance().searchById(newPlan.getId()) != null) {
+        if (PlanDAO.getInstance().searchById(newPlan.getPkId()) != null) {
             //Custom exception
             response.getWriter().write(new PlanAlreadyExistEx().jsonify());
 //            throw new IOException("El plan que se insertó ya existe");
@@ -117,7 +117,7 @@ public class PlanManager extends HttpServlet {
             throws ServletException, IOException {
         String requestJSON = request.getReader().lines().collect(Collectors.joining());
         Plan editPlan = new Gson().fromJson(requestJSON, Plan.class);
-        if (PlanDAO.getInstance().searchById(editPlan.getId()) != null) {
+        if (PlanDAO.getInstance().searchById(editPlan.getPkId()) != null) {
             PlanDAO.getInstance().update(editPlan);
         } else {
             //Custom exception
@@ -138,7 +138,7 @@ public class PlanManager extends HttpServlet {
             throws ServletException, IOException {
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         Plan toDelete = new Plan(requestJSON.getString("id"));
-        if (PlanDAO.getInstance().searchById(toDelete.getId()) != null) {
+        if (PlanDAO.getInstance().searchById(toDelete.getPkId()) != null) {
             PlanDAO.getInstance().delete(toDelete);
         } else //Custom exception
         {
@@ -160,7 +160,7 @@ public class PlanManager extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        Plan p = PlanDAO.getInstance().searchById(requestJSON.getString("planID"));
+        Plan p = PlanDAO.getInstance().searchById(requestJSON.getInt("planPkID"));
         if (p == null) {
             //Custom exception
             response.getWriter().write(new PlanNotFoundEx().jsonify());
@@ -190,7 +190,7 @@ public class PlanManager extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        responseJSON = new Gson().toJson(PlanDAO.getInstance().getRiskListByPlanNoRep(requestJSON.getString("planID")));
+        responseJSON = new Gson().toJson(PlanDAO.getInstance().getRiskListByPlanNoRep(requestJSON.getInt("planPkID")));
         if (responseJSON == null) {
             //Custom exception
             response.getWriter().write(new EmptyRiskListEx().jsonify());
@@ -225,7 +225,7 @@ public class PlanManager extends HttpServlet {
         for (int i = 0; i < riskIdJSONArray.length(); i++) {
             riskIds.add((Integer) riskIdJSONArray.get(i));
         }
-        PlanDAO.getInstance().associateRisksToPlan(requestJSON.getString("planID"), riskIds);
+        PlanDAO.getInstance().associateRisksToPlan(requestJSON.getInt("planPkID"), riskIds);
     }
 
     // </editor-fold>

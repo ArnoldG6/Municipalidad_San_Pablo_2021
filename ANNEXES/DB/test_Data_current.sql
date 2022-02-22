@@ -48,7 +48,7 @@ VALUES
 INSERT INTO `SFR`.`T_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `SpecType`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`)
 VALUES (
 1 , 
-'1'
+'1',
 'CAMBIO DE GOBIERNO DE REPÚBLICA ', 
 'CADA CUATRO AÑOS SE DA UN CAMBIO DE GOBIERNO EN COSTA RICA', 
 'EXTERNO', 
@@ -108,3 +108,81 @@ VALUES (
 INSERT INTO SFR.T_RiskPlan (FK_PLAN, FK_RISK) VALUES ( 1, 1);
 INSERT INTO SFR.T_RiskPlan (FK_PLAN, FK_RISK) VALUES ( 2 , 2);
 commit;
+
+-- -------------------------------------------------T_Plan_Types---------------------------------------------------
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (null,"Evaluar, Dirigir y Monitorear",null);
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (null,"Alinear, Planificar y Organizar",null);
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (null,"Construir, Adquirir e Implementar",null);
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (null,"Entregar, Dar servicio y soporte",null);
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (null,"Monitorear, Evaluar y Valorar",null);
+
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (1,"Asegurar el establecimiento y el mantenimiento del marco de Gobierno","EDM01");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (1,"Asegurar la obtención de beneficios","EDM02");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (1,"Asegurar la optimización del riesgo","EDM03");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (1,"Asegurar la optimización de los recursos","EDM04");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (1,"Asegurar el compromiso de las partes interesadas","EDM05");
+
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Gestionar el marco de gestión de I&T","APO01");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Gestionar la estrategia","APO02");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Gestionar la arquitectura empresarial","APO03");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Gestionar la innovación","APO04");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Gestionar el portafolio","APO05");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Gestionar el presupuesto y los costos","APO06");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Gestionar los recursos humanos","APO07");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Gestionar las relaciones","APO08");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Gestionar los acuerdos de servicio","APO09");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Gestionar los proveedores","APO10");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Gestionar la calidad","APO11");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Gestionar el riesgo","APO12");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Gestionar la seguridad","APO13");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Gestionar los datos","APO14");
+
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Gestionar los programas","BAI01");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Gestionar la definición de requisitos","BAI02");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Gestionar la identificación y construcción de soluciones","BAI03");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Gestionar la disponibilidad y capacidad","BAI04");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Gestionar el cambio organizativo","BAI05");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Gestionar los cambios de TI","BAI06");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Gestionar la aceptación y la transición de los cambios de TI","BAI07");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Gestionar el conocimiento","BAI08");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Gestionar los activos","BAI09");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Gestionar la configuración","BAI10");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Gestionar los proyectos","BAI11");
+
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (4,"Gestionar las operaciones","DSS01");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (4,"Gestionar las peticiones y los incidentes de servicio","DSS02");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (4,"Gestionar los problemas","DSS03");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (4,"Gestionar la continuidad","DSS04");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (4,"Gestionar los servicios de seguridad","DSS05");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (4,"Gestionar los controles de procesos de negocio","DSS06");
+
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (5,"Gestionar el monitoreo del desempeño y la conformidad","MEA01");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (5,"Gestionar el sistema de control interno","MEA02");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (5,"Gestionar el cumplimiento delos requerimientos externos","MEA03");
+INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`) values (5,"Gestionar el aseguramiento","MEA04");
+
+-- -------------------------------------------------T_Risk_Types---------------------------------------------------
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (null,"Externo",null);
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (null,"Interno",null);
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (null,"TIC",null);
+
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (1,"Político","REP");
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (1,"Legal","REL");
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (1,"Económico","REE");
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (1,"Eventos Naturales","REN");
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (1,"Ambiental","REA");
+
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Estratégicos","RIE");
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Financieros","RIF");
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Desarrollo de los procesos","RID");
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Tecnológicos y de información","RIT");
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Gestión de procesos sustantivos","RIP");
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (2,"Funcionario municipal","RIM");
+
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Gestión de la información","RG");
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Gestión de la continuidad","RC");
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Gestión de las comunicaciones","RA");
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Centros de datos","RD");
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Gestión de proveedores","RP");
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Cumplimiento","RI");
+INSERT INTO `SFR`.`T_Risk_Types` (`PARENT`,`NAME`,`ID_NAME`) values (3,"Seguridad de la información","RS");

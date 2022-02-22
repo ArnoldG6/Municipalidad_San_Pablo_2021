@@ -200,7 +200,7 @@ class Planes extends Component {
 
                         <FormSelect className='w-50' onChange={this.handleSortSelect} defaultValue='default'>
                             <option value='default' disabled>Ordenar por...</option>
-                            <option value='pk_id'>ID</option>
+                            <option value='id'>ID</option>
                             <option value='name'>Nombre</option>
                             <option value='entryDate' defaultValue>Fecha de Ingreso</option>
                             <option value='status'>Estado</option>
@@ -243,7 +243,7 @@ class Planes extends Component {
 
                         <FormSelect className='w-50' onChange={this.handleSortSelect} defaultValue='default'>
                             <option value='default' disabled>Ordenar por...</option>
-                            <option value='pk_id'>ID</option>
+                            <option value='id'>ID</option>
                             <option value='name'>Nombre</option>
                             <option value='entryDate' defaultValue>Fecha de Ingreso</option>
                             <option value='status'>Estado</option>

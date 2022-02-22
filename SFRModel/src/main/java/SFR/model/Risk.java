@@ -15,10 +15,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "T_Risk")
 public class Risk implements Serializable {
+
     @Id
     @Column(name = "PK_ID")
     @GeneratedValue(generator = "increment", strategy = GenerationType.IDENTITY)
-    private int id;
+    private int pkID;
+    @Column(name = "ID")
+    private String id;
     @Column(name = "Name")
     private String name;
     @Column(name = "Factors")
@@ -26,8 +29,8 @@ public class Risk implements Serializable {
     @Column(name = "GeneralType")
     private String generalType;
     @Column(name = "AreaType")
-    private String areaType; 
-   @Column(name = "SpecType")
+    private String areaType;
+    @Column(name = "SpecType")
     private String specType;
     @Column(name = "Probability")
     private Float probability;
@@ -37,6 +40,7 @@ public class Risk implements Serializable {
     private Integer magnitude;
     @Column(name = "MitigationMeasures")
     private String mitigationMeasures;
+
     /*
     @ManyToMany
     @JoinTable(
@@ -45,20 +49,19 @@ public class Risk implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "FK_RISK")
     )
     private List<Plan> plans;
-    */
+     */
     public Risk() {
 
     }
 
-    public Risk(int id) {
+    public Risk(String id) {
         this.id = id;
     }
-    
-    public Risk(int id, String name, String desc, String generalType, String areaType, 
-            String specificType,Float probability, Integer impact) 
-            //Integer affectationLevel,  String mitigationMeasures, List<Plan> plans) {
-            //String mitigationMeasures) {
-            {
+
+    public Risk(String id, String name, String desc, String generalType, String areaType,
+            String specificType, Float probability, Integer impact) //Integer affectationLevel,  String mitigationMeasures, List<Plan> plans) {
+    //String mitigationMeasures) {
+    {
         this.id = id;
         this.name = name;
         this.factors = desc;
@@ -67,19 +70,29 @@ public class Risk implements Serializable {
         this.areaType = areaType;
         this.probability = probability;
         this.impact = impact;
-        this.magnitude = (int)(probability*impact);
+        this.magnitude = (int) (probability * impact);
         this.mitigationMeasures = "";
         //this.plans = plans;
-        
+
     }
 
-    public int getId() {
+    public int getPkId() {
+        return pkID;
+    }
+
+    public String getId() {
         return id;
     }
-    public void updateMagnitude(){
-        this.setMagnitude((int)(probability*impact));
+
+    public void updateMagnitude() {
+        this.setMagnitude((int) (probability * impact));
     }
-    public void setId(int id) {
+
+    public void setPkId(int pkID) {
+        this.pkID = pkID;
+    }
+
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -162,11 +175,12 @@ public class Risk implements Serializable {
 //    public void setPlans(List<Plan> plans) {
 //        this.plans = plans;
 //    }
-    public boolean equals(Risk other){
+    public boolean equals(Risk other) {
         return (this.id == other.id);
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Risk:");
         sb.append("{");

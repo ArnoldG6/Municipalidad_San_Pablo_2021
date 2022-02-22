@@ -8,6 +8,7 @@ package Tests;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
+import sfr.frontDao.PlanTypeDAO;
 
 /**
  *
@@ -53,6 +54,7 @@ public class Tests {
             //    throw new IOException("El riesgo que se insertó ya existe");
             //}
             //RiskDAO.getInstance().add(newRisk);
+            System.out.println(PlanTypeDAO.getInstance().listAll());
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

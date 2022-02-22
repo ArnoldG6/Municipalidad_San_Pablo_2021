@@ -26,6 +26,9 @@ public class Plan implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PK_ID")
+    private int pkID;
+    
+    @Column(name="ID")
     private String id;
 
     @Column(name = "AuthorName")
@@ -85,6 +88,10 @@ public class Plan implements Serializable {
         //this.involvedList = involvedList;
     }
 
+    public int getPkId() {
+        return pkID;
+    }
+    
     public String getId() {
         return id;
     }
@@ -99,6 +106,10 @@ public class Plan implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+    
+    public void setPkId(int pkID) {
+        this.pkID = pkID;
     }
 
     public String getAuthorName() {

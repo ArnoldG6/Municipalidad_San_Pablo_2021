@@ -13,6 +13,7 @@ class AddPlanModal extends Component {
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
+        //this.createID = this.createID.bind(this);
     }
 
     onChange = e => {
@@ -54,6 +55,22 @@ class AddPlanModal extends Component {
             });
 
     }
+
+    /**createID(type, subtype) {
+        let id = "";
+        switch (type) {
+            case "Evaluar, Dirigir y Monitorear": {
+                break;
+            }
+            case "Alinear, Planificar y Organizar": {
+                break;
+            }
+            case "Construir, Adquirir e Implementar": {
+                break;
+            }
+            
+        }
+    }*/
 
     render() {
         let render = this.props.show

@@ -13,7 +13,7 @@ class AddPlanModal extends Component {
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
-        this.createID = this.createID.bind(this);
+        //this.createID = this.createID.bind(this);
     }
 
     onChange = e => {

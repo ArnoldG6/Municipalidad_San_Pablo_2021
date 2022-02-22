@@ -46,7 +46,7 @@ class Plan extends Component {
                 'Content-Type': 'application/json'
             },
             data: {
-                'planPkID': query.get('id')
+                'planID': query.get('id')
             }
         }
         axios(options)

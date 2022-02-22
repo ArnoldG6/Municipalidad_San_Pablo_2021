@@ -9,16 +9,13 @@ package sfr.dao;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.persistence.Query;
 import sfr.model.Plan;
-import org.hibernate.Session;
 import sfr.model.Risk;
 
 public class PlanDAO extends GenericDAO {
@@ -250,6 +247,21 @@ public class PlanDAO extends GenericDAO {
     public Plan searchById(int id) {
         em = getEntityManager();
         return (Plan) em.find(Plan.class, id);
+    }
+
+    /**
+     *
+     * @return a Plan object that matches with
+     * @param id
+     */
+    public Plan searchByIdString(String id) {
+        try {
+            HashMap<String, Plan> planes = this.listAllHM();
+            return planes.get(id);
+        } catch (Exception e) {
+            
+        }
+        return null;
     }
 
     /**

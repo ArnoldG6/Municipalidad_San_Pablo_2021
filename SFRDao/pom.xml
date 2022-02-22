@@ -36,12 +36,12 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>SFRModel</artifactId>
+            <artifactId>CommonDao</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>CommonDao</artifactId>
+            <artifactId>SFRModel</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

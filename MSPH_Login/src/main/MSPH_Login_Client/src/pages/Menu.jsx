@@ -15,10 +15,10 @@ export default class Menu extends Component {
         }).then(this.props.history.push('/login'));
     }
     componentDidMount() {
-        /*if (!(cookies.get('username',{path: "/auth"}) 
+        if (!(cookies.get('username',{path: "/auth"}) 
         && cookies.get('roles',{path: "/auth"}) 
         && cookies.get('token',{path: "/auth"})))
-          this.props.history.push('/login');*/
+            this.props.history.push('/login');
         
     }
     render() {

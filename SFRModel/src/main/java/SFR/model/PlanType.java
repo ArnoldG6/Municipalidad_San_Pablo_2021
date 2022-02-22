@@ -1,5 +1,4 @@
 package sfr.model;
-import com.google.gson.Gson;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +6,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -28,7 +26,7 @@ public class PlanType implements Serializable {
     @JoinColumn(name="parent")
     private PlanType parent;
     @OneToMany(mappedBy="parent")
-    private List<PlanType> sons = new ArrayList<PlanType>();
+    private List<PlanType> children = new ArrayList<PlanType>();
     @Column(name = "Name")
     private String name;
     @Column(name = "ID_Name")
@@ -76,29 +74,31 @@ public class PlanType implements Serializable {
         this.idName = idName;
     }
     public List<PlanType> getSons(){
-        return sons;    
+        return children;    
     }
 
     public void setSons(List<PlanType> sons){
-        this.sons=sons;
+        this.children=sons;
     }
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("{id: ").append(this.id).append(",");
-        sb.append("parent: ");
-        if(parent == null) sb.append("null, ");
-        else sb.append(this.parent.getId()).append(",");
-        sb.append("name: ").append(this.name).append(",");
-        sb.append("sons: [");
-        for(int i = 0; i<this.sons.size(); i++){
-            sb.append(sons.get(i).id);
-        if (i != this.sons.size() -1)
+        sb.append(this.id).append(":{\n\t\"id\": ").append(this.id).append(",\n");
+        sb.append("\t\"parent\": ");
+        if(parent == null) sb.append("null,\n");
+        else sb.append(this.parent.getId()).append(",\n");
+        sb.append("\t\"name\": \"").append(this.name).append("\",\n");
+        sb.append("\t\"children\": [");
+        for(int i = 0; i<this.children.size(); i++){
+            sb.append(children.get(i).id);
+        if (i != this.children.size() -1)
             sb.append(",");
         }
-
         sb.append("]");
-        sb.append("idName: ").append(this.idName).append("}");
+        if(this.idName == null)
+            sb.append("\n\t\"idName\": ").append(this.idName).append("\n}\n");
+        else
+            sb.append("\n\t\"idName\": \"").append(this.idName).append("\"\n}\n");
         return sb.toString();
     }
 }

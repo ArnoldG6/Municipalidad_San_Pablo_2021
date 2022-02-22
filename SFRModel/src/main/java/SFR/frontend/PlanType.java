@@ -20,27 +20,27 @@ public class PlanType implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PK_ID")
     private int id;
-    
-    @Column(name="Parent")
+
+    @Column(name = "Parent")
     private int parent;
-    
-    @Column(name="Name")
+
+    @Column(name = "Name")
     private String name;
-    
-    @Column(name="ID_Name")
+
+    @Column(name = "ID_Name")
     private String idName;
 
     public PlanType() {
-        
+
     }
-    
+
     public PlanType(int id, int parent, String name, String idName) {
         this.id = id;
         this.parent = parent;
         this.name = name;
         this.idName = idName;
     }
-    
+
     public int getId() {
         return id;
     }

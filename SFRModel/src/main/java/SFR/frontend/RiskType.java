@@ -13,7 +13,7 @@ import javax.persistence.Table;
  * @author Luis D
  */
 @Entity
-@Table(name = "T_Rysk_Types")
+@Table(name = "T_Risk_Types")
 public class RiskType implements Serializable {
 
     @Id

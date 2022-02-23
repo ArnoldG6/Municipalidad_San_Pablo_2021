@@ -14,7 +14,6 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>PlanServlet</servlet-name>
-        <url-pattern>/API/PlanServlet/Retrieve/All</url-pattern>
         <url-pattern>/API/PlanServlet/Retrieve/Planes</url-pattern>
         <url-pattern>/API/PlanServlet/Retrieve/Plan</url-pattern>
         <url-pattern>/API/PlanServlet/Retrieve/Plan/RemainingRisks</url-pattern>

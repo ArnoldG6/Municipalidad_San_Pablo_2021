@@ -5,6 +5,7 @@
     <class>sfr.model.Plan</class>
     <class>sfr.model.Risk</class>
     <class>sfr.model.PlanType</class>
+    <class>sfr.model.RiskType</class>
     <class>common.model.User</class>
     <class>common.model.Department</class>
     <class>common.model.Official</class>

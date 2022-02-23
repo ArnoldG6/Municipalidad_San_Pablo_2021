@@ -9,8 +9,7 @@ class AddRiskModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: "EXTERNO",
-            area: "Politico"
+            value: "1"
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,7 +21,7 @@ class AddRiskModal extends Component {
         event.preventDefault();
 
         let options = {
-            url: process.env.REACT_APP_API_URL + `/RiskManager/insert`,
+            url: process.env.REACT_APP_API_URL + `/RiskManager/Insert`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',
@@ -55,6 +54,7 @@ class AddRiskModal extends Component {
     }
 
     onChange = e => {
+        console.log(e.target.value)
         this.setState({ value: e.target.value })
     }
 
@@ -63,12 +63,11 @@ class AddRiskModal extends Component {
     }
 
     render() {
-        const { value } = this.state;
+        let render = this.props.show;
+        let closeModal = this.props.closeModal;
 
-        let render = this.props.show
-        let closeModal = this.props.closeModal
         return (
-            <Modal show={render} onHide={closeModal} id="modalRisks" >
+            <Modal show={render} onHide={() => {this.setState({value:"1"});closeModal()}} id="modalRisks" >
                 <Modal.Header closeButton>
                     Ingrese los datos para el nuevo Riesgo
                 </Modal.Header>
@@ -123,7 +122,7 @@ class AddRiskModal extends Component {
 
                         <FormGroup>
                             <Stack direction="horizontal" gap={3}>
-                                <label>Tipo de Riesgo:</label>
+                                <label>Tipo General:</label>
                                 <OverlayTrigger
                                     delay={{ hide: 450, show: 300 }}
                                     overlay={(props) => (
@@ -140,36 +139,24 @@ class AddRiskModal extends Component {
                             </Stack>
 
                             <FormGroup className="radio-group-type" name="type">
-                                <FormGroup className="Radio-element">
-                                    <input
-                                        id="risktype1"
-                                        type="radio"
-                                        value="EXTERNO"
-                                        checked={value === "EXTERNO"}
-                                        onChange={this.onChange}
-                                    />
-                                    <label htmlFor="risktype1">Externo</label>
-                                </FormGroup>
-                                <FormGroup className="Radio-element">
-                                    <input
-                                        id="risktype2"
-                                        type="radio"
-                                        value="INTERNO"
-                                        checked={value === "INTERNO"}
-                                        onChange={this.onChange}
-                                    />
-                                    <label htmlFor="risktype2">Interno</label>
-                                </FormGroup>
-                                <FormGroup className="Radio-element">
-                                    <input
-                                        id="risktype3"
-                                        type="radio"
-                                        value="TIC"
-                                        checked={value === "TIC"}
-                                        onChange={this.onChange}
-                                    />
-                                    <label htmlFor="risktype3">TIC</label>
-                                </FormGroup>
+                                {
+                                    (this.props.typesMap === null || typeof this.props.typesMap === 'undefined') ?
+                                        <h4>Error cargando Tipos</h4> :
+                                        this.props.typesMap.get("parents").map((tipos) => {
+                                            return (
+                                                <FormGroup className="Radio-element">
+                                                    <input
+                                                        id={tipos.id}
+                                                        type="radio"
+                                                        value={tipos.id}
+                                                        checked={this.state.value === tipos.id.toString()}
+                                                        onChange={this.onChange}
+                                                    />
+                                                    <label htmlFor={tipos.id}>{tipos.name}</label>
+                                                </FormGroup>
+                                            )
+                                        })
+                                }
                             </FormGroup>
 
                         </FormGroup>
@@ -177,7 +164,7 @@ class AddRiskModal extends Component {
 
                         <div className="form-group">
                             <Stack direction="horizontal" gap={3}>
-                                <label>Tipo: </label>
+                                <label>Tipo por Área: </label>
                                 <OverlayTrigger
                                     delay={{ hide: 450, show: 300 }}
                                     overlay={(props) => (
@@ -193,33 +180,17 @@ class AddRiskModal extends Component {
                                 </OverlayTrigger>
                             </Stack>
 
-                            <Form.Select name="areatype" id="areatype" hidden={value === "INTERNO" || value === "TIC"} onChange={this.handleAreaType}>
-                                <option value="Político">Político</option>
-                                <option value="Legal">Legal</option>
-                                <option value="Económico">Económico</option>
-                                <option value="Eventos naturales">Eventos naturales</option>
-                                <option value="Ambiental">Ambiental</option>
-                            </Form.Select>
-                            <Form.Select name="areatype" id="areatype" hidden={value === "EXTERNO" || value === "TIC"} onChange={this.handleAreaType}>
-                                <option value="Estratégicos">Estratégicos</option>
-                                <option value="Financieros">Financieros</option>
-                                <option value="Desarrollo de los procesos">Desarrollo de los procesos</option>
-                                <option value="Tecnológicos y de información">Tecnológicos y de información</option>
-                                <option value="Gestión de procesos sustantivos">Gestión de procesos sustantivos</option>
-                                <option value="Funcionario municipal">Funcionario municipal</option>
-                            </Form.Select>
-                            <Form.Select name="areatype" id="areatype" hidden={value === "INTERNO" || value === "EXTERNO"} onChange={this.handleAreaType}>
-                                <option value="Gestión de la información">Gestión de la información</option>
-                                <option value="Gestión de la continuidad">Gestión de la continuidad</option>
-                                <option value="Gestión de las comunicaciones">Gestión de las comunicaciones</option>
-                                <option value="Centros de datos">Centros de datos</option>
-                                <option value="Gestión de proveedores">Gestión de proveedores</option>
-                                <option value="Cumplimiento">Cumplimiento</option>
-                                <option value="Seguridad de la información">Seguridad de la información</option>
-                            </Form.Select>
+                            <Form.Select name="areatype" id="areatype" onChange={this.handleAreaType}>
+                                {
+                                    (this.props.typesMap === null || typeof this.props.typesMap === 'undefined' || typeof this.props.typesMap.get(this.state.value) === 'undefined') ?
+                                        <option value={null} disabled>Error cargando Subtipos</option> :
+                                        this.props.typesMap.get(this.state.value).map((tipos) => {
+                                            return <option value={tipos.id}>{tipos.name}</option>
+                                        })
+                                }                            </Form.Select>
                         </div>
                         <div className="form-group">
-                            <label>Fuente por área específica:</label>
+                            <label>Descripción de tipo específico:</label>
                             <input name="specific_factor" id="specific_factor" type="text" placeholder="" className="form-control" required />
                         </div>
 

@@ -20,11 +20,10 @@ import sfr.dao.RiskDAO;
 import sfr.model.Risk;
 
 @WebServlet(name = "RiskManager", urlPatterns = {
-    "/API/RiskManager/insert",
-    "/API/RiskManager/delete",
-    "/API/RiskManager/edit"
-}
-)
+    "/API/RiskManager/Insert",
+    "/API/RiskManager/Delete",
+    "/API/RiskManager/Edit"
+})
 public class RiskManager extends HttpServlet {
 
     /**
@@ -45,13 +44,13 @@ public class RiskManager extends HttpServlet {
             response.addHeader("Access-Control-Allow-Credentials", "true");
             response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
             switch (request.getServletPath()) {
-                case "/API/RiskManager/insert":
+                case "/API/RiskManager/Insert":
                     insertRisk(request, response);
                     break;
-                case "/API/RiskManager/delete":
+                case "/API/RiskManager/Delete":
                     deleteRisk(request, response);
                     break;
-                case "/API/RiskManager/edit":
+                case "/API/RiskManager/Edit":
                     editRisk(request, response);
                     break;
             }

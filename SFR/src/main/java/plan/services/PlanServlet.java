@@ -22,13 +22,12 @@ import sfr.dao.PlanDAO;
 import sfr.dao.PlanTypeDAO;
 
 @WebServlet(name = "PlanServlet", urlPatterns = {
-    "/API/PlanServlet/Retrieve/All",
     "/API/PlanServlet/Retrieve/Planes",
     "/API/PlanServlet/Retrieve/Plan",
     "/API/PlanServlet/Retrieve/Plan/RemainingRisks",
     "/API/PlanServlet/Retrieve/PlanTypes",
-    "/API/PlanServlet/Search"}
-)
+    "/API/PlanServlet/Search"
+})
 public class PlanServlet extends HttpServlet {
 
     /**
@@ -50,9 +49,6 @@ public class PlanServlet extends HttpServlet {
             response.addHeader("Access-Control-Allow-Credentials", "true");
             response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
             switch (request.getServletPath()) {
-                case "/API/PlanServlet/Retrieve/All":
-                    listAllPlans(request, response);
-                    break;
                 case "/API/PlanServlet/Retrieve/Planes":
                     retrievePlans(request, response);
                     break;
@@ -77,28 +73,6 @@ public class PlanServlet extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Plan Management methods.">
-    /**
-     * @param request contains the JSON data that is sent by the client and
-     * other useful information from the client request.
-     * @param response sends the information back to the client with the
-     * server's response. listAllPlans method answers to the client request with
-     * a JSON formatted List<Plan> object.
-     */
-    private void listAllPlans(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
-        String responseJSON;
-        responseJSON = new Gson().toJson(PlanDAO.getInstance().listByColumn("ENTRYDATE", "DESC"));
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        if (responseJSON == null) {
-            //Custom exception
-            response.getWriter().write(new PlanAlreadyExistEx().jsonify());
-        } else {
-            response.getWriter().write(responseJSON);
-        }
-        response.getWriter().flush();
-        response.getWriter().close();
-    }
 
     /**
      * @param request contains the JSON data that is sent by the client and

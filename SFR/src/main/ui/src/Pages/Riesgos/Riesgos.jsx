@@ -21,11 +21,12 @@ class Riesgos extends Component {
             showEdit: false,
             editRisk: null,
             delId: "",
-            sortingValue: 'pk_id',
+            sortingValue: 'id',
             sortingWay: 'desc',
             riesgos: [],
             riesgosView: [],
-            currentPage: 1
+            currentPage: 1,
+            typesMap: null
         };
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -41,6 +42,7 @@ class Riesgos extends Component {
         this.handleSortClick = this.handleSortClick.bind(this);
         this.handleRiskRender = this.handleRiskRender.bind(this);
         this.updatePage = this.updatePage.bind(this);
+        this.retrieveTypes = this.retrieveTypes.bind(this);
     }
     //On load
     componentDidMount() {
@@ -51,7 +53,7 @@ class Riesgos extends Component {
         let sortingValue = this.state.sortingValue;
         let sortingWay = this.state.sortingWay;
         let options = {
-            url: process.env.REACT_APP_API_URL + "/RetrieveRisks",
+            url: process.env.REACT_APP_API_URL + "/RiskServlet/Retrieve/Riesgos",
             method: "POST",
             header: {
                 'Accept': 'application/json',
@@ -69,9 +71,38 @@ class Riesgos extends Component {
                 currentPage: 1
             }, () => {
                 this.handleRiskRender();
+                this.retrieveTypes();
             });
         });
     };
+
+    retrieveTypes() {
+        let options = {
+            url: process.env.REACT_APP_API_URL + `/RiskServlet/Retrieve/RiskType`,
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }
+        axios(options)
+            .then(response => {
+                let map = new Map();
+                for (const [key, value] of Object.entries(response.data)) {
+                    map.set(key, value);
+                }
+                this.setState({
+                    typesMap: map
+                });
+            }).catch(error => {
+                toast.error("Error recuperando los tipos/subtipos de Riesgos", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
+            });
+    }
 
     /* Pagination */
     updatePage(pageNumber) {
@@ -150,7 +181,7 @@ class Riesgos extends Component {
 
     deleteRisk() {
         let options = {
-            url: process.env.REACT_APP_API_URL + `/RiskManager/delete`,
+            url: process.env.REACT_APP_API_URL + `/RiskManager/Delete`,
             method: 'DELETE',
             header: {
                 'Accept': 'application/json',
@@ -315,7 +346,8 @@ class Riesgos extends Component {
                 <AddRiskModal
                     show={this.state.show}
                     updateRiesgos={this.updateRiesgos}
-                    closeModal={this.closeModal} />
+                    closeModal={this.closeModal}
+                    typesMap={this.state.typesMap} />
                 <ToastContainer />
                 <GenericModal
                     show={this.state.showDel}

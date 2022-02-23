@@ -30,8 +30,8 @@ import sfr.model.Risk;
     "/API/PlanManager/Edit",
     "/API/PlanManager/Delete",
     "/API/PlanManager/Delete/Risk",
-    "/API/PlanManager/Insert/Risk"}
-)
+    "/API/PlanManager/Insert/Risk"
+})
 public class PlanManager extends HttpServlet {
 
     /**

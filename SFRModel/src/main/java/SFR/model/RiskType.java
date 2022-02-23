@@ -1,64 +1,99 @@
 package sfr.model;
-import com.google.gson.Gson;
+
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 /**
  *
  * @author Luis D
  */
-@Entity
-@Table(name = "T_Risk_Types")
+@Entity(name = "RiskType")
+@Table(name = "SFR.T_Risk_Types")
 public class RiskType implements Serializable {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "PK_ID")
+    @Expose
     private Integer id;
-    @Column(name = "Parent")
-    private Integer parent;
+
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "parent")
+    private RiskType parent;
+
+    @OneToMany(mappedBy = "parent")
+    private List<RiskType> children = new ArrayList<RiskType>();
+
     @Column(name = "Name")
+    @Expose
     private String name;
+
     @Column(name = "ID_Name")
+    @Expose
     private String idName;
+
     public RiskType() {
-        super();
+        //super();
     }
-    public RiskType(int id, int parent, String name, String idName) {
+
+    public RiskType(Integer id) {
         this.id = id;
-        this.parent = parent;
+    }
+
+    public RiskType(Integer id, String name, String idName) {
+        this.id = id;
         this.name = name;
         this.idName = idName;
     }
-    public int getId() {
+
+    public Integer getId() {
         return id;
     }
-    public void setId(int id) {
+
+    public void setId(Integer id) {
         this.id = id;
     }
-    public int getParent() {
+
+    public RiskType getParent() {
         return parent;
     }
-    public void setParent(int parent) {
+
+    public void setParent(RiskType parent) {
         this.parent = parent;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getIdName() {
         return idName;
     }
+
     public void setIdName(String idName) {
         this.idName = idName;
     }
-    @Override
-    public String toString(){
-        return new Gson().toJson(this);
+
+    public List<RiskType> getSons() {
+        return children;
+    }
+
+    public void setSons(List<RiskType> sons) {
+        this.children = sons;
     }
 }

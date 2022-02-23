@@ -96,31 +96,4 @@ public class PlanType implements Serializable {
     public void setSons(List<PlanType> sons) {
         this.children = sons;
     }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(this.id).append(":{\n\t\"id\": ").append(this.id).append(",\n");
-        sb.append("\t\"parent\": ");
-        if (parent == null) {
-            sb.append("null,\n");
-        } else {
-            sb.append(this.parent.getId()).append(",\n");
-        }
-        sb.append("\t\"name\": \"").append(this.name).append("\",\n");
-        sb.append("\t\"children\": [");
-        for (int i = 0; i < this.children.size(); i++) {
-            sb.append(children.get(i).id);
-            if (i != this.children.size() - 1) {
-                sb.append(",");
-            }
-        }
-        sb.append("]");
-        if (this.idName == null) {
-            sb.append("\n\t\"idName\": ").append(this.idName).append("\n}\n");
-        } else {
-            sb.append("\n\t\"idName\": \"").append(this.idName).append("\"\n}\n");
-        }
-        return sb.toString();
-    }
 }

@@ -2,39 +2,40 @@ package sfr.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import sfr.model.PlanType;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.Query;
+import static sfr.dao.GenericDAO.em;
+import sfr.model.PlanType;
+import sfr.model.RiskType;
 
 /**
  *
  * @author Luis D
  */
-public class PlanTypeDAO extends GenericDAO {
+public class RiskTypeDAO extends GenericDAO {
 
-    private static PlanTypeDAO uniqueInstance; //Singleton Pattern Object
+    private static RiskTypeDAO uniqueInstance; //Singleton Pattern Object
 
     /**
-     * @return the Singleton Pattern Object of PlanTypeDAO class.
+     * @return the Singleton Pattern Object of RiskTypeDAO class.
      */
-    public static PlanTypeDAO getInstance() {
+    public static RiskTypeDAO getInstance() {
         if (uniqueInstance == null) {
-            uniqueInstance = new PlanTypeDAO();
+            uniqueInstance = new RiskTypeDAO();
         }
-
         return uniqueInstance;
     }
 
-    /**
-     * @return a sorted list of PlanType objects depending on the next parameters:
+        /**
+     * @return a sorted list of RiskType objects depending on the next parameters:
      * @throws java.lang.Exception
      */
-    public List<PlanType> listAll() throws Exception {
+    public List<RiskType> listAll() throws Exception {
         try {
             em = getEntityManager();
-            Query query = em.createQuery("SELECT p from sfr.model.PlanType p");
-            return (List<PlanType>) query.getResultList();
+            Query query = em.createQuery("SELECT p from sfr.model.RiskType p");
+            return (List<RiskType>) query.getResultList();
         } catch (Exception e) {
             e.printStackTrace(System.out);
             System.err.println(e.getMessage());
@@ -43,13 +44,13 @@ public class PlanTypeDAO extends GenericDAO {
     }
 
     /**
-     * @return a casted HashMap of PlanType objects from an HQL query
+     * @return a casted HashMap of RiskType objects from an HQL query
      * @throws java.lang.Exception
      */
-    public Map<String, List<PlanType>> listAllPlanTypeHM() throws Exception {
-        HashMap<String, List<PlanType>> data = new HashMap<>();
-        List<PlanType> dataList = this.listAll();
-        List<PlanType> parents = new ArrayList<>();
+    public Map<String, List<RiskType>> listAllPlanTypeHM() throws Exception {
+        HashMap<String, List<RiskType>> data = new HashMap<>();
+        List<RiskType> dataList = this.listAll();
+        List<RiskType> parents = new ArrayList<>();
         //Parents
         dataList.forEach(d -> {
             if (d.getParent() == null) {
@@ -61,7 +62,7 @@ public class PlanTypeDAO extends GenericDAO {
 
         //Children
         parents.forEach(p -> {
-            List<PlanType> children = new ArrayList<>();
+            List<RiskType> children = new ArrayList<>();
             dataList.forEach(d -> {
                 if (d.getParent() != null) {
                     if (d.getParent().getId().equals(p.getId())) {

@@ -9,8 +9,7 @@ class EditRiskModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: "EXTERNO",
-            area: "Político"
+            value: "1"
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -21,7 +20,7 @@ class EditRiskModal extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         let options = {
-            url: process.env.REACT_APP_API_URL + `/RiskManager/edit`,
+            url: process.env.REACT_APP_API_URL + `/RiskManager/Edit`,
             method: 'PUT',
             header: {
                 'Accept': 'application/json',

@@ -19,7 +19,7 @@ public class Tests {
     @Test
     public void main() {
         try {
-            System.out.println(PlanTypeDAO.getInstance().listAll());
+            //System.out.println(PlanTypeDAO.getInstance().listAllPlanTypeHM());
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

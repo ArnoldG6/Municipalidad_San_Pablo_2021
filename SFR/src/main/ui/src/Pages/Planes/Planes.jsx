@@ -19,13 +19,15 @@ class Planes extends Component {
             sortingWay: 'desc',
             planes: [],
             planesView: [],
-            currentPage: 1
+            currentPage: 1,
+            typesMap: null
         };
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.updatePlanes = this.updatePlanes.bind(this);
         this.updatePlanesBySearch = this.updatePlanesBySearch.bind(this);
         this.updatePlanesSort = this.updatePlanesSort.bind(this);
+        this.retrieveTypes = this.retrieveTypes.bind(this);
         this.handleSortSelect = this.handleSortSelect.bind(this);
         this.handleSortClick = this.handleSortClick.bind(this);
         this.handlePlanesRender = this.handlePlanesRender.bind(this);
@@ -69,7 +71,7 @@ class Planes extends Component {
         let sortingValue = this.state.sortingValue;
         let sortingWay = this.state.sortingWay;
         let options = {
-            url: process.env.REACT_APP_API_URL + "/RetrievePlans",
+            url: process.env.REACT_APP_API_URL + "/PlanServlet/Retrieve/Planes",
             method: "POST",
             header: {
                 'Accept': 'application/json',
@@ -86,9 +88,38 @@ class Planes extends Component {
                 currentPage: 1
             }, () => {
                 this.handlePlanesRender();
+                this.retrieveTypes();
             });
         });
     };
+
+    retrieveTypes() {
+        let options = {
+            url: process.env.REACT_APP_API_URL + `/PlanServlet/Retrieve/PlanTypes`,
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }
+        axios(options)
+            .then(response => {
+                let map = new Map();
+                for (const [key, value] of Object.entries(response.data)) {
+                    map.set(key, value);
+                }
+                this.setState({
+                    typesMap: map
+                });
+            }).catch(error => {
+                toast.error("Error recuperando los tipos/subtipos de Planes", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
+            });
+    }
 
     /* Pagination */
     updatePage(pageNumber) {
@@ -280,7 +311,7 @@ class Planes extends Component {
                         currentPage={this.state.currentPage} />
                 </Row>
 
-                <AddPlanModal updatePlanes={this.updatePlanes} show={this.state.show} closeModal={this.closeModal} />
+                <AddPlanModal updatePlanes={this.updatePlanes} show={this.state.show} closeModal={this.closeModal} typesMap={this.state.typesMap}/>
                 <ToastContainer />
             </div>
         );

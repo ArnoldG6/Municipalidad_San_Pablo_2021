@@ -6,6 +6,7 @@
 package plan.services;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import ex.*;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -18,12 +19,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import sfr.dao.PlanDAO;
+import sfr.dao.PlanTypeDAO;
 
 @WebServlet(name = "PlanServlet", urlPatterns = {
-    "/API/PlanServlet",
-    "/API/PlanSearch",
-    "/API/RetrievePlans",
-    "/API/RetrievePlan"}
+    "/API/PlanServlet/Retrieve/All",
+    "/API/PlanServlet/Retrieve/Planes",
+    "/API/PlanServlet/Retrieve/Plan",
+    "/API/PlanServlet/Retrieve/Plan/RemainingRisks",
+    "/API/PlanServlet/Retrieve/PlanTypes",
+    "/API/PlanServlet/Search"}
 )
 public class PlanServlet extends HttpServlet {
 
@@ -46,17 +50,23 @@ public class PlanServlet extends HttpServlet {
             response.addHeader("Access-Control-Allow-Credentials", "true");
             response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
             switch (request.getServletPath()) {
-                case "/API/PlanServlet":
+                case "/API/PlanServlet/Retrieve/All":
                     listAllPlans(request, response);
                     break;
-                case "/API/PlanSearch":
-                    searchPlans(request, response);
-                    break;
-                case "/API/RetrievePlans":
+                case "/API/PlanServlet/Retrieve/Planes":
                     retrievePlans(request, response);
                     break;
-                case "/API/RetrievePlan":
+                case "/API/PlanServlet/Retrieve/Plan":
                     searchPlanByID(request, response);
+                    break;
+                case "/API/PlanServlet/Retrieve/Plan/RemainingRisks":
+                    retrievePlanRiskList(request, response);
+                    break;
+                case "/API/PlanServlet/Retrieve/PlanTypes":
+                    retrievePlanTypes(request, response);
+                    break;
+                case "/API/PlanServlet/Search":
+                    searchPlans(request, response);
                     break;
             }
         } catch (Exception ex) {
@@ -161,9 +171,54 @@ public class PlanServlet extends HttpServlet {
         response.getWriter().flush();
         response.getWriter().close();
     }
+
+    /**
+     * @param request contains the JSON data that is sent by the client and
+     * other useful information from the client request.
+     * @param response sends the information back to the client with the
+     * server's response. getRiskListByPlanNoRep answers to the client with a
+     * List<Risk> object formatted as JSON which contains the complement of the
+     * List<Risk> of the user that sent the request.
+     */
+    private void retrievePlanRiskList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, Exception {
+        String responseJSON;
+        JSONObject requestJSON;
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        responseJSON = new Gson().toJson(PlanDAO.getInstance().getRiskListByPlanNoRep(requestJSON.getInt("planPkID")));
+        if (responseJSON == null) {
+            //Custom exception
+            response.getWriter().write(new EmptyRiskListEx().jsonify());
+        } else {
+            response.getWriter().write(responseJSON);
+        }
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
+
+    /**
+     * @param request contains the JSON data that is sent by the client and
+     * other useful information from the client request.
+     * @param response sends the information back to the client with the
+     * server's response. retrievePlanTypes method answers to the client request
+     * with a JSON formatted Map<String,List<PlanType>> object
+     */
+    private void retrievePlanTypes(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, Exception {
+        String responseJSON;
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        Gson g = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        responseJSON = g.toJson(PlanTypeDAO.getInstance().listAllPlanTypeHM());
+        response.getWriter().write(responseJSON);
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
+
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods.">
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

@@ -17,7 +17,7 @@ class EditPlanModal extends Component {
         event.preventDefault();
 
         let options = {
-            url: `http://localhost:8080/SFR/API/PlanManager/edit`,
+            url: process.env.REACT_APP_API_URL + `/PlanManager/Edit`,
             method: 'PUT',
             header: {
                 'Accept': 'application/json',

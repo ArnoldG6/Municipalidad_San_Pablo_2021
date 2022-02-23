@@ -18,7 +18,7 @@ class Search extends Component {
         event.preventDefault();
 
         let options = {
-            url: process.env.REACT_APP_API_URL + `/PlanSearch`,
+            url: process.env.REACT_APP_API_URL + `/PlanServlet/Search`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',

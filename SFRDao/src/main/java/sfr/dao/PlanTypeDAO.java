@@ -1,6 +1,10 @@
 package sfr.dao;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import sfr.model.PlanType;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.Query;
 
 /**
@@ -15,9 +19,10 @@ public class PlanTypeDAO extends GenericDAO {
      * @return the Singleton Pattern Object of DataDAO class.
      */
     public static PlanTypeDAO getInstance() {
-        if (uniqueInstance == null) 
+        if (uniqueInstance == null) {
             uniqueInstance = new PlanTypeDAO();
-        
+        }
+
         return uniqueInstance;
     }
 
@@ -100,19 +105,32 @@ public class PlanTypeDAO extends GenericDAO {
      * descending order by entryDate.
      * @throws java.lang.Exception
      */
-/*
-    public HashMap<String, List<PlanType>> listAllPlanTypeHM() throws Exception {
-        HashMap<String, List<PlanType>> plans = new HashMap<>();
+    public Map<String, List<PlanType>> listAllPlanTypeHM() throws Exception {
+        HashMap<String, List<PlanType>> data = new HashMap<>();
         List<PlanType> dataList = this.listAll();
-        List<PlanType> parents = new ArrayList<PlanType>();
+        List<PlanType> parents = new ArrayList<>();
         //Parents
         dataList.forEach(d -> {
-            if (d.getParent() == 0) {
+            if (d.getParent() == null) {
                 parents.add(d);
             }
         });
-        
-        return plans;
+
+        data.put("parents", parents);
+
+        //Children
+        parents.forEach(p -> {
+            List<PlanType> children = new ArrayList<>();
+            dataList.forEach(d -> {
+                if (d.getParent() != null) {
+                    if (d.getParent().getId().equals(p.getId())) {
+                        children.add(d);
+                    }
+                }
+            });
+            data.put(p.getId().toString(), children);
+        });
+        return data;
     }
-*/
+
 }

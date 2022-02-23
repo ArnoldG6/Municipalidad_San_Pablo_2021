@@ -39,7 +39,7 @@ class Plan extends Component {
         let query = new URLSearchParams(this.props.location.search);
 
         let options = {
-            url: process.env.REACT_APP_API_URL + "/RetrievePlan",
+            url: process.env.REACT_APP_API_URL + "/PlanServlet/Retrieve/Plan",
             method: "POST",
             header: {
                 'Accept': 'application/json',
@@ -64,7 +64,7 @@ class Plan extends Component {
                 });
 
                 let options2 = {
-                    url: process.env.REACT_APP_API_URL + "/PlanManager/getRiskListByPlanNoRep",
+                    url: process.env.REACT_APP_API_URL + "/PlanServlet/Retrieve/Plan/RemainingRisks",
                     method: "POST",
                     header: {
                         'Accept': 'application/json',
@@ -104,7 +104,7 @@ class Plan extends Component {
 
     addRisk(risksID) {
         let options = {
-            url: process.env.REACT_APP_API_URL + `/PlanManager/associateRiskToPlan`,
+            url: process.env.REACT_APP_API_URL + `/PlanManager/Insert/Risk`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',
@@ -137,7 +137,7 @@ class Plan extends Component {
 
     removeRisks(idRisk) {
         let options = {
-            url: process.env.REACT_APP_API_URL + "/PlanManager/deleteRisk",
+            url: process.env.REACT_APP_API_URL + "/PlanManager/Delete/Risk",
             method: "DELETE",
             header: {
                 'Accept': 'application/json',
@@ -169,7 +169,7 @@ class Plan extends Component {
 
     deletePlan() {
         let options = {
-            url: process.env.REACT_APP_API_URL + `/PlanManager/delete`,
+            url: process.env.REACT_APP_API_URL + `/PlanManager/Delete`,
             method: 'DELETE',
             header: {
                 'Accept': 'application/json',

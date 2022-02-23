@@ -26,13 +26,11 @@ import sfr.model.Plan;
 import sfr.model.Risk;
 
 @WebServlet(name = "PlanManager", urlPatterns = {
-    "/API/PlanManager/insert",
-    "/API/PlanManager/edit",
-    "/API/PlanManager/delete",
-    "/API/PlanManager/deleteRisk",
-    "/API/PlanManager/associateRiskToPlan",
-    "/API/PlanManager/getRiskListByPlanNoRep"
-}
+    "/API/PlanManager/Insert",
+    "/API/PlanManager/Edit",
+    "/API/PlanManager/Delete",
+    "/API/PlanManager/Delete/Risk",
+    "/API/PlanManager/Insert/Risk"}
 )
 public class PlanManager extends HttpServlet {
 
@@ -55,23 +53,20 @@ public class PlanManager extends HttpServlet {
             response.addHeader("Access-Control-Allow-Credentials", "true");
             response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
             switch (request.getServletPath()) {
-                case "/API/PlanManager/insert":
+                case "/API/PlanManager/Insert":
                     insertPlan(request, response);
                     break;
-                case "/API/PlanManager/edit":
+                case "/API/PlanManager/Edit":
                     editPlan(request, response);
                     break;
-                case "/API/PlanManager/delete":
+                case "/API/PlanManager/Delete":
                     deletePlan(request, response);
                     break;
-                case "/API/PlanManager/deleteRisk":
+                case "/API/PlanManager/Delete/Risk":
                     deleteRiskFromPlan(request, response);
                     break;
-                case "/API/PlanManager/associateRiskToPlan":
+                case "/API/PlanManager/Insert/Risk":
                     associateRiskToPlan(request, response);
-                    break;
-                case "/API/PlanManager/getRiskListByPlanNoRep":
-                    getRiskListByPlanNoRep(request, response);
                     break;
             }
             //response.setContentType("text/html");
@@ -173,33 +168,6 @@ public class PlanManager extends HttpServlet {
         riskList.removeIf(r -> (String.valueOf(r.getId()).equals(requestJSON.getString("riskID"))));
         p.setRiskList(riskList);
         PlanDAO.getInstance().update(p);
-    }
-
-    /**
-     * @param request contains the JSON data that is sent by the client and
-     * other useful information from the client request.
-     * @param response sends the information back to the client with the
-     * server's response. getRiskListByPlanNoRep answers to the client with a
-     * List<Risk> object formatted as JSON which contains the complement of the
-     * List<Risk> of the user that sent the request.
-     */
-    private void getRiskListByPlanNoRep(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
-        String responseJSON;
-        JSONObject requestJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        responseJSON = new Gson().toJson(PlanDAO.getInstance().getRiskListByPlanNoRep(requestJSON.getInt("planPkID")));
-        if (responseJSON == null) {
-            //Custom exception
-            response.getWriter().write(new EmptyRiskListEx().jsonify());
-        } else {
-            response.getWriter().write(responseJSON);
-        }
-        response.getWriter().flush();
-        response.getWriter().close();
-
     }
 
     /**

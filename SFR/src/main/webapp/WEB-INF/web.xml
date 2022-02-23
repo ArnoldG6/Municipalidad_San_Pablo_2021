@@ -14,19 +14,20 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>PlanServlet</servlet-name>
-        <url-pattern>/API/PlanServlet</url-pattern>
-        <url-pattern>/API/PlanSearch</url-pattern>
-        <url-pattern>/API/RetrievePlans</url-pattern>
-        <url-pattern>/API/RetrievePlan</url-pattern>
+        <url-pattern>/API/PlanServlet/Retrieve/All</url-pattern>
+        <url-pattern>/API/PlanServlet/Retrieve/Planes</url-pattern>
+        <url-pattern>/API/PlanServlet/Retrieve/Plan</url-pattern>
+        <url-pattern>/API/PlanServlet/Retrieve/Plan/RemainingRisks</url-pattern>
+        <url-pattern>/API/PlanServlet/Retrieve/PlanTypes</url-pattern>
+        <url-pattern>/API/PlanServlet/Search</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PlanManager</servlet-name>
-        <url-pattern>/API/PlanManager/insert</url-pattern>
-        <url-pattern>/API/PlanManager/edit</url-pattern>
-        <url-pattern>/API/PlanManager/delete</url-pattern>
-        <url-pattern>/API/PlanManager/deleteRisk</url-pattern>
-        <url-pattern>/API/PlanManager/associateRiskToPlan</url-pattern>
-        <url-pattern>/API/PlanManager/getRiskListByPlanNoRep</url-pattern>
+        <url-pattern>/API/PlanManager/Insert</url-pattern>
+        <url-pattern>/API/PlanManager/Edit</url-pattern>
+        <url-pattern>/API/PlanManager/Delete</url-pattern>
+        <url-pattern>/API/PlanManager/Delete/Risk</url-pattern>
+        <url-pattern>/API/PlanManager/Insert/Risk</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginManager</servlet-name>

@@ -19,6 +19,14 @@ export default class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
+  async handlePwdRedirect(e){
+    this.state = {
+      username: '',
+      pwd: '',
+      disabled: true
+    };
+    this.props.history.push('/passwordRecovery')
+  }       
   async handleSubmit(e) {
     e.preventDefault();
     this.setState({
@@ -39,19 +47,17 @@ export default class Login extends React.Component {
         }
       }
       axios(options).then(response => {
-        console.log(response)
         if (response.data.authStatus) {
           /*this.setState({
             username: '',
             pwd: '',
             disabled: true
           });*/
-          (() => {
-            cookies.set("username", response.data.username, { path: "/auth" });
-            cookies.set("full_name", response.data.username, { path: "/auth" });
-            cookies.set("roles", response.data.roles, { path: "/auth" });
-            cookies.set("token", response.data.token, { path: "/auth" });
-          }).then(this.props.history.push('/menu'));
+          cookies.set("username", response.data.username, { path: "/auth" });
+          cookies.set("full_name", response.data.username, { path: "/auth" });
+          cookies.set("roles", response.data.roles, { path: "/auth" });
+          cookies.set("token", response.data.token, { path: "/auth" });
+          this.props.history.push('/menu');
         }else
           alert("Usuario o contraseña inválidos.");
       })
@@ -59,8 +65,12 @@ export default class Login extends React.Component {
 
   }
   componentDidMount() {
-    if (cookies.get('username', { path: "/auth" })) 
-      this.props.history.push('/menu');
+    console.log(cookies);
+    /*if (!(cookies.get('username',{path: "/auth"}) 
+    && cookies.get('roles',{path: "/auth"}) 
+    && cookies.get('token',{path: "/auth"}) 
+    && cookies.get('full_name',{path: "/auth"})))
+        this.props.history.push('/login');*/
   }
   async handleInputChange(e) {
     this.setState({ [e.target.name]: e.target.value }, () => {
@@ -90,7 +100,7 @@ export default class Login extends React.Component {
               Ingresar
             </Button>
           </div>
-          {<a href="/auth">¿Olvidó su contraseña?</a>}
+          <a href="/auth">¿Olvidó su contraseña?</a>
         </Form>
       </Container>
     );

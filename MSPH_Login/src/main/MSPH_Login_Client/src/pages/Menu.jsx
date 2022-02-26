@@ -7,18 +7,19 @@ export default class Menu extends Component {
         this.handleLogout = this.handleLogout.bind(this);
     }
     async handleLogout(e){
-        (()=> {
-            cookies.remove("username", {path: "/auth"});
-            cookies.remove("full_name", {path: "/auth"});
-            cookies.remove("roles", {path: "/auth"});
-            cookies.remove("token", {path: "/auth"});
-        }).then(this.props.history.push('/login'));
+       cookies.remove("username", {path: "/auth"});
+       cookies.remove("full_name", {path: "/auth"});
+       cookies.remove("roles", {path: "/auth"});
+       cookies.remove("token", {path: "/auth"});
+       this.props.history.push('/login');
     }
     componentDidMount() {
+        
         if (!(cookies.get('username',{path: "/auth"}) 
         && cookies.get('roles',{path: "/auth"}) 
-        && cookies.get('token',{path: "/auth"})))
-            this.props.history.push('/login');
+        && cookies.get('token',{path: "/auth"}) 
+        && cookies.get('full_name',{path: "/auth"})))
+        this.props.history.push('/login');
         
     }
     render() {

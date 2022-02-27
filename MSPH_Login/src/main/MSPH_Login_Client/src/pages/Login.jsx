@@ -4,8 +4,8 @@ import '../css/Login.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import {Container, Form, Image, Button} from 'react-bootstrap'
-import logo from "../components/images/MSPH_LOGO.png"
+import {Container, Form, Image, Button} from 'react-bootstrap';
+import logo from "../components/images/MSPH_LOGO.png";
 const requestURL = "http://localhost:8080/auth/API/Auth";
 const cookies = new Cookies();
 export default class Login extends React.Component {

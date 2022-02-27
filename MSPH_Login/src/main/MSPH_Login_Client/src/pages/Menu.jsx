@@ -29,7 +29,7 @@ export default class Menu extends Component {
                 <h1 className="text-center">Menu Principal</h1>
                 <Container className="w-auto text-center mx-auto p-3 mt-2 container">
                     <div className="text-center">
-                        <Button onClick={() => { this.props.history.push('/sfr'); }}>
+                        <Button onClick={() => { this.props.history.push("http://localhost:8080/SFR/#/planes"); }}>
                             SFR
                         </Button>
                     </div>

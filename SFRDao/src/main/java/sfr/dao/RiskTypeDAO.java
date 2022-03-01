@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import javax.persistence.Query;
 import static sfr.dao.GenericDAO.em;
-import sfr.model.PlanType;
 import sfr.model.RiskType;
 
 /**
@@ -70,7 +69,7 @@ public class RiskTypeDAO extends GenericDAO {
                     }
                 }
             });
-            data.put(p.getId().toString(), children);
+            data.put(p.getName(), children);
         });
         return data;
     }

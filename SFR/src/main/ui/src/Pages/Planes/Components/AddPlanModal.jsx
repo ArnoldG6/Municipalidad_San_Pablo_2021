@@ -4,15 +4,18 @@ import '../Planes.css'
 import { Modal, Button, Form, OverlayTrigger, Tooltip, Stack } from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 class AddPlanModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: "1"
+            value: "Evaluar, Dirigir y Monitorear"
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.getID = this.getID.bind(this);
     }
 
     onChange = e => {
@@ -22,6 +25,7 @@ class AddPlanModal extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
+        let id = this.getID(event.target.type.value, event.target.subtype.value);
         let options = {
             url: process.env.REACT_APP_API_URL + `/PlanManager/Insert`,
             method: 'POST',
@@ -31,10 +35,11 @@ class AddPlanModal extends Component {
             },
             data: {
                 'name': event.target.name.value,
-                'id': event.target.id.value,
+                'id': id,
                 'status': event.target.status.value,
                 'authorName': event.target.authorName.value,
                 'type': event.target.type.value,
+                'subtype': event.target.subtype.value,
                 'description': event.target.description.value
             }
         }
@@ -51,14 +56,24 @@ class AddPlanModal extends Component {
                     autoClose: 5000
                 });
             });
+    }
 
+    getID(type, subtype) {
+        let id = "";
+        this.props.typesMap.get(type).map((tipo) => {
+            if (tipo.name === subtype) {
+                id = tipo.idName;
+            }
+            return tipo.idName;
+        })
+        return id;
     }
 
     render() {
         let render = this.props.show;
         let closeModal = this.props.closeModal;
         return (
-            <Modal show={render} onHide={() => {this.setState({value:"1"});closeModal()}} >
+            <Modal show={render} onHide={() => {this.setState({value:"Evaluar, Dirigir y Monitorear"});closeModal()}} >
                 <Modal.Header closeButton>
                     Ingrese los datos para el nuevo Plan
                 </Modal.Header>
@@ -70,7 +85,7 @@ class AddPlanModal extends Component {
                         </div>
                         <div className="form-group">
                             <label>Autor:</label>
-                            <input name="authorName" id="authorName" type="text" placeholder="Autor" className="form-control" disabled />
+                            <input name="authorName" id="authorName" type="text" className="form-control" disabled defaultValue={cookies.get('full_name', { path: process.env.REACT_APP_AUTH })}/>
                         </div>
                         <div className="form-group">
                             <label>Estado:</label>
@@ -87,7 +102,7 @@ class AddPlanModal extends Component {
                                     (this.props.typesMap === null || typeof this.props.typesMap === 'undefined') ?
                                         <option value={null} disabled>Error cargando Tipos</option> :
                                         this.props.typesMap.get("parents").map((tipos) => {
-                                            return <option value={tipos.id}>{tipos.name}</option>
+                                            return <option value={tipos.name}>{tipos.name}</option>
                                         })
                                 }
                             </Form.Select>
@@ -99,7 +114,7 @@ class AddPlanModal extends Component {
                                     (this.props.typesMap === null || typeof this.props.typesMap === 'undefined' || typeof this.props.typesMap.get(this.state.value) === 'undefined') ?
                                         <option value={null} disabled>Error cargando Subtipos</option> :
                                         this.props.typesMap.get(this.state.value).map((tipos) => {
-                                            return <option value={tipos.id}>{tipos.name}</option>
+                                            return <option value={tipos.name}>{tipos.name}</option>
                                         })
                                 }
                             </Form.Select>

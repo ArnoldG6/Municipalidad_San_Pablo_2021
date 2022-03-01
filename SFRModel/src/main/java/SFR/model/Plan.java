@@ -27,8 +27,8 @@ public class Plan implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PK_ID")
     private int pkID;
-    
-    @Column(name="ID")
+
+    @Column(name = "ID")
     private String id;
 
     @Column(name = "AuthorName")
@@ -50,6 +50,9 @@ public class Plan implements Serializable {
     @Column(name = "Type")
     private String type;
 
+    @Column(name = "Subtype")
+    private String subtype;
+
 //    @OneToMany
 //    @JoinTable(
 //            name = "T_USERPLAN",
@@ -58,32 +61,31 @@ public class Plan implements Serializable {
 //    )
 //    private List<User> involvedList;
     //@OneToMany(orphanRemoval = true, cascade = CascadeType.PERSIST)
-    @OneToMany(orphanRemoval = true,  fetch = FetchType.EAGER)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinTable(
             name = "T_RISKPLAN",
             joinColumns = @JoinColumn(name = "FK_PLAN"),
             inverseJoinColumns = @JoinColumn(name = "FK_RISK")
     )
     private List<Risk> riskList;
+
     public Plan() {
-        
+
     }
 
     public Plan(String id) {
         this.id = id;
     }
 
-    public Plan(String authorName, String name, 
-            String desc, Date dateOfAdm, 
-            String status, 
-            String type,List<Risk> riskList) {
-          //,List<User> involvedList) {
+    public Plan(String authorName, String name, String desc, Date dateOfAdm, String status, String type, String subtype, List<Risk> riskList) {
+        //,List<User> involvedList) {
         this.authorName = authorName;
         this.name = name;
         this.description = desc;
         this.entryDate = dateOfAdm;
         this.status = status;
         this.type = type;
+        this.subtype = subtype;
         this.riskList = riskList;
         //this.involvedList = involvedList;
     }
@@ -91,7 +93,7 @@ public class Plan implements Serializable {
     public int getPkId() {
         return pkID;
     }
-    
+
     public String getId() {
         return id;
     }
@@ -107,7 +109,7 @@ public class Plan implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
-    
+
     public void setPkId(int pkID) {
         this.pkID = pkID;
     }
@@ -147,38 +149,49 @@ public class Plan implements Serializable {
     //public List<User> getInvolvedList() {
     //    return involvedList;
     //}
-
     //public void setInvolvedList(List<User> involvedList) {
     //    this.involvedList = involvedList;
     // }
-    
+    public void addRisk(Risk risk) {
+        try {
+            this.riskList.add(risk);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        }
+    }
+
+    public void removeRisk(Risk risk) {
+        try {
+            this.riskList.remove(risk);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        }
+    }
+
     public String getType() {
         return type;
     }
-    public void addRisk(Risk risk){
-        try{
-            this.riskList.add(risk);
-        }catch(Exception e){
-            e.printStackTrace(System.out);
-            System.err.println(e.getMessage());
-            throw e;
-        }
-    }
-    public void removeRisk(Risk risk){
-        try{
-            this.riskList.remove(risk);
-        }catch(Exception e){
-            e.printStackTrace(System.out);
-            System.err.println(e.getMessage());
-            throw e;
-        }
-    }
+
     public void setType(String type) {
         this.type = type;
     }
-    public boolean equals(Plan other){
+
+    public String getSubtype() {
+        return subtype;
+    }
+
+    public void setSubtype(String subtype) {
+        this.subtype = subtype;
+    }
+
+    public boolean equals(Plan other) {
         return (this.id.equals(other.id));
     }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -195,6 +208,7 @@ public class Plan implements Serializable {
         sb.append("}\n");
         return sb.toString();
     }
+
     /*
     public List<Incidence> getIncidenceList() {
         return incidenceList;
@@ -202,11 +216,11 @@ public class Plan implements Serializable {
     public void setIncidenceList(List<Incidence> incidenceList) {
         this.incidenceList = incidenceList;
     }
-    */
+     */
     public List<Risk> getRiskList() {
         return riskList;
     }
-    
+
     public void setRiskList(List<Risk> riskList) {
         this.riskList = riskList;
     }

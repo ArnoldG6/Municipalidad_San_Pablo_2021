@@ -198,7 +198,6 @@ class Riesgos extends Component {
     }
 
     handleSortSelect = e => {
-        console.log(e.target.value)
         this.setState(
             {
                 sortingValue: e.target.value
@@ -342,6 +341,7 @@ class Riesgos extends Component {
                     risk={this.state.editRisk}
                     show={this.state.showEdit}
                     closeModalEdit={this.closeModalEdit}
+                    typesMap={this.state.typesMap}
                 />
                 <AddRiskModal
                     show={this.state.show}

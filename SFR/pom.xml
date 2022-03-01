@@ -144,6 +144,17 @@
                             <arguments>install --save react-toastify</arguments>
                         </configuration>
                     </execution>
+                    
+                    <execution>
+                        <id>npm install universal-cookie</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install universal-cookie</arguments>
+                        </configuration>
+                    </execution>
 
                     <execution>
                         <id>npm build</id>

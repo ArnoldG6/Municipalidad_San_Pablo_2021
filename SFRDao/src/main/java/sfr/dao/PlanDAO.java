@@ -64,6 +64,8 @@ public class PlanDAO extends GenericDAO {
                 return "status";
             case "TYPE":
                 return "type";
+            case "SUBTYPE":
+                return "subtype";
             default:
                 throw new IOException("Invalid column");
         }
@@ -216,9 +218,9 @@ public class PlanDAO extends GenericDAO {
      * @param planID
      * @throws java.lang.Exception
      */
-    public List<Risk> getRiskListByPlanNoRep(int planID) throws Exception {
+    public List<Risk> getRiskListByPlanNoRep(String planID) throws Exception {
         try {
-            Plan p = PlanDAO.getInstance().searchById(planID);
+            Plan p = PlanDAO.getInstance().searchByIdString(planID);
             List<Risk> pRiskList = p.getRiskList(); //risks of an specific Plan.
             List<Risk> riskList = RiskDAO.getInstance().listByColumn("PK_ID", "DESC");
             if (pRiskList == null || riskList == null) {
@@ -259,7 +261,7 @@ public class PlanDAO extends GenericDAO {
             HashMap<String, Plan> planes = this.listAllHM();
             return planes.get(id);
         } catch (Exception e) {
-            
+
         }
         return null;
     }
@@ -300,15 +302,16 @@ public class PlanDAO extends GenericDAO {
     }
 
     /**
+     * @param id String containing the base ID type of the Plan
      * @return the entry count of Plan objects.
      */
-    public long planCount() {
+    public long planIDGenerator(String id) {
         try {
-            String cmd = "SELECT count(*) FROM Plan";
+            String cmd = "SELECT count(*) FROM Plan p WHERE p.id LIKE '" + id + "%'";
             em = getEntityManager();
             Query query = em.createQuery(cmd);
             long cantPlans = (long) query.getSingleResult();
-            return cantPlans;
+            return cantPlans + 1;
         } catch (Exception e) {
             Logger.getLogger(PlanDAO.class.getName()).log(Level.SEVERE, null, e);
             System.err.println(e.getMessage());

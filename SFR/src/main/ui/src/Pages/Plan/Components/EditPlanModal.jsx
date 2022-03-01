@@ -8,10 +8,25 @@ import 'react-toastify/dist/ReactToastify.css';
 class EditPlanModal extends Component {
     constructor(props) {
         super(props);
-        this.handleSubmit = this.handleSubmit.bind(this)
+        this.state = {
+            value: "Evaluar, Dirigir y Monitorear"
+        }
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
-    //closeModal() { }
+    componentDidUpdate(prevProps) {
+        if(this.props.plan !== prevProps.plan) {
+            console.log(this.props.plan)
+            this.setState({
+                value: this.props.plan.type
+            });
+        }
+    }
+
+    onChange = e => {
+        this.setState({ value: e.target.value })
+    }
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -24,6 +39,7 @@ class EditPlanModal extends Component {
                 'Content-Type': 'application/json'
             },
             data: {
+                'pkID': this.props.plan.pkId,
                 'name': event.target.name.value,
                 'id': event.target.id.value,
                 'status': event.target.status.value,
@@ -47,29 +63,24 @@ class EditPlanModal extends Component {
     render() {
         let render = this.props.show
         let closeModal = this.props.closeModal
-        let name = this.props.name;
-        let typePlan = "";
-        switch (this.props.type) {
-            case 'PROYECTO':
-                typePlan = 'Proyecto';
-                break;
-            case 'PROCESO':
-                typePlan = 'Proceso';
-                break;
-            case 'Proyecto':
-                typePlan = 'Proyecto';
-                break;
-            case 'Proceso':
-                typePlan = 'Proceso';
-                break;
-            default:
-                typePlan = 'unknown';
-                break;
+
+        let name;
+        let type;
+        let subtype;
+        let id;
+        let authorName;
+        let description;
+        let status;
+        
+        if (this.props.plan !== null) {
+            name = this.props.plan.name;
+            type = this.props.plan.type;
+            subtype = this.props.plan.subtype;
+            id = this.props.plan.id;
+            authorName = this.props.plan.authorName;
+            description = this.props.plan.description;
+            status = this.props.plan.status;
         }
-        let id = this.props.id;
-        let authorName = this.props.authorName;
-        let description = this.props.description;
-        let status = this.props.status;
         return (
             <Modal show={render} onHide={closeModal} >
                 <Modal.Header closeButton>
@@ -86,6 +97,10 @@ class EditPlanModal extends Component {
                             <input name="id" id="id " type="text" className="form-control" placeholder="ID" defaultValue={id} disabled />
                         </div>
                         <div className="form-group">
+                            <label>Autor:</label>
+                            <input name="authorName" id="authorName" type="text" placeholder="Autor" className="form-control" defaultValue={authorName} disabled />
+                        </div>
+                        <div className="form-group">
                             <label>Estado:</label>
                             <Form.Select name="status" id="status" defaultValue={status}>
 
@@ -95,15 +110,27 @@ class EditPlanModal extends Component {
                             </Form.Select>
                         </div>
                         <div className="form-group">
-                            <label>Autor:</label>
-                            <input name="authorName" id="authorName" type="text" placeholder="Autor" className="form-control" defaultValue={authorName} required />
+                            <label>Tipo:</label>
+                            <Form.Select name="type" id="type" onChange={this.onChange} defaultValue={type}>
+                                {
+                                    (this.props.typesMap === null || typeof this.props.typesMap === 'undefined') ?
+                                        <option value={null} disabled>Error cargando Tipos</option> :
+                                        this.props.typesMap.get("parents").map((tipos) => {
+                                            return <option value={tipos.name}>{tipos.name}</option>
+                                        })
+                                }
+                            </Form.Select>
                         </div>
                         <div className="form-group">
-                            <label>Tipo:</label>
-                            <Form.Select name="type" id="type" defaultValue={typePlan}>
-
-                                <option value="Proceso">Proceso</option>
-                                <option value="Proyecto">Proyecto</option>
+                            <label>Subtipo:</label>
+                            <Form.Select name="subtype" id="subtype" defaultValue={subtype}>
+                                {
+                                    (this.props.typesMap === null || typeof this.props.typesMap === 'undefined' || typeof this.props.typesMap.get(this.state.value) === 'undefined') ?
+                                        <option value={null} disabled>Error cargando Subtipos</option> :
+                                        this.props.typesMap.get(this.state.value).map((tipos) => {
+                                            return <option value={tipos.name}>{tipos.name}</option>
+                                        })
+                                }
                             </Form.Select>
                         </div>
                         <div className="form-group">
@@ -124,7 +151,7 @@ class EditPlanModal extends Component {
                                     </h5>
                                 </OverlayTrigger>
                             </Stack>
-                            <textarea name="description" id="description" type="text" placeholder="Descripción" className="form-control" defaultValue={description} />
+                            <textarea name="description" id="description" type="text" placeholder="Descripción" className="form-control" style={{ height: '150px' }} defaultValue={description} />
                         </div>
                         <Button className='btn-sfr' type="submit" id="submit-button-new-item">
                             Guardar

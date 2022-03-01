@@ -4,24 +4,22 @@ import { Row, Card, Nav } from "react-bootstrap";
 import CommentSideBar from './Components/CommentSideBar';
 import TopButtons from './Components/TopButtons';
 import RiskTable from './Components/RiskTable';
+import EditPlanModal from './Components/EditPlanModal';
+import GenericModal from '../../SharedComponents/GenericModal/GenericModal';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
-
+//import Cookies from 'universal-cookie';
+//const cookies = new Cookies();
 
 class Plan extends Component {
     constructor(props) {
         super(props);
         this.state = {
             table: "risks",
-            id: "",
-            authorName: "",
-            name: "",
-            description: "",
-            entryDate: "",
-            status: "",
-            type: "",
-            riskList: [],
-            availableRisks: []
+            plan: null,
+            availableRisks: [],
+            showEdit: false,
+            showDel: false
         };
         this.tableAssign = this.tableAssign.bind(this);
         this.tableHandler = this.tableHandler.bind(this);
@@ -29,6 +27,12 @@ class Plan extends Component {
         this.deletePlan = this.deletePlan.bind(this);
         this.refreshPage = this.refreshPage.bind(this);
         this.addRisk = this.addRisk.bind(this);
+        this.retrieveTypes = this.retrieveTypes.bind(this);
+        this.retrieveRemainingRisks = this.retrieveRemainingRisks.bind(this);
+        this.openModalEdit = this.openModalEdit.bind(this);
+        this.closeModalEdit = this.closeModalEdit.bind(this);
+        this.openModalDelete = this.openModalDelete.bind(this);
+        this.closeModalDelete = this.closeModalDelete.bind(this);
     }
 
     componentDidMount() {
@@ -51,37 +55,66 @@ class Plan extends Component {
         }
         axios(options)
             .then(response => {
-                let plan = response.data;
                 this.setState({
-                    id: plan.id,
-                    authorName: plan.authorName,
-                    name: plan.name,
-                    description: plan.description,
-                    entryDate: plan.entryDate,
-                    status: plan.status,
-                    type: plan.type,
-                    riskList: plan.riskList
-                });
-
-                let options2 = {
-                    url: process.env.REACT_APP_API_URL + "/PlanServlet/Retrieve/Plan/RemainingRisks",
-                    method: "POST",
-                    header: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    data: {
-                        'planID': query.get('id')
-                    }
-                }
-
-                axios(options2).then(response => {
-                    this.setState({ availableRisks: response.data })
-                }).catch((error) => {
-                    console.error(error.message);
+                    plan: response.data
+                }, () => {
+                    this.retrieveRemainingRisks();
                 });
             }).catch(error => {
                 this.props.history.push('/planes');
+            });
+    }
+
+    retrieveRemainingRisks() {
+        let query = new URLSearchParams(this.props.location.search);
+
+        let options2 = {
+            url: process.env.REACT_APP_API_URL + "/PlanServlet/Retrieve/Plan/RemainingRisks",
+            method: "POST",
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: {
+                'planID': query.get('id')
+            }
+        }
+        axios(options2).then(response => {
+            this.setState({
+                availableRisks: response.data
+            }, () => {
+                this.retrieveTypes();
+            })
+        }).catch((error) => {
+            console.error(error.message);
+        });
+    }
+
+    retrieveTypes() {
+        let options = {
+            url: process.env.REACT_APP_API_URL + `/PlanServlet/Retrieve/PlanTypes`,
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }
+        axios(options)
+            .then(response => {
+                let map = new Map();
+                for (const [key, value] of Object.entries(response.data)) {
+                    map.set(key, value);
+                }
+                this.setState({
+                    typesMap: map
+                });
+            }).catch(error => {
+                toast.error("Error recuperando los tipos/subtipos de Planes", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
             });
     }
 
@@ -90,15 +123,19 @@ class Plan extends Component {
     }
 
     tableAssign() {
-        switch (this.state.table) {
-            case "risks":
-                return <RiskTable riesgos={this.state.riskList} removeRisks={this.removeRisks} addRisk={this.addRisk} availableRisks={this.state.availableRisks} />;
-            case "incidents":
-                return <h1>Incidentes Aqui</h1>;
-            case "involved":
-                return <h1>Involucrados Aqui</h1>;
-            default:
-                return <h1>Error</h1>;
+        if (this.state.plan !== null) {
+            switch (this.state.table) {
+                case "risks":
+                    return <RiskTable riesgos={this.state.plan.riskList} removeRisks={this.removeRisks} addRisk={this.addRisk} availableRisks={this.state.availableRisks} />;
+                case "incidents":
+                    return <h1>Incidentes Aqui</h1>;
+                case "involved":
+                    return <h1>Involucrados Aqui</h1>;
+                default:
+                    return <h1>Error</h1>;
+            }
+        } else {
+            return <h1>Error cargando los datos del Plan</h1>;
         }
     }
 
@@ -111,7 +148,7 @@ class Plan extends Component {
                 'Content-Type': 'application/json'
             },
             data: {
-                'planID': this.state.id,
+                'planID': this.state.plan.id,
                 'riskIDs': risksID
             }
         }
@@ -144,7 +181,7 @@ class Plan extends Component {
                 'Content-Type': 'application/json'
             },
             data: {
-                'planID': this.state.id,
+                'planID': this.state.plan.id,
                 'riskID': idRisk.toString()
             }
         }
@@ -176,7 +213,7 @@ class Plan extends Component {
                 'Content-Type': 'application/json'
             },
             data: {
-                'id': this.state.id
+                'id': this.state.plan.id
             }
         }
         axios(options)
@@ -184,6 +221,22 @@ class Plan extends Component {
                 this.props.history.push('/planes');
             })
     }
+
+    openModalEdit = () => {
+        this.setState({ showEdit: true });
+    };
+
+    closeModalEdit = () => {
+        this.setState({ showEdit: false });
+    };
+
+    openModalDelete = () => {
+        this.setState({ showDel: true });
+    };
+
+    closeModalDelete = () => {
+        this.setState({ showDel: false });
+    };
 
     render() {
         let tableData = this.tableAssign();
@@ -193,25 +246,25 @@ class Plan extends Component {
                 <div className='d-lg-none container-fluid'>
                     <Row>
                         <TopButtons
-                            name={this.state.name}
-                            type={this.state.type}
-                            id={this.state.id}
-                            authorName={this.state.authorName}
-                            description={this.state.description}
-                            status={this.state.status}
-                            entryDate={this.state.entryDate}
-                            riskList={this.state.riskList}
-                            refreshPage={this.refreshPage}
-                            deletePlan={this.deletePlan} />
+                            openModalEdit={this.openModalEdit}
+                            openModalDelete={this.openModalDelete}
+                            status={(this.state.plan === null) ? "Cargando.." : this.state.plan.status} />
                     </Row>
                     {/* Datos del Plan */}
                     <Row className="mt-4">
-                        <h1>{this.state.name}</h1>
-                        <h2>{this.state.type}-{this.state.id}</h2>
-                        <h2>Estado: {this.state.status}</h2>
-                        <h4>{this.state.entryDate}</h4>
-                        <h4>{this.state.authorName}</h4>
-                        <p>{this.state.description}</p>
+                        {
+                            (this.state.plan === null || typeof this.state.plan === 'undefined') ?
+                                <h1>Cargando Datos</h1> :
+                                <div>
+                                    <h1>{this.state.plan.name}</h1>
+                                    <h2>{this.state.plan.id}</h2>
+                                    <h2>{this.state.plan.type} - {this.state.plan.subtype}</h2>
+                                    <h2>Estado: {this.state.plan.status}</h2>
+                                    <h4>{this.state.plan.entryDate}</h4>
+                                    <h4>{this.state.plan.authorName}</h4>
+                                    <p>{this.state.plan.description}</p>
+                                </div>
+                        }
                     </Row>
                     <Card id="card">
                         <Card.Header>
@@ -243,25 +296,24 @@ class Plan extends Component {
                         {/* Botones de uso en el Plan */}
                         <Row>
                             <TopButtons
-                                name={this.state.name}
-                                type={this.state.type}
-                                id={this.state.id}
-                                authorName={this.state.authorName}
-                                description={this.state.description}
-                                status={this.state.status}
-                                entryDate={this.state.entryDate}
-                                riskList={this.state.riskList}
-                                refreshPage={this.refreshPage}
-                                deletePlan={this.deletePlan} />
+                                openModalEdit={this.openModalEdit}
+                                openModalDelete={this.openModalDelete}
+                                status={(this.state.plan === null) ? "Cargando.." : this.state.plan.status} />
                         </Row>
-
                         {/* Datos del Plan */}
                         <Row className="mt-4">
-                            <h1>{this.state.name}</h1>
-                            <h2>{this.state.type}-{this.state.id}</h2>
-                            <h4>{this.state.entryDate}</h4>
-                            <h4>{this.state.authorName}</h4>
-                            <p>{this.state.description}</p>
+                            {
+                                (this.state.plan === null || typeof this.state.plan === 'undefined') ?
+                                    <h1>Cargando Datos</h1> :
+                                    <div>
+                                        <h1>{this.state.plan.name}</h1>
+                                        <h2>{this.state.plan.id}</h2>
+                                        <h2>{this.state.plan.type} - {this.state.plan.subtype}</h2>
+                                        <h4>{this.state.plan.entryDate}</h4>
+                                        <h4>{this.state.plan.authorName}</h4>
+                                        <p>{this.state.plan.description}</p>
+                                    </div>
+                            }
                         </Row>
 
                         {/* Listas de Datos del Plan */}
@@ -285,6 +337,18 @@ class Plan extends Component {
                         </Card>
                     </div>
                 </div>
+                <EditPlanModal
+                    plan={this.state.plan}
+                    show={this.state.showEdit}
+                    closeModal={this.closeModalEdit}
+                    refreshPage={this.refreshPage}
+                    typesMap={this.state.typesMap} />
+                <GenericModal
+                    show={this.state.showDel}
+                    close={this.closeModalDelete}
+                    action={this.deletePlan}
+                    header={"Eliminar Plan"}
+                    body={"¿Desea eliminar este plan? Una vez eliminado no se podra recuperar el plan seleccionado"} />
                 <ToastContainer />
             </div>
         );

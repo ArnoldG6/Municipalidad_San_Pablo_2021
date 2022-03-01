@@ -8,6 +8,8 @@ package plan.services;
 import com.google.gson.Gson;
 import ex.*;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -91,8 +93,20 @@ public class PlanManager extends HttpServlet {
     private void insertPlan(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String requestJSON = request.getReader().lines().collect(Collectors.joining());
+        
+        Date d = new Date();
+        LocalDate localDate = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        
         Plan newPlan = new Gson().fromJson(requestJSON, Plan.class);
-        newPlan.setEntryDate(new Date());
+        newPlan.setEntryDate(d);
+        
+        long idCount = PlanDAO.getInstance().planIDGenerator(newPlan.getId());
+        String year = Integer.toString(localDate.getYear());
+        String month = String.format("%02d", localDate.getMonthValue());
+        String id = String.format("%07d", idCount);
+        String newID = newPlan.getId() + "-" + year + month + "-" + id;
+        newPlan.setId(newID);
+        
         if (PlanDAO.getInstance().searchById(newPlan.getPkId()) != null) {
             //Custom exception
             response.getWriter().write(new PlanAlreadyExistEx().jsonify());

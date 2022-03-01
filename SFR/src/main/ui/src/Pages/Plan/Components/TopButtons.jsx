@@ -1,51 +1,12 @@
 import React, { Component } from 'react';
 import './TopButtons.css';
-import EditPlanModal from './EditPlanModal';
 import { Stack, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
-import GenericModal from '../../../SharedComponents/GenericModal/GenericModal';
 //import { toast } from 'react-toastify';
 
 class TopButtons extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            show: false,
-            showDel: false
-        };
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-        this.openModalDelete = this.openModalDelete.bind(this);
-        this.closeModalDelete = this.closeModalDelete.bind(this);
-    }
-
-    openModal = () => {
-        this.setState({ show: true });
-    };
-
-    closeModal = () => {
-        this.setState({ show: false });
-    };
-
-    openModalDelete = () => {
-        this.setState({ showDel: true });
-    };
-
-    closeModalDelete = () => {
-        this.setState({ showDel: false });
-    };
-
     render() {
-        let statusClass = "";
-        let name = this.props.name;
-        let type = this.props.type;
-        let id = this.props.id;
-        let authorName = this.props.authorName;
-        let description = this.props.description;
-        //let entryDate = this.props.entryDate;
-        //let riskList = this.props.riskList;
-        let refreshPage = this.props.refreshPage;
-        switch (this.props.status) {
+        let statusClass = this.props.status;
+        switch (statusClass) {
             case 'Activo':
                 statusClass = 'success';
                 break;
@@ -74,7 +35,7 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant="outline-primary" onClick={this.openModal} >
+                            <Button variant="outline-primary" onClick={this.props.openModalEdit} >
                                 <h2><i className="bi bi-pencil-square"></i></h2>
                             </Button>
                         </OverlayTrigger>
@@ -89,7 +50,7 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"} onClick={this.openModalDelete} disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
+                            <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"} onClick={this.props.openModalDelete} disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
                                 <h2><i className="bi bi-trash"></i></h2>
                             </Button>
                         </OverlayTrigger>
@@ -144,7 +105,7 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant="outline-primary" onClick={this.openModal} >
+                            <Button variant="outline-primary" onClick={this.props.openModalEdit} >
                                 <h2><i className="bi bi-pencil-square"></i></h2>
                             </Button>
                         </OverlayTrigger>
@@ -159,7 +120,7 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"} onClick={this.openModalDelete} disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
+                            <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"} onClick={this.props.openModalDelete} disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
                                 <h2><i className="bi bi-trash"></i></h2>
                             </Button>
                         </OverlayTrigger>
@@ -202,24 +163,6 @@ class TopButtons extends Component {
                         <Button variant={statusClass}>{this.props.status}</Button>{' '}
                     </Stack>
                 </div>
-                <EditPlanModal
-                    name={name}
-                    type={type}
-                    id={id}
-                    authorName={authorName}
-                    description={description}
-                    status={this.props.status}
-                    entryDate={this.props.entryDate}
-                    riskList={this.props.riskList}
-                    show={this.state.show}
-                    closeModal={this.closeModal}
-                    refreshPage={refreshPage} />
-                <GenericModal
-                    show={this.state.showDel}
-                    close={this.closeModalDelete}
-                    action={this.props.deletePlan}
-                    header={"Eliminar Plan"}
-                    body={"¿Desea eliminar este plan? Una vez eliminado no se podra recuperar el plan seleccionado"} />
             </div>
         );
     }

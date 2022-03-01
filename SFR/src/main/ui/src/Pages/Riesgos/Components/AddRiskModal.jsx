@@ -9,7 +9,7 @@ class AddRiskModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: "1"
+            value: "Externo"
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -54,7 +54,6 @@ class AddRiskModal extends Component {
     }
 
     onChange = e => {
-        console.log(e.target.value)
         this.setState({ value: e.target.value })
     }
 
@@ -67,7 +66,7 @@ class AddRiskModal extends Component {
         let closeModal = this.props.closeModal;
 
         return (
-            <Modal show={render} onHide={() => {this.setState({value:"1"});closeModal()}} id="modalRisks" >
+            <Modal show={render} onHide={() => { this.setState({ value: "Externo" }); closeModal() }} id="modalRisks" >
                 <Modal.Header closeButton>
                     Ingrese los datos para el nuevo Riesgo
                 </Modal.Header>
@@ -148,8 +147,8 @@ class AddRiskModal extends Component {
                                                     <input
                                                         id={tipos.id}
                                                         type="radio"
-                                                        value={tipos.id}
-                                                        checked={this.state.value === tipos.id.toString()}
+                                                        value={tipos.name}
+                                                        checked={this.state.value === tipos.name}
                                                         onChange={this.onChange}
                                                     />
                                                     <label htmlFor={tipos.id}>{tipos.name}</label>
@@ -185,9 +184,10 @@ class AddRiskModal extends Component {
                                     (this.props.typesMap === null || typeof this.props.typesMap === 'undefined' || typeof this.props.typesMap.get(this.state.value) === 'undefined') ?
                                         <option value={null} disabled>Error cargando Subtipos</option> :
                                         this.props.typesMap.get(this.state.value).map((tipos) => {
-                                            return <option value={tipos.id}>{tipos.name}</option>
+                                            return <option value={tipos.name}>{tipos.name}</option>
                                         })
-                                }                            </Form.Select>
+                                }
+                            </Form.Select>
                         </div>
                         <div className="form-group">
                             <label>Descripción de tipo específico:</label>

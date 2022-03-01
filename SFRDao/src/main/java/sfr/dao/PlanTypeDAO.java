@@ -69,7 +69,7 @@ public class PlanTypeDAO extends GenericDAO {
                     }
                 }
             });
-            data.put(p.getId().toString(), children);
+            data.put(p.getName(), children);
         });
         return data;
     }

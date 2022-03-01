@@ -4,10 +4,11 @@ import '../css/Login.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import {Container, Form, Image, Button} from 'react-bootstrap';
+import { Container, Form, Image, Button } from 'react-bootstrap';
 import logo from "../components/images/MSPH_LOGO.png";
 const requestURL = "http://localhost:8080/auth/API/Auth";
 const cookies = new Cookies();
+
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -19,14 +20,16 @@ export default class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
-  async handlePwdRedirect(e){
+
+  async handlePwdRedirect(e) {
     this.state = {
       username: '',
       pwd: '',
       disabled: true
     };
     this.props.history.push('/passwordRecovery')
-  }       
+  }
+
   async handleSubmit(e) {
     e.preventDefault();
     this.setState({
@@ -53,17 +56,17 @@ export default class Login extends React.Component {
             pwd: '',
             disabled: true
           });*/
-          cookies.set("username", response.data.username, { path: "/auth" });
-          cookies.set("full_name", response.data.username, { path: "/auth" });
-          cookies.set("roles", response.data.roles, { path: "/auth" });
-          cookies.set("token", response.data.token, { path: "/auth" });
+          cookies.set("username", response.data.username, { path: process.env.REACT_APP_AUTH });
+          cookies.set("full_name", response.data.full_name, { path: process.env.REACT_APP_AUTH });
+          cookies.set("roles", response.data.roles, { path: process.env.REACT_APP_AUTH });
+          cookies.set("token", response.data.token, { path: process.env.REACT_APP_AUTH });
           this.props.history.push('/menu');
-        }else
+        } else
           alert("Usuario o contraseña inválidos.");
       })
     });
-
   }
+
   componentDidMount() {
     console.log(cookies);
     /*if (!(cookies.get('username',{path: "/auth"}) 
@@ -80,6 +83,7 @@ export default class Login extends React.Component {
         this.setState({ disabled: false })
     });
   }
+
   render() {
     return (
       <Container className="w-auto text-center mx-auto p-3 mt-2 container">

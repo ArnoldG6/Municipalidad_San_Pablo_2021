@@ -9,7 +9,7 @@ class EditRiskModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: "1"
+            value: "Externo"
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -121,7 +121,7 @@ class EditRiskModal extends Component {
 
                             <FormGroup>
                                 <Stack direction="horizontal" gap={3}>
-                                    <label>Tipo de Riesgo:</label>
+                                    <label>Tipo General:</label>
                                     <OverlayTrigger
                                         delay={{ hide: 450, show: 300 }}
                                         overlay={(props) => (
@@ -137,26 +137,24 @@ class EditRiskModal extends Component {
                                     </OverlayTrigger>
                                 </Stack>
                                 <FormGroup className="radio-group-type" name="type" defaultValue={risk.generalType} >
-                                    <FormGroup className="Radio-element">
-                                        <input
-                                            id="risktype1"
-                                            type="radio"
-                                            value="EXTERNO"
-                                            checked={risk.generalType === "EXTERNO"}
-                                            onChange={this.onChange}
-                                        />
-                                        <label for="risktype1">Externo</label>
-                                    </FormGroup>
-                                    <FormGroup className="Radio-element">
-                                        <input
-                                            id="risktype2"
-                                            type="radio"
-                                            value="INTERNO"
-                                            checked={risk.generalType === "INTERNO"}
-                                            onChange={this.onChange}
-                                        />
-                                        <label for="risktype2">Interno</label>
-                                    </FormGroup>
+                                    {
+                                        (this.props.typesMap === null || typeof this.props.typesMap === 'undefined') ?
+                                            <h4>Error cargando Tipos</h4> :
+                                            this.props.typesMap.get("parents").map((tipos) => {
+                                                return (
+                                                    <FormGroup className="Radio-element">
+                                                        <input
+                                                            id={tipos.id}
+                                                            type="radio"
+                                                            value={tipos.name}
+                                                            checked={this.state.value === tipos.name}
+                                                            onChange={this.onChange}
+                                                        />
+                                                        <label htmlFor={tipos.id}>{tipos.name}</label>
+                                                    </FormGroup>
+                                                )
+                                            })
+                                    }
                                 </FormGroup>
 
                             </FormGroup>
@@ -164,7 +162,7 @@ class EditRiskModal extends Component {
 
                             <div className="form-group">
                                 <Stack direction="horizontal" gap={3}>
-                                    <label>Tipo: </label>
+                                    <label>Tipo por Área: </label>
                                     <OverlayTrigger
                                         delay={{ hide: 450, show: 300 }}
                                         overlay={(props) => (
@@ -179,29 +177,18 @@ class EditRiskModal extends Component {
                                         </h5>
                                     </OverlayTrigger>
                                 </Stack>
-                                <Form.Select name="areatype" id="areatype" hidden={risk.generalType === "INTERNO"} defaultValue={risk.areaType}>
-
-                                    <option value="Político">Político</option>
-                                    <option value="Legal">Legal</option>
-                                    <option value="Económico">Económico</option>
-                                    <option value="Tecnologías de la información">Tecnologías de la información</option>
-                                    <option value="Eventos naturales">Eventos naturales</option>
-                                    <option value="Ambiental">Ambiental</option>
-
-                                </Form.Select>
-
-                                <Form.Select name="areatype" id="areatype" hidden={risk.generalType === "EXTERNO"} defaultValue={risk.areaType}>
-                                    <option value="Estratégicos">Estratégicos</option>
-                                    <option value="Financieros">Financieros</option>
-                                    <option value="Desarrollo de los procesos">Desarrollo de los procesos</option>
-                                    <option value="Tecnológicos y de información">Tecnológicos y de información</option>
-                                    <option value="Gestión de procesos sustantivos">Gestión de procesos sustantivos</option>
-                                    <option value="Funcionario municipal">Funcionario municipal</option>
-
+                                <Form.Select name="areatype" id="areatype" defaultValue={risk.areaType}>
+                                    {
+                                        (this.props.typesMap === null || typeof this.props.typesMap === 'undefined' || typeof this.props.typesMap.get(this.state.value) === 'undefined') ?
+                                            <option value={null} disabled>Error cargando Subtipos</option> :
+                                            this.props.typesMap.get(this.state.value).map((tipos) => {
+                                                return <option value={tipos.name}>{tipos.name}</option>
+                                            })
+                                    }
                                 </Form.Select>
                             </div>
                             <div className="form-group">
-                                <label>Fuente por área específica:</label>
+                                <label>Descripción de tipo específico:</label>
                                 <input name="specific_factor" id="specific_factor" type="text" placeholder="" className="form-control" defaultValue={risk.specType} required />
                             </div>
 

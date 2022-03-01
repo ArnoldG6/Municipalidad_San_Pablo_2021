@@ -177,7 +177,6 @@ class Planes extends Component {
 
     /* Sort */
     handleSortSelect = e => {
-        console.log(e.target.value)
         this.setState(
             {
                 sortingValue: e.target.value

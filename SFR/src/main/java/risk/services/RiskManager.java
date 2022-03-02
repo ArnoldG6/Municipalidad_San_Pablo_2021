@@ -93,6 +93,13 @@ public class RiskManager extends HttpServlet {
         String requestJSON = request.getReader().lines().collect(Collectors.joining());
         Risk newRisk = new Gson().fromJson(requestJSON, Risk.class);
         newRisk.updateMagnitude();
+
+        long idCount = RiskDAO.getInstance().riskIDGenerator(newRisk.getId());
+        String id = String.format("%02d", idCount);
+        String newID = newRisk.getId() + id;
+        
+        newRisk.setId(newID);
+
         if (RiskDAO.getInstance().searchById(newRisk.getPkId()) != null) {
             //Custom exception
             response.getWriter().write(new RiskAlreadyExistEx().jsonify());

@@ -17,7 +17,6 @@ class EditPlanModal extends Component {
 
     componentDidUpdate(prevProps) {
         if(this.props.plan !== prevProps.plan) {
-            console.log(this.props.plan)
             this.setState({
                 value: this.props.plan.type
             });
@@ -39,15 +38,16 @@ class EditPlanModal extends Component {
                 'Content-Type': 'application/json'
             },
             data: {
-                'pkID': this.props.plan.pkId,
+                'pkID': this.props.plan.pkID,
                 'name': event.target.name.value,
                 'id': event.target.id.value,
                 'status': event.target.status.value,
                 'authorName': event.target.authorName.value,
                 'type': event.target.type.value,
+                'subtype': event.target.subtype.value,
                 'description': event.target.description.value,
-                'riskList': this.props.riskList,
-                'entryDate': this.props.entryDate,
+                'riskList': this.props.plan.riskList,
+                'entryDate': this.props.plan.entryDate,
             }
         }
 

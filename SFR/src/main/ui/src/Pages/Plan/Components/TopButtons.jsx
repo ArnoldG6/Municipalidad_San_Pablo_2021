@@ -2,8 +2,27 @@ import React, { Component } from 'react';
 import './TopButtons.css';
 import { Stack, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 //import { toast } from 'react-toastify';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 class TopButtons extends Component {
+    constructor(props) {
+        super(props);
+        this.checkPermissions = this.checkPermissions.bind(this);
+    }
+
+    checkPermissions(toCheck) {
+        let perm = false;
+        cookies.get('roles', { path: process.env.REACT_APP_AUTH }).map((rol) => {
+            if (rol.description === toCheck) {
+                perm = true;
+                return true;
+            }
+            return false;
+        })
+        return perm;
+    }
+
     render() {
         let statusClass = this.props.status;
         switch (statusClass) {
@@ -50,7 +69,7 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"} onClick={this.props.openModalDelete} disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
+                            <Button variant={this.checkPermissions("SUPER_ADMIN") ? "outline-danger" : "outline-dark"} onClick={this.props.openModalDelete} disabled={this.checkPermissions("SUPER_ADMIN") ? false : true}>
                                 <h2><i className="bi bi-trash"></i></h2>
                             </Button>
                         </OverlayTrigger>
@@ -120,7 +139,7 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"} onClick={this.props.openModalDelete} disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
+                            <Button variant={this.checkPermissions("SUPER_ADMIN") ? "outline-danger" : "outline-dark"} onClick={this.props.openModalDelete} disabled={this.checkPermissions("SUPER_ADMIN") ? false : true}>
                                 <h2><i className="bi bi-trash"></i></h2>
                             </Button>
                         </OverlayTrigger>

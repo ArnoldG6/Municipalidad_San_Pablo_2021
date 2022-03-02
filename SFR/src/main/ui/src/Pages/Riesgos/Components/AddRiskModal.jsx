@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
 import { Modal, Button, Form, FormGroup, Stack, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../Riesgos.css'
+
 class AddRiskModal extends Component {
     constructor(props) {
         super(props);
@@ -15,11 +15,13 @@ class AddRiskModal extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
         this.handleAreaType = this.handleAreaType.bind(this);
+        this.getID = this.getID.bind(this);
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
 
+        let id = this.getID(this.state.value, event.target.areatype.value);
         let options = {
             url: process.env.REACT_APP_API_URL + `/RiskManager/Insert`,
             method: 'POST',
@@ -28,13 +30,15 @@ class AddRiskModal extends Component {
                 'Content-Type': 'application/json'
             },
             data: {
+                'id': id,
                 'name': event.target.name.value,
                 'probability': parseFloat(event.target.probability.value),
-                'areaType': this.state.area,
                 'impact': parseInt(event.target.impact.value),
                 'generalType': this.state.value,
+                'areaType': event.target.areatype.value,
+                'specType': event.target.specific_factor.value,
                 'factors': event.target.factor.value,
-                'specType': event.target.specific_factor.value
+                'mitigationMeasures': "default"
             }
         }
 
@@ -51,6 +55,17 @@ class AddRiskModal extends Component {
                 });
             });
 
+    }
+
+    getID(type, subtype) {
+        let id = "";
+        this.props.typesMap.get(type).map((tipo) => {
+            if (tipo.name === subtype) {
+                id = tipo.idName;
+            }
+            return tipo.idName;
+        })
+        return id;
     }
 
     onChange = e => {

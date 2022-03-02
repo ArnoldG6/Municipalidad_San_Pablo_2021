@@ -188,7 +188,7 @@ class Riesgos extends Component {
                 'Content-Type': 'application/json'
             },
             data: {
-                'id': this.state.delId
+                'pkID': this.state.delId
             }
         }
         axios(options)

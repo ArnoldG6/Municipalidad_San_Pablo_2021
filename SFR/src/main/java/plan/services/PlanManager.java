@@ -103,8 +103,9 @@ public class PlanManager extends HttpServlet {
         long idCount = PlanDAO.getInstance().planIDGenerator(newPlan.getId());
         String year = Integer.toString(localDate.getYear());
         String month = String.format("%02d", localDate.getMonthValue());
-        String id = String.format("%07d", idCount);
-        String newID = newPlan.getId() + "-" + year + month + "-" + id;
+        String day = String.format("%02d", localDate.getDayOfMonth());
+        String id = String.format("%05d", idCount);
+        String newID = newPlan.getId() + "-" + year + month + day + "-" + id;
         newPlan.setId(newID);
         
         if (PlanDAO.getInstance().searchById(newPlan.getPkId()) != null) {
@@ -146,7 +147,8 @@ public class PlanManager extends HttpServlet {
     private void deletePlan(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        Plan toDelete = new Plan(requestJSON.getString("id"));
+        Plan toDelete = new Plan();
+        toDelete.setPkId(requestJSON.getInt("pkID"));
         if (PlanDAO.getInstance().searchById(toDelete.getPkId()) != null) {
             PlanDAO.getInstance().delete(toDelete);
         } else //Custom exception

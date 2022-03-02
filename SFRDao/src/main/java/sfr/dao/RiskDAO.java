@@ -197,7 +197,6 @@ public class RiskDAO extends GenericDAO {
      * @return a Risk object that matches with
      * @param id
      */
-
     public Risk searchById(int id) {
         try {
             em = getEntityManager();
@@ -267,15 +266,16 @@ public class RiskDAO extends GenericDAO {
     }
 
     /**
+     * @param id String containing the base ID type of the Risk
      * @return the entry count of Plan objects.
      */
-    public long riskCount() {
+    public long riskIDGenerator(String id) {
         try {
-            String cmd = "SELECT count(*) FROM Risk";
+            String cmd = "SELECT count(*) FROM Risk r WHERE r.id LIKE '" + id + "%'";
             em = getEntityManager();
             Query query = em.createQuery(cmd);
             long cantRisks = (long) query.getSingleResult();
-            return cantRisks;
+            return cantRisks + 1;
         } catch (Exception ex) {
             Logger.getLogger(RiskDAO.class.getName()).log(Level.SEVERE, null, ex);
             System.err.println(ex.getMessage());

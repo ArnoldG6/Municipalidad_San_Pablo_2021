@@ -12,13 +12,12 @@ class EditRiskModal extends Component {
             value: "Externo"
         };
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.handleAreaType = this.handleAreaType.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
+        console.log(event);
         let options = {
             url: process.env.REACT_APP_API_URL + `/RiskManager/Edit`,
             method: 'PUT',
@@ -27,17 +26,21 @@ class EditRiskModal extends Component {
                 'Content-Type': 'application/json'
             },
             data: {
-                'id': event.target[0].value,
-                'name': event.target[1].value,
-                'probability': parseFloat(event.target[2].value),
-                'impact': parseInt(event.target[3].value),
-                'areaType': event.target[4].checked ? event.target[6].value : event.target[7].value,
-                'generalType': event.target[4].checked ? event.target[4].value : event.target[5].value,
-                'specType': event.target[8].value,
-                'magnitude': parseFloat(event.target[2].value) * parseInt(event.target[3].value),
-                'factors': event.target.factor.value
+                'pkID': this.props.risk.pkID,
+                'id': event.target.ID.value,
+                'name': event.target.name.value,
+                'probability': parseFloat(event.target.probability.value),
+                'impact': parseInt(event.target.impact.value),
+                'generalType': this.props.risk.generalType,
+                'areaType': this.props.risk.areaType,
+                'specType': event.target.specific_factor.value,
+                'magnitude': parseFloat(event.target.probability.value) * parseInt(event.target.impact.value),
+                'factors': event.target.factor.value,
+                'mitigationMeasures': this.props.risk.mitigationMeasures
             }
         }
+        console.log(options)
+        
         axios(options)
             .then(response => {
                 this.props.refreshPage();
@@ -45,16 +48,6 @@ class EditRiskModal extends Component {
             }).catch(error => {
                 console.log(error);
             });
-    }
-
-    onChange = e => {
-        this.props.risk.generalType = e.target.value;
-        this.setState({ value: e.target.value })
-    }
-
-    handleAreaType = e => {
-        this.props.risk.areaType = e.target.value;
-        this.setState({ area: e.target.value })
     }
 
     render() {
@@ -147,8 +140,8 @@ class EditRiskModal extends Component {
                                                             id={tipos.id}
                                                             type="radio"
                                                             value={tipos.name}
-                                                            checked={this.state.value === tipos.name}
-                                                            onChange={this.onChange}
+                                                            checked={tipos.name === risk.generalType}
+                                                            disabled
                                                         />
                                                         <label htmlFor={tipos.id}>{tipos.name}</label>
                                                     </FormGroup>
@@ -177,11 +170,11 @@ class EditRiskModal extends Component {
                                         </h5>
                                     </OverlayTrigger>
                                 </Stack>
-                                <Form.Select name="areatype" id="areatype" defaultValue={risk.areaType}>
+                                <Form.Select name="areatype" id="areatype" defaultValue={risk.areaType} disabled>
                                     {
-                                        (this.props.typesMap === null || typeof this.props.typesMap === 'undefined' || typeof this.props.typesMap.get(this.state.value) === 'undefined') ?
+                                        (this.props.typesMap === null || typeof this.props.typesMap === 'undefined' || typeof this.props.typesMap.get(risk.generalType) === 'undefined') ?
                                             <option value={null} disabled>Error cargando Subtipos</option> :
-                                            this.props.typesMap.get(this.state.value).map((tipos) => {
+                                            this.props.typesMap.get(risk.generalType).map((tipos) => {
                                                 return <option value={tipos.name}>{tipos.name}</option>
                                             })
                                     }

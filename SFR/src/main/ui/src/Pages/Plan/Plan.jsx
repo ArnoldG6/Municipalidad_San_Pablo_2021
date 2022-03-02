@@ -213,7 +213,7 @@ class Plan extends Component {
                 'Content-Type': 'application/json'
             },
             data: {
-                'id': this.state.plan.id
+                'pkID': this.state.plan.pkID
             }
         }
         axios(options)

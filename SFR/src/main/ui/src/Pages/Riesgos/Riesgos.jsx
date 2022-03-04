@@ -249,7 +249,7 @@ class Riesgos extends Component {
                             </Button>
                         </OverlayTrigger>
                         <FormSelect className='w-50' onChange={this.handleSortSelect}>
-                            <option selected disabled>Ordenar por...</option>
+                            <option disabled>Ordenar por...</option>
                             <option value='pk_id' defaultValue>ID</option>
                             <option value='name'>Nombre</option>
                             <option value='generalType'>Tipo General</option>

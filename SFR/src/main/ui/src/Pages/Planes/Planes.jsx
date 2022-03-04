@@ -299,7 +299,7 @@ class Planes extends Component {
                 </Row>
 
                 <Row>
-                    <PlansTable planes={this.state.planesView} updatePlanesSort={this.updatePlanesSort} />
+                    <PlansTable planes={this.state.planesView}/>
                 </Row>
 
                 <Row>

@@ -9,10 +9,10 @@ class PlansTable extends Component {
             <div className='mt-2'>
                 {/* Mobile */}
                 <div className='d-lg-none'>
-                    <Accordion>
-                        {(typeof this.props.planes === 'undefined' || this.props.planes === null) ? <h1>No se han agregado planes</h1> :
-                            this.props.planes.length === 0 ? <h1>No se han agregado planes</h1> :
-                                this.props.planes.map((plan) => {
+                    {(typeof this.props.planes === 'undefined' || this.props.planes === null) ? <h1>No se han agregado planes</h1> :
+                        this.props.planes.length === 0 ? <h1>No se han agregado planes</h1> :
+                            <Accordion>
+                                {this.props.planes.map((plan) => {
                                     let statusClass = "";
                                     switch (plan.status) {
                                         case 'Activo':
@@ -29,7 +29,7 @@ class PlansTable extends Component {
                                             break;
                                     }
                                     return (
-                                        <Accordion.Item eventKey={plan.id}>
+                                        <Accordion.Item eventKey={plan.id} key={plan.id}>
                                             <Accordion.Header >
                                                 {plan.name}
                                             </Accordion.Header>
@@ -49,24 +49,25 @@ class PlansTable extends Component {
                                         </Accordion.Item>
                                     );
                                 })
-                        }
-                    </Accordion>
+                                }
+                            </Accordion>
+                    }
                 </div>
                 {/* PC */}
                 <div className='d-none d-lg-block'>
-                    <Table hover>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Fecha de Ingreso</th>
-                                <th>Estado</th>
-                                <th>Autor</th>
-                                <th>Tipo</th>
-                            </tr>
-                        </thead>
-                        {(typeof this.props.planes === 'undefined' || this.props.planes === null) ? <h1>No se han agregado planes</h1> :
-                            this.props.planes.length === 0 ? <h1>No se han agregado planes</h1> :
+                    {(typeof this.props.planes === 'undefined' || this.props.planes === null) ? <h1>No se han agregado planes</h1> :
+                        this.props.planes.length === 0 ? <h1>No se han agregado planes</h1> :
+                            <Table hover>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Fecha de Ingreso</th>
+                                        <th>Estado</th>
+                                        <th>Autor</th>
+                                        <th>Tipo</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     {this.props.planes.map((plan) => {
                                         let statusClass = "";
@@ -87,7 +88,7 @@ class PlansTable extends Component {
                                         return (
                                             <tr key={plan.id}>
                                                 <td>{plan.id}</td>
-                                                <td className="nameSlot"><Link  to={{ pathname: "/plan", search: `?id=${plan.id}` }}><p className='nameText'>{plan.name}</p></Link></td>
+                                                <td className="nameSlot"><Link to={{ pathname: "/plan", search: `?id=${plan.id}` }}><p className='nameText'>{plan.name}</p></Link></td>
                                                 <td>{plan.entryDate}</td>
                                                 <td width="250px"><div className={statusClass}>{plan.status}</div></td>
                                                 <td>{plan.authorName}</td>
@@ -95,10 +96,11 @@ class PlansTable extends Component {
                                             </tr>
                                         )
                                     })}
-                                
+
                                 </tbody>
-                        }
-                    </Table>
+
+                            </Table>
+                    }
                 </div>
             </div>
         );

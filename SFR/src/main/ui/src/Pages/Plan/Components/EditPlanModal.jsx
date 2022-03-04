@@ -114,9 +114,9 @@ class EditPlanModal extends Component {
                             <Form.Select name="type" id="type" onChange={this.onChange} defaultValue={type} disabled>
                                 {
                                     (this.props.typesMap === null || typeof this.props.typesMap === 'undefined') ?
-                                        <option value={null} disabled>Error cargando Tipos</option> :
+                                        <option value={null} key="disabledTypeEditPlan" disabled>Error cargando Tipos</option> :
                                         this.props.typesMap.get("parents").map((tipos) => {
-                                            return <option value={tipos.name}>{tipos.name}</option>
+                                            return <option value={tipos.name} key={tipos.name}>{tipos.name}</option>
                                         })
                                 }
                             </Form.Select>
@@ -126,9 +126,9 @@ class EditPlanModal extends Component {
                             <Form.Select name="subtype" id="subtype" defaultValue={subtype} disabled>
                                 {
                                     (this.props.typesMap === null || typeof this.props.typesMap === 'undefined' || typeof this.props.typesMap.get(this.state.value) === 'undefined') ?
-                                        <option value={null} disabled>Error cargando Subtipos</option> :
+                                        <option value={null} key="disabledSubtypeEditPlan" disabled>Error cargando Subtipos</option> :
                                         this.props.typesMap.get(this.state.value).map((tipos) => {
-                                            return <option value={tipos.name}>{tipos.name}</option>
+                                            return <option value={tipos.name} key={tipos.name}>{tipos.name}</option>
                                         })
                                 }
                             </Form.Select>

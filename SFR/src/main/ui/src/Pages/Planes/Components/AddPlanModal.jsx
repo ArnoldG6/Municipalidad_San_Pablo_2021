@@ -100,9 +100,9 @@ class AddPlanModal extends Component {
                             <Form.Select name="type" id="type" onChange={this.onChange}>
                                 {
                                     (this.props.typesMap === null || typeof this.props.typesMap === 'undefined') ?
-                                        <option value={null} disabled>Error cargando Tipos</option> :
+                                        <option value={null} key="disabledTypePlan" disabled>Error cargando Tipos</option> :
                                         this.props.typesMap.get("parents").map((tipos) => {
-                                            return <option value={tipos.name}>{tipos.name}</option>
+                                            return <option value={tipos.name} key={tipos.name}>{tipos.name}</option>
                                         })
                                 }
                             </Form.Select>
@@ -112,9 +112,9 @@ class AddPlanModal extends Component {
                             <Form.Select name="subtype" id="subtype">
                                 {
                                     (this.props.typesMap === null || typeof this.props.typesMap === 'undefined' || typeof this.props.typesMap.get(this.state.value) === 'undefined') ?
-                                        <option value={null} disabled>Error cargando Subtipos</option> :
+                                        <option value={null} key="disabledSubtypePlan" disabled>Error cargando Subtipos</option> :
                                         this.props.typesMap.get(this.state.value).map((tipos) => {
-                                            return <option value={tipos.name}>{tipos.name}</option>
+                                            return <option value={tipos.name} key={tipos.name}>{tipos.name}</option>
                                         })
                                 }
                             </Form.Select>

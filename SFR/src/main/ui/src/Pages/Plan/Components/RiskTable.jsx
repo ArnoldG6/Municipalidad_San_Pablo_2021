@@ -45,16 +45,16 @@ class RiskTable extends Component {
             <div>
                 {/* Mobile */}
                 <div className='d-lg-none container-fluid'>
-                    <Button size="sm" onClick={this.openModalAddRisk} variant="success">
+                    <Button size="sm" onClick={this.openModalAddRisk} variant="success" key="AddRiskButtonMobile">
                         <i className="bi bi-plus-square"></i> {' '}
                         Agregar Riesgo
                     </Button>
-                    <Accordion className='mt-2'>
-                        {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado riesgos</h1> :
-                            this.props.riesgos.length === 0 ? <h1>No se han agregado riesgos</h1> :
-                                this.props.riesgos.map((risk) => {
+                    {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado riesgos</h1> :
+                        this.props.riesgos.length === 0 ? <h1>No se han agregado riesgos</h1> :
+                            <Accordion className='mt-2'>
+                                {this.props.riesgos.map((risk) => {
                                     return (
-                                        <Accordion.Item eventKey={risk.id}>
+                                        <Accordion.Item eventKey={risk.id} key={risk.id}>
                                             <Accordion.Header >
                                                 {risk.name}
                                             </Accordion.Header>
@@ -77,9 +77,9 @@ class RiskTable extends Component {
                                             </Accordion.Body>
                                         </Accordion.Item>
                                     );
-                                })
-                        }
-                    </Accordion>
+                                })}
+                            </Accordion>
+                    }
                 </div>
                 {/* PC */}
                 <div className="d-none d-lg-block">

@@ -56,10 +56,10 @@ export default class Login extends React.Component {
             pwd: '',
             disabled: true
           });*/
-          cookies.set("username", response.data.username, { path: process.env.REACT_APP_AUTH });
-          cookies.set("full_name", response.data.full_name, { path: process.env.REACT_APP_AUTH });
-          cookies.set("roles", response.data.roles, { path: process.env.REACT_APP_AUTH });
-          cookies.set("token", response.data.token, { path: process.env.REACT_APP_AUTH });
+          cookies.set("username", response.data.username, { path: process.env.REACT_APP_AUTH, sameSite: 'lax' });
+          cookies.set("full_name", response.data.full_name, { path: process.env.REACT_APP_AUTH, sameSite: 'lax' });
+          cookies.set("roles", response.data.roles, { path: process.env.REACT_APP_AUTH, sameSite: 'lax' });
+          cookies.set("token", response.data.token, { path: process.env.REACT_APP_AUTH, sameSite: 'lax' });
           this.props.history.push('/menu');
         } else
           alert("Usuario o contraseña inválidos.");

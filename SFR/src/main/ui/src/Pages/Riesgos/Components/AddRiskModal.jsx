@@ -160,6 +160,7 @@ class AddRiskModal extends Component {
                                             return (
                                                 <FormGroup className="Radio-element">
                                                     <input
+                                                        key={tipos.id}
                                                         id={tipos.id}
                                                         type="radio"
                                                         value={tipos.name}
@@ -197,9 +198,9 @@ class AddRiskModal extends Component {
                             <Form.Select name="areatype" id="areatype" onChange={this.handleAreaType}>
                                 {
                                     (this.props.typesMap === null || typeof this.props.typesMap === 'undefined' || typeof this.props.typesMap.get(this.state.value) === 'undefined') ?
-                                        <option value={null} disabled>Error cargando Subtipos</option> :
+                                        <option value={null} key="disabledSubtypeRisk" disabled>Error cargando Subtipos</option> :
                                         this.props.typesMap.get(this.state.value).map((tipos) => {
-                                            return <option value={tipos.name}>{tipos.name}</option>
+                                            return <option value={tipos.name} key={tipos.name}>{tipos.name}</option>
                                         })
                                 }
                             </Form.Select>
@@ -226,7 +227,7 @@ class AddRiskModal extends Component {
                                     </h5>
                                 </OverlayTrigger>
                             </Stack>
-                            <textarea name="factor" id="factor" type="text" placeholder="¿Por qué puede suceder?" className="form-control" required/>
+                            <textarea name="factor" id="factor" type="text" placeholder="¿Por qué puede suceder?" className="form-control" required />
                         </div>
                         <div className='text-center'>
                             <Button className='btn-sfr' type="submit" >

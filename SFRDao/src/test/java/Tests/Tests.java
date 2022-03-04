@@ -8,6 +8,7 @@ package Tests;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
+import sfr.dao.PlanTypeDAO;
 import sfr.dao.RiskTypeDAO;
 
 /**
@@ -19,7 +20,7 @@ public class Tests {
     @Test
     public void main() {
         try {
-            //System.out.println(RiskTypeDAO.getInstance().listAllPlanTypeHM());
+            System.out.println(PlanTypeDAO.getInstance().handleIDAmount("EDM01"));
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

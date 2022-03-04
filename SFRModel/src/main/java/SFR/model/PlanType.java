@@ -43,6 +43,9 @@ public class PlanType implements Serializable {
     @Expose
     private String idName;
 
+    @Column(name = "ID_Amount")
+    private int id_amount;
+
     public PlanType() {
         //super();
     }
@@ -96,4 +99,13 @@ public class PlanType implements Serializable {
     public void setSons(List<PlanType> sons) {
         this.children = sons;
     }
+
+    public int getId_amount() {
+        return id_amount;
+    }
+
+    public void setId_amount(int id_amount) {
+        this.id_amount = id_amount;
+    }
+
 }

@@ -5,7 +5,10 @@ import java.util.HashMap;
 import sfr.model.PlanType;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Query;
+import static sfr.dao.GenericDAO.em;
 
 /**
  *
@@ -27,7 +30,8 @@ public class PlanTypeDAO extends GenericDAO {
     }
 
     /**
-     * @return a sorted list of PlanType objects depending on the next parameters:
+     * @return a sorted list of PlanType objects depending on the next
+     * parameters:
      * @throws java.lang.Exception
      */
     public List<PlanType> listAll() throws Exception {
@@ -72,6 +76,56 @@ public class PlanTypeDAO extends GenericDAO {
             data.put(p.getName(), children);
         });
         return data;
+    }
+
+    /**
+     * This method is used to obtain a number to be used when creating an ID for
+     * a Plan. It searches a field on the PlanType table for said number, adds
+     * one to it and proceeds to update it for future use.
+     *
+     * @param id String containing the ID Name of a PlanType
+     * @return a number to be used for a Plan ID upon creation
+     */
+    public int handleIDAmount(String id) {
+        // Get Amount
+        try {
+            String cmd = "SELECT p FROM PlanType p WHERE p.idName = '" + id + "'";
+            em = getEntityManager();
+            Query query = em.createQuery(cmd);
+            PlanType p = (PlanType) query.getSingleResult();
+            int amount = p.getId_amount() + 1;
+            //Update Amount
+            p.setId_amount(amount);
+            this.update(p);
+            return amount;
+        } catch (Exception ex) {
+            Logger.getLogger(PlanTypeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
+    }
+
+    /**
+     * This method updates a PlanType object from the DB record, using HQL.
+     *
+     * @param risk is the PlanType Object to be updated.
+     */
+    public void update(PlanType risk) {
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            em.merge(risk);
+            em.getTransaction().commit();
+
+        } catch (Exception ex) {
+            Logger.getLogger(PlanTypeDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
     }
 
 }

@@ -137,7 +137,7 @@ class AddPlanModal extends Component {
                                     </h5>
                                 </OverlayTrigger>
                             </Stack>
-                            <textarea name="description" id="description" type="text" placeholder="Descripción" className="form-control" style={{ height: '150px' }} />
+                            <textarea name="description" id="description" type="text" placeholder="Descripción" className="form-control" style={{ height: '150px' }} required />
                         </div>
                         <div className='text-center'>
                             <Button className='btn-sfr' type="submit">

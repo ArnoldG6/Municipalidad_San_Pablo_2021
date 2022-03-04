@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sfr.dao.RiskDAO;
+import sfr.dao.RiskTypeDAO;
 import sfr.model.Risk;
 
 @WebServlet(name = "RiskManager", urlPatterns = {
@@ -94,7 +95,7 @@ public class RiskManager extends HttpServlet {
         Risk newRisk = new Gson().fromJson(requestJSON, Risk.class);
         newRisk.updateMagnitude();
 
-        long idCount = RiskDAO.getInstance().riskIDGenerator(newRisk.getId());
+        long idCount = RiskTypeDAO.getInstance().handleIDAmount(newRisk.getId());
         String id = String.format("%02d", idCount);
         String newID = newRisk.getId() + id;
         

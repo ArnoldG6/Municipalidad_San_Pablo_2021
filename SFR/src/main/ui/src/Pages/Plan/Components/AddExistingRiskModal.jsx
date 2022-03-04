@@ -59,8 +59,8 @@ class AddExistingRiskModal extends Component {
                                                         <h3><Form.Check
                                                             aria-label="Seleccionar Riesgo"
                                                             name="selectRisk"
-                                                            value={risk.id}
-                                                            onClick={() => { this.handleSelect(risk.id) }} /></h3>
+                                                            value={risk.pkID}
+                                                            onClick={() => { this.handleSelect(risk.pkID) }} /></h3>
                                                     </td>
                                                     <td>
                                                         <Accordion flush>
@@ -126,8 +126,8 @@ class AddExistingRiskModal extends Component {
                                                             <Form.Check
                                                                 aria-label="Seleccionar Riesgo"
                                                                 name="selectRisk"
-                                                                value={risk.id}
-                                                                onClick={() => { this.handleSelect(risk.id) }} />
+                                                                value={risk.pkID}
+                                                                onClick={() => { this.handleSelect(risk.pkID) }} />
                                                         </h5>
                                                     </td>
                                                     <td>{risk.id}</td>

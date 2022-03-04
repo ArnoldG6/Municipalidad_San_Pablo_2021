@@ -301,24 +301,4 @@ public class PlanDAO extends GenericDAO {
         }
     }
 
-    /**
-     * @param id String containing the base ID type of the Plan
-     * @return the entry count of Plan objects.
-     */
-    public long planIDGenerator(String id) {
-        try {
-            String cmd = "SELECT count(*) FROM Plan p WHERE p.id LIKE '" + id + "%'";
-            em = getEntityManager();
-            Query query = em.createQuery(cmd);
-            long cantPlans = (long) query.getSingleResult();
-            return cantPlans + 1;
-        } catch (Exception e) {
-            Logger.getLogger(PlanDAO.class.getName()).log(Level.SEVERE, null, e);
-            System.err.println(e.getMessage());
-            throw e;
-        } finally {
-            closeEntityManager();
-        }
-    }
-
 }

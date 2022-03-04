@@ -58,7 +58,11 @@ class Plan extends Component {
                 this.setState({
                     plan: response.data
                 }, () => {
-                    this.retrieveRemainingRisks();
+                    if (this.state.plan === null || typeof this.state.plan === 'undefined') {
+                        this.props.history.push('/planes');
+                    } else {
+                        this.retrieveRemainingRisks();
+                    }
                 });
             }).catch(error => {
                 this.props.history.push('/planes');
@@ -148,7 +152,7 @@ class Plan extends Component {
                 'Content-Type': 'application/json'
             },
             data: {
-                'planID': this.state.plan.id,
+                'planPKID': this.state.plan.pkID,
                 'riskIDs': risksID
             }
         }

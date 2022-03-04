@@ -43,8 +43,8 @@ class EditPlanModal extends Component {
                 'id': event.target.id.value,
                 'status': event.target.status.value,
                 'authorName': event.target.authorName.value,
-                'type': event.target.type.value,
-                'subtype': event.target.subtype.value,
+                'type': this.props.plan.type,
+                'subtype': this.props.plan.subtype,
                 'description': event.target.description.value,
                 'riskList': this.props.plan.riskList,
                 'entryDate': this.props.plan.entryDate,
@@ -111,7 +111,7 @@ class EditPlanModal extends Component {
                         </div>
                         <div className="form-group">
                             <label>Tipo:</label>
-                            <Form.Select name="type" id="type" onChange={this.onChange} defaultValue={type}>
+                            <Form.Select name="type" id="type" onChange={this.onChange} defaultValue={type} disabled>
                                 {
                                     (this.props.typesMap === null || typeof this.props.typesMap === 'undefined') ?
                                         <option value={null} disabled>Error cargando Tipos</option> :
@@ -123,7 +123,7 @@ class EditPlanModal extends Component {
                         </div>
                         <div className="form-group">
                             <label>Subtipo:</label>
-                            <Form.Select name="subtype" id="subtype" defaultValue={subtype}>
+                            <Form.Select name="subtype" id="subtype" defaultValue={subtype} disabled>
                                 {
                                     (this.props.typesMap === null || typeof this.props.typesMap === 'undefined' || typeof this.props.typesMap.get(this.state.value) === 'undefined') ?
                                         <option value={null} disabled>Error cargando Subtipos</option> :

@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sfr.dao.PlanDAO;
+import sfr.dao.PlanTypeDAO;
 import sfr.model.Plan;
 import sfr.model.Risk;
 
@@ -100,7 +101,7 @@ public class PlanManager extends HttpServlet {
         Plan newPlan = new Gson().fromJson(requestJSON, Plan.class);
         newPlan.setEntryDate(d);
         
-        long idCount = PlanDAO.getInstance().planIDGenerator(newPlan.getId());
+        int idCount = PlanTypeDAO.getInstance().handleIDAmount(newPlan.getId());
         String year = Integer.toString(localDate.getYear());
         String month = String.format("%02d", localDate.getMonthValue());
         String day = String.format("%02d", localDate.getDayOfMonth());
@@ -209,7 +210,7 @@ public class PlanManager extends HttpServlet {
         for (int i = 0; i < riskIdJSONArray.length(); i++) {
             riskIds.add((Integer) riskIdJSONArray.get(i));
         }
-        PlanDAO.getInstance().associateRisksToPlan(requestJSON.getInt("planPkID"), riskIds);
+        PlanDAO.getInstance().associateRisksToPlan(requestJSON.getInt("planPKID"), riskIds);
     }
 
     // </editor-fold>

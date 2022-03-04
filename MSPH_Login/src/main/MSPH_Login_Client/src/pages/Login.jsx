@@ -69,11 +69,11 @@ export default class Login extends React.Component {
 
   componentDidMount() {
     console.log(cookies);
-    /*if (!(cookies.get('username',{path: "/auth"}) 
-    && cookies.get('roles',{path: "/auth"}) 
-    && cookies.get('token',{path: "/auth"}) 
-    && cookies.get('full_name',{path: "/auth"})))
-        this.props.history.push('/login');*/
+    //cookies.remove("username", { path: process.env.REACT_APP_AUTH });
+    //cookies.remove("full_name", { path: process.env.REACT_APP_AUTH });
+    //cookies.remove("roles", { path: process.env.REACT_APP_AUTH });
+    //cookies.remove("token", { path: process.env.REACT_APP_AUTH });
+    //console.log(cookies);
   }
   async handleInputChange(e) {
     this.setState({ [e.target.name]: e.target.value }, () => {
@@ -89,7 +89,7 @@ export default class Login extends React.Component {
       <Container className="w-auto text-center mx-auto p-3 mt-2 container">
         <Form className="centered-element" onSubmit={this.handleSubmit}>
           <Form.Group className="mb-3">
-            <Image src={logo} fluid height={300} width={300} className='img-fluid hover-shadow' />
+            <Image src={logo} fluid height={300} width={300} className='img-fluid hover-shadow' onClick={() => {console.log(cookies)}}/>
           </Form.Group>
           <Form.Group className="mb-3" >
             <Form.Label>Nombre de usuario o correo electrónico: </Form.Label>

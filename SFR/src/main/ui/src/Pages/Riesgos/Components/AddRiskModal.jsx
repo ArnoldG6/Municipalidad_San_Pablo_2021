@@ -226,7 +226,7 @@ class AddRiskModal extends Component {
                                     </h5>
                                 </OverlayTrigger>
                             </Stack>
-                            <textarea name="factor" id="factor" type="text" placeholder="¿Por qué puede suceder?" className="form-control" />
+                            <textarea name="factor" id="factor" type="text" placeholder="¿Por qué puede suceder?" className="form-control" required/>
                         </div>
                         <div className='text-center'>
                             <Button className='btn-sfr' type="submit" >

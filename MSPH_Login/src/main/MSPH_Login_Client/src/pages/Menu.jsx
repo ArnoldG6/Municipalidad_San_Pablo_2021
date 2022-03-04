@@ -4,19 +4,6 @@ import { Container, Button } from 'react-bootstrap';
 const cookies = new Cookies();
 
 export default class Menu extends Component {
-    constructor(props) {
-        super(props);
-        this.handleLogout = this.handleLogout.bind(this);
-    }
-
-    async handleLogout(e) {
-        cookies.remove("username", { path: process.env.REACT_APP_AUTH });
-        cookies.remove("full_name", { path: process.env.REACT_APP_AUTH });
-        cookies.remove("roles", { path: process.env.REACT_APP_AUTH });
-        cookies.remove("token", { path: process.env.REACT_APP_AUTH });
-        this.props.history.push('/login');
-    }
-
     componentDidMount() {
         if (!(cookies.get('username', { path: process.env.REACT_APP_AUTH })
             && cookies.get('roles', { path: process.env.REACT_APP_AUTH })
@@ -36,7 +23,7 @@ export default class Menu extends Component {
                         </Button>
                     </div>
                     <div className="text-center">
-                        <Button onClick={this.handleLogout}>
+                        <Button onClick={() => {this.props.history.push('/logout')}}>
                             Salir :v
                         </Button>
                     </div>

@@ -8,6 +8,7 @@ package services;
 import com.google.gson.Gson;
 import common.dao.UserDAO;
 import common.model.User;
+import ex.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,8 +64,14 @@ public class AuthServlet extends HttpServlet {
             responseJSON.put("roles", u.getRoles());
             responseJSON.put("token", "xd");
         }
+        if(responseJSON == null){
+             //Custom exception
+            response.getWriter().write(new UserNotFoundEx().jsonify());
+        }else{
+            response.getWriter().write(responseJSON.toString());
+        }
         System.out.println(responseJSON.toString());
-        response.getWriter().write(responseJSON.toString());
+        
         response.getWriter().flush();
         response.getWriter().close();
     }

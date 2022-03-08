@@ -7,6 +7,7 @@ package risk.services;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import ex.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,7 +83,12 @@ public class RiskServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         responseJSON = new Gson().toJson(RiskDAO.getInstance().searchInAllColumns(requestJSON.getString("searchRisk")));
-        response.getWriter().write(responseJSON);
+        if (responseJSON == null) {
+            //Custom exception
+            response.getWriter().write(new InvalidRiskListIDEx().jsonify());
+        } else {
+            response.getWriter().write(responseJSON);
+        }
         response.getWriter().flush();
         response.getWriter().close();
     }
@@ -101,7 +107,12 @@ public class RiskServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         responseJSON = new Gson().toJson(RiskDAO.getInstance().searchById(Integer.parseInt(requestJSON.getString("riskID"))));
-        response.getWriter().write(responseJSON);
+        if(responseJSON == null){
+            //Custom exception
+            response.getWriter().write(new InvalidRiskIDEx().jsonify());
+        }else{
+           response.getWriter().write(responseJSON); 
+        }
         response.getWriter().flush();
         response.getWriter().close();
     }
@@ -121,7 +132,12 @@ public class RiskServlet extends HttpServlet {
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         responseJSON = new Gson().toJson(RiskDAO.getInstance()
                 .listByColumn(requestJSON.getString("sortingValue"), requestJSON.getString("sortingWay")));
-        response.getWriter().write(responseJSON);
+        if (responseJSON == null) {
+            //Custom exception
+            response.getWriter().write(new RisksNotListedEx().jsonify());
+        } else {
+            response.getWriter().write(responseJSON);
+        }
         response.getWriter().flush();
         response.getWriter().close();
     }
@@ -140,7 +156,12 @@ public class RiskServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         Gson g = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         responseJSON = g.toJson(RiskTypeDAO.getInstance().listAllPlanTypeHM());
-        response.getWriter().write(responseJSON);
+        if (responseJSON == null) {
+            //Custom exception
+            response.getWriter().write(new RiskTypesEx().jsonify());
+        } else {
+            response.getWriter().write(responseJSON);
+        }
         response.getWriter().flush();
         response.getWriter().close();
     }

@@ -73,7 +73,6 @@ public class PlanServlet extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Plan Management methods.">
-
     /**
      * @param request contains the JSON data that is sent by the client and
      * other useful information from the client request.
@@ -91,6 +90,7 @@ public class PlanServlet extends HttpServlet {
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         responseJSON = new Gson().toJson(PlanDAO.getInstance().searchInAllColumns(requestJSON.getString("searchPlan")));
         if (responseJSON == null) {
+             //Custom exception
             response.getWriter().write(new InvalidPlanListIDEx().jsonify());
         } else {
             response.getWriter().write(responseJSON);
@@ -116,7 +116,12 @@ public class PlanServlet extends HttpServlet {
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         responseJSON = new Gson().toJson(PlanDAO.getInstance().
                 listByColumn(requestJSON.getString("sortingValue"), requestJSON.getString("sortingWay")));
-        response.getWriter().write(responseJSON);
+        if (responseJSON == null) {
+            //Custom exception
+            response.getWriter().write(new PlansNotListedEx().jsonify());
+        } else {
+            response.getWriter().write(responseJSON);
+        }
         response.getWriter().flush();
         response.getWriter().close();
     }
@@ -138,7 +143,7 @@ public class PlanServlet extends HttpServlet {
         responseJSON = new Gson().toJson(PlanDAO.getInstance().searchByIdString(requestJSON.getString("planID")));
         if (responseJSON == null) {
             //Custom exception
-            response.getWriter().write(new PlanAlreadyExistEx().jsonify());
+            response.getWriter().write(new PlansNotListedEx().jsonify());
         } else {
             response.getWriter().write(responseJSON);
         }
@@ -186,7 +191,12 @@ public class PlanServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         Gson g = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         responseJSON = g.toJson(PlanTypeDAO.getInstance().listAllPlanTypeHM());
-        response.getWriter().write(responseJSON);
+        if (responseJSON == null) {
+            //Custom exception
+            response.getWriter().write(new PlanTypesEx().jsonify());
+        } else {
+            response.getWriter().write(responseJSON);
+        }
         response.getWriter().flush();
         response.getWriter().close();
     }

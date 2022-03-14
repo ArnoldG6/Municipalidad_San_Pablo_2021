@@ -1,9 +1,19 @@
+/*
+Menu Module for SFR project.
+@author Arnoldo J. González Quesada.
+Github user: "ArnoldG6".
+Contact me via: "arnoldgq612@gmail.com".
+*/
 import React, { Component } from 'react';
 import Cookies from 'universal-cookie';
 import { Container, Button } from 'react-bootstrap';
 const cookies = new Cookies();
 
 export default class Menu extends Component {
+    /*
+    Menu class corresponds to the component that is shown to the user
+    if the auth-request was accepted by the server.
+    */
     componentDidMount() {
         if (!(cookies.get('username', { path: process.env.REACT_APP_AUTH })
             && cookies.get('roles', { path: process.env.REACT_APP_AUTH })

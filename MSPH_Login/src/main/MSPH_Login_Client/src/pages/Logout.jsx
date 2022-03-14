@@ -1,3 +1,9 @@
+/*
+Authentication Module for SFR project.
+@author Arnoldo J. González Quesada.
+Github user: "ArnoldG6".
+Contact me via: "arnoldgq612@gmail.com".
+*/
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from 'universal-cookie';

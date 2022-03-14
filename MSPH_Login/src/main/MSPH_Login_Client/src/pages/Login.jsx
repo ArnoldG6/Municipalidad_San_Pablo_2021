@@ -1,3 +1,9 @@
+/*
+Authentication Module for SFR project.
+@author Arnoldo J. González Quesada.
+Github user: "ArnoldG6".
+Contact me via: "arnoldgq612@gmail.com".
+*/
 import React from 'react';
 import { sha256 } from 'js-sha256';
 import '../css/Login.css';
@@ -10,6 +16,10 @@ const requestURL = "http://localhost:8080/auth/API/Auth";
 const cookies = new Cookies();
 
 export default class Login extends React.Component {
+  /*
+  Login class controls the request-response communication
+  sent and received by the client in order to get authorization to access the other modules.
+  */
   constructor(props) {
     super(props);
     this.state = {

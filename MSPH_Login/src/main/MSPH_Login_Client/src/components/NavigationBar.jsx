@@ -1,3 +1,7 @@
+/*
+NavigationBar Module for SFR project.
+@author Esteban Arce
+*/
 import React, { Component } from 'react';
 import { Navbar, Image } from "react-bootstrap";
 import logoMuni from "./images/MSPH_LOGO.png"

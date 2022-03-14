@@ -9,18 +9,24 @@ class AddRiskModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            validated: false,
             value: "Externo"
         };
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
         this.handleAreaType = this.handleAreaType.bind(this);
+        this.setValidated = this.setValidated.bind(this);
         this.getID = this.getID.bind(this);
     }
 
     handleSubmit = (event) => {
+        const form = event.currentTarget;
+        if(form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        else{
         event.preventDefault();
-
         let id = this.getID(this.state.value, event.target.areatype.value);
         let options = {
             url: process.env.REACT_APP_API_URL + `/RiskManager/Insert`,
@@ -54,7 +60,12 @@ class AddRiskModal extends Component {
                     autoClose: 5000
                 });
             });
+        }
+        this.setValidated(true);
+    }
 
+    setValidated(value) {
+        this.setState({ validated: value});
     }
 
     getID(type, subtype) {
@@ -86,13 +97,23 @@ class AddRiskModal extends Component {
                     Ingrese los datos para el nuevo Riesgo
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={this.handleSubmit}>
-
+                    <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
+                        <Form.Group>
                         <div className="form-group">
-                            <label>Nombre: </label>
-                            <input name="name" id="name" type="text" placeholder="Nombre" className="form-control" required />
+                            <Form.Label>Nombre: </Form.Label>
+                            <Form.Control 
+                                name="name" 
+                                id="name" 
+                                type="text" 
+                                placeholder="Nombre" 
+                                className="form-control" 
+                                required 
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Por favor ingresar nombre.
+                            </Form.Control.Feedback>
                         </div>
-
+                        </Form.Group>
                         <div className="form-group">
                             <div className="number-input-container">
                                 <Stack direction="horizontal" gap={3}>
@@ -204,15 +225,25 @@ class AddRiskModal extends Component {
                                         })
                                 }
                             </Form.Select>
-                        </div>
+                        </div> 
+                        <Form.Group>
                         <div className="form-group">
-                            <label>Descripción de tipo específico:</label>
-                            <input name="specific_factor" id="specific_factor" type="text" placeholder="" className="form-control" required />
+                            <Form.Label>Descripción de tipo específico:</Form.Label>
+                            <Form.Control 
+                            name="specific_factor" 
+                            id="specific_factor" type="text" 
+                            placeholder="" 
+                            className="form-control" 
+                            required 
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Por favor ingresar tipo específico.
+                            </Form.Control.Feedback>
                         </div>
-
+                        </Form.Group>
                         <div className="form-group">
                             <Stack direction="horizontal" gap={3}>
-                                <label>Factores:</label>
+                                <Form.Label>Factores:</Form.Label>
                                 <OverlayTrigger
                                     delay={{ hide: 450, show: 300 }}
                                     overlay={(props) => (

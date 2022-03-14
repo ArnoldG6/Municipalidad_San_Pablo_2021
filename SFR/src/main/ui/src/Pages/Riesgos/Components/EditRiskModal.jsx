@@ -9,13 +9,20 @@ class EditRiskModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            validated: false,
             value: "Externo"
         };
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.setValidated = this.setValidated.bind(this);
     }
 
     handleSubmit = (event) => {
+        const form = event.currentTarget;
+        if(form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        else{
         event.preventDefault();
         console.log(event);
         let options = {
@@ -48,6 +55,12 @@ class EditRiskModal extends Component {
             }).catch(error => {
                 console.log(error);
             });
+        }
+        this.setValidated(true);
+    }
+
+    setValidated(value) {
+        this.setState({ validated: value});
     }
 
     render() {
@@ -61,16 +74,28 @@ class EditRiskModal extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     {(typeof risk === 'undefined' || risk === null) ? <h1>Error cargando el riesgo</h1> :
-                        <Form onSubmit={this.handleSubmit}>
+                        <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
                             <div className="form-group">
                                 <label>ID: </label>
                                 <input name="ID" id="ID" type="text" placeholder="ID" className="form-control" disabled defaultValue={risk.id} required />
                             </div>
+                            <Form.Group>
                             <div className="form-group">
-                                <label>Nombre: </label>
-                                <input name="name" id="name" type="text" placeholder="Nombre" className="form-control" defaultValue={risk.name} required />
+                                <Form.Label>Nombre: </Form.Label>
+                                <Form.Control 
+                                name="name" 
+                                id="name" 
+                                type="text" 
+                                placeholder="Nombre" 
+                                className="form-control" 
+                                defaultValue={risk.name} 
+                                required 
+                                />
+                            <Form.Control.Feedback type="invalid">
+                                Por favor ingresar nombre.
+                            </Form.Control.Feedback>
                             </div>
-
+                            </Form.Group>
                             <div className="form-group">
                                 <div className="number-input-container">
                                     <Stack direction="horizontal" gap={3}>
@@ -180,11 +205,23 @@ class EditRiskModal extends Component {
                                     }
                                 </Form.Select>
                             </div>
+                            <Form.Group>
                             <div className="form-group">
-                                <label>Descripción de tipo específico:</label>
-                                <input name="specific_factor" id="specific_factor" type="text" placeholder="" className="form-control" defaultValue={risk.specType} required />
+                                <Form.Label>Descripción de tipo específico:</Form.Label>
+                                <Form.Control 
+                                name="specific_factor" 
+                                id="specific_factor" 
+                                type="text" 
+                                placeholder="" 
+                                className="form-control" 
+                                defaultValue={risk.specType} 
+                                required 
+                                />
+                            <Form.Control.Feedback type="invalid">
+                            Por favor ingresar tipo específico.
+                            </Form.Control.Feedback>
                             </div>
-
+                            </Form.Group>
                             <div className="form-group">
                                 <Stack direction="horizontal" gap={3}>
                                     <label>Factores:</label>

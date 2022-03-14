@@ -11,10 +11,12 @@ class AddPlanModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            validated: false,
             value: "Evaluar, Dirigir y Monitorear"
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.setValidated = this.setValidated.bind(this);
         this.getID = this.getID.bind(this);
     }
 
@@ -23,8 +25,13 @@ class AddPlanModal extends Component {
     }
 
     handleSubmit = (event) => {
+        const form = event.currentTarget;
+        if(form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        else{
         event.preventDefault();
-
         let id = this.getID(event.target.type.value, event.target.subtype.value);
         let options = {
             url: process.env.REACT_APP_API_URL + `/PlanManager/Insert`,
@@ -56,6 +63,12 @@ class AddPlanModal extends Component {
                     autoClose: 5000
                 });
             });
+        }
+        this.setValidated(true);
+    }
+
+    setValidated(value) {
+        this.setState({ validated: value});
     }
 
     getID(type, subtype) {
@@ -78,11 +91,23 @@ class AddPlanModal extends Component {
                     Ingrese los datos para el nuevo Plan
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={this.handleSubmit}>
+                    <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
+                        <Form.Group>
                         <div className="form-group">
-                            <label>Nombre:</label>
-                            <input name="name" id="name" type="text" placeholder="Nombre" className="form-control" required />
+                            <Form.Label>Nombre:</Form.Label>
+                            <Form.Control 
+                            name="name" 
+                            id="name" 
+                            type="text" 
+                            placeholder="Nombre" 
+                            className="form-control" 
+                            required 
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Por favor ingresar nombre.
+                            </Form.Control.Feedback>
                         </div>
+                        </Form.Group>
                         <div className="form-group">
                             <label>Autor:</label>
                             <input name="authorName" id="authorName" type="text" className="form-control" disabled defaultValue={cookies.get('full_name', { path: process.env.REACT_APP_AUTH })}/>

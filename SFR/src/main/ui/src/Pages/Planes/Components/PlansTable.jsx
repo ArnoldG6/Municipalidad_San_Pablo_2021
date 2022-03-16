@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import './PlansTable.css';
-import { Table, Accordion } from "react-bootstrap";
+import { Table, Accordion, Button } from "react-bootstrap";
 import { Link } from 'react-router-dom';
+
+
+
 
 class PlansTable extends Component {
     render() {
@@ -62,10 +65,12 @@ class PlansTable extends Component {
                                     <tr>
                                         <th>ID</th>
                                         <th>Nombre</th>
+                                        <th></th>
                                         <th>Fecha de Ingreso</th>
                                         <th>Estado</th>
                                         <th>Autor</th>
                                         <th>Tipo</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -89,6 +94,7 @@ class PlansTable extends Component {
                                             <tr key={plan.id}>
                                                 <td>{plan.id}</td>
                                                 <td className="nameSlot"><Link to={{ pathname: "/plan", search: `?id=${plan.id}` }}><p className='nameText'>{plan.name}</p></Link></td>
+                                                <td id='tableSeeMore'><Button id='seeMoreButton'><i class="bi bi-caret-down"></i></Button></td>
                                                 <td>{plan.entryDate}</td>
                                                 <td width="250px"><div className={statusClass}>{plan.status}</div></td>
                                                 <td>{plan.authorName}</td>

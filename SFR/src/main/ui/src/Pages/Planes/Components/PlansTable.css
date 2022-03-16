@@ -39,3 +39,23 @@
     max-width: 40vh;
     word-wrap: break-word;
 }
+
+.nameText{
+    text-overflow: ellipsis;
+    white-space: nowrap;  
+    overflow: hidden;  
+    transition: all 3s ease-in-out; 
+}
+
+
+.nameText:hover{
+    white-space: inherit;
+}
+
+
+#seeMoreButton{
+    background-color: transparent;
+    color: black;
+    border-color: transparent;
+    outline: none;
+}

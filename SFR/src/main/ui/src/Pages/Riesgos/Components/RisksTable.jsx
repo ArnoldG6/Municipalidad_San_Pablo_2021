@@ -61,7 +61,7 @@ class RisksTable extends Component {
                                         return (
                                             <tr key={risk.id}>
                                                 <td>{risk.id}</td>
-                                                <td className="nameSlot">{risk.name}</td>
+                                                <td className="nameSlot"><Link to={{ pathname: "/riesgo", search: `?id=${risk.id}` }}><p>{risk.name}</p></Link></td>
                                                 <td>{risk.generalType}</td>
                                                 <td>{risk.areaType}</td>
                                                 <td>{risk.specType}</td>

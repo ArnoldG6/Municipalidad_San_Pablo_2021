@@ -31,13 +31,6 @@ input:focus:invalid {
     text-align: center;
 }
 
-.nameText{
-  text-overflow: ellipsis;
-  white-space: nowrap;  
-  overflow: hidden;  
-  transition: all 3s ease-in-out;
-}
-.nameText:hover{
-    white-space: inherit;
 
-}
+
+

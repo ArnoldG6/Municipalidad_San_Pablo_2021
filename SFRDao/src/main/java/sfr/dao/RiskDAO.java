@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import org.hibernate.Session;
 import javax.persistence.Query;
 import static sfr.dao.GenericDAO.em;
 import sfr.model.Plan;
@@ -105,15 +106,22 @@ public class RiskDAO extends GenericDAO {
      * default param values (defined in this project).
      * @throws java.lang.Exception
      */
-    public HashMap<String, Risk> listAllHM() throws Exception {
+    public HashMap<String, Risk> listAllHMByPK() throws Exception {
         HashMap<String, Risk> Risks = new HashMap<>();
         List<Risk> RisksList = this.listByColumn("ID", "DESC");
         RisksList.forEach(p -> {
-            Risks.put(p.getId(), p);
+            Risks.put(String.valueOf(p.getPkId()), p);
         });
         return Risks;
     }
-
+        public HashMap<String, Risk> listAllHMBbyID() throws Exception {
+            HashMap<String, Risk> Risks = new HashMap<>();
+            List<Risk> RisksList = this.listByColumn("ID", "DESC");
+            RisksList.forEach(p -> {
+                Risks.put(p.getId(), p);
+            });
+            return Risks;
+    }
     /**
      * This method adds a Risk object into the DB record, using HQL.
      *
@@ -209,6 +217,17 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
+    public Risk searchByIdHM(String id) throws Exception {
+        try {
+            return listAllHMBbyID().get(id);
+        } catch (Exception ex) {
+            Logger.getLogger(RiskDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
+    }
 
     /**
      *
@@ -232,6 +251,28 @@ public class RiskDAO extends GenericDAO {
         }
     }
 
+    public Risk getRiskByID(Integer id) {
+        try{
+            em = getEntityManager();
+            Session session = em.unwrap(Session.class);
+            Query query = session.createSQLQuery("CALL getRiskByID(:pID)").addEntity(Risk.class);
+            query.setParameter("pID", id);
+            return (Risk) query.getSingleResult();
+        }catch(javax.persistence.NoResultException ex){
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+            return null; //Risk not found
+        }
+        catch(Exception e)  {  
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;       
+        } finally {
+            closeEntityManager();
+        }
+    }
+
+
     /**
      *
      *
@@ -241,7 +282,7 @@ public class RiskDAO extends GenericDAO {
      */
     public List<Risk> searchInAllColumns(String value) throws Exception {
         try {
-            HashMap<String, Risk> resultHM = this.listAllHM();
+            HashMap<String, Risk> resultHM = this.listAllHMByPK();
             Pattern p = Pattern.compile(value, Pattern.CASE_INSENSITIVE);
             ArrayList<Risk> result = new ArrayList<>();
             for (HashMap.Entry<String, Risk> risk : resultHM.entrySet()) {

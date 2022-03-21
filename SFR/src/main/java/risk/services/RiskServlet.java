@@ -106,7 +106,8 @@ public class RiskServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        responseJSON = new Gson().toJson(RiskDAO.getInstance().searchById(Integer.parseInt(requestJSON.getString("riskID"))));
+        responseJSON = new Gson().toJson(RiskDAO.getInstance().searchByIdHM(requestJSON.getString("riskID")));
+
         if(responseJSON == null){
             //Custom exception
             response.getWriter().write(new InvalidRiskIDEx().jsonify());

@@ -5,10 +5,164 @@
  */
 package sfr.model;
 
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+
 /**
  *
  * @author arnol
  */
-public class Incidence {
+
+@Entity
+@Table(name = "T_Incidence")
+public class Incidence implements Serializable{
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PK_ID")
+    private int pkID;
+
+    @Column(name = "ID")
+    private String id;
+  
+
+    @Column(name = "Name")
+    private String name;
+
+    @Column(name = "Description")
+    private String description;
+
+    @Column(name = "EntryDate")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date entryDate;
+
+    
+    @Column(name = "Affectation")
+    private String affectation;
+    
+    @Column(name = "Cause")
+    private String cause;
+    
+    
+    //cambiar a one to one y nueva tabla 
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "T_RISKPLAN",
+            joinColumns = @JoinColumn(name = "FK_PLAN"),
+            inverseJoinColumns = @JoinColumn(name = "FK_RISK")
+    )
+    private Risk risk;
+
+    public Incidence(int pkID, String id, String name, String description, Date entryDate, String affectation, String cause, Risk risk) {
+        this.pkID = pkID;
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.entryDate = entryDate;
+        this.affectation = affectation;
+        this.cause = cause;
+        this.risk = risk;
+    }
+
+    public Incidence() {
+    }
+    
+    
+    
+
+    public int getPkID() {
+        return pkID;
+    }
+
+    public void setPkID(int pkID) {
+        this.pkID = pkID;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getEntryDate() {
+        return entryDate;
+    }
+
+    public void setEntryDate(Date entryDate) {
+        this.entryDate = entryDate;
+    }
+
+    public String getAffectation() {
+        return affectation;
+    }
+
+    public void setAffectation(String affectation) {
+        this.affectation = affectation;
+    }
+
+    public String getCause() {
+        return cause;
+    }
+
+    public void setCause(String cause) {
+        this.cause = cause;
+    }
+
+    public Risk getRisk() {
+        return risk;
+    }
+
+    public void setRisk(Risk risk) {
+        this.risk = risk;
+    }
+    
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Incidence:").append("{\n");
+        sb.append("\"id\": \"").append(id).append("\",\n");
+        sb.append("\"name\": \"").append(name).append("\",");
+        sb.append("\"description\": \"").append(description).append("\",\n");
+        sb.append("\"entryDate\": \"").append(entryDate).append("\",\n");
+        sb.append("\"affectation\": \"").append(affectation).append("\",\n");
+        sb.append("\"cause\":").append(cause).append("\",\n");
+        sb.append("\"risk\":").append(risk).append("\n");
+        //sb.append("\"involvedList\": ").append(involvedList.toString());
+        sb.append("}\n");
+        return sb.toString();
+    }
+    
+    
     
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Pagination } from "react-bootstrap";
+import { Form, Pagination, Stack } from "react-bootstrap";
 
 class Pages extends Component {
     constructor(props) {
@@ -79,46 +79,71 @@ class Pages extends Component {
         }
     }
 
+    handleChange = e => {
+        this.props.updatePageItems(e.target.value);
+    }
+
     render() {
         let maxPages = Math.ceil(this.props.listLength / this.props.itemAmount);
         return (
             <div>
                 {/* Mobile */}
                 <div className='mt-2 d-lg-none'>
-                    <Pagination>
-                        <Pagination.First onClick={() => { this.handlePages(1) }} />
-                        <Pagination.Prev onClick={() => { let page = this.props.currentPage; page > 1 ? this.handlePages(page - 1) : this.handlePages(1) }} />
-                        {
+                    <Stack direction="vertical" gap={3}>
+                        <Stack direction="horizontal" gap={2}>
+                            <label>Mostrando</label>
+                            <Form.Select defaultValue={10} style={{ width: '80px' }} onChange={this.handleChange}>
+                                <option>10</option>
+                                <option>15</option>
+                                <option>20</option>
+                            </Form.Select>
+                            <label>elementos</label>
+                        </Stack>
+                        <Pagination>
+                            <Pagination.First onClick={() => { this.handlePages(1) }} />
+                            <Pagination.Prev onClick={() => { let page = this.props.currentPage; page > 1 ? this.handlePages(page - 1) : this.handlePages(1) }} />
+                            {
 
-                            this.createItemsMobile(maxPages).map((item) => {
-                                if (item > 0) {
-                                    return <Pagination.Item active={this.props.currentPage === item ? true : false} key={item} onClick={() => { this.handlePages(item) }}>{item}</Pagination.Item>
-                                } else {
-                                    return <Pagination.Ellipsis disabled></Pagination.Ellipsis>
-                                }
-                            })
-                        }
-                        <Pagination.Next onClick={() => { let page = this.props.currentPage; page === maxPages ? this.handlePages(page) : this.handlePages(page + 1) }} />
-                        <Pagination.Last onClick={() => { this.handlePages(maxPages) }} />
-                    </Pagination>
+                                this.createItemsMobile(maxPages).map((item) => {
+                                    if (item > 0) {
+                                        return <Pagination.Item active={this.props.currentPage === item ? true : false} key={item} onClick={() => { this.handlePages(item) }}>{item}</Pagination.Item>
+                                    } else {
+                                        return <Pagination.Ellipsis disabled></Pagination.Ellipsis>
+                                    }
+                                })
+                            }
+                            <Pagination.Next onClick={() => { let page = this.props.currentPage; page === maxPages ? this.handlePages(page) : this.handlePages(page + 1) }} />
+                            <Pagination.Last onClick={() => { this.handlePages(maxPages) }} />
+                        </Pagination>
+                    </Stack>
                 </div>
                 {/* PC */}
                 <div className="d-none d-lg-block">
-                    <Pagination>
-                        <Pagination.First onClick={() => { this.handlePages(1) }} />
-                        <Pagination.Prev onClick={() => { let page = this.props.currentPage; page > 1 ? this.handlePages(page - 1) : this.handlePages(1) }} />
-                        {
-                            this.createItemsPC(maxPages).map((item) => {
-                                if (item > 0) {
-                                    return <Pagination.Item active={this.props.currentPage === item ? true : false} key={item} onClick={() => { this.handlePages(item) }}>{item}</Pagination.Item>
-                                } else {
-                                    return <Pagination.Ellipsis disabled></Pagination.Ellipsis>
-                                }
-                            })
-                        }
-                        <Pagination.Next onClick={() => { let page = this.props.currentPage; page === maxPages ? this.handlePages(page) : this.handlePages(page + 1) }} />
-                        <Pagination.Last onClick={() => { this.handlePages(maxPages) }} />
-                    </Pagination>
+                    <Stack direction="horizontal" gap={2}>
+                        <label>Mostrando</label>
+                        <Form.Select defaultValue={10} style={{ width: '80px' }} onChange={this.handleChange}>
+                            <option>10</option>
+                            <option>15</option>
+                            <option>20</option>
+                        </Form.Select>
+                        <label>elementos</label>
+
+                        <Pagination className="ms-auto">
+                            <Pagination.First onClick={() => { this.handlePages(1) }} />
+                            <Pagination.Prev onClick={() => { let page = this.props.currentPage; page > 1 ? this.handlePages(page - 1) : this.handlePages(1) }} />
+                            {
+                                this.createItemsPC(maxPages).map((item) => {
+                                    if (item > 0) {
+                                        return <Pagination.Item active={this.props.currentPage === item ? true : false} key={item} onClick={() => { this.handlePages(item) }}>{item}</Pagination.Item>
+                                    } else {
+                                        return <Pagination.Ellipsis disabled></Pagination.Ellipsis>
+                                    }
+                                })
+                            }
+                            <Pagination.Next onClick={() => { let page = this.props.currentPage; page === maxPages ? this.handlePages(page) : this.handlePages(page + 1) }} />
+                            <Pagination.Last onClick={() => { this.handlePages(maxPages) }} />
+                        </Pagination>
+                    </Stack>
                 </div>
             </div>
         );

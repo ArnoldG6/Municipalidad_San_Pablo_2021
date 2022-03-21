@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package sfr.dao;
-
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,13 +16,13 @@ import javax.persistence.Query;
 import sfr.model.Incidence;
 import sfr.model.Risk;
 import java.io.IOException;
+import static sfr.dao.GenericDAO.em;
 
 /**
  *
  * @author tebya
  */
 public class IncidenceDAO extends GenericDAO {
-
    
     private static IncidenceDAO uniqueInstance; //Singleton Pattern Object
 
@@ -51,7 +49,6 @@ public class IncidenceDAO extends GenericDAO {
                 return "name";
             case "DESCRIPTION":
                 return "description";
-   
             case "DATE":
                 return "date";
             case "CAUSE": 
@@ -65,6 +62,15 @@ public class IncidenceDAO extends GenericDAO {
         }
     }
      
+    /**
+     *
+     * @return a Plan object that matches with
+     * @param id
+     */
+    public Incidence searchById(int id) {
+        em = getEntityManager();
+        return (Incidence) em.find(Incidence.class, id);
+    } 
      
      /**
      * @return a sorted list of Incidence objects depending on the next parameters:
@@ -91,24 +97,24 @@ public class IncidenceDAO extends GenericDAO {
     }
 
     /**
-     * @return a casted HashMap of Plan objects from an HQL query sorted in
+     * @return a casted HashMap of Incidence objects from an HQL query sorted in
      * descending order by entryDate.
      * @throws java.lang.Exception
      */
     public HashMap<String, Incidence> listAllHM() throws Exception {
-        HashMap<String, Incidence> plans = new HashMap<>();
-        List<Incidence> plansList = this.listByColumn("DATE", "DESCRIPTION");
-        plansList.forEach(p -> {
-            plans.put(Integer.toString(p.getPkID()), p);
+        HashMap<String, Incidence> incidences = new HashMap<>();
+        List<Incidence> insList = this.listByColumn("DATE", "DESCRIPTION");
+        insList.forEach(p -> {
+            incidences.put(Integer.toString(p.getPkID()), p);
         });
-        return plans;
+        return incidences;
     }
     
     
      /**
      * This method adds a Plan object into the DB record, using HQL.
      *
-     * @param plan is the Plan Object to be added.
+     * @param incidence is the Incidence Object to be added.
      */
     public void add(Incidence incidence) {
         try {
@@ -124,12 +130,69 @@ public class IncidenceDAO extends GenericDAO {
         }
     }
     
+    /**
+     * This method updates a Incidence object into the DB record, using HQL.
+     *
+     * @param incidence is the Incidence Object to be updated.
+     */
+    public void update(Incidence incidence) {
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            em.merge(incidence);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+        } finally {
+            closeEntityManager();
+        }
+    }
     
+    /**
+     * This method deletes a Incidence object into the DB record, using HQL.
+     *
+     * @param incidence is the Incidence Object to be deleted.
+     */
+    public void delete(Incidence incidence) {
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            em.remove(em.merge(incidence));
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+        } finally {
+            closeEntityManager();
+        }
+    }
     
-    
-    
-    
-    
+    public List<Incidence> searchInAllColumns(String value) throws Exception {
+        try {
+            HashMap<String, Incidence> resultHM = this.listAllHM();
+            SimpleDateFormat dateFor = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+            Pattern p = Pattern.compile(new StringBuilder().append("(.*)").append(value).append("(.*)").toString(),
+                    Pattern.CASE_INSENSITIVE);
+            ArrayList<Incidence> result = new ArrayList<>();
+            for (HashMap.Entry<String, Incidence> incidence : resultHM.entrySet()) {
+                Incidence pl = incidence.getValue();
+                //
+                if (p.matcher(pl.getName()).find()
+                        || p.matcher(pl.getDescription()).find()
+                        || p.matcher(dateFor.format(pl.getDate())).find()
+                        || p.matcher(pl.getAffectation().toString()).find()
+                        || p.matcher(pl.getCause()).find()) {
+                    result.add(pl);
+                }
+            }
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        }
+    }
     
     
 }

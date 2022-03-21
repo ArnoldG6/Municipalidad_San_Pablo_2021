@@ -20,7 +20,8 @@ class Planes extends Component {
             planes: [],
             planesView: [],
             currentPage: 1,
-            typesMap: null
+            typesMap: null,
+            pageItemAmount: 10
         };
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -32,6 +33,7 @@ class Planes extends Component {
         this.handleSortClick = this.handleSortClick.bind(this);
         this.handlePlanesRender = this.handlePlanesRender.bind(this);
         this.updatePage = this.updatePage.bind(this);
+        this.updatePageItems = this.updatePageItems.bind(this);
     }
 
     //On load
@@ -130,9 +132,18 @@ class Planes extends Component {
         });
     }
 
+    updatePageItems(amount) {
+        this.setState({
+            pageItemAmount: amount,
+            currentPage: 1
+        }, () => {
+            this.handlePlanesRender();
+        })
+    }
+
     handlePlanesRender() {
         let items = [];
-        let itemAmount = process.env.REACT_APP_ITEMS_PER_PAGE_PLANES;
+        let itemAmount = this.state.pageItemAmount;
         let pos = (this.state.currentPage - 1) * itemAmount;
         for (let i = 0; i < itemAmount; i++) {
             let item = this.state.planes.at(pos);
@@ -305,9 +316,10 @@ class Planes extends Component {
                 <Row>
                     <Pages
                         listLength={this.state.planes.length}
-                        itemAmount={process.env.REACT_APP_ITEMS_PER_PAGE_PLANES}
+                        itemAmount={this.state.pageItemAmount}
                         updatePage={this.updatePage}
-                        currentPage={this.state.currentPage} />
+                        currentPage={this.state.currentPage}
+                        updatePageItems={this.updatePageItems} />
                 </Row>
 
                 <AddPlanModal updatePlanes={this.updatePlanes} show={this.state.show} closeModal={this.closeModal} typesMap={this.state.typesMap}/>

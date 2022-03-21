@@ -26,7 +26,8 @@ class Riesgos extends Component {
             riesgos: [],
             riesgosView: [],
             currentPage: 1,
-            typesMap: null
+            typesMap: null,
+            pageItemAmount: 10
         };
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -43,6 +44,7 @@ class Riesgos extends Component {
         this.handleRiskRender = this.handleRiskRender.bind(this);
         this.updatePage = this.updatePage.bind(this);
         this.retrieveTypes = this.retrieveTypes.bind(this);
+        this.updatePageItems = this.updatePageItems.bind(this);
     }
     //On load
     componentDidMount() {
@@ -113,9 +115,18 @@ class Riesgos extends Component {
         });
     }
 
+    updatePageItems(amount) {
+        this.setState({
+            pageItemAmount: amount,
+            currentPage: 1
+        }, () => {
+            this.handleRiskRender();
+        })
+    }
+
     handleRiskRender() {
         let items = [];
-        let itemAmount = process.env.REACT_APP_ITEMS_PER_PAGE_RIESGOS;
+        let itemAmount = this.state.pageItemAmount;
         let pos = (this.state.currentPage - 1) * itemAmount;
         for (let i = 0; i < itemAmount; i++) {
             let item = this.state.riesgos.at(pos);
@@ -332,9 +343,10 @@ class Riesgos extends Component {
                 <Row>
                     <Pages
                         listLength={this.state.riesgos.length}
-                        itemAmount={process.env.REACT_APP_ITEMS_PER_PAGE_RIESGOS}
+                        itemAmount={this.state.pageItemAmount}
                         updatePage={this.updatePage}
-                        currentPage={this.state.currentPage} />
+                        currentPage={this.state.currentPage} 
+                        updatePageItems={this.updatePageItems} />
                 </Row>
                 <EditRiskModal
                     refreshPage={this.updateRiesgosSort}

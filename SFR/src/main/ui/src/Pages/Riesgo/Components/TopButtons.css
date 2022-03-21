@@ -1,0 +1,16 @@
+#menu-button{
+    background-color: #1F3140 !important;
+    border: 0px !important;
+}
+.in-progress{
+    background-color: green;
+}
+.no-progress{
+    background-color: #ff0000;
+}
+.completed{
+    background-color: royalblue;
+}
+.unknown{
+    background-color: slategray;
+}

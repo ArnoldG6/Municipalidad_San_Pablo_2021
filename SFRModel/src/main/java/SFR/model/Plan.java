@@ -3,6 +3,7 @@ package sfr.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -233,4 +234,53 @@ public class Plan implements Serializable {
     }
      */
 
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Plan other = (Plan) obj;
+        if (this.pkID != other.pkID) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.authorName, other.authorName)) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
+        if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
+        if (!Objects.equals(this.type, other.type)) {
+            return false;
+        }
+        if (!Objects.equals(this.subtype, other.subtype)) {
+            return false;
+        }
+        if (!Objects.equals(this.entryDate, other.entryDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.riskList, other.riskList)) {
+            return false;
+        }
+        return true;
+    }
+
+    
+    
+    
 }

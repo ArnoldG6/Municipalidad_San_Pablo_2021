@@ -34,9 +34,7 @@ public class Incidence implements Serializable{
     @Column(name = "PK_ID")
     private int pkID;
 
-    @Column(name = "ID")
-    private String id;
-  
+
 
     @Column(name = "Name")
     private String name;
@@ -44,9 +42,9 @@ public class Incidence implements Serializable{
     @Column(name = "Description")
     private String description;
 
-    @Column(name = "EntryDate")
+    @Column(name = "Date")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date entryDate;
+    private Date Date;
 
     
     @Column(name = "Affectation")
@@ -65,12 +63,12 @@ public class Incidence implements Serializable{
     )
     private Risk risk;
 
-    public Incidence(int pkID, String id, String name, String description, Date entryDate, String affectation, String cause, Risk risk) {
+    public Incidence(int pkID, String name, String description, Date entryDate, String affectation, String cause, Risk risk) {
         this.pkID = pkID;
-        this.id = id;
+
         this.name = name;
         this.description = description;
-        this.entryDate = entryDate;
+        this.Date = Date;
         this.affectation = affectation;
         this.cause = cause;
         this.risk = risk;
@@ -90,13 +88,7 @@ public class Incidence implements Serializable{
         this.pkID = pkID;
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -114,12 +106,12 @@ public class Incidence implements Serializable{
         this.description = description;
     }
 
-    public Date getEntryDate() {
-        return entryDate;
+    public Date getDate() {
+        return Date;
     }
 
-    public void setEntryDate(Date entryDate) {
-        this.entryDate = entryDate;
+    public void setDate(Date Date) {
+        this.Date = Date;
     }
 
     public String getAffectation() {
@@ -151,10 +143,9 @@ public class Incidence implements Serializable{
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Incidence:").append("{\n");
-        sb.append("\"id\": \"").append(id).append("\",\n");
         sb.append("\"name\": \"").append(name).append("\",");
         sb.append("\"description\": \"").append(description).append("\",\n");
-        sb.append("\"entryDate\": \"").append(entryDate).append("\",\n");
+        sb.append("\"Date\": \"").append(Date).append("\",\n");
         sb.append("\"affectation\": \"").append(affectation).append("\",\n");
         sb.append("\"cause\":").append(cause).append("\",\n");
         sb.append("\"risk\":").append(risk).append("\n");

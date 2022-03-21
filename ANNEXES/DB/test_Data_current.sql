@@ -1,4 +1,4 @@
-ALTER SCHEMA `SFR`  DEFAULT COLLATE utf8_spanish2_ci ;
+ALTER SCHEMA `SFR`  DEFAULT COLLATE utf8mb4_spanish2_ci ;
 -- ------------------------------------------DATA FOR SI_DB--------------------------------------------------
 -- ---------------------------------------------SI_DEPARTMENTS-----------------------------------------------
 INSERT INTO `si_db`.`SI_DEPARTMENTS` (`PK_DEPARTMENT`, `description`) VALUES ('100', 'CONTROL INTERNO');

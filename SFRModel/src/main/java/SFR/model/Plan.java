@@ -70,6 +70,14 @@ public class Plan implements Serializable {
     )
     private List<Risk> riskList;
 
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "T_PLANINCIDENCE",
+            joinColumns = @JoinColumn(name = "FK_PLAN"),
+            inverseJoinColumns = @JoinColumn(name = "FK_INCIDENCE")
+    )
+    private List<Incidence> incidenceList;
+
     public Plan() {
 
     }
@@ -78,7 +86,8 @@ public class Plan implements Serializable {
         this.id = id;
     }
 
-    public Plan(String authorName, String name, String desc, Date dateOfAdm, String status, String type, String subtype, List<Risk> riskList) {
+    public Plan(String authorName, String name, String desc, Date dateOfAdm, String status, String type, String subtype, 
+                List<Risk> riskList, List<Incidence> incidenceList) {
         //,List<User> involvedList) {
         this.authorName = authorName;
         this.name = name;
@@ -88,6 +97,7 @@ public class Plan implements Serializable {
         this.type = type;
         this.subtype = subtype;
         this.riskList = riskList;
+        this.incidenceList = incidenceList;
         //this.involvedList = involvedList;
     }
 
@@ -172,6 +182,26 @@ public class Plan implements Serializable {
             throw e;
         }
     }
+    
+    public void addIncidence(Incidence incidence) {
+        try {
+            this.incidenceList.add(incidence);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        }
+    }
+    
+    public void removeIncidence(Incidence incidence) {
+        try {
+            this.incidenceList.remove(incidence);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        }
+    }
 
     public String getType() {
         return type;
@@ -205,19 +235,19 @@ public class Plan implements Serializable {
         sb.append("\"status\": \"").append(status).append("\",\n");
         sb.append("\"type\": \"").append(type).append("\"\n");
         sb.append("\"riskList\":").append(riskList).append("\n");
+        sb.append("\"incidencekList\":").append(incidenceList).append("\n");
         //sb.append("\"involvedList\": ").append(involvedList.toString());
         sb.append("}\n");
         return sb.toString();
     }
-
-    /*
+    
     public List<Incidence> getIncidenceList() {
         return incidenceList;
     }
     public void setIncidenceList(List<Incidence> incidenceList) {
         this.incidenceList = incidenceList;
     }
-     */
+     
     public List<Risk> getRiskList() {
         return riskList;
     }
@@ -225,6 +255,7 @@ public class Plan implements Serializable {
     public void setRiskList(List<Risk> riskList) {
         this.riskList = riskList;
     }
+
     /*
     public List<Comment> getCommentList() {
         return commentList;
@@ -234,7 +265,6 @@ public class Plan implements Serializable {
     }
      */
 
-    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -277,10 +307,10 @@ public class Plan implements Serializable {
         if (!Objects.equals(this.riskList, other.riskList)) {
             return false;
         }
+        if (!Objects.equals(this.incidenceList, other.incidenceList)) {
+            return false;
+        }
         return true;
     }
 
-    
-    
-    
 }

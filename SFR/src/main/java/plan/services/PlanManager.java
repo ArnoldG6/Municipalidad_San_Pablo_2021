@@ -25,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import sfr.dao.PlanDAO;
 import sfr.dao.PlanTypeDAO;
+import sfr.model.Incidence;
 import sfr.model.Plan;
 import sfr.model.Risk;
 
@@ -68,8 +69,14 @@ public class PlanManager extends HttpServlet {
                 case "/API/PlanManager/Delete/Risk":
                     deleteRiskFromPlan(request, response);
                     break;
+                case "/API/PlanManager/Delete/Incidence":
+                    deleteIncidenceFromPlan(request, response);
+                    break;
                 case "/API/PlanManager/Insert/Risk":
                     associateRiskToPlan(request, response);
+                    break;
+                case "/API/PlanManager/Insert/Incidence":
+                    associateIncidenceToPlan(request, response);
                     break;
             }
             //response.setContentType("text/html");
@@ -186,6 +193,34 @@ public class PlanManager extends HttpServlet {
         p.setRiskList(riskList);
         PlanDAO.getInstance().update(p);
     }
+    
+    /**
+     * @param request contains the JSON data that is sent by the client and
+     * other useful information from the client request.
+     * @param response sends the information back to the client with the
+     * server's response. deleteIncidenceFromPlan deletes a Plan list of Incidences
+     * determined by the requestJSON.
+     */
+    private void deleteIncidenceFromPlan(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        JSONObject requestJSON;
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        Plan p = PlanDAO.getInstance().searchById(requestJSON.getInt("planPkID"));
+        if (p == null) {
+            //Custom exception
+            response.getWriter().write(new PlanNotFoundEx().jsonify());
+        }
+        List<Incidence> incidenceList = p.getIncidenceList();
+        if (incidenceList == null) {
+            //Custom exception
+//            response.getWriter().write(new IncidencesNotListedEx().jsonify());
+        }
+        incidenceList.removeIf(r -> (String.valueOf(r.getPkID()).equals(requestJSON.getString("incidenceID"))));
+        p.setIncidenceList(incidenceList);
+        PlanDAO.getInstance().update(p);
+    }
 
     /**
      * @param request contains the JSON data that is sent by the client and
@@ -211,6 +246,32 @@ public class PlanManager extends HttpServlet {
             riskIds.add((Integer) riskIdJSONArray.get(i));
         }
         PlanDAO.getInstance().associateRisksToPlan(requestJSON.getInt("planPKID"), riskIds);
+    }
+    
+    /**
+     * @param request contains the JSON data that is sent by the client and
+     * other useful information from the client request.
+     * @param response sends the information back to the client with the
+     * server's response. associateIncidenceToPlan updates the DB entries of 'Plan'
+     * associating it to a list of 'Plan' entries sent by the client.
+     */
+    private void associateIncidenceToPlan(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, Exception {
+        JSONObject requestJSON;
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        JSONArray incidenceIdJSONArray = requestJSON.getJSONArray("incidenceIDs");
+        if (incidenceIdJSONArray == null) {
+            //Custom exception
+//            response.getWriter().write(new InvalidRiskIDEx().jsonify());
+//            throw new IOException("Invalid risk ID list");
+        }
+        List<Integer> incidenceIds = new ArrayList<>();
+        for (int i = 0; i < incidenceIdJSONArray.length(); i++) {
+            incidenceIds.add((Integer) incidenceIdJSONArray.get(i));
+        }
+        PlanDAO.getInstance().associateIncidencesToPlan(requestJSON.getInt("planPKID"), incidenceIds);
     }
 
     // </editor-fold>

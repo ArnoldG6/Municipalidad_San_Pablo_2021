@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.persistence.Query;
+import sfr.model.Incidence;
 import sfr.model.Plan;
 import sfr.model.Risk;
 
@@ -210,6 +211,49 @@ public class PlanDAO extends GenericDAO {
             closeEntityManager();
         }
     }
+    
+     /**
+     * This method associates a single Plan object to n Incidence objects.
+     *
+     * @param planID the Plan object that will be associated to the Incidences objects
+     * @param incidenceIDs List of riskIDs to associate with planID parameter.
+     * @throws java.lang.Exception
+     */
+    public void associateIncidencesToPlan(int planID, List<Integer> incidenceIDs) throws Exception {
+        try {
+            if (incidenceIDs == null) {
+                throw new IOException("Invalid IncidenceIDs field");
+            }
+            Plan p = PlanDAO.getInstance().searchById(planID);
+            if (p == null) {
+                throw new IOException("Invalid planID field");
+            }
+            List<Incidence> incidenceList = p.getIncidenceList();
+            if (incidenceList == null) {
+                throw new IOException("Empty incidenceList exception");
+            }
+            if (incidenceIDs.isEmpty()) {
+                throw new IOException("Empty incidenceIDs field exception");
+            }
+            Incidence ins;
+            for (int i = 0; i < incidenceIDs.size(); i++) {
+                ins = IncidenceDAO.getInstance().searchById(incidenceIDs.get(i));
+                if (!incidenceList.contains(ins)) {
+                    incidenceList.add(ins);
+                } else {
+                    throw new IOException("This plan already contains this incidence");
+                }
+            }
+            p.setIncidenceList(incidenceList);
+            PlanDAO.getInstance().update(p);
+        } catch (IOException ex) {
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
+    }
 
     /**
      *
@@ -232,6 +276,36 @@ public class PlanDAO extends GenericDAO {
                 }
             }
             return riskList;
+        } catch (Exception ex) {
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
+    }
+    
+    /**
+     *
+     * @return a list of incidences, including all incidences, except for the ones in the
+     * Plan identified by
+     * @param planID
+     * @throws java.lang.Exception
+     */
+    public List<Incidence> getIncidenceListByPlanNoRep(String planID) throws Exception {
+        try {
+            Plan p = PlanDAO.getInstance().searchByIdString(planID);
+            List<Incidence> pIncidenceList = p.getIncidenceList(); //incidences of an specific Plan.
+            List<Incidence> incidenceList = IncidenceDAO.getInstance().listByColumn("PK_ID", "DESC");
+            if (pIncidenceList == null || incidenceList == null) {
+                throw new IOException("Empty riskList exception");
+            }
+            for (int i = 0; i < pIncidenceList.size(); i++) {
+                if (incidenceList.contains(pIncidenceList.get(i))) {
+                    incidenceList.remove(pIncidenceList.get(i));
+                }
+            }
+            return incidenceList;
         } catch (Exception ex) {
             ex.printStackTrace(System.out);
             System.err.println(ex.getMessage());

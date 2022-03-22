@@ -133,7 +133,7 @@ class Plan extends Component {
                 case "risks":
                     return <RiskTable riesgos={this.state.plan.riskList} removeRisks={this.removeRisks} addRisk={this.addRisk} availableRisks={this.state.availableRisks} />;
                 case "incidents":
-                    return <IncidentTable riesgos={this.state.plan.riskList} removeRisks={this.removeRisks} addRisk={this.addRisk} availableRisks={this.state.availableRisks} />;
+                    return <IncidentTable incidentes={this.state.plan.incidentList} removeIncidents={this.removeIncident} addIncident={this.addIncident} availableIncidents={this.state.availableIncidents} />;
                 case "involved":
                     return <h1>Involucrados Aqui</h1>;
                 default:

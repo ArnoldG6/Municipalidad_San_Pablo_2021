@@ -194,5 +194,39 @@ public class IncidenceDAO extends GenericDAO {
         }
     }
     
+    /**
+     * This method associates a single Incidence object to a Risk object.
+     *
+     * @param incidenceID the Plan object that will be associated to the Risk objects
+     * @param riskID risk id to associate with incidenceID parameter.
+     * @throws java.lang.Exception
+     */
+    public void associateRisksToIncidence(int incidenceID, Integer riskID) throws Exception {
+        try {
+            if (riskID == null) {
+                throw new IOException("Invalid RiskID field");
+            }
+            Incidence ins = IncidenceDAO.getInstance().searchById(incidenceID);
+            if (ins == null) {
+                throw new IOException("Invalid incidenceID field");
+            }
+            Risk risk = ins.getRisk();
+            Risk r = RiskDAO.getInstance().searchById(riskID);
+            if(risk != r){
+                risk = r;
+            } else {
+                throw new IOException("This incidence already contains this risk");
+            }
+            ins.setRisk(risk);
+            IncidenceDAO.getInstance().update(ins);
+        } catch (IOException ex) {
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
+    }
     
+   
 }

@@ -87,7 +87,7 @@ public class IncidenceManager extends HttpServlet {
         Date d = new Date();
 
         Incidence newIncidence = new Gson().fromJson(requestJSON, Incidence.class);
-        newIncidence.setDate(d);
+        newIncidence.setEntryDate(d);
 
 //        if (IncidenceDAO.getInstance().searchById(newIncidence.getPkId()) != null) {
 //            //Custom exception

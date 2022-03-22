@@ -26,15 +26,14 @@ import javax.persistence.Temporal;
  *
  * @author arnol
  */
-
 @Entity
 @Table(name = "T_Incidence")
-public class Incidence implements Serializable{
-    
+public class Incidence implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PK_ID")
-    private int pkID;
+    private Integer pkID;
 
     @Column(name = "Name")
     private String name;
@@ -44,14 +43,14 @@ public class Incidence implements Serializable{
 
     @Column(name = "Date")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date date;
-    
+    private Date entryDate;
+
     @Column(name = "Affectation")
     private Integer affectation;
-    
+
     @Column(name = "Cause")
     private String cause;
-    
+
     //Se cambió a many to one para aplicar la FK 
     @ManyToOne
     @JoinColumn(name = "Risk_ID", referencedColumnName = "ID")
@@ -60,24 +59,28 @@ public class Incidence implements Serializable{
     public Incidence(String name, String description, Date entryDate, Integer affectation, String cause, Risk risk) {
         this.name = name;
         this.description = description;
-        this.date = date;
+        this.entryDate = entryDate;
         this.affectation = affectation;
         this.cause = cause;
         this.risk = risk;
     }
-    
+
     public Incidence(String name, String description, Date entryDate, Integer affectation, String cause) {
         this.name = name;
         this.description = description;
-        this.date = date;
+        this.entryDate = entryDate;
         this.affectation = affectation;
         this.cause = cause;
-        this.risk = new Risk();
+        this.risk = null;
     }
 
     public Incidence() {
     }
-    
+
+    public Incidence(Integer id) {
+        this.pkID = id;
+    }
+
     public int getPkID() {
         return pkID;
     }
@@ -102,12 +105,12 @@ public class Incidence implements Serializable{
         this.description = description;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getEntryDate() {
+        return entryDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setEntryDate(Date entryDate) {
+        this.entryDate = entryDate;
     }
 
     public Integer getAffectation() {
@@ -132,22 +135,22 @@ public class Incidence implements Serializable{
 
     public void setRisk(Risk risk) {
         this.risk = risk;
-    }    
-    
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Incidence:").append("{\n");
         sb.append("\"name\": \"").append(name).append("\",");
         sb.append("\"description\": \"").append(description).append("\",\n");
-        sb.append("\"Date\": \"").append(date).append("\",\n");
+        sb.append("\"Date\": \"").append(entryDate).append("\",\n");
         sb.append("\"affectation\": \"").append(affectation).append("\",\n");
         sb.append("\"cause\":").append(cause).append("\",\n");
         sb.append("\"risk\":").append(risk).append("\n");
         sb.append("}\n");
         return sb.toString();
-    }         
-    
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -169,7 +172,7 @@ public class Incidence implements Serializable{
         if (!Objects.equals(this.description, other.description)) {
             return false;
         }
-        if (!Objects.equals(this.date, other.date)) {
+        if (!Objects.equals(this.entryDate, other.entryDate)) {
             return false;
         }
         if (!Objects.equals(this.affectation, other.affectation)) {

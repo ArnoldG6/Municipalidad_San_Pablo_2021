@@ -50,7 +50,7 @@ public class IncidenceDAO extends GenericDAO {
             case "DESCRIPTION":
                 return "description";
             case "DATE":
-                return "date";
+                return "entryDate";
             case "CAUSE": 
                 return "cause";
             case "AFFECTATION":
@@ -180,7 +180,7 @@ public class IncidenceDAO extends GenericDAO {
                 //
                 if (p.matcher(pl.getName()).find()
                         || p.matcher(pl.getDescription()).find()
-                        || p.matcher(dateFor.format(pl.getDate())).find()
+                        || p.matcher(dateFor.format(pl.getEntryDate())).find()
                         || p.matcher(pl.getAffectation().toString()).find()
                         || p.matcher(pl.getCause()).find()) {
                     result.add(pl);

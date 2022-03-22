@@ -70,7 +70,7 @@ public class Plan implements Serializable {
     )
     private List<Risk> riskList;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "T_PLANINCIDENCE",
             joinColumns = @JoinColumn(name = "FK_PLAN"),

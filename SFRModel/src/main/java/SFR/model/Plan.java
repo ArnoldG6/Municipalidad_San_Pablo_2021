@@ -62,7 +62,7 @@ public class Plan implements Serializable {
 //    )
 //    private List<User> involvedList;
     //@OneToMany(orphanRemoval = true, cascade = CascadeType.PERSIST)
-    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinTable(
             name = "T_RISKPLAN",
             joinColumns = @JoinColumn(name = "FK_PLAN"),
@@ -70,7 +70,7 @@ public class Plan implements Serializable {
     )
     private List<Risk> riskList;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "T_PLANINCIDENCE",
             joinColumns = @JoinColumn(name = "FK_PLAN"),

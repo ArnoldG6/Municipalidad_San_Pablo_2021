@@ -7,7 +7,6 @@ package incidence.services;
 
 import com.google.gson.Gson;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -148,6 +147,19 @@ public class IncidenceServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(IncidenceServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    protected void doOptions(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            response.addHeader("Access-Control-Allow-Origin", "*");
+            response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+            response.addHeader("Access-Control-Allow-Credentials", "true");
+            response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
         } catch (Exception ex) {
             Logger.getLogger(IncidenceServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

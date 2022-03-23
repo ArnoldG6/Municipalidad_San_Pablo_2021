@@ -133,7 +133,7 @@ class Plan extends Component {
                 case "risks":
                     return <RiskTable riesgos={this.state.plan.riskList} removeRisks={this.removeRisks} addRisk={this.addRisk} availableRisks={this.state.availableRisks} />;
                 case "incidents":
-                    return <IncidentTable incidentes={this.state.plan.incidentList} removeIncidents={this.removeIncident} addIncident={this.addIncident} availableIncidents={this.state.availableIncidents} />;
+                    return <IncidentTable incidentes={this.state.plan.incidentList} removeIncidents={this.removeIncident} addIncident={this.addIncident} riesgos={this.state.plan.riskList} />;
                 case "involved":
                     return <h1>Involucrados Aqui</h1>;
                 default:
@@ -226,6 +226,7 @@ class Plan extends Component {
                 this.props.history.push('/planes');
             })
     }
+
 
     openModalEdit = () => {
         this.setState({ showEdit: true });

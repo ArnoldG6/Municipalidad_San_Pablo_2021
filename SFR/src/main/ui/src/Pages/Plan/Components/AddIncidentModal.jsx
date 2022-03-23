@@ -11,13 +11,13 @@ class AddIncidentModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            validated: false,
-            value: "Evaluar, Dirigir y Monitorear"
+            risks: [],
+            validated: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
         this.setValidated = this.setValidated.bind(this);
-        this.getID = this.getID.bind(this);
+       // this.getID = this.getID.bind(this);
     }
 
     onChange = e => {
@@ -32,9 +32,9 @@ class AddIncidentModal extends Component {
         }
         else{
         event.preventDefault();
-        let id = this.getID(event.target.type.value, event.target.subtype.value);
+        //let risk = this.getID(event.target.type.value, event.target.subtype.value);
         let options = {
-            url: process.env.REACT_APP_API_URL + `/PlanManager/Insert`,
+            url: process.env.REACT_APP_API_URL + `/IncidenceManager/Insert`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',
@@ -42,12 +42,11 @@ class AddIncidentModal extends Component {
             },
             data: {
                 'name': event.target.name.value,
-                'id': id,
-                'status': event.target.status.value,
-                'authorName': event.target.authorName.value,
-                'type': event.target.type.value,
-                'subtype': event.target.subtype.value,
-                'description': event.target.description.value
+                'description': event.target.description.value,
+                'entryDate' : event.target.entryDate.value,
+                'affectation' : event.target.affectation.value,
+                'cause': event.target.cause.value,
+                'risk':  event.target.risk.value
             }
         }
 
@@ -71,6 +70,7 @@ class AddIncidentModal extends Component {
         this.setState({ validated: value});
     }
 
+    /*
     getID(type, subtype) {
         let id = "";
         this.props.typesMap.get(type).map((tipo) => {
@@ -81,7 +81,7 @@ class AddIncidentModal extends Component {
         })
         return id;
     }
-
+*/ 
     render() {
         let render = this.props.show;
         let closeModal = this.props.closeModal;
@@ -126,7 +126,7 @@ class AddIncidentModal extends Component {
                         </Form.Group>
                         <div className="form-group">
                             <label>Causa:</label>
-                            <Form.Select name="status" id="status">
+                            <Form.Select name="cause" id="cause">
                                 <option value="Error humano">Error humano</option>
                                 <option value="Fallo del proceso">Fallo del proceso</option>
                                 <option value="Desastres naturales">Desastres naturales</option>
@@ -137,12 +137,12 @@ class AddIncidentModal extends Component {
                         </div>
                         <div className="form-group">
                             <label>Riesgo Asociado:</label>
-                            <Form.Select name="type" id="type" onChange={this.onChange}>
+                            <Form.Select name="risk" id="risk" onChange={this.onChange}>
                                 {
-                                    (this.props.typesMap === null || typeof this.props.typesMap === 'undefined') ?
-                                        <option value={null} key="disabledTypePlan" disabled>Error cargando Tipos</option> :
-                                        this.props.typesMap.get("parents").map((tipos) => {
-                                            return <option value={tipos.name} key={tipos.name}>{tipos.name}</option>
+                                    (this.props.risks === null) ?
+                                        <option value={null} key="disabledRiskIncidence" disabled>Error cargando los riegos</option> :
+                                        this.props.risks.map((risk) => {
+                                            return <option value={risk.name} key={risk.name}>{risk.name}</option>
                                         })
                                 }
                             </Form.Select>
@@ -164,7 +164,7 @@ class AddIncidentModal extends Component {
                                         </h5>
                                     </OverlayTrigger>
                                 </Stack>
-                                <input min="1" max="100" step="1" name="impact" id="impact" type="number" className="form-control number-input" placeholder="1%" required />
+                                <input min="1" max="100" step="1" name="affectation" id="affectation" type="number" className="form-control number-input" placeholder="1%" required />
                         </div>
                         <div className="form-group">
                             <Stack direction="horizontal" gap={3}>

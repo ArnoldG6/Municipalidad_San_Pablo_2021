@@ -45,9 +45,9 @@ class RiskTable extends Component {
             <div>
                 {/* Mobile */}
                 <div className='d-lg-none container-fluid'>
-                    <Button size="sm" onClick={this.openModalAddIncident} variant="success" key="AddRiskButtonMobile">
+                    <Button size="sm" onClick={this.openModalAddIncident} variant="success" key="AddIncidenceButtonMobile">
                         <i className="bi bi-plus-square"></i> {' '}
-                        Agregar Riesgo
+                        Agregar Incidencia
                     </Button>
                     {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado riesgos</h1> :
                         this.props.riesgos.length === 0 ? <h1>No se han agregado riesgos</h1> :
@@ -148,7 +148,7 @@ class RiskTable extends Component {
                     </Table>
                 </div>
                 <AddIncidentModal
-                    risks={this.props.availableRisks}
+                    risks={this.props.riesgos}
                     addIncident={this.props.addIncident}
                     show={this.state.showIncidentModal}
                     closeModal={this.closeModalAddIncident} />

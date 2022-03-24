@@ -66,10 +66,10 @@ export default class Login extends React.Component {
             pwd: '',
             disabled: true
           });*/
-          cookies.set("username", response.data.username, { path: process.env.REACT_APP_AUTH, sameSite: 'lax' });
-          cookies.set("full_name", response.data.full_name, { path: process.env.REACT_APP_AUTH, sameSite: 'lax' });
-          cookies.set("roles", response.data.roles, { path: process.env.REACT_APP_AUTH, sameSite: 'lax' });
-          cookies.set("token", response.data.token, { path: process.env.REACT_APP_AUTH, sameSite: 'lax' });
+          cookies.set("username", response.data.username, { path: process.env.REACT_APP_AUTH});
+          cookies.set("full_name", response.data.full_name, { path: process.env.REACT_APP_AUTH});
+          cookies.set("roles", response.data.roles, { path: process.env.REACT_APP_AUTH});
+          cookies.set("token", response.data.token, { path: process.env.REACT_APP_AUTH});
           this.props.history.push('/menu');
         } else
           alert("Usuario o contraseña inválidos.");
@@ -79,11 +79,11 @@ export default class Login extends React.Component {
 
   componentDidMount() {
     console.log(cookies);
-    //cookies.remove("username", { path: process.env.REACT_APP_AUTH });
-    //cookies.remove("full_name", { path: process.env.REACT_APP_AUTH });
-    //cookies.remove("roles", { path: process.env.REACT_APP_AUTH });
-    //cookies.remove("token", { path: process.env.REACT_APP_AUTH });
-    //console.log(cookies);
+    if (cookies.get('username', { path: process.env.REACT_APP_AUTH })
+        && cookies.get('roles', { path: process.env.REACT_APP_AUTH })
+        && cookies.get('token', { path: process.env.REACT_APP_AUTH })
+        && cookies.get('full_name', { path: process.env.REACT_APP_AUTH }))
+        this.props.history.push('/menu');
   }
   async handleInputChange(e) {
     this.setState({ [e.target.name]: e.target.value }, () => {

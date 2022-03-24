@@ -10,14 +10,16 @@ import com.google.gson.Gson;
 /**
  *
  * @author GONCAR
+ * Edited by: ArnoldG6
  */
- public class UserNotFoundEx extends CustomException{
-    public UserNotFoundEx(){
-        this.code = 404;
-        this.message = "El plan no ha sido encontrado.";
+ public class AuthException extends CustomException{
+    public AuthException(){
+        this.code = 403;
+        this.message = "Authorization failed";
     }
+
+    @Override
     public String jsonify() {
-       String answer = new Gson().toJson(this);
-       return answer;
+       return new Gson().toJson(this);
     }  
 }

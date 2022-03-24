@@ -50,30 +50,27 @@ public class AuthServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="Auth methods.">
     private void authUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        JSONObject responseJSON = new JSONObject();
-        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        User u = UserDAO.getInstance().userAuth(requestJSON.getString("username"), requestJSON.getString("pwd"));
-        if (u == null) {
-            responseJSON.put("authStatus", false);
-        } else {
+        try{
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            JSONObject responseJSON = new JSONObject();
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            User u = UserDAO.getInstance().userAuth(requestJSON.getString("username"), requestJSON.getString("pwd"));
+            if (u == null) throw new AuthException();
             responseJSON.put("authStatus", true);
             responseJSON.put("username", String.valueOf(u.getIdUser()));
             responseJSON.put("full_name", u.getOfficial().getName() + " " + u.getOfficial().getSurname());
             responseJSON.put("roles", u.getRoles());
             responseJSON.put("token", "xd");
-        }
-        if(responseJSON == null){
-             //Custom exception
-            response.getWriter().write(new UserNotFoundEx().jsonify());
-        }else{
             response.getWriter().write(responseJSON.toString());
+        }catch(AuthException e){
+            response.getWriter().write(e.jsonify());
+        }finally{
+            response.getWriter().flush();
+            response.getWriter().close();
         }
-        System.out.println(responseJSON.toString());
-        
-        response.getWriter().flush();
-        response.getWriter().close();
+            
+
     }
 
     //private void expireSession(HttpServletRequest request, HttpServletResponse response) 

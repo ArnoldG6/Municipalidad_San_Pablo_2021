@@ -7,6 +7,7 @@ package risk.services;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import ex.*;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -18,8 +19,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
+import sfr.dao.PlanDAO;
 import sfr.dao.RiskDAO;
 import sfr.dao.RiskTypeDAO;
+import sfr.model.Risk;
 
 @WebServlet(name = "RiskServlet", urlPatterns = {
     "/API/RiskServlet/Retrieve/Riesgos",
@@ -101,21 +104,23 @@ public class RiskServlet extends HttpServlet {
      * match with a 'Risk' entry and returns it as an JSON.
      */
     private void retrieveRisk(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String responseJSON;
-        JSONObject requestJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        responseJSON = new Gson().toJson(RiskDAO.getInstance().searchByIdHM(requestJSON.getString("riskID")));
-
-        if(responseJSON == null){
-            //Custom exception
-            response.getWriter().write(new InvalidRiskIDEx().jsonify());
-        }else{
-           response.getWriter().write(responseJSON); 
+        try{
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            JSONObject responseJSON, requestJSON;
+            Risk r = null;
+            requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            r = RiskDAO.getInstance().searchByIdHM(requestJSON.getString("riskID"));
+            if (r == null) throw new InvalidRiskIDEx();
+            responseJSON = new JSONObject(new Gson().toJson(r));
+            //Uncomment this //responseJSON.append("planCount", RiskDAO.getInstance().countOfRiskAppearence(r));
+            response.getWriter().write(responseJSON.toString()); 
+        }catch(InvalidRiskIDEx e){
+            response.getWriter().write(e.jsonify());
+        }finally{
+            response.getWriter().flush();
+            response.getWriter().close();
         }
-        response.getWriter().flush();
-        response.getWriter().close();
     }
 
     /**

@@ -17,6 +17,7 @@ export default class Plan extends Component {
             typesMap: null,
             showDel: false,
             showEdit: false,
+            planCount: 0
         };
         this.refreshPage = this.refreshPage.bind(this);
         this.openModalDelete = this.openModalDelete.bind(this);
@@ -228,7 +229,7 @@ export default class Plan extends Component {
                                                               <Table border = "1" striped hover responsive="md">
 
                                                                   <tbody>
-                                                                      <tr><td><b>Cantidad de Planes en Donde Este Riesgo Está Presente</b></td><td>666</td></tr>
+                                                                      <tr><td><b>Cantidad de Planes en Donde Este Riesgo Está Presente</b></td><td>{this.state.risk.planCount}</td></tr>
                                                                       <tr><td><b>Cantidad de Veces que se ha Manifestado Este Riesgo</b></td><td>666</td></tr>
                                                                       <tr><td><b>Cantidad de xxxxxxxxxxxx en Este Riesgo</b></td><td>666</td></tr>
                                                                       <tr><td><b>Cantidad de xxxxxxxxxxxx en Este Riesgo</b></td><td>666</td></tr>

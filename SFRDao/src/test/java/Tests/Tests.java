@@ -19,8 +19,8 @@ public class Tests {
     @Test
     public void main() {
         try {
-//            System.out.println(PlanTypeDAO.getInstance().handleIDAmount("EDM01"));
-            System.out.println(PlanDAO.getInstance().listAllHM());
+            
+            System.out.println(RiskDAO.getInstance().countOfRiskAppearence(RiskDAO.getInstance().searchById(1)));
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

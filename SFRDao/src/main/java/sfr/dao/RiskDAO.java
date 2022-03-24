@@ -100,7 +100,27 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-
+    /**
+     * @param risk
+     * @return an Integer according to the number of Plan objects that contains the risk param.
+     * @throws java.lang.Exception
+     */
+    public Integer countOfRiskAppearence(Risk risk) throws Exception {
+        try {
+            if (risk == null)
+                throw new NullPointerException("Risk Null Pointer Exception");
+            Integer count = 0;
+            for (Plan p: PlanDAO.getInstance().listByColumn("ENTRYDATE", "DESC"))
+                if (p.containsRisk(risk)) count += 1;
+            return count;
+        } catch (Exception ex) {
+            Logger.getLogger(RiskDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
+    }
     /**
      * @return a casted HashMap of Risk objects from an HQL query sorted by
      * default param values (defined in this project).

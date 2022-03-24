@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -312,5 +313,8 @@ public class Plan implements Serializable {
         }
         return true;
     }
-
+    public boolean containsRisk(Risk risk){
+        if (risk == null) return false;
+        return riskList.stream().filter(r -> r.getId().equals(risk.getId())).findFirst().isPresent();
+    }
 }

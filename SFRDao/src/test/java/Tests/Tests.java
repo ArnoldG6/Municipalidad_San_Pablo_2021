@@ -5,12 +5,10 @@
  */
 package Tests;
 
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
 import sfr.dao.*;
-import sfr.model.Incidence;
 
 /**
  *
@@ -22,8 +20,7 @@ public class Tests {
     public void main() {
         try {
 //            System.out.println(PlanTypeDAO.getInstance().handleIDAmount("EDM01"));
-            Incidence i = new Incidence("Choque","Hubo un choque",new Date(),80,"No lo se");
-            IncidenceDAO.getInstance().add(i);
+            System.out.println(PlanDAO.getInstance().listAllHM());
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

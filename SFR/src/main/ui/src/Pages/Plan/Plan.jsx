@@ -186,8 +186,8 @@ class Plan extends Component {
                 'Content-Type': 'application/json'
             },
             data: {
-                'planID': this.state.plan.id,
-                'riskID': idRisk.toString()
+                'planPkID': this.state.plan.pkID,
+                'riskPkID': idRisk
             }
         }
         axios(options)

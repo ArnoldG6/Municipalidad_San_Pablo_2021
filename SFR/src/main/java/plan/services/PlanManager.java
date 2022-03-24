@@ -189,7 +189,7 @@ public class PlanManager extends HttpServlet {
             //Custom exception
             response.getWriter().write(new RisksNotListedEx().jsonify());
         }
-        riskList.removeIf(r -> (String.valueOf(r.getId()).equals(requestJSON.getString("riskID"))));
+        riskList.removeIf(r -> r.getPkId() == requestJSON.getInt("riskPkID"));
         p.setRiskList(riskList);
         PlanDAO.getInstance().update(p);
     }

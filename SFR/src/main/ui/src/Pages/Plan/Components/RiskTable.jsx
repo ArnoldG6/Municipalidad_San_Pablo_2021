@@ -69,7 +69,7 @@ class RiskTable extends Component {
                                                     Magnitud: {risk.magnitude} <br />
                                                 </p>
                                                 <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
-                                                    onClick={() => this.openModalDelRisk(risk.id)}
+                                                    onClick={() => this.openModalDelRisk(risk.pkID)}
                                                     disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
                                                     <i className="bi bi-dash-square-fill"></i>{' '}
                                                     Remover Riesgo
@@ -133,7 +133,7 @@ class RiskTable extends Component {
                                                         placement="left"
                                                     >
                                                         <Button size="lg" variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
-                                                            onClick={() => this.openModalDelRisk(risk.id)}
+                                                            onClick={() => this.openModalDelRisk(risk.pkID)}
                                                             disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
                                                             <i className="bi bi-dash-square-fill"></i>
                                                         </Button>

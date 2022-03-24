@@ -62,7 +62,7 @@ public class Plan implements Serializable {
 //    )
 //    private List<User> involvedList;
     //@OneToMany(orphanRemoval = true, cascade = CascadeType.PERSIST)
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinTable(
             name = "T_RISKPLAN",
             joinColumns = @JoinColumn(name = "FK_PLAN"),

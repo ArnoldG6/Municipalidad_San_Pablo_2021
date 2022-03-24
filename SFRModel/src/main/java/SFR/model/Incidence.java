@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -38,7 +39,7 @@ public class Incidence implements Serializable {
     @Column(name = "Description")
     private String description;
 
-    @Column(name = "Date")
+    @Column(name = "EntryDate")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date entryDate;
 
@@ -50,7 +51,11 @@ public class Incidence implements Serializable {
 
     //Se cambió a many to one para aplicar la FK 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "Risk_ID", referencedColumnName = "ID")
+    @JoinTable(
+            name = "T_PLANINCIDENCE",
+            joinColumns = @JoinColumn(name = "FK_PLAN"),
+            inverseJoinColumns = @JoinColumn(name = "FK_INCIDENCE")
+    )
     private Risk risk;
 
     public Incidence(String name, String description, Date entryDate, Integer affectation, String cause, Risk risk) {

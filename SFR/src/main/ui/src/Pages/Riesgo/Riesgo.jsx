@@ -114,7 +114,7 @@ export default class Plan extends Component {
                 'Content-Type': 'application/json'
             },
             data: {
-                'pkID': this.state.delId
+                'pkID': this.state.risk.pkID
             }
         }
         axios(options)

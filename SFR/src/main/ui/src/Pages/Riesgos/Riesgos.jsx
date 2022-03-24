@@ -18,6 +18,7 @@ class Riesgos extends Component {
             sortingValue: 'id',
             sortingWay: 'desc',
             riesgos: [],
+            typesMap: null,
             riesgosView: [],
             currentPage: 1,
             pageItemAmount: 10
@@ -32,6 +33,7 @@ class Riesgos extends Component {
         this.handleRiskRender = this.handleRiskRender.bind(this);
         this.updatePage = this.updatePage.bind(this);
         this.updatePageItems = this.updatePageItems.bind(this);
+        this.retrieveTypes = this.retrieveTypes.bind(this);
     }
     //On load
     componentDidMount() {
@@ -60,9 +62,38 @@ class Riesgos extends Component {
                 currentPage: 1
             }, () => {
                 this.handleRiskRender();
+                this.retrieveTypes();
             });
         });
     };
+
+    retrieveTypes() {
+        let options = {
+            url: process.env.REACT_APP_API_URL + `/RiskServlet/Retrieve/RiskType`,
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }
+        axios(options)
+            .then(response => {
+                let map = new Map();
+                for (const [key, value] of Object.entries(response.data)) {
+                    map.set(key, value);
+                }
+                this.setState({
+                    typesMap: map
+                });
+            }).catch(error => {
+                toast.error("Error recuperando los tipos/subtipos de Riesgos", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
+            });
+    }
 
     /* Pagination */
     updatePage(pageNumber) {
@@ -110,7 +141,7 @@ class Riesgos extends Component {
 
     /* Search */
     updateRiesgosBySearch(type) {
-        this.setState({ 
+        this.setState({
             riesgos: type,
             currentPage: 1
         }, () => {
@@ -263,7 +294,7 @@ class Riesgos extends Component {
                         listLength={this.state.riesgos.length}
                         itemAmount={this.state.pageItemAmount}
                         updatePage={this.updatePage}
-                        currentPage={this.state.currentPage} 
+                        currentPage={this.state.currentPage}
                         updatePageItems={this.updatePageItems} />
                 </Row>
                 <AddRiskModal

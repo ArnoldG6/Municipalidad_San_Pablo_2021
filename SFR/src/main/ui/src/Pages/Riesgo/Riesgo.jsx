@@ -175,24 +175,33 @@ export default class Plan extends Component {
                                 openModalDelete={this.openModalDelete}
                                 status={"status"} />
                         </Row>
-                        {/* Datos del Plan */}
+                        {/* Datos del Riesgo */}
                         <Row className="mt-4">
                             {
                                 (this.state.risk === null || typeof this.state.risk === 'undefined') ?
                                     <h1>Cargando Datos</h1> :
                                     <div>
-                                        <h1>{this.state.risk.id}</h1>
-                                        <h1>{this.state.risk.name}</h1>
                                         <Container>
                                             <Row>
                                                 <Col>
                                                     <Card>
                                                         <Card.Body>
-                                                            <Card.Title>Sobre Este Riesgo</Card.Title>
+                                                            <Card.Title>
+                                                              <h1 class = "text-center">
+                                                                Información de Este Riesgo
+                                                              </h1>
+                                                            </Card.Title>
                                                             <Card.Text>
-                                                                <p>Este riesgo aparece en ....</p>
-                                                                <p>Este riesgo aparece en ....</p>
-                                                                <p>Este riesgo aparece en ....</p>
+                                                            <h2>
+                                                              <b>ID: </b>
+                                                              {this.state.risk.id}
+                                                            </h2>
+                                                            </Card.Text>
+                                                            <Card.Text>
+                                                              <h2>
+                                                                <b>Nombre: </b>
+                                                                {this.state.risk.name}
+                                                              </h2>
                                                             </Card.Text>
                                                         </Card.Body>
                                                     </Card>
@@ -201,9 +210,9 @@ export default class Plan extends Component {
                                                     <Card>
                                                         <Card.Body>
                                                             <Card.Title class="text-center">
-                                                                <h2>Información Específica</h2>
+
                                                             </Card.Title>
-                                                            <Table striped bordered hover responsive="md">
+                                                            <Table bordered hover responsive="md">
                                                                 <tbody>
                                                                     <tr><td><b>Tipo General</b></td><td>{this.state.risk.generalType}</td></tr>
                                                                     <tr><td><b>Tipo Por Área</b></td><td>{this.state.risk.areaType}</td></tr>
@@ -242,4 +251,3 @@ export default class Plan extends Component {
         );
     }
 }
-

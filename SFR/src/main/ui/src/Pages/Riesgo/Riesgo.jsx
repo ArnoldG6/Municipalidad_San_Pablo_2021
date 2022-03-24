@@ -168,7 +168,7 @@ export default class Plan extends Component {
                 {/* Vista Desktop */}
                 <div className="d-none d-lg-block">
                     <div className="container-fluid Data-Container">
-                        {/* Botones de uso en el Plan */}
+                        {/* Botones de uso en el Riesgo */}
                         <Row>
                             <TopButtons
                                 openModalEdit={this.openModalEdit}
@@ -212,7 +212,7 @@ export default class Plan extends Component {
                                                             <Card.Title class="text-center">
 
                                                             </Card.Title>
-                                                            <Table bordered hover responsive="md">
+                                                            <Table striped bordered hover responsive="md">
                                                                 <tbody>
                                                                     <tr><td><b>Tipo General</b></td><td>{this.state.risk.generalType}</td></tr>
                                                                     <tr><td><b>Tipo Por Área</b></td><td>{this.state.risk.areaType}</td></tr>

@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Row, Card, Nav, Table, Container, Col } from "react-bootstrap";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import TopButtons from './Components/TopButtons';
+import EditRiskModal from './Components/EditRiskModal';
+import GenericModal from '../../SharedComponents/GenericModal/GenericModal';
 //import Cookies from 'universal-cookie';
 //const cookies = new Cookies();
 
@@ -9,9 +13,18 @@ export default class Plan extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            risk: null
+            risk: null,
+            typesMap: null,
+            showDel: false,
+            showEdit: false,
         };
         this.refreshPage = this.refreshPage.bind(this);
+        this.openModalDelete = this.openModalDelete.bind(this);
+        this.closeModalDelete = this.closeModalDelete.bind(this);
+        this.openModalEdit = this.openModalEdit.bind(this);
+        this.closeModalEdit = this.closeModalEdit.bind(this);
+        this.deleteRisk = this.deleteRisk.bind(this);
+        this.retrieveTypes = this.retrieveTypes.bind(this);
     }
 
     componentDidMount() {
@@ -39,22 +52,82 @@ export default class Plan extends Component {
                 }, () => {
                     if (this.state.risk === null || typeof this.state.risk === 'undefined') {
                         this.props.history.push('/riesgos');
-                    } //else {
-                    //console.log(this.state.risk)
-
-                    //}
+                    } else {
+                        this.retrieveTypes();
+                    }
                 });
             }).catch(error => {
                 this.props.history.push('/riesgos');
             });
     }
 
+    retrieveTypes() {
+        let options = {
+            url: process.env.REACT_APP_API_URL + `/RiskServlet/Retrieve/RiskType`,
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }
+        axios(options)
+            .then(response => {
+                let map = new Map();
+                for (const [key, value] of Object.entries(response.data)) {
+                    map.set(key, value);
+                }
+                this.setState({
+                    typesMap: map
+                });
+            }).catch(error => {
+                toast.error("Error recuperando los tipos/subtipos de Riesgos", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
+            });
+    }
+
+    openModalEdit = () => {
+        this.setState({ showEdit: true });
+    };
+
+    closeModalEdit = () => {
+        this.setState({ showEdit: false });
+    };
+
+    openModalDelete = () => {
+        this.setState({ showDel: true });
+    };
+
+    closeModalDelete = () => {
+        this.setState({ showDel: false });
+    };
+
+    deleteRisk() {
+        let options = {
+            url: process.env.REACT_APP_API_URL + `/RiskManager/Delete`,
+            method: 'DELETE',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: {
+                'pkID': this.state.delId
+            }
+        }
+        axios(options)
+            .then(response => {
+                this.props.history.push('/riesgos');
+            })
+    }
+
     render() {
         //let tableData = this.tableAssign();
         let tableData = "some wea"
-        let a = this
+        //let a = this
         return (
-
             <div className="Plan-Container">
                 {/* Mobile */}
                 <div className='d-lg-none container-fluid'>
@@ -127,7 +200,7 @@ export default class Plan extends Component {
                                                 <Col>
                                                     <Card>
                                                         <Card.Body>
-                                                            <Card.Title class = "text-center">
+                                                            <Card.Title class="text-center">
                                                                 <h2>Información Específica</h2>
                                                             </Card.Title>
                                                             <Table striped bordered hover responsive="md">
@@ -150,6 +223,21 @@ export default class Plan extends Component {
                         </Row>
                     </div>
                 </div>
+                <EditRiskModal
+                    refreshPage={this.refreshPage}
+                    risk={this.state.risk}
+                    show={this.state.showEdit}
+                    closeModalEdit={this.closeModalEdit}
+                    typesMap={this.state.typesMap}
+                />
+                <GenericModal
+                    show={this.state.showDel}
+                    close={this.closeModalDelete}
+                    action={this.deleteRisk}
+                    header={"Eliminar Riegos"}
+                    body={"¿Desea eliminar este riesgo? Una vez eliminado no se podra recuperar el riesgo seleccionado"}
+                />
+                <ToastContainer />
             </div>
         );
     }

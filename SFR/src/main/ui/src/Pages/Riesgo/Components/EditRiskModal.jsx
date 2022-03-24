@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Modal, Button, Form, FormGroup, Stack, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import '../Riesgos.css'
 
 class EditRiskModal extends Component {
     constructor(props) {
@@ -114,7 +113,7 @@ class EditRiskModal extends Component {
                                             </h5>
                                         </OverlayTrigger>
                                     </Stack>
-                                    <input step=".1" min="0.1" max="0.9" name="probability" id="probability" type="number" placeholder="0,1" className="form-control number-input" defaultValue={risk.probability} required />
+                                    <input step=".01" min="0.01" max="1" name="probability" id="probability" type="number" placeholder="0,01" className="form-control number-input" defaultValue={risk.probability} required />
                                 </div>
                                 <div className="number-input-container">
                                     <Stack direction="horizontal" gap={3}>
@@ -133,7 +132,7 @@ class EditRiskModal extends Component {
                                             </h5>
                                         </OverlayTrigger>
                                     </Stack>
-                                    <input min="10" max="90" step="10" name="impact" id="impact" type="number" className="form-control number-input" placeholder="10%" defaultValue={risk.impact} required />
+                                    <input min="1" max="100" step="1" name="impact" id="impact" type="number" className="form-control number-input" placeholder="10%" defaultValue={risk.impact} required />
                                 </div>
                             </div>
 

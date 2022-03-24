@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './RisksTable.css';
-import { Table, Button, Accordion } from "react-bootstrap";
+import { Table, Accordion } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 
 class RisksTable extends Component {
@@ -49,8 +49,6 @@ class RisksTable extends Component {
                                 <th>Probabilidad</th>
                                 <th>Impacto</th>
                                 <th>Magnitud</th>
-                                <th></th>
-                                <th></th>
                             </tr>
                         </thead>
 
@@ -68,10 +66,6 @@ class RisksTable extends Component {
                                                 <td>{risk.probability}</td>
                                                 <td>{risk.impact}</td>
                                                 <td>{risk.magnitude}</td>
-                                                <td><Button onClick={() => { this.props.openModalEdit(risk.id) }} >Editar</Button></td>
-                                                <td><Button
-                                                    onClick={() => { this.props.openModalDelete(risk.pkID) }}
-                                                    disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>Eliminar</Button></td>
                                             </tr>
                                         )
                                     })}

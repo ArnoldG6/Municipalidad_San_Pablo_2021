@@ -37,7 +37,7 @@ public class Risk implements Serializable {
     @Column(name = "Impact")
     private Integer impact;
     @Column(name = "Magnitude")
-    private Integer magnitude;
+    private Float magnitude;
     @Column(name = "MitigationMeasures")
     private String mitigationMeasures;
 
@@ -70,7 +70,7 @@ public class Risk implements Serializable {
         this.areaType = areaType;
         this.probability = probability;
         this.impact = impact;
-        this.magnitude = (int) (probability * impact);
+        this.magnitude = (probability * impact);
         this.mitigationMeasures = "";
         //this.plans = plans;
 
@@ -85,7 +85,7 @@ public class Risk implements Serializable {
     }
 
     public void updateMagnitude() {
-        this.setMagnitude((int) (probability * impact));
+        this.setMagnitude((Float) (probability * impact));
     }
 
     public void setPkId(int pkID) {
@@ -152,11 +152,11 @@ public class Risk implements Serializable {
         this.impact = impact;
     }
 
-    public Integer getMagnitude() {
+    public Float getMagnitude() {
         return magnitude;
     }
 
-    public void setMagnitude(Integer magnitude) {
+    public void setMagnitude(Float magnitude) {
         this.magnitude = magnitude;
     }
 

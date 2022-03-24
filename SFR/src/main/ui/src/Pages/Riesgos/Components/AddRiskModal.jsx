@@ -132,7 +132,7 @@ class AddRiskModal extends Component {
                                         </h5>
                                     </OverlayTrigger>
                                 </Stack>
-                                <input step=".01" min="0.01" max="1" name="probability" id="probability" type="number" placeholder="0,01" className="form-control number-input " required />
+                                <input step=".01" min="0.01" max="1" name="probability" id="probability" type="number" placeholder="0,01" className="form-control number-input" required />
                             </div>
                             <div className="number-input-container">
                                 <Stack direction="horizontal" gap={3}>

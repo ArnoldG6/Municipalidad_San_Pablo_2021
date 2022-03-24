@@ -91,7 +91,7 @@ class Pages extends Component {
                 <div className='mt-2 d-lg-none'>
                     <Stack direction="vertical" gap={3}>
                         <Stack direction="horizontal" gap={2}>
-                            <label>Mostrando</label>
+                            <label>Mostrar</label>
                             <Form.Select defaultValue={10} style={{ width: '80px' }} onChange={this.handleChange}>
                                 <option>10</option>
                                 <option>15</option>
@@ -120,7 +120,7 @@ class Pages extends Component {
                 {/* PC */}
                 <div className="d-none d-lg-block">
                     <Stack direction="horizontal" gap={2}>
-                        <label>Mostrando</label>
+                        <label>Mostrar</label>
                         <Form.Select defaultValue={10} style={{ width: '80px' }} onChange={this.handleChange}>
                             <option>10</option>
                             <option>15</option>

@@ -49,7 +49,7 @@ class TopButtons extends Component {
                             delay={{ hide: 450, show: 300 }}
                             overlay={(props) => (
                                 <Tooltip {...props}>
-                                    Editar Plan
+                                    Editar Riesgo
                                 </Tooltip>
                             )}
                             placement="bottom"
@@ -64,7 +64,7 @@ class TopButtons extends Component {
                             delay={{ hide: 450, show: 300 }}
                             overlay={(props) => (
                                 <Tooltip {...props}>
-                                    Eliminar Plan
+                                    Eliminar Riesgo
                                 </Tooltip>
                             )}
                             placement="bottom"
@@ -73,45 +73,12 @@ class TopButtons extends Component {
                                 <h2><i className="bi bi-trash"></i></h2>
                             </Button>
                         </OverlayTrigger>
-
-                        {/* Agregar Involucrado */}
-                        <OverlayTrigger
-                            delay={{ hide: 450, show: 300 }}
-                            overlay={(props) => (
-                                <Tooltip {...props}>
-                                    Agregar Involucrado
-                                </Tooltip>
-                            )}
-                            placement="bottom"
-                        >
-                            <Button variant="outline-success">
-                                <h2><i className="bi bi-person-plus"></i></h2>
-                            </Button>
-                        </OverlayTrigger>
-
-                        {/* Matriz de Riesgos */}
-                        <OverlayTrigger
-                            delay={{ hide: 450, show: 300 }}
-                            overlay={(props) => (
-                                <Tooltip {...props}>
-                                    Matriz de Riesgos
-                                </Tooltip>
-                            )}
-                            placement="bottom"
-                        >
-                            <Button variant="outline-warning">
-                                <h2><i className="bi bi-clipboard-data"></i></h2>
-                            </Button>
-                        </OverlayTrigger>
-                        <Button variant="light">
-                            <h2><i className="bi bi-download"></i></h2>
-                        </Button>
                     </Stack>
                 </div>
                 {/* PC */}
                 <div className="d-none d-lg-block">
                     <Stack className="mt-4" direction="horizontal" gap={3}>
-                        <Button variant="link" href="#/planes">
+                        <Button variant="link" href="#/riesgos">
                             <h5><i className="bi bi-chevron-left"></i> Volver</h5>
                         </Button>
                         {/* Editar */}
@@ -119,7 +86,7 @@ class TopButtons extends Component {
                             delay={{ hide: 450, show: 300 }}
                             overlay={(props) => (
                                 <Tooltip {...props}>
-                                    Editar Plan
+                                    Editar Riesgo
                                 </Tooltip>
                             )}
                             placement="bottom"
@@ -134,7 +101,7 @@ class TopButtons extends Component {
                             delay={{ hide: 450, show: 300 }}
                             overlay={(props) => (
                                 <Tooltip {...props}>
-                                    Eliminar Plan
+                                    Eliminar Riesgo
                                 </Tooltip>
                             )}
                             placement="bottom"
@@ -143,43 +110,6 @@ class TopButtons extends Component {
                                 <h2><i className="bi bi-trash"></i></h2>
                             </Button>
                         </OverlayTrigger>
-
-                        {/* Agregar Involucrado */}
-                        <OverlayTrigger
-                            delay={{ hide: 450, show: 300 }}
-                            overlay={(props) => (
-                                <Tooltip {...props}>
-                                    Agregar Involucrado
-                                </Tooltip>
-                            )}
-                            placement="bottom"
-                        >
-                            <Button variant="outline-success">
-                                <h2><i className="bi bi-person-plus"></i></h2>
-                            </Button>
-                        </OverlayTrigger>
-
-                        {/* Matriz de Riesgos */}
-                        <OverlayTrigger
-                            delay={{ hide: 450, show: 300 }}
-                            overlay={(props) => (
-                                <Tooltip {...props}>
-                                    Matriz de Riesgos
-                                </Tooltip>
-                            )}
-                            placement="bottom"
-                        >
-                            <Button variant="outline-warning">
-                                <h2><i className="bi bi-clipboard-data"></i></h2>
-                            </Button>
-                        </OverlayTrigger>
-
-
-                        <Button className="ms-auto" variant="light">
-                            <h2><i className="bi bi-download"></i></h2>
-                        </Button>{' '}
-                        <div className="vr" />
-                        <Button variant={statusClass}>{this.props.status}</Button>{' '}
                     </Stack>
                 </div>
             </div>

@@ -4,8 +4,8 @@ import '../Plan.css'
 import { Modal, Button, Form, OverlayTrigger, Tooltip, Stack } from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+//import Cookies from 'universal-cookie';
+//const cookies = new Cookies();
 
 class AddIncidentModal extends Component {
     constructor(props) {

@@ -8,6 +8,7 @@ class RiskTable extends Component {
         super(props);
         this.state = {
             riesgos: [],
+            incidentes: [],
             showIncidentModal: false,
             showDel: false,
             delID: ""
@@ -49,30 +50,29 @@ class RiskTable extends Component {
                         <i className="bi bi-plus-square"></i> {' '}
                         Agregar Incidencia
                     </Button>
-                    {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado riesgos</h1> :
-                        this.props.riesgos.length === 0 ? <h1>No se han agregado riesgos</h1> :
+                    {(typeof this.props.incidentes === 'undefined' || this.props.incidentes === null) ? <h1>No se han agregado incidentes</h1> :
+                        this.props.incidentes.length === 0 ? <h1>No se han agregado incidentes</h1> :
                             <Accordion className='mt-2'>
-                                {this.props.riesgos.map((risk) => {
+                                {this.props.incidentes.map((incidente) => {
                                     return (
-                                        <Accordion.Item eventKey={risk.id} key={risk.id}>
+                                        <Accordion.Item eventKey={incidente.name} key={incidente.name}>
                                             <Accordion.Header >
-                                                {risk.name}
+                                                {incidente.name}
                                             </Accordion.Header>
                                             <Accordion.Body>
                                                 <p>
-                                                    ID: {risk.id} <br />
-                                                    Tipo General: {risk.generalType} <br />
-                                                    Tipo por Área: {risk.areaType} <br />
-                                                    Tipo Específico: {risk.specType} <br />
-                                                    Probabilidad: {risk.probability} <br />
-                                                    Impacto: {risk.impact} <br />
-                                                    Magnitud: {risk.magnitude} <br />
+                                                    Nombre: {incidente.name} <br />
+                                                    Fecha: {incidente.entryDate} <br />
+                                                    Descripción: {incidente.description} <br />
+                                                    Riesgo Asociado: {incidente.risk} <br />
+                                                    Causas: {incidente.cause} <br />
+                                                    Afectación: {incidente.affectation} <br />
                                                 </p>
                                                 <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
-                                                    onClick={() => this.openModalDelIncident(risk.id)}
+                                                    onClick={() => this.openModalDelIncident(incidente.name)}
                                                     disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
                                                     <i className="bi bi-dash-square-fill"></i>{' '}
-                                                    Remover Riesgo
+                                                    Remover Incidente
                                                 </Button>
                                             </Accordion.Body>
                                         </Accordion.Item>
@@ -111,19 +111,19 @@ class RiskTable extends Component {
                                 </th>
                             </tr>
                         </thead>
-                        {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado incidencias</h1> :
-                            this.props.riesgos.length === 0 ? <h1>No se han agregado incidencias</h1> :
+                        {(typeof this.props.incidentes === 'undefined' || this.props.incidentes === null) ? <h1>No se han agregado incidencias</h1> :
+                            this.props.incidentes.length === 0 ? <h1>No se han agregado incidencias</h1> :
                                 <tbody>
-                                    {this.props.riesgos.map((risk) => {
+                                    {this.props.incidentes.map((incidente) => {
                                         return (
-                                            <tr key={risk.id}>
-                                                <td>{risk.id}</td>
-                                                <td>{risk.name}</td>
-                                                <td>{risk.generalType}</td>
-                                                <td>{risk.areaType}</td>
-                                                <td>{risk.specType}</td>
+                                            <tr key={incidente.name}>
+                                                <td>{incidente.entryDate}</td>
+                                                <td>{incidente.description}</td>
+                                                <td>{incidente.risk}</td>
+                                                <td>{incidente.cause}</td>
+                                                <td>{incidente.affectation}</td>
                                                 <td>
-                                                    {/* Eliminar Riesgo */}
+                                                    {/* Eliminar incidente */}
                                                     <OverlayTrigger
                                                         delay={{ hide: 450, show: 300 }}
                                                         overlay={(props) => (
@@ -134,7 +134,7 @@ class RiskTable extends Component {
                                                         placement="left"
                                                     >
                                                         <Button size="lg" variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
-                                                            onClick={() => this.openModalDelIncident(risk.id)}
+                                                            onClick={() => this.openModalDelIncident(incidente.name)}
                                                             disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
                                                             <i className="bi bi-dash-square-fill"></i>
                                                         </Button>
@@ -156,8 +156,8 @@ class RiskTable extends Component {
                     show={this.state.showDel}
                     close={this.closeModalDelIncident}
                     action={this.removeIncident}
-                    header={"Eliminar Riesgo de un Plan"}
-                    body={"¿Esta seguro que desea eliminar este riesgo del Plan?"} />
+                    header={"Eliminar incidente de un Plan"}
+                    body={"¿Esta seguro que desea eliminar este incidente del Plan?"} />
             </div>
         );
     }

@@ -255,6 +255,7 @@ public class PlanManager extends HttpServlet {
      * server's response. associateIncidenceToPlan updates the DB entries of 'Plan'
      * associating it to a list of 'Plan' entries sent by the client.
      */
+    
     private void associateIncidenceToPlan(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
         JSONObject requestJSON;

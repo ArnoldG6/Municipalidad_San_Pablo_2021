@@ -3,7 +3,7 @@ import { Table, Button, Accordion, OverlayTrigger, Tooltip } from "react-bootstr
 import AddIncidentModal from './AddIncidentModal';
 import GenericModal from '../../../SharedComponents/GenericModal/GenericModal';
 
-class RiskTable extends Component {
+class IncidentTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -46,106 +46,11 @@ class RiskTable extends Component {
             <div>
                 {/* Mobile */}
                 <div className='d-lg-none container-fluid'>
-                    <Button size="sm" onClick={this.openModalAddIncident} variant="success" key="AddIncidenceButtonMobile">
-                        <i className="bi bi-plus-square"></i> {' '}
-                        Agregar Incidencia
-                    </Button>
-                    {(typeof this.props.incidentes === 'undefined' || this.props.incidentes === null) ? <h1>No se han agregado incidentes</h1> :
-                        this.props.incidentes.length === 0 ? <h1>No se han agregado incidentes</h1> :
-                            <Accordion className='mt-2'>
-                                {this.props.incidentes.map((incidente) => {
-                                    return (
-                                        <Accordion.Item eventKey={incidente.name} key={incidente.name}>
-                                            <Accordion.Header >
-                                                {incidente.name}
-                                            </Accordion.Header>
-                                            <Accordion.Body>
-                                                <p>
-                                                    Nombre: {incidente.name} <br />
-                                                    Fecha: {incidente.entryDate} <br />
-                                                    Descripción: {incidente.description} <br />
-                                                    Riesgo Asociado: {incidente.risk} <br />
-                                                    Causas: {incidente.cause} <br />
-                                                    Afectación: {incidente.affectation} <br />
-                                                </p>
-                                                <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
-                                                    onClick={() => this.openModalDelIncident(incidente.name)}
-                                                    disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
-                                                    <i className="bi bi-dash-square-fill"></i>{' '}
-                                                    Remover Incidente
-                                                </Button>
-                                            </Accordion.Body>
-                                        </Accordion.Item>
-                                    );
-                                })}
-                            </Accordion>
-                    }
+                
                 </div>
                 {/* PC */}
                 <div className="d-none d-lg-block">
-                    <Table hover>
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Fecha</th>
-                                <th>Descripción</th>
-                                <th>Riesgo Asociado</th>
-                                <th>Causas</th>
-                                <th>Afectación</th>
-                                <th>
-                                    {/* Agregar Incidencia */}
-                                    <OverlayTrigger
-                                        delay={{ hide: 450, show: 300 }}
-                                        overlay={(props) => (
-                                            <Tooltip {...props}>
-                                                Agregar Incidencia
-                                            </Tooltip>
-                                        )}
-                                        placement="left"
-                                    >
-                                        <Button size="lg" onClick={this.openModalAddIncident} variant="outline-success">
-                                            <i className="bi bi-plus-square-fill"></i>
-                                        </Button>
-                                    </OverlayTrigger>
-
-                                </th>
-                            </tr>
-                        </thead>
-                        {(typeof this.props.incidentes === 'undefined' || this.props.incidentes === null) ? <h1>No se han agregado incidencias</h1> :
-                            this.props.incidentes.length === 0 ? <h1>No se han agregado incidencias</h1> :
-                                <tbody>
-                                    {this.props.incidentes.map((incidente) => {
-                                        return (
-                                            <tr key={incidente.name}>
-                                                <td>{incidente.entryDate}</td>
-                                                <td>{incidente.description}</td>
-                                                <td>{incidente.risk}</td>
-                                                <td>{incidente.cause}</td>
-                                                <td>{incidente.affectation}</td>
-                                                <td>
-                                                    {/* Eliminar incidente */}
-                                                    <OverlayTrigger
-                                                        delay={{ hide: 450, show: 300 }}
-                                                        overlay={(props) => (
-                                                            <Tooltip {...props}>
-                                                                Remover Incidencia
-                                                            </Tooltip>
-                                                        )}
-                                                        placement="left"
-                                                    >
-                                                        <Button size="lg" variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
-                                                            onClick={() => this.openModalDelIncident(incidente.name)}
-                                                            disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
-                                                            <i className="bi bi-dash-square-fill"></i>
-                                                        </Button>
-                                                    </OverlayTrigger>
-                                                </td>
-                                            </tr>
-                                        )
-                                    })}
-                                </tbody>
-                        }
-                    </Table>
+                    <h1>xd</h1>
                 </div>
                 <AddIncidentModal
                     risks={this.props.riesgos}
@@ -162,4 +67,4 @@ class RiskTable extends Component {
         );
     }
 };
-export default RiskTable;
+export default IncidentTable;

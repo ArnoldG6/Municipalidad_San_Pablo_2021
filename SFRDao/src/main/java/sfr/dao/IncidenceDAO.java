@@ -55,8 +55,8 @@ public class IncidenceDAO extends GenericDAO {
                 return "cause";
             case "AFFECTATION":
                 return "affectation";
-            case "RISK_ID":
-                return "risk_id";
+            /*case "RISK_ID":
+                return "risk_id";*/
             default:
                 throw new IOException("Invalid column");
         }
@@ -84,7 +84,7 @@ public class IncidenceDAO extends GenericDAO {
         try {
             order = order.toUpperCase();
             column = this.translateColumnName(column, order);
-            String cmd = new StringBuilder().append("SELECT p from t_incidence p order by p.")
+            String cmd = new StringBuilder().append("SELECT p from Incidence p order by p.")
                     .append(column).append(" ").append(order).toString();
             em = getEntityManager();
             Query query = em.createQuery(cmd);

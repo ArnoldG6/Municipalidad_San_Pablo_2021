@@ -20,7 +20,7 @@ public class Tests {
     public void main() {
         try {
             
-            System.out.println(RiskDAO.getInstance().countOfRiskAppearence(RiskDAO.getInstance().searchById(1)));
+            System.out.println(IncidenceDAO.getInstance().listByColumn("date", "asc"));
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

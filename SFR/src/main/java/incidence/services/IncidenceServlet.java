@@ -98,21 +98,23 @@ public class IncidenceServlet extends HttpServlet {
      */
     private void retrieveIncidences(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        String responseJSON;
-        JSONObject requestJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        responseJSON = new Gson().toJson(IncidenceDAO.getInstance().
-                listByColumn(requestJSON.getString("sortingValue"), requestJSON.getString("sortingWay")));
-        if (responseJSON == null) {
-            //Custom exception
-//            response.getWriter().write(new IncidencesNotListedEx().jsonify());
-        } else {
+        try {
+            String responseJSON;
+            JSONObject requestJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            responseJSON = new Gson().toJson(IncidenceDAO.getInstance().
+                    listByColumn(requestJSON.getString("sortingValue"), requestJSON.getString("sortingWay")));
             response.getWriter().write(responseJSON);
+
+        } catch (Exception e) {
+            response.getWriter().write(e.toString());
+            throw e;
+        } finally {
+            response.getWriter().flush();
+            response.getWriter().close();
         }
-        response.getWriter().flush();
-        response.getWriter().close();
     }
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

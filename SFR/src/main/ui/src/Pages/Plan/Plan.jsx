@@ -17,6 +17,8 @@ class Plan extends Component {
         super(props);
         this.state = {
             table: "risks",
+            sortingValue: 'date',
+            sortingWay: 'description',
             plan: null,
             availableRisks: [],
             showEdit: false,
@@ -62,6 +64,7 @@ class Plan extends Component {
                     if (this.state.plan === null || typeof this.state.plan === 'undefined') {
                         this.props.history.push('/planes');
                     } else {
+                        console.log(this.state.plan)
                         this.retrieveRemainingRisks();
                     }
                 });
@@ -126,6 +129,7 @@ class Plan extends Component {
     tableHandler(table) {
         this.setState({ "table": table })
     }
+    
 
     tableAssign() {
         if (this.state.plan !== null) {
@@ -133,7 +137,7 @@ class Plan extends Component {
                 case "risks":
                     return <RiskTable riesgos={this.state.plan.riskList} removeRisks={this.removeRisks} addRisk={this.addRisk} availableRisks={this.state.availableRisks} />;
                 case "incidents":
-                    return <IncidentTable incidentes={this.state.plan.incidentList} removeIncidents={this.removeIncident} addIncident={this.addIncident} riesgos={this.state.plan.riskList} />;
+                    return <IncidentTable incidentes={this.state.plan.incidenceList} riesgos={this.state.plan.riskList} />;
                 case "involved":
                     return <h1>Involucrados Aqui</h1>;
                 default:
@@ -169,6 +173,39 @@ class Plan extends Component {
                 });
             }).catch(error => {
                 toast.error("Hubo un error agregando los riesgos al plan.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
+            });
+    }
+
+    addIncidence(risksID) {
+        let options = {
+            url: process.env.REACT_APP_API_URL + `/PlanManager/Insert/Incidence`,
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: {
+                'planPKID': this.state.plan.pkID,
+                'riskIDs': risksID
+            }
+        }
+
+        axios(options)
+            .then(response => {
+                this.refreshPage();
+                toast.success("Se agregaron los incidencias correctamente!", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
+            }).catch(error => {
+                toast.error("Hubo un error agregando los incidencias al plan.", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',

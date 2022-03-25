@@ -9,6 +9,10 @@
         <servlet-class>plan.services.PlanManager</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>IncidenceServlet</servlet-name>
+        <servlet-class>incidence.services.IncidenceServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>LoginManager</servlet-name>
         <servlet-class>plan.login.LoginManager</servlet-class>
     </servlet>
@@ -19,6 +23,10 @@
         <url-pattern>/API/PlanServlet/Retrieve/Plan/RemainingRisks</url-pattern>
         <url-pattern>/API/PlanServlet/Retrieve/PlanTypes</url-pattern>
         <url-pattern>/API/PlanServlet/Search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>IncidenceServlet</servlet-name>
+        <url-pattern>/API/IncidenceServlet/Retrieve/Incidencias</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PlanManager</servlet-name>

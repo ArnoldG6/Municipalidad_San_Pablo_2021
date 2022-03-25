@@ -113,7 +113,7 @@ public class RiskServlet extends HttpServlet {
             r = RiskDAO.getInstance().searchByIdHM(requestJSON.getString("riskID"));
             if (r == null) throw new InvalidRiskIDEx();
             responseJSON = new JSONObject(new Gson().toJson(r));
-            //Uncomment this //responseJSON.append("planCount", RiskDAO.getInstance().countOfRiskAppearence(r));
+            responseJSON.append("planCount", RiskDAO.getInstance().countOfRiskAppearence(r));
             response.getWriter().write(responseJSON.toString()); 
         }catch(InvalidRiskIDEx e){
             response.getWriter().write(e.jsonify());

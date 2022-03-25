@@ -204,13 +204,26 @@ export default class Plan extends Component {
                                                                 {this.state.risk.name}
                                                               </h2>
                                                             </Card.Text>
+                                                            <Table border = "1">
+                                                            <tr>
+                                                              <h2 class = "text-center">Información Estadística</h2>
+                                                              <Table border = "1" striped hover responsive="md">
+                                                                  <tbody>
+                                                                      <tr><td><b>Cantidad de Planes en Donde Este Riesgo Está Presente</b></td><td>{this.state.risk.planCount}</td></tr>
+                                                                      <tr><td><b>Cantidad de Veces que se ha Manifestado Este Riesgo</b></td><td>666</td></tr>
+                                                                      <tr><td><b>Cantidad de xxxxxxxxxxxx en Este Riesgo</b></td><td>666</td></tr>
+                                                                      <tr><td><b>Cantidad de xxxxxxxxxxxx en Este Riesgo</b></td><td>666</td></tr>
+                                                                  </tbody>
+                                                              </Table>
+                                                            </tr>
+                                                            </Table>
                                                         </Card.Body>
                                                     </Card>
                                                 </Col>
                                                 <Col>
                                                     <Card>
                                                         <Card.Body>
-                                                            <Table>
+                                                            <Table  border = "1">
                                                             <tr>
                                                               <h2 class = "text-center">Información General</h2>
                                                               <Table border = "1" striped hover responsive="md">
@@ -221,18 +234,6 @@ export default class Plan extends Component {
                                                                       <tr><td><b>Probabilidad</b></td><td>{this.state.risk.probability}</td></tr>
                                                                       <tr><td><b>Impacto</b></td><td>{this.state.risk.impact}</td></tr>
                                                                       <tr><td><b>Magnitud</b></td><td>{this.state.risk.magnitude}</td></tr>
-                                                                  </tbody>
-                                                              </Table>
-                                                            </tr>
-                                                            <tr>
-                                                              <h2 class = "text-center">Información Estadística</h2>
-                                                              <Table border = "1" striped hover responsive="md">
-
-                                                                  <tbody>
-                                                                      <tr><td><b>Cantidad de Planes en Donde Este Riesgo Está Presente</b></td><td>{this.state.risk.planCount}</td></tr>
-                                                                      <tr><td><b>Cantidad de Veces que se ha Manifestado Este Riesgo</b></td><td>666</td></tr>
-                                                                      <tr><td><b>Cantidad de xxxxxxxxxxxx en Este Riesgo</b></td><td>666</td></tr>
-                                                                      <tr><td><b>Cantidad de xxxxxxxxxxxx en Este Riesgo</b></td><td>666</td></tr>
                                                                   </tbody>
                                                               </Table>
                                                             </tr>

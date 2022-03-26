@@ -188,45 +188,12 @@ export default class Plan extends Component {
                                                     <Card>
                                                         <Card.Body>
                                                             <Card.Title>
-                                                              <h1 class = "text-center">
-                                                                Datos de Este Riesgo
-                                                              </h1>
+                                                              <h1>{this.state.risk.name}</h1>
+                                                              <h2>ID: {this.state.risk.id}</h2>
                                                             </Card.Title>
-                                                            <Card.Text>
-                                                            <h2>
-                                                              <b>ID: </b>
-                                                              {this.state.risk.id}
-                                                            </h2>
-                                                            </Card.Text>
-                                                            <Card.Text>
-                                                              <h2>
-                                                                <b>Nombre: </b>
-                                                                {this.state.risk.name}
-                                                              </h2>
-                                                            </Card.Text>
-                                                            <Table border = "1">
-                                                            <tr>
-                                                              <h2 class = "text-center">Información Estadística</h2>
-                                                              <Table border = "1" striped hover responsive="md">
-                                                                  <tbody>
-                                                                      <tr><td><b>Cantidad de Planes en Donde Este Riesgo Está Presente</b></td><td>{this.state.risk.planCount}</td></tr>
-                                                                      <tr><td><b>Cantidad de Veces que se ha Manifestado Este Riesgo</b></td><td>666</td></tr>
-                                                                      <tr><td><b>Cantidad de xxxxxxxxxxxx en Este Riesgo</b></td><td>666</td></tr>
-                                                                      <tr><td><b>Cantidad de xxxxxxxxxxxx en Este Riesgo</b></td><td>666</td></tr>
-                                                                  </tbody>
-                                                              </Table>
-                                                            </tr>
-                                                            </Table>
-                                                        </Card.Body>
-                                                    </Card>
-                                                </Col>
-                                                <Col>
-                                                    <Card>
-                                                        <Card.Body>
-                                                            <Table  border = "1">
-                                                            <tr>
-                                                              <h2 class = "text-center">Información General</h2>
-                                                              <Table border = "1" striped hover responsive="md">
+                                                            <Table>
+                                                              <h2>Información General</h2>
+                                                              <Table border = "1" hover responsive="md">
                                                                   <tbody>
                                                                       <tr><td><b>Tipo General</b></td><td>{this.state.risk.generalType}</td></tr>
                                                                       <tr><td><b>Tipo Por Área</b></td><td>{this.state.risk.areaType}</td></tr>
@@ -236,7 +203,31 @@ export default class Plan extends Component {
                                                                       <tr><td><b>Magnitud</b></td><td>{this.state.risk.magnitude}</td></tr>
                                                                   </tbody>
                                                               </Table>
-                                                            </tr>
+                                                            </Table>
+                                                        </Card.Body>
+                                                    </Card>
+                                                </Col>
+                                                <Col>
+                                                    <Card>
+                                                        <Card.Body>
+                                                            <Table>
+                                                              <h2>Información Estadística</h2>
+                                                              <Table border = "1" hover responsive="md">
+                                                                  <tbody>
+                                                                      <tr><td><b>Cantidad de Planes en Donde Este Riesgo Está Presente</b></td><td>{this.state.risk.planCount}</td></tr>
+                                                                      <tr><td><b>Cantidad de Veces que se ha Manifestado Este Riesgo</b></td><td>666</td></tr>
+                                                                      <tr><td><b>Factor de Ocurrencia</b></td><td>666</td></tr>
+                                                                      <tr><td><b>Cantidad de xxxxxxxxxxxx en Este Riesgo</b></td><td>666</td></tr>
+                                                                  </tbody>
+                                                              </Table>
+                                                              <div>&nbsp;</div><div>&nbsp;</div>
+                                                              <h2>Medidas de Mitigación</h2>
+                                                              <Table border = "1" hover responsive="md">
+                                                                  <tbody>
+                                                                      <tr><td>{this.state.risk.mitigationMeasures}</td></tr>
+                                                                  </tbody>
+                                                              </Table>
+
                                                             </Table>
                                                         </Card.Body>
                                                     </Card>

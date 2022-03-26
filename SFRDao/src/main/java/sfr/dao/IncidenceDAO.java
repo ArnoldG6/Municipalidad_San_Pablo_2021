@@ -4,26 +4,25 @@
  * and open the template in the editor.
  */
 package sfr.dao;
-import java.io.IOException;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.persistence.Query;
 import sfr.model.Incidence;
 import sfr.model.Risk;
 import java.io.IOException;
 import static sfr.dao.GenericDAO.em;
+import sfr.model.Plan;
 
 /**
  *
  * @author tebya
  */
 public class IncidenceDAO extends GenericDAO {
-   
+    
     private static IncidenceDAO uniqueInstance; //Singleton Pattern Object
 
     /**
@@ -34,24 +33,24 @@ public class IncidenceDAO extends GenericDAO {
             uniqueInstance = new IncidenceDAO();
         }
         return uniqueInstance;
-
+        
     }
     
-     public String translateColumnName(String column, String order) throws IOException {
+    public String translateColumnName(String column, String order) throws IOException {
         order = order.toUpperCase();
         if (!(order.equals("ASC") || order.equals("DESC"))) {
             throw new IOException("Invalid order parameter");
         }
         switch (column.toUpperCase()) {
             case "PK_ID":
-                return "pkID";         
+                return "pkID";
             case "NAME":
                 return "name";
             case "DESCRIPTION":
                 return "description";
             case "DATE":
                 return "entryDate";
-            case "CAUSE": 
+            case "CAUSE":
                 return "cause";
             case "AFFECTATION":
                 return "affectation";
@@ -61,7 +60,7 @@ public class IncidenceDAO extends GenericDAO {
                 throw new IOException("Invalid column");
         }
     }
-     
+
     /**
      *
      * @return a Plan object that matches with
@@ -70,10 +69,11 @@ public class IncidenceDAO extends GenericDAO {
     public Incidence searchById(int id) {
         em = getEntityManager();
         return (Incidence) em.find(Incidence.class, id);
-    } 
-     
-     /**
-     * @return a sorted list of Incidence objects depending on the next parameters:
+    }
+
+    /**
+     * @return a sorted list of Incidence objects depending on the next
+     * parameters:
      * @param column specifies the sorting criteria from the selected column.
      * Default value for this project is: "ENTRYDATE".
      * @param order specifies the 'ascendent' or 'descendent' sorting criteria.
@@ -109,9 +109,8 @@ public class IncidenceDAO extends GenericDAO {
         });
         return incidences;
     }
-    
-    
-     /**
+
+    /**
      * This method adds a Plan object into the DB record, using HQL.
      *
      * @param incidence is the Incidence Object to be added.
@@ -129,7 +128,7 @@ public class IncidenceDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-    
+
     /**
      * This method updates a Incidence object into the DB record, using HQL.
      *
@@ -148,7 +147,7 @@ public class IncidenceDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-    
+
     /**
      * This method deletes a Incidence object into the DB record, using HQL.
      *
@@ -156,6 +155,7 @@ public class IncidenceDAO extends GenericDAO {
      */
     public void delete(Incidence incidence) {
         try {
+            this.detach(incidence);
             em = getEntityManager();
             em.getTransaction().begin();
             em.remove(em.merge(incidence));
@@ -165,6 +165,23 @@ public class IncidenceDAO extends GenericDAO {
             System.err.println(ex.getMessage());
         } finally {
             closeEntityManager();
+        }
+    }
+    
+    public void detach(Incidence incidence) throws Exception {
+        if (incidence == null) {
+            throw new NullPointerException();
+        }
+        for (Plan p : PlanDAO.getInstance().listByColumn("ID", "ASC")) {
+            if (p.getIncidenceList().contains(incidence)) {
+                p.getIncidenceList().remove(incidence);
+                PlanDAO.getInstance().update(p);
+            }
+        }
+        Risk r = incidence.getRisk();
+        if (r != null) {
+            incidence.setRisk(null);
+            RiskDAO.getInstance().update(r);
         }
     }
     
@@ -193,11 +210,12 @@ public class IncidenceDAO extends GenericDAO {
             throw e;
         }
     }
-    
+
     /**
      * This method associates a single Incidence object to a Risk object.
      *
-     * @param incidenceID the Plan object that will be associated to the Risk objects
+     * @param incidenceID the Plan object that will be associated to the Risk
+     * objects
      * @param riskID risk id to associate with incidenceID parameter.
      * @throws java.lang.Exception
      */
@@ -212,7 +230,7 @@ public class IncidenceDAO extends GenericDAO {
             }
             Risk risk = ins.getRisk();
             Risk r = RiskDAO.getInstance().searchById(riskID);
-            if(risk != r){
+            if (risk != r) {
                 risk = r;
             } else {
                 throw new IOException("This incidence already contains this risk");
@@ -228,5 +246,4 @@ public class IncidenceDAO extends GenericDAO {
         }
     }
     
-   
 }

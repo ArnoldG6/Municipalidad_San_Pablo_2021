@@ -61,13 +61,14 @@ class IncidentTable extends Component {
                                             </Accordion.Header>
                                             <Accordion.Body>
                                                 <p>
-                                                    ID: {incidence.pkID} <br />
-                                                    Nombre: {incidence.name} <br />
-                                                    Fecha: {incidence.entryDate} <br />
-                                                    Causa: {incidence.cause} <br />
-                                                    Riesgo Asociado: {incidence.risk.name} <br />
-                                                    Afectacion: {incidence.affectation} <br />
-                                                    Descripcion: {incidence.description} <br />
+                                                    ID: {incidence.pkID} <br/>
+                                                    Nombre: {incidence.name} <br/>
+                                                    Fecha: {incidence.entryDate} <br/>
+                                                    Causa: {incidence.cause} <br/>
+                                                    Afectacion: {incidence.affectation} <br/>
+                                                    Descripcion: {incidence.description} <br/>
+                                                    Riesgos Asociados: {(typeof this.props.riesgos === "undefined" || this.props.riesgos === null) ?<div>No hay riesgos asociados</div> :
+                                                    this.props.riesgos.length === 0 ? <div>No hay riesgos asociados</div> : this.props.riesgos.map((riesgo) => {return (<div>{riesgo.name}</div>);})}<br/>
                                                 </p>
                                                 <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
                                                     onClick={() => this.openModalDelIncident(incidence.pkID)}
@@ -103,9 +104,10 @@ class IncidentTable extends Component {
                                                     Nombre: {incidence.name} <br />
                                                     Fecha: {incidence.entryDate} <br />
                                                     Causa: {incidence.cause} <br />
-                                                    Riesgo Asociado: {incidence.risk.name} <br />
                                                     Afectacion: {incidence.affectation} <br />
                                                     Descripcion: {incidence.description} <br />
+                                                    Riesgos Asociados: {(typeof this.props.riesgos === "undefined" || this.props.riesgos === null) ?<div>No hay riesgos asociados</div> :
+                                                    this.props.riesgos.length === 0 ? <div>No hay riesgos asociados</div> : this.props.riesgos.map((riesgo) => {return (<div>{riesgo.name}</div>);})}<br/>
                                                 </p>
                                                 <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
                                                     onClick={() => this.openModalDelIncident(incidence.pkID)}

@@ -46,11 +46,81 @@ class IncidentTable extends Component {
             <div>
                 {/* Mobile */}
                 <div className='d-lg-none container-fluid'>
-                
+                    <Button size="sm" onClick={this.openModalAddIncident} variant="success" key="AddIncidenceButtonMobile">
+                        <i className="bi bi-plus-square"></i> {' '}
+                        Agregar Incidencia
+                    </Button>
+                    {(typeof this.props.incidentes === 'undefined' || this.props.incidentes === null) ? <h1>No se han agregado incidentes</h1> :
+                        this.props.incidentes.length === 0 ? <h1>No se han agregado incidentes</h1> :
+                            <Accordion className='mt-2'>
+                                {this.props.incidentes.map((incidence) => {
+                                    return (
+                                        <Accordion.Item eventKey={incidence.pkID} key={incidence.pkID}>
+                                            <Accordion.Header >
+                                                {incidence.name}
+                                            </Accordion.Header>
+                                            <Accordion.Body>
+                                                <p>
+                                                    ID: {incidence.pkID} <br/>
+                                                    Nombre: {incidence.name} <br/>
+                                                    Fecha: {incidence.entryDate} <br/>
+                                                    Causa: {incidence.cause} <br/>
+                                                    Afectacion: {incidence.affectation} <br/>
+                                                    Descripcion: {incidence.description} <br/>
+                                                    Riesgos Asociados: {(typeof this.props.riesgos === "undefined" || this.props.riesgos === null) ?<div>No hay riesgos asociados</div> :
+                                                    this.props.riesgos.length === 0 ? <div>No hay riesgos asociados</div> : this.props.riesgos.map((riesgo) => {return (<div>{riesgo.name}</div>);})}<br/>
+                                                </p>
+                                                <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
+                                                    onClick={() => this.openModalDelIncident(incidence.pkID)}
+                                                    disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
+                                                    <i className="bi bi-dash-square-fill"></i>{' '}
+                                                    Remover Incidencia
+                                                </Button>
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                    );
+                                })}
+                            </Accordion>
+                    }
                 </div>
                 {/* PC */}
                 <div className="d-none d-lg-block">
-                    <h1>xd</h1>
+                    <Button size="sm" onClick={this.openModalAddIncident} variant="success" key="AddIncidenceButtonMobile">
+                        <i className="bi bi-plus-square"></i> {' '}
+                        Agregar Incidencia
+                    </Button>
+                    {(typeof this.props.incidentes === 'undefined' || this.props.incidentes === null) ? <h1>No se han agregado incidentes</h1> :
+                        this.props.incidentes.length === 0 ? <h1>No se han agregado incidentes</h1> :
+                            <Accordion className='mt-2'>
+                                {this.props.incidentes.map((incidence) => {
+                                    return (
+                                        <Accordion.Item eventKey={incidence.pkID} key={incidence.pkID}>
+                                            <Accordion.Header >
+                                                {incidence.name}
+                                            </Accordion.Header>
+                                            <Accordion.Body>
+                                                <p>
+                                                    ID: {incidence.pkID} <br />
+                                                    Nombre: {incidence.name} <br />
+                                                    Fecha: {incidence.entryDate} <br />
+                                                    Causa: {incidence.cause} <br />
+                                                    Afectacion: {incidence.affectation} <br />
+                                                    Descripcion: {incidence.description} <br />
+                                                    Riesgos Asociados: {(typeof this.props.riesgos === "undefined" || this.props.riesgos === null) ?<div>No hay riesgos asociados</div> :
+                                                    this.props.riesgos.length === 0 ? <div>No hay riesgos asociados</div> : this.props.riesgos.map((riesgo) => {return (<div>{riesgo.name}</div>);})}<br/>
+                                                </p>
+                                                <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
+                                                    onClick={() => this.openModalDelIncident(incidence.pkID)}
+                                                    disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
+                                                    <i className="bi bi-dash-square-fill"></i>{' '}
+                                                    Remover Incidencia
+                                                </Button>
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                    );
+                                })}
+                            </Accordion>
+                    }
                 </div>
                 <AddIncidentModal
                     risks={this.props.riesgos}

@@ -27,3 +27,8 @@
 a .nav-link{
     color: black;
 }
+
+a{
+    text-decoration: none !important;
+    
+}

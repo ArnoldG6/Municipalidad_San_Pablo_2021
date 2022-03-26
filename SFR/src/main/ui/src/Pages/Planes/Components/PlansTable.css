@@ -35,27 +35,23 @@
 #nameButton {
     max-width: 40vh;
 }
-.nameSlot {
-    max-width: 40vh;
+ 
+ 
+
+ 
+
+.seeMoreButton{
+    background-color: transparent !important;
+    color: black !important;
+    border-color: transparent !important;
+    outline: none !important;
+    text-align: right !important;
+    float: right!important;
+    
+}
+
+.mobilePlanName{
+    width: 100vh !important;
     word-wrap: break-word;
-}
 
-.nameText{
-    text-overflow: ellipsis;
-    white-space: nowrap;  
-    overflow: hidden;  
-    transition: all 3s ease-in-out; 
-}
-
-
-.nameText:hover{
-    white-space: inherit;
-}
-
-
-#seeMoreButton{
-    background-color: transparent;
-    color: black;
-    border-color: transparent;
-    outline: none;
 }

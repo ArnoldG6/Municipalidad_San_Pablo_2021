@@ -155,7 +155,7 @@ class AddRiskModal extends Component {
                             </div>
                         </div>
 
-                        <FormGroup>
+                        <FormGroup> 
                             <Stack direction="horizontal" gap={3}>
                                 <label>Tipo General:</label>
                                 <OverlayTrigger

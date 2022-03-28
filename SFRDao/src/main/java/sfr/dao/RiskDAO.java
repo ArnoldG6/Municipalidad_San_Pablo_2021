@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import org.hibernate.Session;
 import javax.persistence.Query;
 import static sfr.dao.GenericDAO.em;
+import sfr.model.Incidence;
 import sfr.model.Plan;
 import sfr.model.Risk;
 
@@ -105,13 +106,34 @@ public class RiskDAO extends GenericDAO {
      * @return an Integer according to the number of Plan objects that contains the risk param.
      * @throws java.lang.Exception
      */
-    public Integer countOfRiskAppearence(Risk risk) throws Exception {
+
+    public Integer countOfRiskAppearenceInPlans(Risk risk) throws Exception {
         try {
             if (risk == null)
                 throw new NullPointerException("Risk Null Pointer Exception");
             Integer count = 0;
             for (Plan p: PlanDAO.getInstance().listByColumn("ENTRYDATE", "DESC"))
                 if (p.containsRisk(risk)) count += 1;
+            return count;
+        } catch (Exception ex) {
+            Logger.getLogger(RiskDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
+    }
+    /**
+     * @param r is the Risk object that should be searched in all Incidence objects.
+     * @return an Integer according to the number of Risk objects that appears in all Incidence objects.
+     * @throws java.lang.Exception
+     */
+
+    public Integer countOfRiskAppearenceInIncidences(Risk r) throws Exception {
+        try {
+            Integer count = 0;
+            for (Incidence i: IncidenceDAO.getInstance().listByColumn("DATE", "DESC"))
+                if (i.containsRisk(r)) count += 1;
             return count;
         } catch (Exception ex) {
             Logger.getLogger(RiskDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -325,4 +347,5 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
+
 }

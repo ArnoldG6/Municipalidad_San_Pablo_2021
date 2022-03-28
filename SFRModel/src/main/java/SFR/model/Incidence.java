@@ -188,4 +188,8 @@ public class Incidence implements Serializable {
         }
         return true;
     }
+    public boolean containsRisk(Risk r){
+        if (this.risk == null || r == null) return false;
+        return this.risk.getPkId() == r.getPkId();
+    }
 }

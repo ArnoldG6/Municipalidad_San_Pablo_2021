@@ -175,8 +175,10 @@ public class Risk implements Serializable {
 //    public void setPlans(List<Plan> plans) {
 //        this.plans = plans;
 //    }
+    
     public boolean equals(Risk other) {
-        return (this.id == other.id);
+        if (other == null) return false;
+        return this.pkID == other.pkID;
     }
 
     @Override

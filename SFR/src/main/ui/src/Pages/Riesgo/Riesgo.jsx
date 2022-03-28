@@ -203,6 +203,7 @@ export default class Plan extends Component {
                                                                       <tr><td><b>Probabilidad</b></td><td>{this.state.risk.probability}</td></tr>
                                                                       <tr><td><b>Impacto</b></td><td>{this.state.risk.impact}</td></tr>
                                                                       <tr><td><b>Magnitud</b></td><td>{this.state.risk.magnitude}</td></tr>
+                                                                      <tr><td><b>Factores</b></td><td>{this.state.risk.factors}</td></tr>
                                                                   </tbody>
                                                               </Table>
                                                             </Table>
@@ -217,9 +218,8 @@ export default class Plan extends Component {
                                                               <Table border = "1" hover responsive="md">
                                                                   <tbody>
                                                                       <tr><td><b>Cantidad de Planes en Donde Este Riesgo Está Presente</b></td><td>{this.state.risk.planCount}</td></tr>
-                                                                      <tr><td><b>Cantidad de Veces que se ha Manifestado Este Riesgo</b></td><td>666</td></tr>
-                                                                      <tr><td><b>Factor de Ocurrencia</b></td><td>666</td></tr>
-                                                                      <tr><td><b>Cantidad de xxxxxxxxxxxx en Este Riesgo</b></td><td>666</td></tr>
+                                                                      <tr><td><b>Cantidad de Veces que se ha Presentado Este Riesgo</b></td><td>{this.state.risk.incidenceCount}</td></tr>
+                                                                      <tr><td><b>Factor de Ocurrencia</b></td><td>{this.state.risk.occurrenceFactor}</td></tr>
                                                                   </tbody>
                                                               </Table>
                                                               <div>&nbsp;</div>

@@ -177,6 +177,7 @@ export default class Plan extends Component {
                                 status={"status"} />
                         </Row>
                         {/* Datos del Riesgo */}
+                        
                         <Row className="mt-4">
                             {
                                 (this.state.risk === null || typeof this.state.risk === 'undefined') ?

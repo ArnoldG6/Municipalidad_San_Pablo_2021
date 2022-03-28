@@ -143,28 +143,52 @@ export default class Plan extends Component {
                         {
                             (this.state.risk === null || typeof this.state.risk === 'undefined') ?
                                 <h1>Cargando Datos</h1> :
-                                <div>
-                                    <h1>{this.state.risk.name}</h1>
-                                    <h2>{this.state.risk.id}</h2>
-                                    <h2>{this.state.risk.generalType}</h2>
-                                    <h4>{this.state.risk.areaType}</h4>
-                                    <h4>{this.state.risk.specType}</h4>
-                                    <p>{this.state.risk.factors}</p>
-                                </div>
+                                <Container fluid>
+                                    <Row>
+                                        <Col>
+                                            <h1>{this.state.risk.name}</h1>
+                                            <h2>ID: {this.state.risk.id}</h2>
+                                            <Table>
+                                                <h2>Información General</h2>
+                                                <Table border="1" hover responsive="md">
+                                                    <tbody>
+                                                        <tr><td><b>Tipo General</b></td><td>{this.state.risk.generalType}</td></tr>
+                                                        <tr><td><b>Tipo Por Área</b></td><td>{this.state.risk.areaType}</td></tr>
+                                                        <tr><td><b>Tipo Específico</b></td><td>{this.state.risk.specType}</td></tr>
+                                                        <tr><td><b>Probabilidad</b></td><td>{this.state.risk.probability}</td></tr>
+                                                        <tr><td><b>Impacto</b></td><td>{this.state.risk.impact}</td></tr>
+                                                        <tr><td><b>Magnitud</b></td><td>{this.state.risk.magnitude}</td></tr>
+                                                        <tr><td><b>Factores</b></td><td>{this.state.risk.factors}</td></tr>
+                                                    </tbody>
+                                                </Table>
+                                            </Table>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            <Table>
+                                                <h2>Información Estadística</h2>
+                                                <Table border="1" hover responsive="md">
+                                                    <tbody>
+                                                        <tr><td><b>Cantidad de Planes en Donde Este Riesgo Está Presente</b></td><td>{this.state.risk.planCount}</td></tr>
+                                                        <tr><td><b>Cantidad de Veces que se ha Presentado Este Riesgo</b></td><td>{this.state.risk.incidenceCount}</td></tr>
+                                                        <tr><td><b>Factor de Ocurrencia</b></td><td>{this.state.risk.occurrenceFactor}</td></tr>
+                                                    </tbody>
+                                                </Table>
+                                                <div>&nbsp;</div>
+                                                <h2>Medidas de Mitigación</h2>
+                                                <Table border="1" hover responsive="md">
+                                                    <tbody>
+                                                        <tr><td>{this.state.risk.mitigationMeasures}</td></tr>
+                                                    </tbody>
+                                                </Table>
+
+                                            </Table>
+                                        </Col>
+                                    </Row>
+                                </Container>
                         }
                     </Row>
-                    <Card id="card">
-                        <Card.Header>
-                            <Nav fill variant="tabs" defaultActiveKey="riesgosTab">
-                                <Nav.Item>
-                                    <Nav.Link eventKey="riesgosTab">Riesgos</Nav.Link>
-                                </Nav.Item>
-                            </Nav>
-                        </Card.Header>
-                        <Card.Body>
-                            {tableData}
-                        </Card.Body>
-                    </Card>
                 </div>
                 {/* Vista Desktop */}
                 <div className="d-none d-lg-block">
@@ -177,7 +201,7 @@ export default class Plan extends Component {
                                 status={"status"} />
                         </Row>
                         {/* Datos del Riesgo */}
-                        
+
                         <Row className="mt-4">
                             {
                                 (this.state.risk === null || typeof this.state.risk === 'undefined') ?
@@ -189,24 +213,24 @@ export default class Plan extends Component {
                                                     <Card>
                                                         <Card.Body>
                                                             <Card.Title>
-                                                              <h1>{this.state.risk.name}</h1>
-                                                              <h2>ID: {this.state.risk.id}</h2>
+                                                                <h1>{this.state.risk.name}</h1>
+                                                                <h2>ID: {this.state.risk.id}</h2>
                                                             </Card.Title>
                                                             <div>&nbsp;</div>
                                                             <div>&nbsp;</div>
                                                             <Table>
-                                                              <h2>Información General</h2>
-                                                              <Table border = "1" hover responsive="md">
-                                                                  <tbody>
-                                                                      <tr><td><b>Tipo General</b></td><td>{this.state.risk.generalType}</td></tr>
-                                                                      <tr><td><b>Tipo Por Área</b></td><td>{this.state.risk.areaType}</td></tr>
-                                                                      <tr><td><b>Tipo Específico</b></td><td>{this.state.risk.specType}</td></tr>
-                                                                      <tr><td><b>Probabilidad</b></td><td>{this.state.risk.probability}</td></tr>
-                                                                      <tr><td><b>Impacto</b></td><td>{this.state.risk.impact}</td></tr>
-                                                                      <tr><td><b>Magnitud</b></td><td>{this.state.risk.magnitude}</td></tr>
-                                                                      <tr><td><b>Factores</b></td><td>{this.state.risk.factors}</td></tr>
-                                                                  </tbody>
-                                                              </Table>
+                                                                <h2>Información General</h2>
+                                                                <Table border="1" hover responsive="md">
+                                                                    <tbody>
+                                                                        <tr><td><b>Tipo General</b></td><td>{this.state.risk.generalType}</td></tr>
+                                                                        <tr><td><b>Tipo Por Área</b></td><td>{this.state.risk.areaType}</td></tr>
+                                                                        <tr><td><b>Tipo Específico</b></td><td>{this.state.risk.specType}</td></tr>
+                                                                        <tr><td><b>Probabilidad</b></td><td>{this.state.risk.probability}</td></tr>
+                                                                        <tr><td><b>Impacto</b></td><td>{this.state.risk.impact}</td></tr>
+                                                                        <tr><td><b>Magnitud</b></td><td>{this.state.risk.magnitude}</td></tr>
+                                                                        <tr><td><b>Factores</b></td><td>{this.state.risk.factors}</td></tr>
+                                                                    </tbody>
+                                                                </Table>
                                                             </Table>
                                                         </Card.Body>
                                                     </Card>
@@ -215,21 +239,21 @@ export default class Plan extends Component {
                                                     <Card>
                                                         <Card.Body>
                                                             <Table>
-                                                              <h2>Información Estadística</h2>
-                                                              <Table border = "1" hover responsive="md">
-                                                                  <tbody>
-                                                                      <tr><td><b>Cantidad de Planes en Donde Este Riesgo Está Presente</b></td><td>{this.state.risk.planCount}</td></tr>
-                                                                      <tr><td><b>Cantidad de Veces que se ha Presentado Este Riesgo</b></td><td>{this.state.risk.incidenceCount}</td></tr>
-                                                                      <tr><td><b>Factor de Ocurrencia</b></td><td>{this.state.risk.occurrenceFactor}</td></tr>
-                                                                  </tbody>
-                                                              </Table>
-                                                              <div>&nbsp;</div>
-                                                              <h2>Medidas de Mitigación</h2>
-                                                              <Table border = "1" hover responsive="md">
-                                                                  <tbody>
-                                                                      <tr><td>{this.state.risk.mitigationMeasures}</td></tr>
-                                                                  </tbody>
-                                                              </Table>
+                                                                <h2>Información Estadística</h2>
+                                                                <Table border="1" hover responsive="md">
+                                                                    <tbody>
+                                                                        <tr><td><b>Cantidad de Planes en Donde Este Riesgo Está Presente</b></td><td>{this.state.risk.planCount}</td></tr>
+                                                                        <tr><td><b>Cantidad de Veces que se ha Presentado Este Riesgo</b></td><td>{this.state.risk.incidenceCount}</td></tr>
+                                                                        <tr><td><b>Factor de Ocurrencia</b></td><td>{this.state.risk.occurrenceFactor}</td></tr>
+                                                                    </tbody>
+                                                                </Table>
+                                                                <div>&nbsp;</div>
+                                                                <h2>Medidas de Mitigación</h2>
+                                                                <Table border="1" hover responsive="md">
+                                                                    <tbody>
+                                                                        <tr><td>{this.state.risk.mitigationMeasures}</td></tr>
+                                                                    </tbody>
+                                                                </Table>
 
                                                             </Table>
                                                         </Card.Body>

@@ -191,6 +191,8 @@ export default class Plan extends Component {
                                                               <h1>{this.state.risk.name}</h1>
                                                               <h2>ID: {this.state.risk.id}</h2>
                                                             </Card.Title>
+                                                            <div>&nbsp;</div>
+                                                            <div>&nbsp;</div>
                                                             <Table>
                                                               <h2>Información General</h2>
                                                               <Table border = "1" hover responsive="md">
@@ -220,7 +222,7 @@ export default class Plan extends Component {
                                                                       <tr><td><b>Cantidad de xxxxxxxxxxxx en Este Riesgo</b></td><td>666</td></tr>
                                                                   </tbody>
                                                               </Table>
-                                                              <div>&nbsp;</div><div>&nbsp;</div>
+                                                              <div>&nbsp;</div>
                                                               <h2>Medidas de Mitigación</h2>
                                                               <Table border = "1" hover responsive="md">
                                                                   <tbody>

@@ -277,6 +277,7 @@ class AddRiskModal extends Component {
                                     </h5>
                                 </OverlayTrigger>
                             </Stack>
+                            
                             <textarea name="mitigationMeasures" id="mitigationMeasures" type="text" placeholder="Medidas necesarias para mitigar el riesgo."  className="form-control" required/>
                         </div>
                         <div className='text-center'>

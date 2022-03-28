@@ -52,8 +52,12 @@ class AddRiskModal extends Component {
             .then(response => {
                 this.props.updateRiesgos("add-success");
                 this.props.closeModal();
+                if (response.data.id)
+                  document.location= process.env.REACT_APP_SFR+"#/riesgo?id="+response.data.id
+                else
+                  throw new Error('Error al cargar página específica del riesgo ');
             }).catch(error => {
-                toast.error("ID del riesgo ya se encuentra registrado en el sistema.", {
+                toast.error(error, {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
@@ -277,7 +281,7 @@ class AddRiskModal extends Component {
                                     </h5>
                                 </OverlayTrigger>
                             </Stack>
-                            
+
                             <textarea name="mitigationMeasures" id="mitigationMeasures" type="text" placeholder="Medidas necesarias para mitigar el riesgo."  className="form-control" required/>
                         </div>
                         <div className='text-center'>

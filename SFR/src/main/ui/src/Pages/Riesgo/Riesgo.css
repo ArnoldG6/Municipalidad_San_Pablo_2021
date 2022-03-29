@@ -26,3 +26,29 @@
     min-height: 100%;
     height: 70vh;
 }
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  .content-wrap {
+    flex: 1;
+  }
+  .App {
+    text-align: center;
+  }
+
+  .text_center {
+      display: flex;
+      width: 100%;
+      max-width: 60%;
+      margin: 0 auto;
+      justify-content: center;
+  }
+  .Footer {
+      background-color: #1F3140;
+      color: white;
+      height: 6%;
+      overflow-y: hidden;
+  }

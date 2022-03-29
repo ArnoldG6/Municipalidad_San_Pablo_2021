@@ -42,11 +42,11 @@ class EditRiskModal extends Component {
                 'specType': event.target.specific_factor.value,
                 'magnitude': parseFloat(event.target.probability.value) * parseInt(event.target.impact.value),
                 'factors': event.target.factor.value,
-                'mitigationMeasures': this.props.risk.mitigationMeasures
+                'mitigationMeasures': event.target.mitigationMeasures.value
             }
         }
         console.log(options)
-        
+
         axios(options)
             .then(response => {
                 this.props.refreshPage();
@@ -81,14 +81,14 @@ class EditRiskModal extends Component {
                             <Form.Group>
                             <div className="form-group">
                                 <Form.Label>Nombre: </Form.Label>
-                                <Form.Control 
-                                name="name" 
-                                id="name" 
-                                type="text" 
-                                placeholder="Nombre" 
-                                className="form-control" 
-                                defaultValue={risk.name} 
-                                required 
+                                <Form.Control
+                                name="name"
+                                id="name"
+                                type="text"
+                                placeholder="Nombre"
+                                className="form-control"
+                                defaultValue={risk.name}
+                                required
                                 />
                             <Form.Control.Feedback type="invalid">
                                 Por favor ingresar nombre.
@@ -207,14 +207,14 @@ class EditRiskModal extends Component {
                             <Form.Group>
                             <div className="form-group">
                                 <Form.Label>Descripción de tipo específico:</Form.Label>
-                                <Form.Control 
-                                name="specific_factor" 
-                                id="specific_factor" 
-                                type="text" 
-                                placeholder="" 
-                                className="form-control" 
-                                defaultValue={risk.specType} 
-                                required 
+                                <Form.Control
+                                name="specific_factor"
+                                id="specific_factor"
+                                type="text"
+                                placeholder=""
+                                className="form-control"
+                                defaultValue={risk.specType}
+                                required
                                 />
                             <Form.Control.Feedback type="invalid">
                             Por favor ingresar tipo específico.
@@ -239,6 +239,25 @@ class EditRiskModal extends Component {
                                     </OverlayTrigger>
                                 </Stack>
                                 <textarea name="factor" id="factor" type="text" placeholder="¿Por qué puede suceder?" defaultValue={risk.factors} className="form-control" />
+                            </div>
+                            <div className="form-group">
+                                <Stack direction="horizontal" gap={3}>
+                                    <label>Medidas de mitigación:</label>
+                                    <OverlayTrigger
+                                        delay={{ hide: 450, show: 300 }}
+                                        overlay={(props) => (
+                                            <Tooltip {...props}>
+                                                {process.env.REACT_APP_RIESGOS_HELP_MEDI_MITI}
+                                            </Tooltip>
+                                        )}
+                                        placement="bottom"
+                                    >
+                                        <h5 className='ms-auto mt-1'>
+                                            <i className="bi bi-info-circle"></i>
+                                        </h5>
+                                    </OverlayTrigger>
+                                </Stack>
+                                <textarea name="mitigationMeasures" id="mitigationMeasures" type="text" placeholder="Medidas necesarias para mitigar el riesgo." defaultValue={risk.mitigationMeasures} className="form-control" />
                             </div>
                             <Button id="submitRiskBtn" className='btn-sfr' type="submit" >
                                 Guardar

@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONObject;
 import sfr.dao.RiskDAO;
 import sfr.dao.RiskTypeDAO;
 import sfr.model.Risk;
@@ -89,24 +90,30 @@ public class RiskManager extends HttpServlet {
      * other useful information from the client request. insertRisk verifies
      * that the Risk ID that wants to be inserted does not correspond to an
      * existing Risk entry.
+     * edited by: ArnoldG6.
      */
     private void insertRisk(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String requestJSON = request.getReader().lines().collect(Collectors.joining());
         Risk newRisk = new Gson().fromJson(requestJSON, Risk.class);
         newRisk.updateMagnitude();
-
         long idCount = RiskTypeDAO.getInstance().handleIDAmount(newRisk.getId());
         String id = String.format("%02d", idCount);
         String newID = newRisk.getId() + id;
-        
         newRisk.setId(newID);
-
         if (RiskDAO.getInstance().searchById(newRisk.getPkId()) != null) {
             //Custom exception
             response.getWriter().write(new RiskAlreadyExistEx().jsonify());
 //            throw new IOException("El riesgo que se insertó ya existe");
         }
         RiskDAO.getInstance().add(newRisk);
+        //JSON Response is required in order to redirect to the new Risk Page from the client-side.
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        JSONObject responseJSON = new JSONObject();
+        responseJSON.append("id", newRisk.getId());
+        response.getWriter().write(responseJSON.toString());
+        response.getWriter().flush();
+        response.getWriter().close();
     }
 
     /**

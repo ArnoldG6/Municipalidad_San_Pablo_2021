@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 import './PlansTable.css';
-import { Table, Accordion, Button ,Span} from "react-bootstrap";
+import { Table, Accordion, Button, Span } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import ShowMoreText from "react-show-more-text";
 
 
-
 class PlansTable extends Component {
+
     executeOnClick(isExpanded) {
         console.log(isExpanded);
     }
 
-
     render() {
         return (
-
-
 
             <div className='mt-2'>
                 {/* Mobile */}
@@ -42,23 +39,23 @@ class PlansTable extends Component {
                                     return (
                                         <Accordion.Item eventKey={plan.id} key={plan.id}>
                                             <Accordion.Header >
-                                                
-                                                <ShowMoreText
-                                                            /* Default options */
-                                                            lines={2}
-                                                            more={<p>Mostrar más</p>}
-                                                            less="Mostrar menos"
-                                                            className="content-css"
-                                                            anchorClass="accordion-header"
-                                                            onClick={this.executeOnClick}
-                                                            expanded={false}
-                                                            truncatedEndingComponent={"... "}
-                                                            width={0}
-                                                        >
 
-                                                           <div class="mobilePlanName">{plan.name}</div>
-                                                            
-                                                        </ShowMoreText>
+                                                <ShowMoreText
+                                                    /* Default options */
+                                                    lines={2}
+                                                    more={<p>Mostrar más</p>}
+                                                    less="Mostrar menos"
+                                                    className="content-css"
+                                                    anchorClass="accordion-header"
+                                                    onClick={this.executeOnClick}
+                                                    expanded={false}
+                                                    truncatedEndingComponent={"... "}
+                                                    width={0}
+                                                >
+
+                                                    <div class="mobilePlanName">{plan.name}</div>
+
+                                                </ShowMoreText>
 
 
                                             </Accordion.Header>

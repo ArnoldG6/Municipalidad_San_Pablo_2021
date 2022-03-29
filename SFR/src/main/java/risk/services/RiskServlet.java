@@ -113,7 +113,14 @@ public class RiskServlet extends HttpServlet {
             r = RiskDAO.getInstance().searchByIdHM(requestJSON.getString("riskID"));
             if (r == null) throw new InvalidRiskIDEx();
             responseJSON = new JSONObject(new Gson().toJson(r));
-            responseJSON.append("planCount", RiskDAO.getInstance().countOfRiskAppearence(r));
+            Integer planCount =RiskDAO.getInstance().countOfRiskAppearenceInPlans(r),
+                    incidenceCount = RiskDAO.getInstance().countOfRiskAppearenceInIncidences(r);
+            Float occurrenceFactor = 0.0f;
+            if(planCount != 0) 
+                occurrenceFactor =  new Float((incidenceCount/planCount)*100);
+            responseJSON.append("planCount", planCount);
+            responseJSON.append("incidenceCount", incidenceCount);  
+            responseJSON.append("occurrenceFactor", occurrenceFactor.toString()+"%"); 
             response.getWriter().write(responseJSON.toString()); 
         }catch(InvalidRiskIDEx e){
             response.getWriter().write(e.jsonify());

@@ -43,8 +43,7 @@ class RiskTable extends Component {
     render() {
         return (
             <div>
-                {/* Mobile */}
-                <div className='d-lg-none container-fluid'>
+                <div className='container-fluid'>
                     <Button size="sm" onClick={this.openModalAddRisk} variant="success" key="AddRiskButtonMobile">
                         <i className="bi bi-plus-square"></i> {' '}
                         Agregar Riesgo
@@ -81,71 +80,7 @@ class RiskTable extends Component {
                             </Accordion>
                     }
                 </div>
-                {/* PC */}
-                <div className="d-none d-lg-block">
-                    <Table hover>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Tipo General</th>
-                                <th>Tipo por Área</th>
-                                <th>Tipo Específico</th>
-                                <th>
-                                    {/* Agregar Riesgo */}
-                                    <OverlayTrigger
-                                        delay={{ hide: 450, show: 300 }}
-                                        overlay={(props) => (
-                                            <Tooltip {...props}>
-                                                Agregar Riesgo
-                                            </Tooltip>
-                                        )}
-                                        placement="left"
-                                    >
-                                        <Button size="lg" onClick={this.openModalAddRisk} variant="outline-success">
-                                            <i className="bi bi-plus-square-fill"></i>
-                                        </Button>
-                                    </OverlayTrigger>
-
-                                </th>
-                            </tr>
-                        </thead>
-                        {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado riesgos</h1> :
-                            this.props.riesgos.length === 0 ? <h1>No se han agregado riesgos</h1> :
-                                <tbody>
-                                    {this.props.riesgos.map((risk) => {
-                                        return (
-                                            <tr key={risk.id}>
-                                                <td>{risk.id}</td>
-                                                <td>{risk.name}</td>
-                                                <td>{risk.generalType}</td>
-                                                <td>{risk.areaType}</td>
-                                                <td>{risk.specType}</td>
-                                                <td>
-                                                    {/* Eliminar Riesgo */}
-                                                    <OverlayTrigger
-                                                        delay={{ hide: 450, show: 300 }}
-                                                        overlay={(props) => (
-                                                            <Tooltip {...props}>
-                                                                Remover Riesgo
-                                                            </Tooltip>
-                                                        )}
-                                                        placement="left"
-                                                    >
-                                                        <Button size="lg" variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
-                                                            onClick={() => this.openModalDelRisk(risk.pkID)}
-                                                            disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
-                                                            <i className="bi bi-dash-square-fill"></i>
-                                                        </Button>
-                                                    </OverlayTrigger>
-                                                </td>
-                                            </tr>
-                                        )
-                                    })}
-                                </tbody>
-                        }
-                    </Table>
-                </div>
+                
                 <AddExistingRiskModal
                     risks={this.props.availableRisks}
                     addRisk={this.props.addRisk}

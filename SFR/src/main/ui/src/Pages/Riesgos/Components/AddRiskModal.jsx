@@ -44,7 +44,7 @@ class AddRiskModal extends Component {
                 'areaType': event.target.areatype.value,
                 'specType': event.target.specific_factor.value,
                 'factors': event.target.factor.value,
-                'mitigationMeasures': "default"
+                'mitigationMeasures': event.target.mitigationMeasures.value
             }
         }
 
@@ -52,8 +52,12 @@ class AddRiskModal extends Component {
             .then(response => {
                 this.props.updateRiesgos("add-success");
                 this.props.closeModal();
+                if (response.data.id)
+                  document.location= process.env.REACT_APP_SFR+"#/riesgo?id="+response.data.id
+                else
+                  throw new Error('Error al cargar página específica del riesgo ');
             }).catch(error => {
-                toast.error("ID del riesgo ya se encuentra registrado en el sistema.", {
+                toast.error(error, {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
@@ -101,13 +105,13 @@ class AddRiskModal extends Component {
                         <Form.Group>
                         <div className="form-group">
                             <Form.Label>Nombre: </Form.Label>
-                            <Form.Control 
-                                name="name" 
-                                id="name" 
-                                type="text" 
-                                placeholder="Nombre" 
-                                className="form-control" 
-                                required 
+                            <Form.Control
+                                name="name"
+                                id="name"
+                                type="text"
+                                placeholder="Nombre"
+                                className="form-control"
+                                required
                             />
                             <Form.Control.Feedback type="invalid">
                                 Por favor ingresar nombre.
@@ -155,7 +159,7 @@ class AddRiskModal extends Component {
                             </div>
                         </div>
 
-                        <FormGroup> 
+                        <FormGroup>
                             <Stack direction="horizontal" gap={3}>
                                 <label>Tipo General:</label>
                                 <OverlayTrigger
@@ -225,16 +229,16 @@ class AddRiskModal extends Component {
                                         })
                                 }
                             </Form.Select>
-                        </div> 
+                        </div>
                         <Form.Group>
                         <div className="form-group">
                             <Form.Label>Descripción de tipo específico:</Form.Label>
-                            <Form.Control 
-                            name="specific_factor" 
-                            id="specific_factor" type="text" 
-                            placeholder="" 
-                            className="form-control" 
-                            required 
+                            <Form.Control
+                            name="specific_factor"
+                            id="specific_factor" type="text"
+                            placeholder=""
+                            className="form-control"
+                            required
                             />
                             <Form.Control.Feedback type="invalid">
                                 Por favor ingresar tipo específico.
@@ -259,6 +263,26 @@ class AddRiskModal extends Component {
                                 </OverlayTrigger>
                             </Stack>
                             <textarea name="factor" id="factor" type="text" placeholder="¿Por qué puede suceder?" className="form-control" required />
+                        </div>
+                        <div className="form-group">
+                            <Stack direction="horizontal" gap={3}>
+                                <label>Medidas de mitigación:</label>
+                                <OverlayTrigger
+                                    delay={{ hide: 450, show: 300 }}
+                                    overlay={(props) => (
+                                        <Tooltip {...props}>
+                                            {process.env.REACT_APP_RIESGOS_HELP_MEDI_MITI}
+                                        </Tooltip>
+                                    )}
+                                    placement="bottom"
+                                >
+                                    <h5 className='ms-auto mt-1'>
+                                        <i className="bi bi-info-circle"></i>
+                                    </h5>
+                                </OverlayTrigger>
+                            </Stack>
+
+                            <textarea name="mitigationMeasures" id="mitigationMeasures" type="text" placeholder="Medidas necesarias para mitigar el riesgo."  className="form-control" required/>
                         </div>
                         <div className='text-center'>
                             <Button className='btn-sfr' type="submit" >

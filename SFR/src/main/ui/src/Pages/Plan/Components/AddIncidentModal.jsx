@@ -53,8 +53,8 @@ class AddIncidentModal extends Component {
 
         axios(options)
             .then(response => {
-                this.props.refreshPage();
                 this.props.closeModal();
+                this.props.refreshPage();               
             }).catch(error => {
                 toast.error("ID de la incidencia ya se encuentra registrado en el sistema.", {
                     position: toast.POSITION.TOP_RIGHT,
@@ -101,8 +101,8 @@ class AddIncidentModal extends Component {
                         <div className="form-group">
                             <Form.Label>Fecha:</Form.Label>
                             <Form.Control 
-                            name="fecha" 
-                            id="fecha" 
+                            name="entryDate" 
+                            id="entryDate" 
                             type="text" 
                             placeholder="Fecha" 
                             className="form-control" 
@@ -131,7 +131,7 @@ class AddIncidentModal extends Component {
                                     (this.props.risks === null) ?
                                         <option value={null} key="disabledRiskIncidence" disabled>Error cargando los riegos</option> :
                                         this.props.risks.map((risk) => {
-                                            return <option value={risk.name} key={risk.name}>{risk.name}</option>
+                                            return <option value={risk.pkID} key={risk.name}>{risk.name}</option>
                                         })
                                 }
                             </Form.Select>

@@ -12,7 +12,8 @@ class AddIncidentModal extends Component {
         super(props);
         this.state = {
             risks: [],
-            validated: false
+            validated: false,
+            planID: ""
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -42,7 +43,7 @@ class AddIncidentModal extends Component {
             data: {
                 'name': event.target.name.value,
                 'description': event.target.description.value,
-                //'entryDate' : event.target.entryDate.value,
+                'entryDate' : event.target.entryDate.value,
                 'affectation' : event.target.affectation.value,
                 'cause': event.target.cause.value,
                 'risk':  event.target.risk.value,
@@ -52,7 +53,7 @@ class AddIncidentModal extends Component {
 
         axios(options)
             .then(response => {
-                this.props.updatePlanes("add-success");
+                this.props.refreshPage();
                 this.props.closeModal();
             }).catch(error => {
                 toast.error("ID de la incidencia ya se encuentra registrado en el sistema.", {

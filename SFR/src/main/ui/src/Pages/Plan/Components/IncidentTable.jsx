@@ -11,7 +11,8 @@ class IncidentTable extends Component {
             incidentes: [],
             showIncidentModal: false,
             showDel: false,
-            delID: ""
+            delID: "",
+            planID: ""
         };
         this.removeIncidence = this.removeIncidence.bind(this);
         this.openModalAddIncident = this.openModalAddIncident.bind(this);
@@ -124,7 +125,6 @@ class IncidentTable extends Component {
                 </div>
                 <AddIncidentModal
                     risks={this.props.riesgos}
-                    addIncident={this.props.addIncident}
                     planID={this.props.planID}
                     show={this.state.showIncidentModal}
                     closeModal={this.closeModalAddIncident} />

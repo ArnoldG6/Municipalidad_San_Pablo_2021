@@ -138,7 +138,7 @@ class Plan extends Component {
                 case "risks":
                     return <RiskTable riesgos={this.state.plan.riskList} removeRisks={this.removeRisks} addRisk={this.addRisk} availableRisks={this.state.availableRisks} />;
                 case "incidents":
-                    return <IncidentTable incidentes={this.state.plan.incidenceList} removeIncidences={this.removeIncidences} riesgos={this.state.plan.riskList} />;
+                    return <IncidentTable planID = {this.state.plan.pkID} incidentes={this.state.plan.incidenceList} removeIncidences={this.removeIncidences} riesgos={this.state.plan.riskList} />;
                 case "involved":
                     return <h1>Involucrados Aqui</h1>;
                 default:
@@ -181,7 +181,7 @@ class Plan extends Component {
                 });
             });
     }
-
+/*
     addIncidence(risksIDs) {
         let options = {
             url: process.env.REACT_APP_API_URL + `/PlanManager/Insert/Incidence`,
@@ -213,7 +213,7 @@ class Plan extends Component {
                     autoClose: 5000
                 });
             });
-    }
+    }*/
 
     removeRisks(idRisk) {
         let options = {

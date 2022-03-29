@@ -22,7 +22,7 @@ public class Tests {
     @Test
     public void main() {
         try {
-            Risk r = RiskDAO.getInstance().searchById(1);
+            Risk r = RiskDAO.getInstance().searchById(2);
             Incidence i = new Incidence("name", "description", new Date(), 5, "cause", r);
             System.out.println(i.toString());
             IncidenceDAO.getInstance().add(i);

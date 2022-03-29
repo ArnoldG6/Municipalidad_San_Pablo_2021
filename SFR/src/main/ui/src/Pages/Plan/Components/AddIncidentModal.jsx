@@ -32,7 +32,6 @@ class AddIncidentModal extends Component {
         }
         else{
         event.preventDefault();
-        //let risk = this.getID(event.target.type.value, event.target.subtype.value);
         let options = {
             url: process.env.REACT_APP_API_URL + `/IncidenceManager/Insert`,
             method: 'POST',
@@ -43,10 +42,11 @@ class AddIncidentModal extends Component {
             data: {
                 'name': event.target.name.value,
                 'description': event.target.description.value,
-                'entryDate' : event.target.entryDate.value,
+                //'entryDate' : event.target.entryDate.value,
                 'affectation' : event.target.affectation.value,
                 'cause': event.target.cause.value,
-                'risk':  event.target.risk.value
+                'risk':  event.target.risk.value,
+                'planID': this.props.planID
             }
         }
 
@@ -55,7 +55,7 @@ class AddIncidentModal extends Component {
                 this.props.updatePlanes("add-success");
                 this.props.closeModal();
             }).catch(error => {
-                toast.error("ID del plan ya se encuentra registrado en el sistema.", {
+                toast.error("ID de la incidencia ya se encuentra registrado en el sistema.", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
@@ -70,18 +70,6 @@ class AddIncidentModal extends Component {
         this.setState({ validated: value});
     }
 
-    /*
-    getID(type, subtype) {
-        let id = "";
-        this.props.typesMap.get(type).map((tipo) => {
-            if (tipo.name === subtype) {
-                id = tipo.idName;
-            }
-            return tipo.idName;
-        })
-        return id;
-    }
-*/ 
     render() {
         let render = this.props.show;
         let closeModal = this.props.closeModal;

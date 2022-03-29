@@ -125,6 +125,7 @@ class IncidentTable extends Component {
                 <AddIncidentModal
                     risks={this.props.riesgos}
                     addIncident={this.props.addIncident}
+                    planID={this.props.planID}
                     show={this.state.showIncidentModal}
                     closeModal={this.closeModalAddIncident} />
                 <GenericModal

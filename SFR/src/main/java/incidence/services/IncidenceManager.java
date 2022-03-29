@@ -90,7 +90,7 @@ public class IncidenceManager extends HttpServlet {
 //            //Custom exception
 //            response.getWriter().write(new IncidenceAlreadyExistEx().jsonify());
 //        }
-        IncidenceDAO.getInstance().add(newIncidence);
+        IncidenceDAO.getInstance().add(newIncidence,1);
     }
 
     /**

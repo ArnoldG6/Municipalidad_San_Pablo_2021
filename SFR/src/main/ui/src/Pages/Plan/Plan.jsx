@@ -191,7 +191,7 @@ class Plan extends Component {
             },
             data: {
                 'planPKID': this.state.plan.pkID,
-                'riskIDs': risksID
+                'risksID': risksID
             }
         }
 

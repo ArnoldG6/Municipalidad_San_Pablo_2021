@@ -90,7 +90,7 @@ public class IncidenceManager extends HttpServlet {
 //            //Custom exception
 //            response.getWriter().write(new IncidenceAlreadyExistEx().jsonify());
 //        }
-        IncidenceDAO.getInstance().add(newIncidence,1);
+        IncidenceDAO.getInstance().add(newIncidence, 1);
     }
 
     /**
@@ -171,6 +171,16 @@ public class IncidenceManager extends HttpServlet {
             response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
             response.addHeader("Access-Control-Allow-Credentials", "true");
             response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
+        } catch (Exception ex) {
+            Logger.getLogger(IncidenceManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            processRequest(request, response);
         } catch (Exception ex) {
             Logger.getLogger(IncidenceManager.class.getName()).log(Level.SEVERE, null, ex);
         }

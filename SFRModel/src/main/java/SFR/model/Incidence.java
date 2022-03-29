@@ -15,8 +15,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -50,7 +48,7 @@ public class Incidence implements Serializable {
     @Column(name = "Cause")
     private String cause;
     
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name="riskID")
     private Risk risk;
 
@@ -61,15 +59,6 @@ public class Incidence implements Serializable {
         this.affectation = affectation;
         this.cause = cause;
         this.risk = risk;
-    }
-
-    public Incidence(String name, String description, Date entryDate, Integer affectation, String cause) {
-        this.name = name;
-        this.description = description;
-        this.entryDate = entryDate;
-        this.affectation = affectation;
-        this.cause = cause;
-        this.risk = null;
     }
 
     public Incidence() {

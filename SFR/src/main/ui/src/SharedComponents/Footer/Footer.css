@@ -16,11 +16,3 @@
     height: 6%;
     overflow-y: hidden;
 }
-
-.text_center {
-    display: flex;
-    width: 100%;
-    max-width: 60%;
-    margin: 0 auto;
-    justify-content: center;
-}

@@ -13,16 +13,16 @@ class IncidentTable extends Component {
             showDel: false,
             delID: ""
         };
-        this.removeIncident = this.removeIncident.bind(this);
+        this.removeIncidence = this.removeIncidence.bind(this);
         this.openModalAddIncident = this.openModalAddIncident.bind(this);
         this.closeModalAddIncident = this.closeModalAddIncident.bind(this);
         this.openModalDelIncident = this.openModalDelIncident.bind(this);
         this.closeModalDelIncident = this.closeModalDelIncident.bind(this);
     }
 
-    removeIncident() {
-        this.props.removeRisks(this.state.delID);
-        this.closeModalDelRisk();
+    removeIncidence() {
+        this.props.removeIncidences(this.state.delID);
+        this.closeModalDelIncident();
     }
 
     openModalAddIncident() {
@@ -131,7 +131,7 @@ class IncidentTable extends Component {
                 <GenericModal
                     show={this.state.showDel}
                     close={this.closeModalDelIncident}
-                    action={this.removeIncident}
+                    action={this.removeIncidence}
                     header={"Eliminar incidente de un Plan"}
                     body={"¿Esta seguro que desea eliminar este incidente del Plan?"} />
             </div>

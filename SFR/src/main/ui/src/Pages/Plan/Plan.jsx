@@ -27,6 +27,7 @@ class Plan extends Component {
         this.tableAssign = this.tableAssign.bind(this);
         this.tableHandler = this.tableHandler.bind(this);
         this.removeRisks = this.removeRisks.bind(this);
+        this.removeIncidences = this.removeIncidences.bind(this);
         this.deletePlan = this.deletePlan.bind(this);
         this.refreshPage = this.refreshPage.bind(this);
         this.addRisk = this.addRisk.bind(this);
@@ -137,7 +138,7 @@ class Plan extends Component {
                 case "risks":
                     return <RiskTable riesgos={this.state.plan.riskList} removeRisks={this.removeRisks} addRisk={this.addRisk} availableRisks={this.state.availableRisks} />;
                 case "incidents":
-                    return <IncidentTable incidentes={this.state.plan.incidenceList} riesgos={this.state.plan.riskList} />;
+                    return <IncidentTable incidentes={this.state.plan.incidenceList} removeIncidences={this.removeIncidences} riesgos={this.state.plan.riskList} />;
                 case "involved":
                     return <h1>Involucrados Aqui</h1>;
                 default:
@@ -181,7 +182,7 @@ class Plan extends Component {
             });
     }
 
-    addIncidence(risksID) {
+    addIncidence(risksIDs) {
         let options = {
             url: process.env.REACT_APP_API_URL + `/PlanManager/Insert/Incidence`,
             method: 'POST',
@@ -191,7 +192,7 @@ class Plan extends Component {
             },
             data: {
                 'planPKID': this.state.plan.pkID,
-                'risksID': risksID
+                'risksIDs': risksIDs
             }
         }
 
@@ -225,6 +226,38 @@ class Plan extends Component {
             data: {
                 'planPkID': this.state.plan.pkID,
                 'riskPkID': idRisk
+            }
+        }
+        axios(options)
+            .then(response => {
+                this.refreshPage();
+                toast.success("El riesgo fue eliminado correctamente!", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
+            }).catch(error => {
+                toast.error("Error al remover el riesgo seleccionado.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
+            });
+    }
+
+    removeIncidences(idIncidence) {
+        let options = {
+            url: process.env.REACT_APP_API_URL + "/IncidenceManager/Delete",
+            method: "DELETE",
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: {
+                'planPkID': this.state.plan.pkID,
+                'incidencePkID': idIncidence
             }
         }
         axios(options)

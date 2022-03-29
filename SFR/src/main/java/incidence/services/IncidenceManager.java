@@ -124,7 +124,7 @@ public class IncidenceManager extends HttpServlet {
             throws ServletException, IOException {
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         Incidence toDelete = new Incidence();
-        toDelete.setPkID(requestJSON.getInt("pkID"));
+        toDelete.setPkID(requestJSON.getInt("incidencePkID"));
         if (IncidenceDAO.getInstance().searchById(toDelete.getPkID()) != null) {
             IncidenceDAO.getInstance().delete(toDelete);
         } else //Custom exception

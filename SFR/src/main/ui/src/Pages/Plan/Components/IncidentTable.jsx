@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, Accordion, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Button, Accordion } from "react-bootstrap";
 import AddIncidentModal from './AddIncidentModal';
 import GenericModal from '../../../SharedComponents/GenericModal/GenericModal';
 

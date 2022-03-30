@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './PlansTable.css';
-import { Table, Accordion, Button, Span } from "react-bootstrap";
+import { Table, Accordion } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import ShowMoreText from "react-show-more-text";
 

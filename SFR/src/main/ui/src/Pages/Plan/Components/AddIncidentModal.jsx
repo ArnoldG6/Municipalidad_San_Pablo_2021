@@ -112,7 +112,7 @@ class AddIncidentModal extends Component {
                         <Form.Group>
                         <div className="form-group">
                         <Form.Label>Fecha:</Form.Label>
-                        <DatePicker selected={this.props.startDate} onChangeDatePicker={(new Date)} />                   
+                        <DatePicker selected={this.props.startDate} onChangeDatePicker={this.onChangeDatePicker} />                   
                         </div>
                         </Form.Group>
                         <div className="form-group">

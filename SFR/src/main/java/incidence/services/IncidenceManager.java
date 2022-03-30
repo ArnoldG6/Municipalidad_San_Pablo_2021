@@ -7,7 +7,9 @@ package incidence.services;
 
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -18,7 +20,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import sfr.dao.IncidenceDAO;
+import sfr.dao.PlanDAO;
+import sfr.dao.RiskDAO;
 import sfr.model.Incidence;
+import sfr.model.Plan;
+import sfr.model.Risk;
 
 /**
  *
@@ -41,7 +47,7 @@ public class IncidenceManager extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, Exception {
         try {
             request.setCharacterEncoding("UTF-8");
             response.addHeader("Access-Control-Allow-Origin", "*");
@@ -78,19 +84,33 @@ public class IncidenceManager extends HttpServlet {
      * DB if it does not exists.
      */
     private void insertIncidence(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String requestJSON = request.getReader().lines().collect(Collectors.joining());
-
-        Date d = new Date();
-
-        Incidence newIncidence = new Gson().fromJson(requestJSON, Incidence.class);
-        newIncidence.setEntryDate(d);
-
-//        if (IncidenceDAO.getInstance().searchById(newIncidence.getPkId()) != null) {
-//            //Custom exception
-//            response.getWriter().write(new IncidenceAlreadyExistEx().jsonify());
-//        }
-        IncidenceDAO.getInstance().add(newIncidence, 1);
+            throws ServletException, IOException, java.text.ParseException {
+        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        System.out.println(requestJSON); 
+        String name = requestJSON.getString("name");
+        String description = requestJSON.getString("description");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+        String s = requestJSON.getString("entryDate");
+        Date entryDate = formatter.parse(s);
+        String cause = requestJSON.getString("cause");
+        Integer affectation = requestJSON.getInt("affectation");
+        Integer riskID = requestJSON.getInt("risk");
+        Risk risk = RiskDAO.getInstance().searchById(riskID);
+        if(risk == null){
+            throw new IOException("Error incidencia");
+        }
+        Integer planID = requestJSON.getInt("planID");
+        Incidence i = new Incidence(name, description, entryDate, affectation, cause, risk);
+        Plan p = PlanDAO.getInstance().searchById(planID);
+        if(p == null){
+            throw new IOException("Error incidencia");
+        }
+        requestJSON.remove("planID");
+        Incidence newIncidence = i; //new Gson().fromJson(requestJSON.toString(), Incidence.class);
+        //newIncidence.setEntryDate(new Date());
+        IncidenceDAO.getInstance().add(newIncidence);
+        p.getIncidenceList().add(newIncidence);
+        PlanDAO.getInstance().update(p);
     }
 
     /**
@@ -146,7 +166,11 @@ public class IncidenceManager extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(IncidenceManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -160,7 +184,11 @@ public class IncidenceManager extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(IncidenceManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

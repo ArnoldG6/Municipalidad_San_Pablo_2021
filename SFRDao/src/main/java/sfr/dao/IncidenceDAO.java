@@ -115,13 +115,12 @@ public class IncidenceDAO extends GenericDAO {
      *
      * @param incidence is the Incidence Object to be added.
      */
-    public void add(Incidence incidence, Integer plan) {
+    public void add(Incidence incidence) {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             em.persist(incidence);
             em.getTransaction().commit();
-            this.associateRisksToIncidence(incidence.getPkID(), plan);
         } catch (Exception ex) {
             ex.printStackTrace(System.out);
             System.err.println(ex.getMessage());
@@ -220,7 +219,7 @@ public class IncidenceDAO extends GenericDAO {
      * @param planID risk id to associate with incidenceID parameter.
      * @throws java.lang.Exception
      */
-    public void associateRisksToIncidence(int incidenceID, Integer riskID) throws Exception {
+    /*public void associateRisksToIncidence(int incidenceID, Integer riskID) throws Exception {
         try {
             if (riskID == null) {
                 throw new IOException("Invalid RiskID field");
@@ -245,7 +244,7 @@ public class IncidenceDAO extends GenericDAO {
         } finally {
             closeEntityManager();
         }
-    }
+    }*/
 
 //    public void associateIncidenceToPlan(int incidenceID, Integer planID) throws Exception {
 //        try {

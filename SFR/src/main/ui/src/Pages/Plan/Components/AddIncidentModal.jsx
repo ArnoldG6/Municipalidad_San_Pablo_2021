@@ -3,6 +3,8 @@ import axios from 'axios';
 import '../Plan.css'
 import { Modal, Button, Form, OverlayTrigger, Tooltip, Stack } from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import 'react-toastify/dist/ReactToastify.css';
 //import Cookies from 'universal-cookie';
 //const cookies = new Cookies();
@@ -13,16 +15,22 @@ class AddIncidentModal extends Component {
         this.state = {
             risks: [],
             validated: false,
-            planID: ""
+            planID: "",
+            startDate: null
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onChangeDatePicker = this.onChangeDatePicker.bind(this);
         this.setValidated = this.setValidated.bind(this);
        // this.getID = this.getID.bind(this);
     }
 
     onChange = e => {
         this.setState({ value: e.target.value })
+    }
+
+    onChangeDatePicker = e => {
+        this.setState({startDate: e.target.value})
     }
 
     handleSubmit = (event) => {
@@ -53,8 +61,8 @@ class AddIncidentModal extends Component {
 
         axios(options)
             .then(response => {
-                this.props.refreshPage();
                 this.props.closeModal();
+                this.props.refreshPage();               
             }).catch(error => {
                 toast.error("ID de la incidencia ya se encuentra registrado en el sistema.", {
                     position: toast.POSITION.TOP_RIGHT,
@@ -70,6 +78,10 @@ class AddIncidentModal extends Component {
     setValidated(value) {
         this.setState({ validated: value});
     }
+
+    /*setStartDate(date){
+        this.setState({ startDate: date});
+    }*/
 
     render() {
         let render = this.props.show;
@@ -99,18 +111,8 @@ class AddIncidentModal extends Component {
                         </Form.Group>
                         <Form.Group>
                         <div className="form-group">
-                            <Form.Label>Fecha:</Form.Label>
-                            <Form.Control 
-                            name="fecha" 
-                            id="fecha" 
-                            type="text" 
-                            placeholder="Fecha" 
-                            className="form-control" 
-                            required 
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                Por favor ingresar fecha.
-                            </Form.Control.Feedback>
+                        <Form.Label>Fecha:</Form.Label>
+                        <DatePicker selected={this.props.startDate} onChangeDatePicker={(new Date)} />                   
                         </div>
                         </Form.Group>
                         <div className="form-group">
@@ -131,7 +133,7 @@ class AddIncidentModal extends Component {
                                     (this.props.risks === null) ?
                                         <option value={null} key="disabledRiskIncidence" disabled>Error cargando los riegos</option> :
                                         this.props.risks.map((risk) => {
-                                            return <option value={risk.name} key={risk.name}>{risk.name}</option>
+                                            return <option value={risk.pkID} key={risk.name}>{risk.name}</option>
                                         })
                                 }
                             </Form.Select>

@@ -15,8 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -29,7 +28,7 @@ import javax.persistence.Temporal;
 public class Incidence implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "increment")
     @Column(name = "PK_ID")
     private Integer pkID;
 
@@ -48,14 +47,9 @@ public class Incidence implements Serializable {
 
     @Column(name = "Cause")
     private String cause;
-
-    //Se cambió a many to one para aplicar la FK 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "T_PLANINCIDENCE",
-            joinColumns = @JoinColumn(name = "FK_PLAN"),
-            inverseJoinColumns = @JoinColumn(name = "FK_INCIDENCE")
-    )
+    
+    @OneToOne
+    @JoinColumn(name="riskID")
     private Risk risk;
 
     public Incidence(String name, String description, Date entryDate, Integer affectation, String cause, Risk risk) {
@@ -65,15 +59,6 @@ public class Incidence implements Serializable {
         this.affectation = affectation;
         this.cause = cause;
         this.risk = risk;
-    }
-
-    public Incidence(String name, String description, Date entryDate, Integer affectation, String cause) {
-        this.name = name;
-        this.description = description;
-        this.entryDate = entryDate;
-        this.affectation = affectation;
-        this.cause = cause;
-        this.risk = null;
     }
 
     public Incidence() {

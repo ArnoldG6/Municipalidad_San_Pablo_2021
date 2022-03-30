@@ -4,11 +4,14 @@
  * and open the template in the editor.
  */
 package Tests;
-
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
-import sfr.dao.*;
+import sfr.dao.IncidenceDAO;
+import sfr.dao.RiskDAO;
+import sfr.model.Incidence;
+import sfr.model.Risk;
 
 /**
  *
@@ -19,8 +22,10 @@ public class Tests {
     @Test
     public void main() {
         try {
-            
-            System.out.println(IncidenceDAO.getInstance().listByColumn("date", "asc"));
+            Risk r = RiskDAO.getInstance().searchById(2);
+            Incidence i = new Incidence("name", "description", new Date(), 5, "cause", r);
+            System.out.println(i.toString());
+            IncidenceDAO.getInstance().add(i);
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

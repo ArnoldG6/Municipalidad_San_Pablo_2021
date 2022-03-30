@@ -292,7 +292,7 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-
+/*
     public Risk getRiskByID(Integer id) {
         try{
             em = getEntityManager();
@@ -314,7 +314,7 @@ public class RiskDAO extends GenericDAO {
         }
     }
 
-
+*/
     /**
      *
      *

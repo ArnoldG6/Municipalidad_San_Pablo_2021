@@ -156,6 +156,18 @@
                             <arguments>install universal-cookie</arguments>
                         </configuration>
                     </execution>
+                    
+                    
+                     <execution>
+                        <id>npm install react-show-more-text </id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install react-show-more-text</arguments>
+                        </configuration>
+                    </execution>
 
                     <execution>
                         <id>npm build</id>

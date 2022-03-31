@@ -28,8 +28,8 @@ class AddIncidentModal extends Component {
     }
 
     onChangeDatePicker = e => {
-        //console.log(e)
-        this.setState({ startDate: e })
+        console.log(e.getTime())
+        this.setState({startDate: e})
     }
 
     handleSubmit = (event) => {
@@ -50,7 +50,7 @@ class AddIncidentModal extends Component {
                 data: {
                     'name': event.target.name.value,
                     'description': event.target.description.value,
-                    'entryDate': event.target.entryDate.value,
+                    'entryDate': this.state.startDate.getTime(),
                     'affectation': event.target.affectation.value,
                     'cause': event.target.cause.value,
                     'risk': event.target.risk.value,
@@ -63,6 +63,7 @@ class AddIncidentModal extends Component {
                     this.props.closeModal();
                     this.props.refreshPage();
                 }).catch(error => {
+                    console.log(error);
                     toast.error("ID de la incidencia ya se encuentra registrado en el sistema.", {
                         position: toast.POSITION.TOP_RIGHT,
                         pauseOnHover: true,
@@ -77,10 +78,6 @@ class AddIncidentModal extends Component {
     setValidated(value) {
         this.setState({ validated: value });
     }
-
-    /*setStartDate(date){
-        this.setState({ startDate: date});
-    }*/
 
     render() {
         const DateButton = React.forwardRef(({ value, onClick }, ref) => (
@@ -139,10 +136,13 @@ class AddIncidentModal extends Component {
                         <div className="form-group">
                             <label>Riesgo Asociado:</label>
                             <Form.Select name="risk" id="risk" onChange={this.onChange}>
+                            <option value={-1} >Sin riesgos</option>
                                 {
                                     (this.props.risks === null) ?
                                         <option value={null} key="disabledRiskIncidence" disabled>Error cargando los riegos</option> :
+                                        
                                         this.props.risks.map((risk) => {
+                                            
                                             return <option value={risk.pkID} key={risk.name}>{risk.name}</option>
                                         })
                                 }

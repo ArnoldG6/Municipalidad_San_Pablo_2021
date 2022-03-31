@@ -123,7 +123,7 @@ public class Incidence implements Serializable {
     public void setRisk(Risk risk) {
         this.risk = risk;
     }
-
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

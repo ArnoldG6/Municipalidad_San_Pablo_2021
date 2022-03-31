@@ -183,6 +183,7 @@ public class IncidenceDAO extends GenericDAO {
             incidence.setRisk(null);
             RiskDAO.getInstance().update(r);
         }
+        this.update(incidence);
     }
     
     public List<Incidence> searchInAllColumns(String value) throws Exception {

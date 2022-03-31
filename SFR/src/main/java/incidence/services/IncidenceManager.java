@@ -90,15 +90,19 @@ public class IncidenceManager extends HttpServlet {
         String name = requestJSON.getString("name");
         String description = requestJSON.getString("description");
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
-        String s = requestJSON.getString("entryDate");
-        Date entryDate = formatter.parse(s);
+        Long s = requestJSON.getLong("entryDate");
+        Date entryDate = new Date(s);
         String cause = requestJSON.getString("cause");
         Integer affectation = requestJSON.getInt("affectation");
+        Risk risk = null;
         Integer riskID = requestJSON.getInt("risk");
-        Risk risk = RiskDAO.getInstance().searchById(riskID);
-        if(risk == null){
-            throw new IOException("Error incidencia");
+        if (riskID != -1) {
+            risk = RiskDAO.getInstance().searchById(riskID);
+            if (risk == null) {
+                throw new IOException("Error incidencia");
+            }
         }
+        
         Integer planID = requestJSON.getInt("planID");
         Incidence i = new Incidence(name, description, entryDate, affectation, cause, risk);
         Plan p = PlanDAO.getInstance().searchById(planID);
@@ -143,14 +147,13 @@ public class IncidenceManager extends HttpServlet {
     private void deleteIncidence(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        Incidence toDelete = new Incidence();
-        toDelete.setPkID(requestJSON.getInt("incidencePkID"));
-        if (IncidenceDAO.getInstance().searchById(toDelete.getPkID()) != null) {
+        Incidence toDelete = IncidenceDAO.getInstance().searchById(requestJSON.getInt("incidencePkID"));
+        if (toDelete != null) 
             IncidenceDAO.getInstance().delete(toDelete);
-        } else //Custom exception
-        {
+         else //Custom exception
+            throw new IOException("Incidence not found.");
 //            response.getWriter().write(new IncidenceNotFoundEx().jsonify());
-        }
+        
     }
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,6 +15,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -63,7 +64,8 @@ public class Plan implements Serializable {
 //    )
 //    private List<User> involvedList;
     //@OneToMany(orphanRemoval = true, cascade = CascadeType.PERSIST)
-    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER) 
+    @Fetch(value=FetchMode.SUBSELECT)
     @JoinTable(
             name = "T_RISKPLAN",
             joinColumns = @JoinColumn(name = "FK_PLAN"),
@@ -71,7 +73,8 @@ public class Plan implements Serializable {
     )
     private List<Risk> riskList;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(value=FetchMode.SUBSELECT)
     @JoinTable(
             name = "T_PLANINCIDENCE",
             joinColumns = @JoinColumn(name = "FK_PLAN"),

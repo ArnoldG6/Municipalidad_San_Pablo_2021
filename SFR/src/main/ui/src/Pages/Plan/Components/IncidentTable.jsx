@@ -96,7 +96,7 @@ class IncidentTable extends Component {
                                 {this.props.incidentes.map((incidence) => {
                                     return (
                                         <Accordion.Item eventKey={incidence.pkID} key={incidence.pkID}>
-                                            <Accordion.Header >
+                                            <Accordion.Header>
                                                 {incidence.name}
                                             </Accordion.Header>
                                             <Accordion.Body>
@@ -127,6 +127,7 @@ class IncidentTable extends Component {
                     risks={this.props.riesgos}
                     planID={this.props.planID}
                     show={this.state.showIncidentModal}
+                    refreshPage = {this.props.refreshPage}
                     closeModal={this.closeModalAddIncident} />
                 <GenericModal
                     show={this.state.showDel}

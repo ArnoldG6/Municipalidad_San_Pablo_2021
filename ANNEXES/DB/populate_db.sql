@@ -37,7 +37,7 @@ VALUES
 INSERT INTO SFR.T_Plan (PK_ID, ID, Name, Description, EntryDate, Status, AuthorName, Type, Subtype)
 VALUES
 (2, '2020LA-00003-01', 
-'CONTRATACIÓN PARA REALIZAR TRABAJOS DE MOVIMIENTO DE TIERRA CON SUB-EXCAVACIÓN, CONSTRUCCIÓN DE TUBERÍA LONGITUDINAL Y TUBERÍAS TRANSVERSALES, CONSTRUCCIÓN DE TRAGANTES, POZOS DE INSPECCIÓN, COMPACTACIÓN Y CONFORMACIÓN DE SUBRASANTE, COLOCACIÓN DE SUB-BASE GRANULAR, COLOCACIÓN DE BASE GRANULAR DOSIFICADA, CONSTRUCCIÓN DE CORDÓN Y CUNETA E IMPLEMENTAR SALIDAS DE AGUAS PLUVIALES A LA RED PÚBLICA, DEMOLICIÓN Y CONSTRUCCIÓN DE ACERAS Y PERFILADO Y COLOCACIÓN DE MEZCLA ASFÁLTICA EN UN TRAMO DE LAS RUTA CANTONAL CONOCIDA COMO CALLEN RINCÓN DE RICADOR CÓDIGO 4-09-006- EN EL CANTÓN DE SAN PABLO DE HEREDIA"'
+'CONTRATACIÓN PARA REALIZAR TRABAJOS DE MOVIMIENTO DE TIERRA CON SUB-EXCAVACIÓN'
 ,'CONTRATACIÓN PARA REALIZAR TRABAJOS DE MOVIMIENTO DE TIERRA CON SUB-EXCAVACIÓN, CONSTRUCCIÓN DE TUBERÍA LONGITUDINAL Y TUBERÍAS TRANSVERSALES, CONSTRUCCIÓN DE TRAGANTES, POZOS DE INSPECCIÓN, COMPACTACIÓN Y CONFORMACIÓN DE SUBRASANTE, COLOCACIÓN DE SUB-BASE GRANULAR, COLOCACIÓN DE BASE GRANULAR DOSIFICADA, CONSTRUCCIÓN DE CORDÓN Y CUNETA E IMPLEMENTAR SALIDAS DE AGUAS PLUVIALES A LA RED PÚBLICA, DEMOLICIÓN Y CONSTRUCCIÓN DE ACERAS Y PERFILADO Y COLOCACIÓN DE MEZCLA ASFÁLTICA EN UN TRAMO DE LAS RUTA CANTONAL CONOCIDA COMO CALLEN RINCÓN DE RICADOR CÓDIGO 4-09-006- EN EL CANTÓN DE SAN PABLO DE HEREDIA"'
 ,NOW(), 'Activo', 'Ismael Salazar','Construir, Adquirir e Implementar', 'Gestionar los proyectos'
 );
@@ -104,10 +104,6 @@ VALUES (
 '25', 
 'ESTA ES UNA MEDIDA DE MITIGACION'
 );
--- -------------------------------------------------T_RiskPlan---------------------------------------------------
-INSERT INTO SFR.T_RiskPlan (FK_PLAN, FK_RISK) VALUES ( 1, 1);
-INSERT INTO SFR.T_RiskPlan (FK_PLAN, FK_RISK) VALUES ( 2 , 2);
-commit;
 
 -- -------------------------------------------------T_Plan_Types---------------------------------------------------
 INSERT INTO `SFR`.`T_Plan_Types` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (null,"Evaluar, Dirigir y Monitorear",null,0);
@@ -565,4 +561,32 @@ VALUES (122, 'RS14','Red interna puede ser vulnerada por parte de cibercriminale
 INSERT INTO `SFR`.`T_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `SpecType`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`) 
 VALUES (123, 'RS15','Gestión inadecuada en el parchado de aplicaciones o equipos', 'SIN INFORMACION', 'TIC', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION');
 
+-- -------------------------------------------------T_RiskPlan---------------------------------------------------
+INSERT INTO SFR.T_RiskPlan (FK_PLAN, FK_RISK) VALUES ( 1, 1);
+INSERT INTO SFR.T_RiskPlan (FK_PLAN, FK_RISK) VALUES ( 1, 89);
+INSERT INTO SFR.T_RiskPlan (FK_PLAN, FK_RISK) VALUES ( 1, 105);
+INSERT INTO SFR.T_RiskPlan (FK_PLAN, FK_RISK) VALUES ( 2, 2);
+INSERT INTO SFR.T_RiskPlan (FK_PLAN, FK_RISK) VALUES ( 2, 96);
+INSERT INTO SFR.T_RiskPlan (FK_PLAN, FK_RISK) VALUES ( 2, 16);
+commit;
 
+-- -------------------------------------------------INCIDENCIAS---------------------------------------------------
+
+INSERT INTO `SFR`.`T_Incidence` (`PK_ID`, `Name`, `EntryDate`, `Description`, `Cause`, `Affectation`, `riskID`)
+VALUES (1, 'Proveedor imcumplió con el contrato.', NOW(), 'Proveedor de materias primas para el desarrollo de carreteras imcumplió con el pedido acordado en el contrato.', 'Actividad Antrópica', 40, 89);
+
+INSERT INTO `SFR`.`T_Incidence` (`PK_ID`, `Name`, `EntryDate`, `Description`, `Cause`, `Affectation`, `riskID`)
+VALUES (2, 'Faltante de recursos en reparación de calle.', NOW(), 'Faltaron materiales para terminar una reparación de una calle.', 'Fallo del proceso', 50, 105);
+
+INSERT INTO `SFR`.`T_Incidence` (`PK_ID`, `Name`, `EntryDate`, `Description`, `Cause`, `Affectation`, `riskID`)
+VALUES (3, 'No se renovó a tiempo contrato con proveedor de cemento.', NOW(), 'Se perdieron las informaciones relacionadas a la recontratación de un proveedor.', 'Fallo humano', 70, 96);
+
+INSERT INTO `SFR`.`T_Incidence` (`PK_ID`, `Name`, `EntryDate`, `Description`, `Cause`, `Affectation`, `riskID`)
+VALUES (4, 'No se encotró información sobre proyecto de recuperación de un lote.', NOW(), 'Se perdieron las informaciones relacionadas a la recuperación y limpieza de un lote.', 'Fallo humano', 60, 16);
+
+INSERT INTO `SFR`.`T_PlanIncidence` (`FK_PLAN`, `FK_INCIDENCE`) VALUES (1,1);
+INSERT INTO `SFR`.`T_PlanIncidence` (`FK_PLAN`, `FK_INCIDENCE`) VALUES (1,2);
+INSERT INTO `SFR`.`T_PlanIncidence` (`FK_PLAN`, `FK_INCIDENCE`) VALUES (2,3);
+INSERT INTO `SFR`.`T_PlanIncidence` (`FK_PLAN`, `FK_INCIDENCE`) VALUES (2,4);
+
+commit;

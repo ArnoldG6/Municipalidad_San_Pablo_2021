@@ -43,6 +43,7 @@ class IncidentTable extends Component {
     };
 
     render() {
+        console.log(this.props.incidentes);
         return (
             <div>
                 {/* Mobile */}
@@ -68,8 +69,7 @@ class IncidentTable extends Component {
                                                     Causa: {incidence.cause} <br/>
                                                     Afectacion: {incidence.affectation} <br/>
                                                     Descripcion: {incidence.description} <br/>
-                                                    Riesgos Asociados: {(typeof this.props.riesgos === "undefined" || this.props.riesgos === null) ?<div>No hay riesgos asociados</div> :
-                                                    this.props.riesgos.length === 0 ? <div>No hay riesgos asociados</div> : this.props.riesgos.map((riesgo) => {return (<div>{riesgo.name}</div>);})}<br/>
+                                                    Riesgo Asociado: {(typeof incidence.risk === 'undefined' || incidence.risk === null) ? 'N/A' : incidence.risk.id + ' - ' + incidence.risk.name}<br/>
                                                 </p>
                                                 <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
                                                     onClick={() => this.openModalDelIncident(incidence.pkID)}
@@ -107,8 +107,7 @@ class IncidentTable extends Component {
                                                     Causa: {incidence.cause} <br />
                                                     Afectacion: {incidence.affectation} <br />
                                                     Descripcion: {incidence.description} <br />
-                                                    Riesgos Asociados: {(typeof this.props.riesgos === "undefined" || this.props.riesgos === null) ?<div>No hay riesgos asociados</div> :
-                                                    this.props.riesgos.length === 0 ? <div>No hay riesgos asociados</div> : this.props.riesgos.map((riesgo) => {return (<div>{riesgo.name}</div>);})}<br/>
+                                                    Riesgo Asociado: {(typeof incidence.risk === 'undefined' || incidence.risk === null) ? 'N/A' : incidence.risk.id + ' - ' + incidence.risk.name}<br/>
                                                 </p>
                                                 <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
                                                     onClick={() => this.openModalDelIncident(incidence.pkID)}

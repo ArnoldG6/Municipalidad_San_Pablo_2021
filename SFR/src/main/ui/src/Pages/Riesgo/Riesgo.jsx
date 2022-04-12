@@ -6,8 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import TopButtons from './Components/TopButtons';
 import EditRiskModal from './Components/EditRiskModal';
 import GenericModal from '../../SharedComponents/GenericModal/GenericModal';
-//import Cookies from 'universal-cookie';
-//const cookies = new Cookies();
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 export default class Plan extends Component {
     constructor(props) {
@@ -29,6 +29,14 @@ export default class Plan extends Component {
     }
 
     componentDidMount() {
+        //Account check
+        if (typeof cookies.get('username', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
+            typeof cookies.get('roles', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
+            typeof cookies.get('token', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
+            typeof cookies.get('full_name', { path: process.env.REACT_APP_AUTH }) === 'undefined') {
+            document.location = "http://localhost:3000/#/logout";
+        }
+
         this.refreshPage();
     }
 
@@ -54,6 +62,7 @@ export default class Plan extends Component {
                     if (this.state.risk === null || typeof this.state.risk === 'undefined') {
                         this.props.history.push('/riesgos');
                     } else {
+                        console.log(this.state.risk)
                         this.retrieveTypes();
                     }
                 });
@@ -115,7 +124,8 @@ export default class Plan extends Component {
                 'Content-Type': 'application/json'
             },
             data: {
-                'pkID': this.state.risk.pkID
+                'pkID': this.state.risk.pkID,
+                'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
             }
         }
         axios(options)
@@ -133,7 +143,7 @@ export default class Plan extends Component {
                         <TopButtons
                             openModalEdit={this.openModalEdit}
                             openModalDelete={this.openModalDelete}
-                            status={"Some wea"} />
+                            risk={this.state.risk} />
                     </Row>
                     {/* Datos del Plan */}
                     <Row className="mt-4">
@@ -145,6 +155,7 @@ export default class Plan extends Component {
                                         <Col>
                                             <h1>{this.state.risk.name}</h1>
                                             <h2>ID: {this.state.risk.id}</h2>
+                                            <h4>Autor: {this.state.risk.author.official.name} {this.state.risk.author.official.surname}</h4>
                                             <Table>
                                                 <h2>Información General</h2>
                                                 <Table border="1" hover responsive="md">
@@ -195,7 +206,7 @@ export default class Plan extends Component {
                             <TopButtons
                                 openModalEdit={this.openModalEdit}
                                 openModalDelete={this.openModalDelete}
-                                status={"status"} />
+                                risk={this.state.risk} />
                         </Row>
                         {/* Datos del Riesgo */}
 
@@ -212,6 +223,7 @@ export default class Plan extends Component {
                                                             <Card.Title>
                                                                 <h1>{this.state.risk.name}</h1>
                                                                 <h2>ID: {this.state.risk.id}</h2>
+                                                                <h4>Autor: {this.state.risk.author.official.name} {this.state.risk.author.official.surname}</h4>
                                                             </Card.Title>
                                                             <div>&nbsp;</div>
                                                             <div>&nbsp;</div>

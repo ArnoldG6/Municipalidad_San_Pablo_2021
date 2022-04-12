@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Modal, Button, Form, FormGroup, Stack, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 class EditRiskModal extends Component {
     constructor(props) {
@@ -42,7 +44,9 @@ class EditRiskModal extends Component {
                 'specType': event.target.specific_factor.value,
                 'magnitude': parseFloat(event.target.probability.value) * parseInt(event.target.impact.value),
                 'factors': event.target.factor.value,
-                'mitigationMeasures': event.target.mitigationMeasures.value
+                'mitigationMeasures': event.target.mitigationMeasures.value,
+                'author': this.props.risk.author,
+                'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
             }
         }
         console.log(options)

@@ -18,8 +18,8 @@ import javax.persistence.Table;
  *
  * @author Luis D
  */
-@Entity(name = "PlanType")
-@Table(name = "SFR.T_Plan_Types")
+@Entity
+@Table(name = "T_SFR_PlanTypes")
 public class PlanType implements Serializable {
 
     @Id

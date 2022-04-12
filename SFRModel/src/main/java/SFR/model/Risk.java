@@ -1,11 +1,14 @@
 package sfr.model;
 
+import common.model.User;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -13,7 +16,7 @@ import javax.persistence.Table;
  * @author GONCAR4, Arnold
  */
 @Entity
-@Table(name = "T_Risk")
+@Table(name = "T_SFR_Risk")
 public class Risk implements Serializable {
 
     @Id
@@ -40,6 +43,9 @@ public class Risk implements Serializable {
     private Float magnitude;
     @Column(name = "MitigationMeasures")
     private String mitigationMeasures;
+    @JoinColumn(name = "Author")
+    @ManyToOne
+    private User author;
 
     /*
     @ManyToMany
@@ -59,9 +65,7 @@ public class Risk implements Serializable {
     }
 
     public Risk(String id, String name, String desc, String generalType, String areaType,
-            String specificType, Float probability, Integer impact) //Integer affectationLevel,  String mitigationMeasures, List<Plan> plans) {
-    //String mitigationMeasures) {
-    {
+            String specificType, Float probability, Integer impact, User author) {
         this.id = id;
         this.name = name;
         this.factors = desc;
@@ -72,8 +76,7 @@ public class Risk implements Serializable {
         this.impact = impact;
         this.magnitude = (probability * impact);
         this.mitigationMeasures = "";
-        //this.plans = plans;
-
+        this.author = author;
     }
 
     public int getPkId() {
@@ -168,17 +171,24 @@ public class Risk implements Serializable {
         this.mitigationMeasures = mitigationMeasures;
     }
 
-//    public List<Plan> getPlans() {
-//        return plans;
-//    }
-//
-//    public void setPlans(List<Plan> plans) {
-//        this.plans = plans;
-//    }
-    
-    public boolean equals(Risk other) {
-        if (other == null) return false;
-        return this.pkID == other.pkID;
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+        Risk r = (Risk) o;
+        return this.pkID == r.getPkId();
     }
 
     @Override
@@ -202,4 +212,5 @@ public class Risk implements Serializable {
         sb.append("} \n");
         return sb.toString();
     }
+
 }

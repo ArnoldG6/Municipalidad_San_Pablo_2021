@@ -9,6 +9,8 @@ import axios from 'axios';
 import PlansTable from './Components/PlansTable';
 import Search from './Components/Search';
 import Pages from '../../SharedComponents/Pagination/Pages';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 class Planes extends Component {
     constructor(props) {
@@ -38,32 +40,12 @@ class Planes extends Component {
 
     //On load
     componentDidMount() {
-
-        //Temp Login
-        if (sessionStorage.getItem("userRol") === null) {
-            let options = {
-                url: process.env.REACT_APP_API_URL + "/LoginManager/test",
-                method: "POST",
-                header: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                data: {
-                    'type': 3
-                }
-            }
-            axios(options)
-                .then(response => {
-                    sessionStorage.setItem("userRol", response.data.userRol);
-                    sessionStorage.setItem("userID", response.data.userID);
-                }).catch(error => {
-                    toast.error("Error al cambiar el tipo de usuario", {
-                        position: toast.POSITION.TOP_RIGHT,
-                        pauseOnHover: true,
-                        theme: 'colored',
-                        autoClose: 5000
-                    });
-                });
+        //Account check
+        if (typeof cookies.get('username', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
+            typeof cookies.get('roles', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
+            typeof cookies.get('token', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
+            typeof cookies.get('full_name', { path: process.env.REACT_APP_AUTH }) === 'undefined') {
+            document.location = "http://localhost:3000/#/logout";
         }
 
         this.updatePlanesSort();
@@ -310,7 +292,7 @@ class Planes extends Component {
                 </Row>
 
                 <Row>
-                    <PlansTable planes={this.state.planesView}/>
+                    <PlansTable planes={this.state.planesView} />
                 </Row>
 
                 <Row>
@@ -322,7 +304,7 @@ class Planes extends Component {
                         updatePageItems={this.updatePageItems} />
                 </Row>
 
-                <AddPlanModal updatePlanes={this.updatePlanes} show={this.state.show} closeModal={this.closeModal} typesMap={this.state.typesMap}/>
+                <AddPlanModal updatePlanes={this.updatePlanes} show={this.state.show} closeModal={this.closeModal} typesMap={this.state.typesMap} />
                 <ToastContainer />
             </div>
         );

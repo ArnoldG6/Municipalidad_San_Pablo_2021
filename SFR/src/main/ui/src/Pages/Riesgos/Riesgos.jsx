@@ -9,6 +9,8 @@ import axios from 'axios';
 import RisksTable from './Components/RisksTable';
 import Search from './Components/Search';
 import Pages from '../../SharedComponents/Pagination/Pages';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 class Riesgos extends Component {
     constructor(props) {
@@ -37,6 +39,14 @@ class Riesgos extends Component {
     }
     //On load
     componentDidMount() {
+        //Account check
+        if (typeof cookies.get('username', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
+            typeof cookies.get('roles', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
+            typeof cookies.get('token', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
+            typeof cookies.get('full_name', { path: process.env.REACT_APP_AUTH }) === 'undefined') {
+            document.location = "http://localhost:3000/#/logout";
+        }
+
         this.updateRiesgosSort();
     }
 

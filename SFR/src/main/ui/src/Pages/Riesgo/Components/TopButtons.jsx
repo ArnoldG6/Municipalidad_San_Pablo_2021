@@ -9,36 +9,35 @@ class TopButtons extends Component {
     constructor(props) {
         super(props);
         this.checkPermissions = this.checkPermissions.bind(this);
+        this.checkOwner = this.checkOwner.bind(this);
     }
 
     checkPermissions(toCheck) {
         let perm = false;
-        cookies.get('roles', { path: process.env.REACT_APP_AUTH }).map((rol) => {
-            if (rol.description === toCheck) {
+        if (typeof cookies.get('roles', { path: process.env.REACT_APP_AUTH }) !== 'undefined') {
+            cookies.get('roles', { path: process.env.REACT_APP_AUTH }).map((rol) => {
+                if (rol.description === toCheck) {
+                    perm = true;
+                    return true;
+                }
+                return false;
+            })
+        }
+        return perm;
+    }
+
+    checkOwner() {
+        let perm = false;
+        if ((typeof cookies.get('username', { path: process.env.REACT_APP_AUTH }) !== 'undefined') && (this.props.risk !== null) && (typeof this.props.risk !== 'undefined')) {
+            if (cookies.get('username', { path: process.env.REACT_APP_AUTH }) === this.props.risk.author.idUser.toString()) {
+                console.log('a')
                 perm = true;
-                return true;
             }
-            return false;
-        })
+        }
         return perm;
     }
 
     render() {
-        let statusClass = this.props.status;
-        switch (statusClass) {
-            case 'Activo':
-                statusClass = 'success';
-                break;
-            case 'Inactivo':
-                statusClass = 'danger';
-                break;
-            case 'Completo':
-                statusClass = 'primary';
-                break;
-            default:
-                statusClass = 'secondary';
-                break;
-        }
         return (
             <div>
                 {/* Mobile */}
@@ -54,7 +53,10 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant="outline-primary" onClick={this.props.openModalEdit} >
+                            <Button
+                                variant={(this.checkPermissions("SUPER_ADMIN") || (this.checkPermissions("ADMIN")) || this.checkOwner()) ? "outline-primary" : "outline-dark"}
+                                disabled={(this.checkPermissions("USER") && !this.checkOwner()) ? "outline-primary" : "outline-dark"}
+                                onClick={this.props.openModalEdit} >
                                 <h2><i className="bi bi-pencil-square"></i></h2>
                             </Button>
                         </OverlayTrigger>
@@ -91,7 +93,10 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant="outline-primary" onClick={this.props.openModalEdit} >
+                            <Button
+                                variant={(this.checkPermissions("SUPER_ADMIN") || (this.checkPermissions("ADMIN")) || this.checkOwner()) ? "outline-primary" : "outline-dark"}
+                                disabled={(this.checkPermissions("USER") && !this.checkOwner()) ? true : false}
+                                onClick={this.props.openModalEdit} >
                                 <h2><i className="bi bi-pencil-square"></i></h2>
                             </Button>
                         </OverlayTrigger>

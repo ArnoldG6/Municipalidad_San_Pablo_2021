@@ -6,6 +6,8 @@
 package risk.services;
 
 import com.google.gson.Gson;
+import common.dao.UserDAO;
+import common.model.User;
 import ex.*;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -74,13 +76,19 @@ public class RiskManager extends HttpServlet {
      * to be deleted corresponds to an existing Risk.
      */
     private void deleteRisk(HttpServletRequest request, HttpServletResponse response) throws IOException, Exception {
-        String requestJSON = request.getReader().lines().collect(Collectors.joining());
-        Risk newR = new Gson().fromJson(requestJSON, Risk.class);
+        //String requestJSON = request.getReader().lines().collect(Collectors.joining());
+        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+        requestJSON.remove("userID");
+        Risk newR = new Gson().fromJson(requestJSON.toString(), Risk.class);
         Risk riskE = RiskDAO.getInstance().searchById(newR.getPkId());
         if (riskE == null) {
             //Custom exception
             response.getWriter().write(new RiskNotFoundEx().jsonify());
 //            throw new IOException();
+        }
+        if (!user.hasRol("SUPER_ADMIN")) {
+            throw new IOException();
         }
         RiskDAO.getInstance().delete(riskE);
     }
@@ -89,8 +97,7 @@ public class RiskManager extends HttpServlet {
      * @param request contains the JSON data that is sent by the client and
      * other useful information from the client request. insertRisk verifies
      * that the Risk ID that wants to be inserted does not correspond to an
-     * existing Risk entry.
-     * edited by: ArnoldG6.
+     * existing Risk entry. edited by: ArnoldG6.
      */
     private void insertRisk(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String requestJSON = request.getReader().lines().collect(Collectors.joining());
@@ -124,8 +131,15 @@ public class RiskManager extends HttpServlet {
      * permissions.
      */
     private void editRisk(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String requestJSON = request.getReader().lines().collect(Collectors.joining());
-        Risk riskEdit = new Gson().fromJson(requestJSON, Risk.class);
+        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+        requestJSON.remove("userID");
+        Risk riskEdit = new Gson().fromJson(requestJSON.toString(), Risk.class);
+        
+        if (!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !riskEdit.getAuthor().getIdUser().equals(user.getIdUser())) {
+            throw new IOException();
+        }
+        
         if (RiskDAO.getInstance().searchById(riskEdit.getPkId()) != null) {
             RiskDAO.getInstance().update(riskEdit);
         } else {

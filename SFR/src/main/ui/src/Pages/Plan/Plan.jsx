@@ -9,8 +9,8 @@ import EditPlanModal from './Components/EditPlanModal';
 import GenericModal from '../../SharedComponents/GenericModal/GenericModal';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
-//import Cookies from 'universal-cookie';
-//const cookies = new Cookies();
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 class Plan extends Component {
     constructor(props) {
@@ -40,6 +40,14 @@ class Plan extends Component {
     }
 
     componentDidMount() {
+        //Account check
+        if (typeof cookies.get('username', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
+            typeof cookies.get('roles', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
+            typeof cookies.get('token', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
+            typeof cookies.get('full_name', { path: process.env.REACT_APP_AUTH }) === 'undefined') {
+            document.location = "http://localhost:3000/#/logout";
+        }
+
         this.refreshPage();
     }
 
@@ -130,7 +138,7 @@ class Plan extends Component {
     tableHandler(table) {
         this.setState({ "table": table })
     }
-    
+
 
     tableAssign() {
         if (this.state.plan !== null) {
@@ -138,7 +146,7 @@ class Plan extends Component {
                 case "risks":
                     return <RiskTable riesgos={this.state.plan.riskList} removeRisks={this.removeRisks} addRisk={this.addRisk} availableRisks={this.state.availableRisks} />;
                 case "incidents":
-                    return <IncidentTable refreshPage = {this.refreshPage} planID = {this.state.plan.pkID} incidentes={this.state.plan.incidenceList} removeIncidences={this.removeIncidences} riesgos={this.state.plan.riskList} />;
+                    return <IncidentTable refreshPage={this.refreshPage} planID={this.state.plan.pkID} incidentes={this.state.plan.incidenceList} removeIncidences={this.removeIncidences} riesgos={this.state.plan.riskList} />;
                 case "involved":
                     return <h1>Involucrados Aqui</h1>;
                 default:
@@ -181,39 +189,39 @@ class Plan extends Component {
                 });
             });
     }
-/*
-    addIncidence(risksIDs) {
-        let options = {
-            url: process.env.REACT_APP_API_URL + `/PlanManager/Insert/Incidence`,
-            method: 'POST',
-            header: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            data: {
-                'planPKID': this.state.plan.pkID,
-                'risksIDs': risksIDs
+    /*
+        addIncidence(risksIDs) {
+            let options = {
+                url: process.env.REACT_APP_API_URL + `/PlanManager/Insert/Incidence`,
+                method: 'POST',
+                header: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    'planPKID': this.state.plan.pkID,
+                    'risksIDs': risksIDs
+                }
             }
-        }
-
-        axios(options)
-            .then(response => {
-                this.refreshPage();
-                toast.success("Se agregaron los incidencias correctamente!", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    pauseOnHover: true,
-                    theme: 'colored',
-                    autoClose: 5000
+    
+            axios(options)
+                .then(response => {
+                    this.refreshPage();
+                    toast.success("Se agregaron los incidencias correctamente!", {
+                        position: toast.POSITION.TOP_RIGHT,
+                        pauseOnHover: true,
+                        theme: 'colored',
+                        autoClose: 5000
+                    });
+                }).catch(error => {
+                    toast.error("Hubo un error agregando los incidencias al plan.", {
+                        position: toast.POSITION.TOP_RIGHT,
+                        pauseOnHover: true,
+                        theme: 'colored',
+                        autoClose: 5000
+                    });
                 });
-            }).catch(error => {
-                toast.error("Hubo un error agregando los incidencias al plan.", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    pauseOnHover: true,
-                    theme: 'colored',
-                    autoClose: 5000
-                });
-            });
-    }*/
+        }*/
 
     removeRisks(idRisk) {
         let options = {

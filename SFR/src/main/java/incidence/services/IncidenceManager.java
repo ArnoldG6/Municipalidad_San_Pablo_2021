@@ -86,7 +86,6 @@ public class IncidenceManager extends HttpServlet {
     private void insertIncidence(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, java.text.ParseException {
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        System.out.println(requestJSON); 
         String name = requestJSON.getString("name");
         String description = requestJSON.getString("description");
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);

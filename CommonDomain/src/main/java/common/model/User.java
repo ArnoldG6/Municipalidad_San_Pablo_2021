@@ -1,4 +1,5 @@
 package common.model;
+
 import com.google.gson.Gson;
 import java.io.Serializable;
 import java.util.List;
@@ -23,8 +24,8 @@ public class User implements Serializable {
     @Column(name = "PK_USER")
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    private int idUser;
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private Integer idUser;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "FK_official", referencedColumnName = "PK_OFFICIAL")
     private Official official;
     @OneToMany(fetch = FetchType.EAGER)
@@ -36,14 +37,15 @@ public class User implements Serializable {
     private List<Rol> roles;
     @Column(name = "FK_email")
     private String email;
-    public User(int idUser, Official official, String email, String password,List<Rol> roles) {
+
+    public User(Integer idUser, Official official, String email, String password, List<Rol> roles) {
         this.idUser = idUser;
         this.official = official;
         this.email = email;
         this.roles = roles;
     }
 
-    public User(int idUser) {
+    public User(Integer idUser) {
         this.idUser = idUser;
     }
 
@@ -51,11 +53,11 @@ public class User implements Serializable {
 
     }
 
-    public int getIdUser() {
+    public Integer getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(int idUser) {
+    public void setIdUser(Integer idUser) {
         this.idUser = idUser;
     }
 
@@ -82,9 +84,14 @@ public class User implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public boolean hasRol(String rol) {
+        return roles.stream().filter(r -> r.getDescription().equals(rol)).findFirst().isPresent();
+    }
+
     @Override
     public String toString() {
         return new Gson().toJson(this);
     }
-    
+
 }

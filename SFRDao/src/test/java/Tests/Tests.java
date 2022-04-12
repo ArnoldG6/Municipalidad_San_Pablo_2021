@@ -4,14 +4,10 @@
  * and open the template in the editor.
  */
 package Tests;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
-import sfr.dao.IncidenceDAO;
 import sfr.dao.RiskDAO;
-import sfr.model.Incidence;
-import sfr.model.Risk;
 
 /**
  *

@@ -13,13 +13,15 @@ class TopButtons extends Component {
 
     checkPermissions(toCheck) {
         let perm = false;
-        cookies.get('roles', { path: process.env.REACT_APP_AUTH }).map((rol) => {
-            if (rol.description === toCheck) {
-                perm = true;
-                return true;
-            }
-            return false;
-        })
+        if (typeof cookies.get('roles', { path: process.env.REACT_APP_AUTH }) !== 'undefined') {
+            cookies.get('roles', { path: process.env.REACT_APP_AUTH }).map((rol) => {
+                if (rol.description === toCheck) {
+                    perm = true;
+                    return true;
+                }
+                return false;
+            })
+        }
         return perm;
     }
 

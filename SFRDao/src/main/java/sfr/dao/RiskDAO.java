@@ -101,19 +101,25 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
+
     /**
      * @param risk
-     * @return an Integer according to the number of Plan objects that contains the risk param.
+     * @return an Integer according to the number of Plan objects that contains
+     * the risk param.
      * @throws java.lang.Exception
      */
 
     public Integer countOfRiskAppearenceInPlans(Risk risk) throws Exception {
         try {
-            if (risk == null)
+            if (risk == null) {
                 throw new NullPointerException("Risk Null Pointer Exception");
+            }
             Integer count = 0;
-            for (Plan p: PlanDAO.getInstance().listByColumn("ENTRYDATE", "DESC"))
-                if (p.containsRisk(risk)) count += 1;
+            for (Plan p : PlanDAO.getInstance().listByColumn("ENTRYDATE", "DESC")) {
+                if (p.containsRisk(risk)) {
+                    count += 1;
+                }
+            }
             return count;
         } catch (Exception ex) {
             Logger.getLogger(RiskDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -123,17 +129,23 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
+
     /**
-     * @param r is the Risk object that should be searched in all Incidence objects.
-     * @return an Integer according to the number of Risk objects that appears in all Incidence objects.
+     * @param r is the Risk object that should be searched in all Incidence
+     * objects.
+     * @return an Integer according to the number of Risk objects that appears
+     * in all Incidence objects.
      * @throws java.lang.Exception
      */
 
     public Integer countOfRiskAppearenceInIncidences(Risk r) throws Exception {
         try {
             Integer count = 0;
-            for (Incidence i: IncidenceDAO.getInstance().listByColumn("DATE", "DESC"))
-                if (i.containsRisk(r)) count += 1;
+            for (Incidence i : IncidenceDAO.getInstance().listByColumn("DATE", "DESC")) {
+                if (i.containsRisk(r)) {
+                    count += 1;
+                }
+            }
             return count;
         } catch (Exception ex) {
             Logger.getLogger(RiskDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -143,6 +155,7 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
+
     /**
      * @return a casted HashMap of Risk objects from an HQL query sorted by
      * default param values (defined in this project).
@@ -156,14 +169,16 @@ public class RiskDAO extends GenericDAO {
         });
         return Risks;
     }
-        public HashMap<String, Risk> listAllHMBbyID() throws Exception {
-            HashMap<String, Risk> Risks = new HashMap<>();
-            List<Risk> RisksList = this.listByColumn("ID", "DESC");
-            RisksList.forEach(p -> {
-                Risks.put(p.getId(), p);
-            });
-            return Risks;
+
+    public HashMap<String, Risk> listAllHMBbyID() throws Exception {
+        HashMap<String, Risk> Risks = new HashMap<>();
+        List<Risk> RisksList = this.listByColumn("ID", "DESC");
+        RisksList.forEach(p -> {
+            Risks.put(p.getId(), p);
+        });
+        return Risks;
     }
+
     /**
      * This method adds a Risk object into the DB record, using HQL.
      *
@@ -229,6 +244,8 @@ public class RiskDAO extends GenericDAO {
                     System.err.println(e.getMessage());
                 }
             }
+            risk.setAuthor(null);
+            this.update(risk);
             em = getEntityManager();
             em.getTransaction().begin();
             em.remove(em.merge(risk));
@@ -259,6 +276,7 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
+
     public Risk searchByIdHM(String id) throws Exception {
         try {
             return listAllHMBbyID().get(id);
@@ -292,7 +310,8 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-/*
+
+    /*
     public Risk getRiskByID(Integer id) {
         try{
             em = getEntityManager();
@@ -314,7 +333,7 @@ public class RiskDAO extends GenericDAO {
         }
     }
 
-*/
+     */
     /**
      *
      *

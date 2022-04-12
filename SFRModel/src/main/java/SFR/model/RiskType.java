@@ -18,8 +18,8 @@ import javax.persistence.Table;
  *
  * @author Luis D
  */
-@Entity(name = "RiskType")
-@Table(name = "SFR.T_Risk_Types")
+@Entity
+@Table(name = "T_SFR_RiskTypes")
 public class RiskType implements Serializable {
 
     @Id

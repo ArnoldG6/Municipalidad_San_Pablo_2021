@@ -53,7 +53,7 @@ class PlansTable extends Component {
                                                     width={0}
                                                 >
 
-                                                    <div class="mobilePlanName">{plan.name}</div>
+                                                    <div className="mobilePlanName">{plan.name}</div>
 
                                                 </ShowMoreText>
 
@@ -125,8 +125,8 @@ class PlansTable extends Component {
                                                         <ShowMoreText
                                                             /* Default options */
                                                             lines={1}
-                                                            more={<button className='seeMoreButton'><i class="bi bi-caret-down"></i></button>}
-                                                            less={<button className='seeMoreButton'><i class="bi bi-caret-up"></i></button>}
+                                                            more={<button className='seeMoreButton'><i className="bi bi-caret-down"></i></button>}
+                                                            less={<button className='seeMoreButton'><i className="bi bi-caret-up"></i></button>}
                                                             className="content-css"
                                                             anchorClass="my-anchor-css-class"
                                                             onClick={this.executeOnClick}

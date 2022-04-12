@@ -69,7 +69,7 @@ export default class Login extends React.Component {
           cookies.set("username", response.data.username, { path: process.env.REACT_APP_AUTH, sameSite: 'lax' });
           cookies.set("full_name", response.data.full_name, { path: process.env.REACT_APP_AUTH, sameSite: 'lax' });
           cookies.set("roles", response.data.roles, { path: process.env.REACT_APP_AUTH, sameSite: 'lax' });
-          cookies.set("token", response.data.token, { path: process.env.REACT_APP_AUTH,  sameSite: 'lax' });
+          cookies.set("token", response.data.token, { path: process.env.REACT_APP_AUTH, sameSite: 'lax' });
           this.props.history.push('/menu');
         } else
           alert("Usuario o contraseña inválidos.");
@@ -80,10 +80,10 @@ export default class Login extends React.Component {
   componentDidMount() {
     console.log(cookies);
     if (cookies.get('username', { path: process.env.REACT_APP_AUTH })
-        && cookies.get('roles', { path: process.env.REACT_APP_AUTH })
-        && cookies.get('token', { path: process.env.REACT_APP_AUTH })
-        && cookies.get('full_name', { path: process.env.REACT_APP_AUTH }))
-        this.props.history.push('/menu');
+      && cookies.get('roles', { path: process.env.REACT_APP_AUTH })
+      && cookies.get('token', { path: process.env.REACT_APP_AUTH })
+      && cookies.get('full_name', { path: process.env.REACT_APP_AUTH }))
+      this.props.history.push('/menu');
   }
   async handleInputChange(e) {
     this.setState({ [e.target.name]: e.target.value }, () => {
@@ -99,7 +99,7 @@ export default class Login extends React.Component {
       <Container className="w-auto text-center mx-auto p-3 mt-2 container">
         <Form className="centered-element" onSubmit={this.handleSubmit}>
           <Form.Group className="mb-3">
-            <Image src={logo} fluid height={300} width={300} className='img-fluid hover-shadow' onClick={() => {console.log(cookies)}}/>
+            <Image src={logo} fluid height={300} width={300} className='img-fluid hover-shadow' onClick={() => { console.log(cookies) }} />
           </Form.Group>
           <Form.Group className="mb-3" >
             <Form.Label>Nombre de usuario o correo electrónico: </Form.Label>

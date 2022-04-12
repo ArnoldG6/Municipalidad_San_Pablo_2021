@@ -1,5 +1,6 @@
 package sfr.model;
 
+import common.model.User;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +24,7 @@ import org.hibernate.annotations.FetchMode;
  * @author arnold
  */
 @Entity
-@Table(name = "T_Plan")
+@Table(name = "T_SFR_Plan")
 public class Plan implements Serializable {
 
     @Id
@@ -64,23 +65,32 @@ public class Plan implements Serializable {
 //    )
 //    private List<User> involvedList;
     //@OneToMany(orphanRemoval = true, cascade = CascadeType.PERSIST)
-    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER) 
-    @Fetch(value=FetchMode.SUBSELECT)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(
-            name = "T_RISKPLAN",
+            name = "T_SFR_RISKPLAN",
             joinColumns = @JoinColumn(name = "FK_PLAN"),
             inverseJoinColumns = @JoinColumn(name = "FK_RISK")
     )
     private List<Risk> riskList;
 
     @OneToMany(fetch = FetchType.EAGER)
-    @Fetch(value=FetchMode.SUBSELECT)
+    @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(
-            name = "T_PLANINCIDENCE",
+            name = "T_SFR_PLANINCIDENCE",
             joinColumns = @JoinColumn(name = "FK_PLAN"),
             inverseJoinColumns = @JoinColumn(name = "FK_INCIDENCE")
     )
     private List<Incidence> incidenceList;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    @JoinTable(
+            name = "T_SFR_PLANUSER",
+            joinColumns = @JoinColumn(name = "FK_PLAN"),
+            inverseJoinColumns = @JoinColumn(name = "FK_USER")
+    )
+    private List<User> involvedList;
 
     public Plan() {
 
@@ -90,9 +100,8 @@ public class Plan implements Serializable {
         this.id = id;
     }
 
-    public Plan(String authorName, String name, String desc, Date dateOfAdm, String status, String type, String subtype, 
-                List<Risk> riskList, List<Incidence> incidenceList) {
-        //,List<User> involvedList) {
+    public Plan(String authorName, String name, String desc, Date dateOfAdm, String status, String type, String subtype,
+            List<Risk> riskList, List<Incidence> incidenceList, List<User> involvedList) {
         this.authorName = authorName;
         this.name = name;
         this.description = desc;
@@ -102,7 +111,7 @@ public class Plan implements Serializable {
         this.subtype = subtype;
         this.riskList = riskList;
         this.incidenceList = incidenceList;
-        //this.involvedList = involvedList;
+        this.involvedList = involvedList;
     }
 
     public int getPkId() {
@@ -161,12 +170,14 @@ public class Plan implements Serializable {
         this.entryDate = entryDate;
     }
 
-    //public List<User> getInvolvedList() {
-    //    return involvedList;
-    //}
-    //public void setInvolvedList(List<User> involvedList) {
-    //    this.involvedList = involvedList;
-    // }
+    public List<User> getInvolvedList() {
+        return involvedList;
+    }
+
+    public void setInvolvedList(List<User> involvedList) {
+        this.involvedList = involvedList;
+    }
+
     public void addRisk(Risk risk) {
         try {
             this.riskList.add(risk);
@@ -186,7 +197,7 @@ public class Plan implements Serializable {
             throw e;
         }
     }
-    
+
     public void addIncidence(Incidence incidence) {
         try {
             this.incidenceList.add(incidence);
@@ -196,10 +207,30 @@ public class Plan implements Serializable {
             throw e;
         }
     }
-    
+
     public void removeIncidence(Incidence incidence) {
         try {
             this.incidenceList.remove(incidence);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        }
+    }
+
+    public void addInvolucrado(User user) {
+        try {
+            this.involvedList.add(user);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        }
+    }
+    
+    public void removeInvolucrado(User user) {
+        try {
+            this.involvedList.remove(user);
         } catch (Exception e) {
             e.printStackTrace(System.out);
             System.err.println(e.getMessage());
@@ -240,18 +271,19 @@ public class Plan implements Serializable {
         sb.append("\"type\": \"").append(type).append("\"\n");
         sb.append("\"riskList\":").append(riskList).append("\n");
         sb.append("\"incidencekList\":").append(incidenceList).append("\n");
-        //sb.append("\"involvedList\": ").append(involvedList.toString());
+        sb.append("\"involvedList\": ").append(involvedList).append("\n");
         sb.append("}\n");
         return sb.toString();
     }
-    
+
     public List<Incidence> getIncidenceList() {
         return incidenceList;
     }
+
     public void setIncidenceList(List<Incidence> incidenceList) {
         this.incidenceList = incidenceList;
     }
-     
+
     public List<Risk> getRiskList() {
         return riskList;
     }
@@ -268,7 +300,6 @@ public class Plan implements Serializable {
         this.commentList = commentList;
     }
      */
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -316,8 +347,11 @@ public class Plan implements Serializable {
         }
         return true;
     }
-    public boolean containsRisk(Risk risk){
-        if (risk == null) return false;
+
+    public boolean containsRisk(Risk risk) {
+        if (risk == null) {
+            return false;
+        }
         return riskList.stream().filter(r -> r.getId().equals(risk.getId())).findFirst().isPresent();
     }
 }

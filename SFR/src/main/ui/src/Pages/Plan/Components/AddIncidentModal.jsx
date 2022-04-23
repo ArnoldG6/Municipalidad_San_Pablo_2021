@@ -6,6 +6,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import DatePicker from "react-datepicker";
 import 'react-toastify/dist/ReactToastify.css';
 import es from 'date-fns/locale/es';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 class AddIncidentModal extends Component {
     constructor(props) {
@@ -28,7 +30,6 @@ class AddIncidentModal extends Component {
     }
 
     onChangeDatePicker = e => {
-        console.log(e.getTime())
         this.setState({startDate: e})
     }
 
@@ -41,7 +42,7 @@ class AddIncidentModal extends Component {
         else {
             event.preventDefault();
             let options = {
-                url: process.env.REACT_APP_API_URL + `/IncidenceManager/Insert`,
+                url: process.env.REACT_APP_SFR_API_URL + `/IncidenceManager/Insert`,
                 method: 'POST',
                 header: {
                     'Accept': 'application/json',
@@ -54,7 +55,8 @@ class AddIncidentModal extends Component {
                     'affectation': event.target.affectation.value,
                     'cause': event.target.cause.value,
                     'risk': event.target.risk.value,
-                    'planID': this.props.planID
+                    'planID': this.props.planID,
+                    'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
                 }
             }
 

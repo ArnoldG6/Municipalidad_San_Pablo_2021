@@ -5,6 +5,7 @@ import CommentSideBar from './Components/CommentSideBar';
 import TopButtons from './Components/TopButtons';
 import RiskTable from './Components/RiskTable';
 import IncidentTable from './Components/IncidentTable';
+import InvolvedTable from './Components/InvolvedTable';
 import EditPlanModal from './Components/EditPlanModal';
 import GenericModal from '../../SharedComponents/GenericModal/GenericModal';
 import { ToastContainer, toast } from 'react-toastify';
@@ -21,6 +22,7 @@ class Plan extends Component {
             sortingWay: 'description',
             plan: null,
             availableRisks: [],
+            availableUsers: [],
             showEdit: false,
             showDel: false
         };
@@ -28,15 +30,19 @@ class Plan extends Component {
         this.tableHandler = this.tableHandler.bind(this);
         this.removeRisks = this.removeRisks.bind(this);
         this.removeIncidences = this.removeIncidences.bind(this);
+        this.addInvolved = this.addInvolved.bind(this);
+        this.removeInvolved = this.removeInvolved.bind(this);
         this.deletePlan = this.deletePlan.bind(this);
         this.refreshPage = this.refreshPage.bind(this);
         this.addRisk = this.addRisk.bind(this);
         this.retrieveTypes = this.retrieveTypes.bind(this);
         this.retrieveRemainingRisks = this.retrieveRemainingRisks.bind(this);
+        this.retrieveUsers = this.retrieveUsers.bind(this);
         this.openModalEdit = this.openModalEdit.bind(this);
         this.closeModalEdit = this.closeModalEdit.bind(this);
         this.openModalDelete = this.openModalDelete.bind(this);
         this.closeModalDelete = this.closeModalDelete.bind(this);
+        this.permsCheck = this.permsCheck.bind(this);
     }
 
     componentDidMount() {
@@ -45,17 +51,49 @@ class Plan extends Component {
             typeof cookies.get('roles', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
             typeof cookies.get('token', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
             typeof cookies.get('full_name', { path: process.env.REACT_APP_AUTH }) === 'undefined') {
-            document.location = "http://localhost:3000/#/logout";
+            document.location = process.env.REACT_APP_LOGOUT;
         }
 
         this.refreshPage();
+    }
+
+    permsCheck(toCheck) {
+        let perm = false;
+        if (typeof cookies.get('roles', { path: process.env.REACT_APP_AUTH }) !== 'undefined'
+            && typeof cookies.get('username', { path: process.env.REACT_APP_AUTH }) !== 'undefined'
+            && this.state.plan !== null) {
+            if (toCheck === "INVOLVED") {
+                var id = cookies.get('username', { path: process.env.REACT_APP_AUTH });
+                this.state.plan.involvedList.map((involved) => {
+                    console.log(id)
+                    console.log(involved.idUser)
+                    if (involved.idUser.toString() === id) {
+                        perm = true;
+                        return true;
+                    }
+                    return false;
+                })
+            }
+            else {
+                cookies.get('roles', { path: process.env.REACT_APP_AUTH }).map((rol) => {
+                    if (!(this.state.plan.status === "Completo")) {
+                        if (rol.description === toCheck) {
+                            perm = true;
+                            return true;
+                        }
+                    }
+                    return false;
+                })
+            }
+        }
+        return perm;
     }
 
     refreshPage() {
         let query = new URLSearchParams(this.props.location.search);
 
         let options = {
-            url: process.env.REACT_APP_API_URL + "/PlanServlet/Retrieve/Plan",
+            url: process.env.REACT_APP_SFR_API_URL + "/PlanServlet/Retrieve/Plan",
             method: "POST",
             header: {
                 'Accept': 'application/json',
@@ -86,7 +124,7 @@ class Plan extends Component {
         let query = new URLSearchParams(this.props.location.search);
 
         let options2 = {
-            url: process.env.REACT_APP_API_URL + "/PlanServlet/Retrieve/Plan/RemainingRisks",
+            url: process.env.REACT_APP_SFR_API_URL + "/PlanServlet/Retrieve/Plan/RemainingRisks",
             method: "POST",
             header: {
                 'Accept': 'application/json',
@@ -109,7 +147,7 @@ class Plan extends Component {
 
     retrieveTypes() {
         let options = {
-            url: process.env.REACT_APP_API_URL + `/PlanServlet/Retrieve/PlanTypes`,
+            url: process.env.REACT_APP_SFR_API_URL + `/PlanServlet/Retrieve/PlanTypes`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',
@@ -124,9 +162,41 @@ class Plan extends Component {
                 }
                 this.setState({
                     typesMap: map
+                }, () => {
+                    this.retrieveUsers();
                 });
             }).catch(error => {
                 toast.error("Error recuperando los tipos/subtipos de Planes", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
+            });
+    }
+
+    retrieveUsers() {
+        let query = new URLSearchParams(this.props.location.search);
+
+        let options = {
+            url: process.env.REACT_APP_SFR_API_URL + `/PlanServlet/Retrieve/Plan/RemainingUsers`,
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: {
+                'planID': query.get('id')
+            }
+        }
+        axios(options)
+            .then(response => {
+                this.setState({
+                    availableUsers: response.data
+                }, () => {
+                });
+            }).catch(error => {
+                toast.error("Error recuperando los usuarios de Planes", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
@@ -144,11 +214,11 @@ class Plan extends Component {
         if (this.state.plan !== null) {
             switch (this.state.table) {
                 case "risks":
-                    return <RiskTable riesgos={this.state.plan.riskList} removeRisks={this.removeRisks} addRisk={this.addRisk} availableRisks={this.state.availableRisks} />;
+                    return <RiskTable permsCheck={this.permsCheck} riesgos={this.state.plan.riskList} removeRisks={this.removeRisks} addRisk={this.addRisk} availableRisks={this.state.availableRisks} />;
                 case "incidents":
-                    return <IncidentTable refreshPage={this.refreshPage} planID={this.state.plan.pkID} incidentes={this.state.plan.incidenceList} removeIncidences={this.removeIncidences} riesgos={this.state.plan.riskList} />;
+                    return <IncidentTable permsCheck={this.permsCheck} refreshPage={this.refreshPage} planID={this.state.plan.pkID} incidentes={this.state.plan.incidenceList} removeIncidences={this.removeIncidences} riesgos={this.state.plan.riskList} />;
                 case "involved":
-                    return <h1>Involucrados Aqui</h1>;
+                    return <InvolvedTable permsCheck={this.permsCheck} involved={this.state.plan.involvedList} removeInvolved={this.removeInvolved} addInvolved={this.addInvolved} planID={this.state.plan.id} users={this.state.availableUsers} />;
                 default:
                     return <h1>Error</h1>;
             }
@@ -159,7 +229,7 @@ class Plan extends Component {
 
     addRisk(risksID) {
         let options = {
-            url: process.env.REACT_APP_API_URL + `/PlanManager/Insert/Risk`,
+            url: process.env.REACT_APP_SFR_API_URL + `/PlanManager/Insert/Risk`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',
@@ -167,7 +237,8 @@ class Plan extends Component {
             },
             data: {
                 'planPKID': this.state.plan.pkID,
-                'riskIDs': risksID
+                'riskIDs': risksID,
+                'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
             }
         }
 
@@ -189,43 +260,10 @@ class Plan extends Component {
                 });
             });
     }
-    /*
-        addIncidence(risksIDs) {
-            let options = {
-                url: process.env.REACT_APP_API_URL + `/PlanManager/Insert/Incidence`,
-                method: 'POST',
-                header: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                data: {
-                    'planPKID': this.state.plan.pkID,
-                    'risksIDs': risksIDs
-                }
-            }
-    
-            axios(options)
-                .then(response => {
-                    this.refreshPage();
-                    toast.success("Se agregaron los incidencias correctamente!", {
-                        position: toast.POSITION.TOP_RIGHT,
-                        pauseOnHover: true,
-                        theme: 'colored',
-                        autoClose: 5000
-                    });
-                }).catch(error => {
-                    toast.error("Hubo un error agregando los incidencias al plan.", {
-                        position: toast.POSITION.TOP_RIGHT,
-                        pauseOnHover: true,
-                        theme: 'colored',
-                        autoClose: 5000
-                    });
-                });
-        }*/
 
     removeRisks(idRisk) {
         let options = {
-            url: process.env.REACT_APP_API_URL + "/PlanManager/Delete/Risk",
+            url: process.env.REACT_APP_SFR_API_URL + "/PlanManager/Delete/Risk",
             method: "DELETE",
             header: {
                 'Accept': 'application/json',
@@ -233,7 +271,8 @@ class Plan extends Component {
             },
             data: {
                 'planPkID': this.state.plan.pkID,
-                'riskPkID': idRisk
+                'riskPkID': idRisk,
+                'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
             }
         }
         axios(options)
@@ -255,9 +294,10 @@ class Plan extends Component {
             });
     }
 
+
     removeIncidences(idIncidence) {
         let options = {
-            url: process.env.REACT_APP_API_URL + "/IncidenceManager/Delete",
+            url: process.env.REACT_APP_SFR_API_URL + "/IncidenceManager/Delete",
             method: "DELETE",
             header: {
                 'Accept': 'application/json',
@@ -265,20 +305,88 @@ class Plan extends Component {
             },
             data: {
                 'planPkID': this.state.plan.pkID,
-                'incidencePkID': idIncidence
+                'incidencePkID': idIncidence,
+                'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
             }
         }
         axios(options)
             .then(response => {
                 this.refreshPage();
-                toast.success("El riesgo fue eliminado correctamente!", {
+                toast.success("La incidencia fue eliminada correctamente!", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
                     autoClose: 5000
                 });
             }).catch(error => {
-                toast.error("Error al remover el riesgo seleccionado.", {
+                toast.error("Error al remover la incidencia seleccionada.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
+            });
+    }
+
+    addInvolved(userIDs) {
+        let options = {
+            url: process.env.REACT_APP_SFR_API_URL + `/PlanManager/Insert/Involved`,
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: {
+                'planID': this.state.plan.pkID,
+                'userIDs': userIDs,
+                'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
+            }
+        }
+
+        axios(options)
+            .then(response => {
+                this.refreshPage();
+                toast.success("Se agregaron los involucrados correctamente!", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
+            }).catch(error => {
+                toast.error("Hubo un error agregando los involucrados al plan.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
+            });
+    }
+
+    removeInvolved(userID) {
+        let options = {
+            url: process.env.REACT_APP_SFR_API_URL + "/PlanManager/Delete/Involved",
+            method: "DELETE",
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: {
+                'planID': this.state.plan.pkID,
+                'involvedID': userID,
+                'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
+            }
+        }
+        axios(options)
+            .then(response => {
+                this.refreshPage();
+                toast.success("El involucrado fue eliminado correctamente!", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
+            }).catch(error => {
+                toast.error("Error al remover el involucrado seleccionado.", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
@@ -289,14 +397,15 @@ class Plan extends Component {
 
     deletePlan() {
         let options = {
-            url: process.env.REACT_APP_API_URL + `/PlanManager/Delete`,
+            url: process.env.REACT_APP_SFR_API_URL + `/PlanManager/Delete`,
             method: 'DELETE',
             header: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             data: {
-                'pkID': this.state.plan.pkID
+                'pkID': this.state.plan.pkID,
+                'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
             }
         }
         axios(options)
@@ -332,7 +441,8 @@ class Plan extends Component {
                         <TopButtons
                             openModalEdit={this.openModalEdit}
                             openModalDelete={this.openModalDelete}
-                            status={(this.state.plan === null) ? "Cargando.." : this.state.plan.status} />
+                            status={(this.state.plan === null) ? "Cargando.." : this.state.plan.status}
+                            permsCheck={this.permsCheck} />
                     </Row>
                     {/* Datos del Plan */}
                     <Row className="mt-4">
@@ -382,7 +492,8 @@ class Plan extends Component {
                             <TopButtons
                                 openModalEdit={this.openModalEdit}
                                 openModalDelete={this.openModalDelete}
-                                status={(this.state.plan === null) ? "Cargando.." : this.state.plan.status} />
+                                status={(this.state.plan === null) ? "Cargando.." : this.state.plan.status}
+                                permsCheck={this.permsCheck} />
                         </Row>
                         {/* Datos del Plan */}
                         <Row className="mt-4">

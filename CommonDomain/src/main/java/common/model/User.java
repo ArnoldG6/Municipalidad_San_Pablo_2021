@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -29,6 +31,7 @@ public class User implements Serializable {
     @JoinColumn(name = "FK_official", referencedColumnName = "PK_OFFICIAL")
     private Official official;
     @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(
             name = "SI_USER_ROLES",
             joinColumns = @JoinColumn(name = "FK_user"),
@@ -94,4 +97,21 @@ public class User implements Serializable {
         return new Gson().toJson(this);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        User u = (User) obj;
+        if (this.idUser.equals(u.getIdUser())) {
+            return true;
+        }
+        return false;
+    }
 }

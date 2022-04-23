@@ -2,6 +2,7 @@ package sfr.model;
 
 import common.model.User;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -93,11 +94,16 @@ public class Plan implements Serializable {
     private List<User> involvedList;
 
     public Plan() {
-
+        this.riskList = new ArrayList<>();
+        this.incidenceList = new ArrayList<>();
+        this.involvedList = new ArrayList<>();
     }
 
     public Plan(String id) {
         this.id = id;
+        this.riskList = new ArrayList<>();
+        this.incidenceList = new ArrayList<>();
+        this.involvedList = new ArrayList<>();
     }
 
     public Plan(String authorName, String name, String desc, Date dateOfAdm, String status, String type, String subtype,
@@ -227,7 +233,7 @@ public class Plan implements Serializable {
             throw e;
         }
     }
-    
+
     public void removeInvolucrado(User user) {
         try {
             this.involvedList.remove(user);
@@ -353,5 +359,12 @@ public class Plan implements Serializable {
             return false;
         }
         return riskList.stream().filter(r -> r.getId().equals(risk.getId())).findFirst().isPresent();
+    }
+
+    public boolean containsInvolved(User user) {
+        if (user == null) {
+            return false;
+        }
+        return involvedList.stream().filter(u -> u.getIdUser().equals(user.getIdUser())).findFirst().isPresent();
     }
 }

@@ -4,6 +4,8 @@ import { Modal, Button, Form, FormGroup, Stack, OverlayTrigger, Tooltip } from "
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../Riesgos.css'
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 class AddRiskModal extends Component {
     constructor(props) {
@@ -29,7 +31,7 @@ class AddRiskModal extends Component {
         event.preventDefault();
         let id = this.getID(this.state.value, event.target.areatype.value);
         let options = {
-            url: process.env.REACT_APP_API_URL + `/RiskManager/Insert`,
+            url: process.env.REACT_APP_SFR_API_URL + `/RiskManager/Insert`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',
@@ -44,7 +46,8 @@ class AddRiskModal extends Component {
                 'areaType': event.target.areatype.value,
                 'specType': event.target.specific_factor.value,
                 'factors': event.target.factor.value,
-                'mitigationMeasures': event.target.mitigationMeasures.value
+                'mitigationMeasures': event.target.mitigationMeasures.value,
+                'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
             }
         }
 

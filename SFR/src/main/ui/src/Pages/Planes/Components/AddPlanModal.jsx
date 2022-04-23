@@ -34,7 +34,7 @@ class AddPlanModal extends Component {
         event.preventDefault();
         let id = this.getID(event.target.type.value, event.target.subtype.value);
         let options = {
-            url: process.env.REACT_APP_API_URL + `/PlanManager/Insert`,
+            url: process.env.REACT_APP_SFR_API_URL + `/PlanManager/Insert`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',
@@ -47,7 +47,8 @@ class AddPlanModal extends Component {
                 'authorName': event.target.authorName.value,
                 'type': event.target.type.value,
                 'subtype': event.target.subtype.value,
-                'description': event.target.description.value
+                'description': event.target.description.value,
+                'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
             }
         }
 

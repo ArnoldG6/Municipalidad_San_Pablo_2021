@@ -11,10 +11,9 @@ import common.dao.UserDAO;
  *
  * @author dicar
  */
-public class Test {
+public class Tests {
 
-    public static void main(String[] args) {
-        System.out.println(UserDAO.getInstance().
-userAuth("50", "efcc06418ae6b9db034ad644e50c37391f13bc51ece24c84596bcbb677c80adb").toString());
+    public void main() {
+        System.out.println(UserDAO.getInstance().listAll());
     }
 }

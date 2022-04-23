@@ -6,13 +6,13 @@
  */
 package sfr.dao;
 
+import common.dao.UserDAO;
+import common.model.User;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.persistence.Query;
 import sfr.model.Incidence;
@@ -276,6 +276,36 @@ public class PlanDAO extends GenericDAO {
                 }
             }
             return riskList;
+        } catch (Exception ex) {
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
+    }
+
+    /**
+     *
+     * @return a list of users, including all users, except for the ones in the
+     * Plan identified by
+     * @param planID
+     * @throws java.lang.Exception
+     */
+    public List<User> getUserListByPlanNoRep(String planID) throws Exception {
+        try {
+            Plan p = PlanDAO.getInstance().searchByIdString(planID);
+            List<User> pUserList = p.getInvolvedList(); //risks of an specific Plan.
+            List<User> userList = UserDAO.getInstance().listAll();
+            if (pUserList == null || userList == null) {
+                throw new IOException("Empty userList exception");
+            }
+            for (int i = 0; i < pUserList.size(); i++) {
+                if (userList.contains(pUserList.get(i))) {
+                    userList.remove(pUserList.get(i));
+                }
+            }
+            return userList;
         } catch (Exception ex) {
             ex.printStackTrace(System.out);
             System.err.println(ex.getMessage());

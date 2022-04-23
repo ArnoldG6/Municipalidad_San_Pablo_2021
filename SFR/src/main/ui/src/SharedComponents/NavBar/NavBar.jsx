@@ -18,7 +18,7 @@ class NavBar extends Component {
                         <Nav>
                             <Nav.Link href="#/perfil">Perfil</Nav.Link>
                             <Nav.Link href="#/">Salir del SFR</Nav.Link>
-                            <Nav.Link href="#/">Logout</Nav.Link>
+                            <Nav.Link href={process.env.REACT_APP_LOGOUT}>Logout</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>

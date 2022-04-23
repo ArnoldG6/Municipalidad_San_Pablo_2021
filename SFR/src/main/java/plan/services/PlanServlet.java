@@ -25,6 +25,7 @@ import sfr.dao.PlanTypeDAO;
     "/API/PlanServlet/Retrieve/Planes",
     "/API/PlanServlet/Retrieve/Plan",
     "/API/PlanServlet/Retrieve/Plan/RemainingRisks",
+    "/API/PlanServlet/Retrieve/Plan/RemainingUsers",
     "/API/PlanServlet/Retrieve/PlanTypes",
     "/API/PlanServlet/Search"
 })
@@ -60,6 +61,9 @@ public class PlanServlet extends HttpServlet {
                     break;
                 case "/API/PlanServlet/Retrieve/Plan/RemainingIncidences":
                     retrievePlanIncidenceList(request, response);
+                    break;
+                case "/API/PlanServlet/Retrieve/Plan/RemainingUsers":
+                    retrievePlanUserList(request, response);
                     break;
                 case "/API/PlanServlet/Retrieve/PlanTypes":
                     retrievePlanTypes(request, response);
@@ -205,7 +209,33 @@ public class PlanServlet extends HttpServlet {
         response.getWriter().flush();
         response.getWriter().close();
     }
-    
+   
+        /**
+     * @param request contains the JSON data that is sent by the client and
+     * other useful information from the client request.
+     * @param response sends the information back to the client with the
+     * server's response. retrievePlanUserList answers to the client with a
+     * List<User> object formatted as JSON which contains the complement of the
+     * List<User> of the user that sent the request.
+     */
+    private void retrievePlanUserList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, Exception {
+        String responseJSON;
+        //JSONObject requestJSON;
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        responseJSON = new Gson().toJson(PlanDAO.getInstance().getUserListByPlanNoRep(requestJSON.getString("planID")));
+        if (responseJSON == null) {
+            //Custom exception
+//            response.getWriter().write(new EmptyIncidenceListEx().jsonify());
+        } else {
+            response.getWriter().write(responseJSON);
+        }
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
+
     /**
      * @param request contains the JSON data that is sent by the client and
      * other useful information from the client request.

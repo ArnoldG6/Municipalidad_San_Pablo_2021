@@ -4,6 +4,8 @@ import '../Plan.css'
 import { Modal, Button, Form, Stack, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 class EditPlanModal extends Component {
     constructor(props) {
@@ -31,7 +33,7 @@ class EditPlanModal extends Component {
         event.preventDefault();
 
         let options = {
-            url: process.env.REACT_APP_API_URL + `/PlanManager/Edit`,
+            url: process.env.REACT_APP_SFR_API_URL + `/PlanManager/Edit`,
             method: 'PUT',
             header: {
                 'Accept': 'application/json',
@@ -48,6 +50,7 @@ class EditPlanModal extends Component {
                 'description': event.target.description.value,
                 'riskList': this.props.plan.riskList,
                 'entryDate': this.props.plan.entryDate,
+                'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
             }
         }
 

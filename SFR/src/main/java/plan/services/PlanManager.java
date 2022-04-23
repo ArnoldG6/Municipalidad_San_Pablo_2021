@@ -6,6 +6,8 @@
 package plan.services;
 
 import com.google.gson.Gson;
+import common.dao.UserDAO;
+import common.model.User;
 import ex.*;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -33,8 +35,10 @@ import sfr.model.Risk;
     "/API/PlanManager/Insert",
     "/API/PlanManager/Edit",
     "/API/PlanManager/Delete",
+    "/API/PlanManager/Insert/Risk",
     "/API/PlanManager/Delete/Risk",
-    "/API/PlanManager/Insert/Risk"
+    "/API/PlanManager/Insert/Involved",
+    "/API/PlanManager/Delete/Involved"
 })
 public class PlanManager extends HttpServlet {
 
@@ -78,6 +82,12 @@ public class PlanManager extends HttpServlet {
                 case "/API/PlanManager/Insert/Incidence":
                     associateIncidenceToPlan(request, response);
                     break;
+                case "/API/PlanManager/Insert/Involved":
+                    insertInvolved(request, response);
+                    break;
+                case "/API/PlanManager/Delete/Involved":
+                    deleteInvolved(request, response);
+                    break;
             }
             //response.setContentType("text/html");
             //response.setCharacterEncoding("UTF-8");
@@ -100,14 +110,17 @@ public class PlanManager extends HttpServlet {
      */
     private void insertPlan(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String requestJSON = request.getReader().lines().collect(Collectors.joining());
-        
+        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+        requestJSON.remove("userID");
+
         Date d = new Date();
         LocalDate localDate = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        
-        Plan newPlan = new Gson().fromJson(requestJSON, Plan.class);
+
+        Plan newPlan = new Gson().fromJson(requestJSON.toString(), Plan.class);
         newPlan.setEntryDate(d);
-        
+        newPlan.addInvolucrado(user);
+
         int idCount = PlanTypeDAO.getInstance().handleIDAmount(newPlan.getId());
         String year = Integer.toString(localDate.getYear());
         String month = String.format("%02d", localDate.getMonthValue());
@@ -115,7 +128,7 @@ public class PlanManager extends HttpServlet {
         String id = String.format("%05d", idCount);
         String newID = newPlan.getId() + "-" + year + month + day + "-" + id;
         newPlan.setId(newID);
-        
+
         if (PlanDAO.getInstance().searchById(newPlan.getPkId()) != null) {
             //Custom exception
             response.getWriter().write(new PlanAlreadyExistEx().jsonify());
@@ -133,8 +146,15 @@ public class PlanManager extends HttpServlet {
      */
     private void editPlan(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String requestJSON = request.getReader().lines().collect(Collectors.joining());
-        Plan editPlan = new Gson().fromJson(requestJSON, Plan.class);
+        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+        requestJSON.remove("userID");
+        Plan editPlan = new Gson().fromJson(requestJSON.toString(), Plan.class);
+
+        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !editPlan.containsInvolved(user)) || editPlan.getStatus().equals("Completo")) {
+            throw new IOException();
+        }
+
         if (PlanDAO.getInstance().searchById(editPlan.getPkId()) != null) {
             PlanDAO.getInstance().update(editPlan);
         } else {
@@ -157,6 +177,12 @@ public class PlanManager extends HttpServlet {
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         Plan toDelete = new Plan();
         toDelete.setPkId(requestJSON.getInt("pkID"));
+        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+
+        if ((!user.hasRol("SUPER_ADMIN")) || toDelete.getStatus().equals("Completo")) {
+            throw new IOException();
+        }
+
         if (PlanDAO.getInstance().searchById(toDelete.getPkId()) != null) {
             PlanDAO.getInstance().delete(toDelete);
         } else //Custom exception
@@ -179,27 +205,33 @@ public class PlanManager extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        Plan p = PlanDAO.getInstance().searchById(requestJSON.getInt("planPkID"));
-        if (p == null) {
+        Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planPkID"));
+        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+
+        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
+            throw new IOException();
+        }
+
+        if (plan == null) {
             //Custom exception
             response.getWriter().write(new PlanNotFoundEx().jsonify());
         }
-        List<Risk> riskList = p.getRiskList();
+        List<Risk> riskList = plan.getRiskList();
         if (riskList == null) {
             //Custom exception
             response.getWriter().write(new RisksNotListedEx().jsonify());
         }
         riskList.removeIf(r -> r.getPkId() == requestJSON.getInt("riskPkID"));
-        p.setRiskList(riskList);
-        PlanDAO.getInstance().update(p);
+        plan.setRiskList(riskList);
+        PlanDAO.getInstance().update(plan);
     }
-    
+
     /**
      * @param request contains the JSON data that is sent by the client and
      * other useful information from the client request.
      * @param response sends the information back to the client with the
-     * server's response. deleteIncidenceFromPlan deletes a Plan list of Incidences
-     * determined by the requestJSON.
+     * server's response. deleteIncidenceFromPlan deletes a Plan list of
+     * Incidences determined by the requestJSON.
      */
     private void deleteIncidenceFromPlan(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -207,19 +239,25 @@ public class PlanManager extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        Plan p = PlanDAO.getInstance().searchById(requestJSON.getInt("planPkID"));
-        if (p == null) {
+        Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planPkID"));
+        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+
+        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
+            throw new IOException();
+        }
+
+        if (plan == null) {
             //Custom exception
             response.getWriter().write(new PlanNotFoundEx().jsonify());
         }
-        List<Incidence> incidenceList = p.getIncidenceList();
+        List<Incidence> incidenceList = plan.getIncidenceList();
         if (incidenceList == null) {
             //Custom exception
 //            response.getWriter().write(new IncidencesNotListedEx().jsonify());
         }
         incidenceList.removeIf(r -> (String.valueOf(r.getPkID()).equals(requestJSON.getString("incidenceID"))));
-        p.setIncidenceList(incidenceList);
-        PlanDAO.getInstance().update(p);
+        plan.setIncidenceList(incidenceList);
+        PlanDAO.getInstance().update(plan);
     }
 
     /**
@@ -236,6 +274,13 @@ public class PlanManager extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         JSONArray riskIdJSONArray = requestJSON.getJSONArray("riskIDs");
+        Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planPKID"));
+        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+
+        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
+            throw new IOException();
+        }
+
         if (riskIdJSONArray == null) {
             //Custom exception
             response.getWriter().write(new InvalidRiskIDEx().jsonify());
@@ -247,22 +292,29 @@ public class PlanManager extends HttpServlet {
         }
         PlanDAO.getInstance().associateRisksToPlan(requestJSON.getInt("planPKID"), riskIds);
     }
-    
+
     /**
      * @param request contains the JSON data that is sent by the client and
      * other useful information from the client request.
      * @param response sends the information back to the client with the
-     * server's response. associateIncidenceToPlan updates the DB entries of 'Plan'
-     * associating it to a list of 'Plan' entries sent by the client.
+     * server's response. associateIncidenceToPlan updates the DB entries of
+     * 'Plan' associating it to a list of 'Plan' entries sent by the client.
      */
-    
     private void associateIncidenceToPlan(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
         JSONObject requestJSON;
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+
         JSONArray incidenceIdJSONArray = requestJSON.getJSONArray("incidenceIDs");
+        Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planPKID"));
+        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+
+        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
+            throw new IOException();
+        }
+
         if (incidenceIdJSONArray == null) {
             //Custom exception
 //            response.getWriter().write(new InvalidRiskIDEx().jsonify());
@@ -273,6 +325,51 @@ public class PlanManager extends HttpServlet {
             incidenceIds.add((Integer) incidenceIdJSONArray.get(i));
         }
         PlanDAO.getInstance().associateIncidencesToPlan(requestJSON.getInt("planPKID"), incidenceIds);
+    }
+
+    /**
+     * @param request contains the JSON data that is sent by the client and
+     * other useful information from the client request.
+     * @param response sends the information back to the client with the
+     * server's response.
+     */
+    private void insertInvolved(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, Exception {
+        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+
+        Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planID"));
+        JSONArray involvedIdJSONArray = requestJSON.getJSONArray("userIDs");
+        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+
+        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
+            throw new IOException();
+        }
+
+        if (involvedIdJSONArray == null) {
+            //Custom exception
+//            response.getWriter().write(new InvalidRiskIDEx().jsonify());
+//            throw new IOException("Invalid risk ID list");
+        }
+        for (int i = 0; i < involvedIdJSONArray.length(); i++) {
+            User u = UserDAO.getInstance().searchById((Integer) involvedIdJSONArray.get(i));
+            plan.addInvolucrado(u);
+        }
+        PlanDAO.getInstance().update(plan);
+    }
+
+    private void deleteInvolved(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, Exception {
+        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        User involved = UserDAO.getInstance().searchById(requestJSON.getInt("involvedID"));
+        Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planID"));
+        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+
+        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
+            throw new IOException();
+        }
+
+        plan.removeInvolucrado(involved);
+        PlanDAO.getInstance().update(plan);
     }
 
     // </editor-fold>

@@ -100,9 +100,14 @@ public class RiskManager extends HttpServlet {
      * existing Risk entry. edited by: ArnoldG6.
      */
     private void insertRisk(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String requestJSON = request.getReader().lines().collect(Collectors.joining());
-        Risk newRisk = new Gson().fromJson(requestJSON, Risk.class);
+        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+        requestJSON.remove("userID");
+        
+        Risk newRisk = new Gson().fromJson(requestJSON.toString(), Risk.class);
         newRisk.updateMagnitude();
+        newRisk.setAuthor(user);
+        
         long idCount = RiskTypeDAO.getInstance().handleIDAmount(newRisk.getId());
         String id = String.format("%02d", idCount);
         String newID = newRisk.getId() + id;

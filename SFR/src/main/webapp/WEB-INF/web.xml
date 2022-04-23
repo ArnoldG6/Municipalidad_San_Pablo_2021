@@ -21,6 +21,7 @@
         <url-pattern>/API/PlanServlet/Retrieve/Planes</url-pattern>
         <url-pattern>/API/PlanServlet/Retrieve/Plan</url-pattern>
         <url-pattern>/API/PlanServlet/Retrieve/Plan/RemainingRisks</url-pattern>
+        <url-pattern>/API/PlanServlet/Retrieve/Plan/RemainingUsers</url-pattern>
         <url-pattern>/API/PlanServlet/Retrieve/PlanTypes</url-pattern>
         <url-pattern>/API/PlanServlet/Search</url-pattern>
     </servlet-mapping>
@@ -35,6 +36,8 @@
         <url-pattern>/API/PlanManager/Delete</url-pattern>
         <url-pattern>/API/PlanManager/Delete/Risk</url-pattern>
         <url-pattern>/API/PlanManager/Insert/Risk</url-pattern>
+        <url-pattern>/API/PlanManager/Delete/Involved</url-pattern>
+        <url-pattern>/API/PlanManager/Insert/Involved</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginManager</servlet-name>

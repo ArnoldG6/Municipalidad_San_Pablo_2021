@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Tests;
+import common.dao.UserDAO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
@@ -18,7 +19,7 @@ public class Tests {
     @Test
     public void main() {
         try {
-            System.out.println(RiskDAO.getInstance().listAllHMBbyID());
+            System.out.println(UserDAO.getInstance().listAll());
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

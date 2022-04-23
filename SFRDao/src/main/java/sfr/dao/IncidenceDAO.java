@@ -111,7 +111,7 @@ public class IncidenceDAO extends GenericDAO {
     }
 
     /**
-     * This method adds a Plan object into the DB record, using HQL.
+     * This method adds a Incidence object into the DB record, using HQL.
      *
      * @param incidence is the Incidence Object to be added.
      */

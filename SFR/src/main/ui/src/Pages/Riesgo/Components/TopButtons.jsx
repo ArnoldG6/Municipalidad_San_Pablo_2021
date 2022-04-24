@@ -30,7 +30,6 @@ class TopButtons extends Component {
         let perm = false;
         if ((typeof cookies.get('username', { path: process.env.REACT_APP_AUTH }) !== 'undefined') && (this.props.risk !== null) && (typeof this.props.risk !== 'undefined')) {
             if (cookies.get('username', { path: process.env.REACT_APP_AUTH }) === this.props.risk.author.idUser.toString()) {
-                console.log('a')
                 perm = true;
             }
         }
@@ -55,7 +54,7 @@ class TopButtons extends Component {
                         >
                             <Button
                                 variant={(this.checkPermissions("SUPER_ADMIN") || (this.checkPermissions("ADMIN")) || this.checkOwner()) ? "outline-primary" : "outline-dark"}
-                                disabled={(this.checkPermissions("USER") && !this.checkOwner()) ? "outline-primary" : "outline-dark"}
+                                disabled={(this.checkPermissions("USER") && !this.checkOwner()) ? true : false}
                                 onClick={this.props.openModalEdit} >
                                 <h2><i className="bi bi-pencil-square"></i></h2>
                             </Button>

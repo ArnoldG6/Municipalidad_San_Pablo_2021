@@ -44,7 +44,7 @@ class Riesgos extends Component {
             typeof cookies.get('roles', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
             typeof cookies.get('token', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
             typeof cookies.get('full_name', { path: process.env.REACT_APP_AUTH }) === 'undefined') {
-            document.location = "http://localhost:3000/#/logout";
+            document.location = process.env.REACT_APP_LOGOUT;
         }
 
         this.updateRiesgosSort();
@@ -54,7 +54,7 @@ class Riesgos extends Component {
         let sortingValue = this.state.sortingValue;
         let sortingWay = this.state.sortingWay;
         let options = {
-            url: process.env.REACT_APP_API_URL + "/RiskServlet/Retrieve/Riesgos",
+            url: process.env.REACT_APP_SFR_API_URL + "/RiskServlet/Retrieve/Riesgos",
             method: "POST",
             header: {
                 'Accept': 'application/json',
@@ -79,7 +79,7 @@ class Riesgos extends Component {
 
     retrieveTypes() {
         let options = {
-            url: process.env.REACT_APP_API_URL + `/RiskServlet/Retrieve/RiskType`,
+            url: process.env.REACT_APP_SFR_API_URL + `/RiskServlet/Retrieve/RiskType`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',

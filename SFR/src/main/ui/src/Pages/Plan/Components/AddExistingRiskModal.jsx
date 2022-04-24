@@ -20,6 +20,10 @@ class AddExistingRiskModal extends Component {
         this.updatePageItems = this.updatePageItems.bind(this);
     }
 
+    componentDidMount() {
+        this.handleRiskRender();
+    }
+
     componentDidUpdate(prevProps) {
         if (this.props.risks !== prevProps.risks) {
             this.handleRiskRender()

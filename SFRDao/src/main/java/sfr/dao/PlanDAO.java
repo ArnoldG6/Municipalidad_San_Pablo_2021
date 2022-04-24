@@ -6,16 +6,28 @@
  */
 package sfr.dao;
 
+import common.dao.UserDAO;
+import common.model.User;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.persistence.Query;
+<<<<<<< HEAD
 import sfr.model.Comment;
+=======
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.RegionUtil;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+>>>>>>> b25dbe73e232ca2f237fbadc9acae6929f52f6d0
 import sfr.model.Incidence;
 import sfr.model.Plan;
 import sfr.model.Risk;
@@ -94,6 +106,102 @@ public class PlanDAO extends GenericDAO {
             e.printStackTrace(System.out);
             System.err.println(e.getMessage());
             throw e;
+        }
+    }
+
+    public String generateRiskTableXLSXFileName(Plan p) throws IOException {
+        if (p == null) {
+            throw new IOException("Invalid parameter p");
+        }
+        return new StringBuilder().append("Matriz_de_riesgos_").append(p.getId()).append("_").append(Timestamp.from(Instant.now()).toString().
+                replace(":", "-").replace("/", "-")).append(".xls").toString();
+    }
+
+    public XSSFWorkbook generateRiskTableXLSXFile(Plan p) throws IOException {
+        if (p == null) {
+            throw new IOException("Invalid parameter p");
+        }
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        //----1st title----
+        XSSFSheet worksheet = workbook.createSheet(p.getId());
+        worksheet.setVerticallyCenter(true);
+        worksheet.setHorizontallyCenter(true);
+        worksheet.createRow(0).createCell(1).setCellValue("MUNICIPALIDAD DE SAN PABLO DE HEREDIA");
+        CellRangeAddress m1 = new CellRangeAddress(0, 0, 1, 15);
+        worksheet.addMergedRegion(m1);
+        setBordersToMergedCells(worksheet, m1,"MEDIUM");
+        //----2nd title----
+        worksheet.createRow(1).createCell(1).setCellValue("MATRIZ DE IDENTIFICACIÓN DEL RIESGO");
+        CellRangeAddress m2 = new CellRangeAddress(1, 1, 1, 15);
+        worksheet.addMergedRegion(m2);
+        setBordersToMergedCells(worksheet, m2,"MEDIUM");
+        //----3rd row (2 titles)----
+        XSSFRow thirdRow = worksheet.createRow(2);
+        thirdRow.createCell(1).setCellValue("ESTRUCTURA DE RIESGOS");
+        CellRangeAddress m3 = new CellRangeAddress(2, 2, 1, 5);
+        worksheet.addMergedRegion(m3);
+        setBordersToMergedCells(worksheet, m3,"MEDIUM");
+        thirdRow.createCell(6).setCellValue("IDENTIFICACION DEL RIESGO");
+        CellRangeAddress m4 = new CellRangeAddress(2, 2, 6, 9);
+        worksheet.addMergedRegion(m4);
+        setBordersToMergedCells(worksheet, m4,"MEDIUM");
+        //----4th row, column headers----
+        XSSFRow fourthRow = worksheet.createRow(3);
+        fourthRow.createCell(1).setCellValue("NIVEL 1");
+        fourthRow.createCell(2).setCellValue("NIVEL 2");
+        fourthRow.createCell(3).setCellValue("NIVEL 3");
+        fourthRow.createCell(4).setCellValue("PROCESO");
+        fourthRow.createCell(5).setCellValue("OBJETIVO");
+        fourthRow.createCell(6).setCellValue("RIESGO");
+        fourthRow.createCell(7).setCellValue("DESCRIPCIÓN DEL RIESGO");
+        fourthRow.createCell(8).setCellValue("FACTOR DEL RIESGO (CAUSA)");
+        fourthRow.createCell(9).setCellValue("CONSECUENCIA");
+        setBordersToMergedCells(worksheet,new CellRangeAddress(3, 3, 1, 9) ,"MEDIUM");
+     
+        //Returns the workbook with no risk info if it is the case.
+        if (p.getRiskList() == null || p.getRiskList().isEmpty()) {
+            return workbook;
+        }
+        //----5th row(s)+, column data----
+        Integer rowCount = 4;
+        XSSFRow dataRow;
+        for(Risk r : p.getRiskList() ){
+            dataRow = worksheet.createRow(rowCount);
+            //dataRow.createCell(1).setCellValue("NIVEL 1");
+            //dataRow.createCell(2).setCellValue("NIVEL 2");
+            //dataRow.createCell(3).setCellValue("NIVEL 3");
+            //dataRow.createCell(4).setCellValue("PROCESO");
+            dataRow.createCell(5).setCellValue("FALTA EL CAMPO EN LA DB");
+            dataRow.createCell(6).setCellValue(r.getId() + " " + r.getName());
+            dataRow.createCell(7).setCellValue("FALTA EL CAMPO EN LA DB");
+            dataRow.createCell(8).setCellValue(r.getFactors());
+            dataRow.createCell(9).setCellValue("FALTA EL CAMPO EN LA DB");
+            rowCount += 1;
+        }
+        
+        //XSSFCellStyle cellStyle = workbook.createCellStyle();
+        //cellA1.setCellStyle(cellStyle);
+        setBordersToMergedCells(worksheet,new CellRangeAddress(4, 4, 1, 15),"THIN");
+        return workbook;
+    }
+
+    protected void setBordersToMergedCells(Sheet sheet, CellRangeAddress rangeAddress, String style) throws IOException {
+        if (style == null) {
+            throw new IOException("Invalid parameter 'style'.");
+        }
+        switch (style) {
+            case "MEDIUM":
+                RegionUtil.setBorderTop(BorderStyle.MEDIUM, rangeAddress, sheet);
+                RegionUtil.setBorderLeft(BorderStyle.MEDIUM, rangeAddress, sheet);
+                RegionUtil.setBorderRight(BorderStyle.MEDIUM, rangeAddress, sheet);
+                RegionUtil.setBorderBottom(BorderStyle.MEDIUM, rangeAddress, sheet);
+                break;
+            case "THIN":
+                RegionUtil.setBorderTop(BorderStyle.THIN, rangeAddress, sheet);
+                RegionUtil.setBorderLeft(BorderStyle.THIN, rangeAddress, sheet);
+                RegionUtil.setBorderRight(BorderStyle.THIN, rangeAddress, sheet);
+                RegionUtil.setBorderBottom(BorderStyle.THIN, rangeAddress, sheet);
+                break;
         }
     }
 
@@ -212,11 +320,12 @@ public class PlanDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-    
-     /**
+
+    /**
      * This method associates a single Plan object to n Incidence objects.
      *
-     * @param planID the Plan object that will be associated to the Incidences objects
+     * @param planID the Plan object that will be associated to the Incidences
+     * objects
      * @param incidenceIDs List of riskIDs to associate with planID parameter.
      * @throws java.lang.Exception
      */
@@ -328,11 +437,41 @@ public class PlanDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-    
+
     /**
      *
-     * @return a list of incidences, including all incidences, except for the ones in the
+     * @return a list of users, including all users, except for the ones in the
      * Plan identified by
+     * @param planID
+     * @throws java.lang.Exception
+     */
+    public List<User> getUserListByPlanNoRep(String planID) throws Exception {
+        try {
+            Plan p = PlanDAO.getInstance().searchByIdString(planID);
+            List<User> pUserList = p.getInvolvedList(); //risks of an specific Plan.
+            List<User> userList = UserDAO.getInstance().listAll();
+            if (pUserList == null || userList == null) {
+                throw new IOException("Empty userList exception");
+            }
+            for (int i = 0; i < pUserList.size(); i++) {
+                if (userList.contains(pUserList.get(i))) {
+                    userList.remove(pUserList.get(i));
+                }
+            }
+            return userList;
+        } catch (Exception ex) {
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
+    }
+
+    /**
+     *
+     * @return a list of incidences, including all incidences, except for the
+     * ones in the Plan identified by
      * @param planID
      * @throws java.lang.Exception
      */

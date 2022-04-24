@@ -44,7 +44,12 @@ class RiskTable extends Component {
         return (
             <div>
                 <div className='container-fluid'>
-                    <Button size="sm" onClick={this.openModalAddRisk} variant="success" key="AddRiskButtonMobile">
+                    <Button
+                        size="sm"
+                        onClick={this.openModalAddRisk}
+                        variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "success" : "dark"}
+                        disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
+                        key="AddRiskButtonMobile">
                         <i className="bi bi-plus-square"></i> {' '}
                         Agregar Riesgo
                     </Button>
@@ -67,9 +72,10 @@ class RiskTable extends Component {
                                                     Impacto: {risk.impact} <br />
                                                     Magnitud: {risk.magnitude} <br />
                                                 </p>
-                                                <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
-                                                    onClick={() => this.openModalDelRisk(risk.pkID)}
-                                                    disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
+                                                <Button
+                                                    variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "outline-danger" : "outline-dark"}
+                                                    disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
+                                                    onClick={() => this.openModalDelRisk(risk.pkID)} >
                                                     <i className="bi bi-dash-square-fill"></i>{' '}
                                                     Remover Riesgo
                                                 </Button>
@@ -80,7 +86,7 @@ class RiskTable extends Component {
                             </Accordion>
                     }
                 </div>
-                
+
                 <AddExistingRiskModal
                     risks={this.props.availableRisks}
                     addRisk={this.props.addRisk}
@@ -92,7 +98,7 @@ class RiskTable extends Component {
                     action={this.removeRisk}
                     header={"Eliminar Riesgo de un Plan"}
                     body={"¿Esta seguro que desea eliminar este riesgo del Plan?"} />
-            </div>
+            </div >
         );
     }
 };

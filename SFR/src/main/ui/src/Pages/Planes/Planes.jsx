@@ -45,7 +45,7 @@ class Planes extends Component {
             typeof cookies.get('roles', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
             typeof cookies.get('token', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
             typeof cookies.get('full_name', { path: process.env.REACT_APP_AUTH }) === 'undefined') {
-            document.location = "http://localhost:3000/#/logout";
+            document.location = process.env.REACT_APP_LOGOUT;
         }
 
         this.updatePlanesSort();
@@ -55,7 +55,7 @@ class Planes extends Component {
         let sortingValue = this.state.sortingValue;
         let sortingWay = this.state.sortingWay;
         let options = {
-            url: process.env.REACT_APP_API_URL + "/PlanServlet/Retrieve/Planes",
+            url: process.env.REACT_APP_SFR_API_URL + "/PlanServlet/Retrieve/Planes",
             method: "POST",
             header: {
                 'Accept': 'application/json',
@@ -79,7 +79,7 @@ class Planes extends Component {
 
     retrieveTypes() {
         let options = {
-            url: process.env.REACT_APP_API_URL + `/PlanServlet/Retrieve/PlanTypes`,
+            url: process.env.REACT_APP_SFR_API_URL + `/PlanServlet/Retrieve/PlanTypes`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',

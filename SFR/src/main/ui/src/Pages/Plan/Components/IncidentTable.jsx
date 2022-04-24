@@ -43,50 +43,15 @@ class IncidentTable extends Component {
     };
 
     render() {
-        console.log(this.props.incidentes);
         return (
             <div>
-                {/* Mobile */}
-                <div className='d-lg-none container-fluid'>
-                    <Button size="sm" onClick={this.openModalAddIncident} variant="success" key="AddIncidenceButtonMobile">
-                        <i className="bi bi-plus-square"></i> {' '}
-                        Agregar Incidencia
-                    </Button>
-                    {(typeof this.props.incidentes === 'undefined' || this.props.incidentes === null) ? <h1>No se han agregado incidentes</h1> :
-                        this.props.incidentes.length === 0 ? <h1>No se han agregado incidentes</h1> :
-                            <Accordion className='mt-2'>
-                                {this.props.incidentes.map((incidence) => {
-                                    return (
-                                        <Accordion.Item eventKey={incidence.pkID} key={incidence.pkID}>
-                                            <Accordion.Header >
-                                                {incidence.name}
-                                            </Accordion.Header>
-                                            <Accordion.Body>
-                                                <p>
-                                                    ID: {incidence.pkID} <br/>
-                                                    Nombre: {incidence.name} <br/>
-                                                    Fecha: {incidence.entryDate} <br/>
-                                                    Causa: {incidence.cause} <br/>
-                                                    Afectacion: {incidence.affectation} <br/>
-                                                    Descripcion: {incidence.description} <br/>
-                                                    Riesgo Asociado: {(typeof incidence.risk === 'undefined' || incidence.risk === null) ? 'N/A' : incidence.risk.id + ' - ' + incidence.risk.name}<br/>
-                                                </p>
-                                                <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
-                                                    onClick={() => this.openModalDelIncident(incidence.pkID)}
-                                                    disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
-                                                    <i className="bi bi-dash-square-fill"></i>{' '}
-                                                    Remover Incidencia
-                                                </Button>
-                                            </Accordion.Body>
-                                        </Accordion.Item>
-                                    );
-                                })}
-                            </Accordion>
-                    }
-                </div>
-                {/* PC */}
-                <div className="d-none d-lg-block">
-                    <Button size="sm" onClick={this.openModalAddIncident} variant="success" key="AddIncidenceButtonMobile">
+                <div className="container-fluid">
+                    <Button
+                        size="sm"
+                        onClick={this.openModalAddIncident}
+                        variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "success" : "dark"}
+                        disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
+                        key="AddIncidenceButtonMobile">
                         <i className="bi bi-plus-square"></i> {' '}
                         Agregar Incidencia
                     </Button>
@@ -107,11 +72,12 @@ class IncidentTable extends Component {
                                                     Causa: {incidence.cause} <br />
                                                     Afectacion: {incidence.affectation} <br />
                                                     Descripcion: {incidence.description} <br />
-                                                    Riesgo Asociado: {(typeof incidence.risk === 'undefined' || incidence.risk === null) ? 'N/A' : incidence.risk.id + ' - ' + incidence.risk.name}<br/>
+                                                    Riesgo Asociado: {(typeof incidence.risk === 'undefined' || incidence.risk === null) ? 'N/A' : incidence.risk.id + ' - ' + incidence.risk.name}<br />
                                                 </p>
-                                                <Button variant={sessionStorage.getItem("userRol") === "USER" ? "outline-dark" : "outline-danger"}
-                                                    onClick={() => this.openModalDelIncident(incidence.pkID)}
-                                                    disabled={sessionStorage.getItem("userRol") === "USER" ? true : false}>
+                                                <Button
+                                                    variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "outline-danger" : "outline-dark"}
+                                                    disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
+                                                    onClick={() => this.openModalDelIncident(incidence.pkID)}>
                                                     <i className="bi bi-dash-square-fill"></i>{' '}
                                                     Remover Incidencia
                                                 </Button>
@@ -126,7 +92,7 @@ class IncidentTable extends Component {
                     risks={this.props.riesgos}
                     planID={this.props.planID}
                     show={this.state.showIncidentModal}
-                    refreshPage = {this.props.refreshPage}
+                    refreshPage={this.props.refreshPage}
                     closeModal={this.closeModalAddIncident} />
                 <GenericModal
                     show={this.state.showDel}

@@ -1,30 +1,37 @@
 import React, { Component } from 'react';
 import './TopButtons.css';
 import { Stack, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
-//import { toast } from 'react-toastify';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+import { ToastContainer, toast } from 'react-toastify';
+import axios from 'axios';
 
 class TopButtons extends Component {
-    constructor(props) {
+    constructor(props){
         super(props);
-        this.checkPermissions = this.checkPermissions.bind(this);
+        this.handleRiskTableButtonClick = this.handleRiskTableButtonClick.bind(this);
     }
-
-    checkPermissions(toCheck) {
-        let perm = false;
-        if (typeof cookies.get('roles', { path: process.env.REACT_APP_AUTH }) !== 'undefined') {
-            cookies.get('roles', { path: process.env.REACT_APP_AUTH }).map((rol) => {
-                if (rol.description === toCheck) {
-                    perm = true;
-                    return true;
-                }
-                return false;
-            })
+    handleRiskTableButtonClick (){
+        if (!this.props.planID) return;
+        let options = {
+            url: process.env.REACT_APP_SFR_API_URL + "/PlanServlet/riskTable",
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: {
+                'planID': this.props.planID,
+            }
         }
-        return perm;
-    }
 
+        axios(options).catch(error => {
+            toast.error("Error al solicitar la matriz de riesgos.", {
+                position: toast.POSITION.TOP_RIGHT,
+                pauseOnHover: true,
+                theme: 'colored',
+                autoClose: 6000
+            });
+        });
+    }
     render() {
         let statusClass = this.props.status;
         switch (statusClass) {
@@ -56,7 +63,10 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant="outline-primary" onClick={this.props.openModalEdit} >
+                            <Button
+                                variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "outline-primary" : "outline-dark"}
+                                disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
+                                onClick={this.props.openModalEdit} >
                                 <h2><i className="bi bi-pencil-square"></i></h2>
                             </Button>
                         </OverlayTrigger>
@@ -71,23 +81,11 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant={this.checkPermissions("SUPER_ADMIN") ? "outline-danger" : "outline-dark"} onClick={this.props.openModalDelete} disabled={this.checkPermissions("SUPER_ADMIN") ? false : true}>
+                            <Button
+                                variant={this.props.permsCheck("SUPER_ADMIN") ? "outline-danger" : "outline-dark"}
+                                disabled={!this.props.permsCheck("SUPER_ADMIN") ? true : false}
+                                onClick={this.props.openModalDelete}>
                                 <h2><i className="bi bi-trash"></i></h2>
-                            </Button>
-                        </OverlayTrigger>
-
-                        {/* Agregar Involucrado */}
-                        <OverlayTrigger
-                            delay={{ hide: 450, show: 300 }}
-                            overlay={(props) => (
-                                <Tooltip {...props}>
-                                    Agregar Involucrado
-                                </Tooltip>
-                            )}
-                            placement="bottom"
-                        >
-                            <Button variant="outline-success">
-                                <h2><i className="bi bi-person-plus"></i></h2>
                             </Button>
                         </OverlayTrigger>
 
@@ -101,7 +99,7 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant="outline-warning">
+                            <Button variant="outline-warning" onClick={this.handleRiskTableButtonClick}>
                                 <h2><i className="bi bi-clipboard-data"></i></h2>
                             </Button>
                         </OverlayTrigger>
@@ -126,7 +124,10 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant="outline-primary" onClick={this.props.openModalEdit} >
+                            <Button
+                                variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "outline-primary" : "outline-dark"}
+                                disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
+                                onClick={this.props.openModalEdit} >
                                 <h2><i className="bi bi-pencil-square"></i></h2>
                             </Button>
                         </OverlayTrigger>
@@ -141,23 +142,11 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant={this.checkPermissions("SUPER_ADMIN") ? "outline-danger" : "outline-dark"} onClick={this.props.openModalDelete} disabled={this.checkPermissions("SUPER_ADMIN") ? false : true}>
+                            <Button
+                                variant={this.props.permsCheck("SUPER_ADMIN") ? "outline-danger" : "outline-dark"}
+                                disabled={!this.props.permsCheck("SUPER_ADMIN") ? true : false}
+                                onClick={this.props.openModalDelete}>
                                 <h2><i className="bi bi-trash"></i></h2>
-                            </Button>
-                        </OverlayTrigger>
-
-                        {/* Agregar Involucrado */}
-                        <OverlayTrigger
-                            delay={{ hide: 450, show: 300 }}
-                            overlay={(props) => (
-                                <Tooltip {...props}>
-                                    Agregar Involucrado
-                                </Tooltip>
-                            )}
-                            placement="bottom"
-                        >
-                            <Button variant="outline-success">
-                                <h2><i className="bi bi-person-plus"></i></h2>
                             </Button>
                         </OverlayTrigger>
 
@@ -171,7 +160,7 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant="outline-warning">
+                            <Button variant="outline-warning" onClick={this.handleRiskTableButtonClick}>
                                 <h2><i className="bi bi-clipboard-data"></i></h2>
                             </Button>
                         </OverlayTrigger>

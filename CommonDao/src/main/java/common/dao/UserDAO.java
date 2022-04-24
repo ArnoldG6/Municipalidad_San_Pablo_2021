@@ -41,6 +41,7 @@ public class UserDAO extends GenericDAO {
 
     public List<User> listAll() {
         try{
+            em = getEntityManager();
             Query query = em.createQuery("SELECT u from User u");
             return(List<User>) query.getResultList();
         }catch(Exception e){

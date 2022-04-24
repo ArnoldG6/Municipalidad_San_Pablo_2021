@@ -25,9 +25,8 @@ class EditRiskModal extends Component {
         }
         else{
         event.preventDefault();
-        console.log(event);
         let options = {
-            url: process.env.REACT_APP_API_URL + `/RiskManager/Edit`,
+            url: process.env.REACT_APP_SFR_API_URL + `/RiskManager/Edit`,
             method: 'PUT',
             header: {
                 'Accept': 'application/json',
@@ -49,7 +48,6 @@ class EditRiskModal extends Component {
                 'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
             }
         }
-        console.log(options)
 
         axios(options)
             .then(response => {

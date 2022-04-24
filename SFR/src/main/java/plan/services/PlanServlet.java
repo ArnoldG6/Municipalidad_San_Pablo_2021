@@ -20,11 +20,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import sfr.dao.PlanDAO;
 import sfr.dao.PlanTypeDAO;
+import sfr.model.Plan;
 
 @WebServlet(name = "PlanServlet", urlPatterns = {
     "/API/PlanServlet/Retrieve/Planes",
     "/API/PlanServlet/Retrieve/Plan",
     "/API/PlanServlet/Retrieve/Plan/RemainingRisks",
+    "/API/PlanServlet/Retrieve/Plan/RemainingUsers",
     "/API/PlanServlet/Retrieve/PlanTypes",
     "/API/PlanServlet/Search"
 })
@@ -61,8 +63,13 @@ public class PlanServlet extends HttpServlet {
                 case "/API/PlanServlet/Retrieve/Plan/RemainingIncidences":
                     retrievePlanIncidenceList(request, response);
                     break;
+<<<<<<< HEAD
                 case "/API/PlanServlet/Retrieve/Plan/RemainingComments":
                     retrievePlanCommentList(request, response);
+=======
+                case "/API/PlanServlet/Retrieve/Plan/RemainingUsers":
+                    retrievePlanUserList(request, response);
+>>>>>>> b25dbe73e232ca2f237fbadc9acae6929f52f6d0
                     break;
                 case "/API/PlanServlet/Retrieve/PlanTypes":
                     retrievePlanTypes(request, response);
@@ -70,6 +77,10 @@ public class PlanServlet extends HttpServlet {
                 case "/API/PlanServlet/Search":
                     searchPlans(request, response);
                     break;
+                case "/API/PlanServlet/riskTable":
+                    generateRiskTable(request, response);
+                    break;
+
             }
         } catch (Exception ex) {
             System.err.println(ex);
@@ -77,6 +88,21 @@ public class PlanServlet extends HttpServlet {
             throw ex;
         }
     }
+
+    private void generateRiskTable(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, Exception {
+        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        Plan p = PlanDAO.getInstance().searchByIdString(requestJSON.getString("planID"));
+        System.out.println(requestJSON.getString("planID"));
+        response.setContentType("application/vnd.ms-excel");
+        response.setHeader("Content-Disposition", "attachment; filename=" + PlanDAO.getInstance().generateRiskTableXLSXFileName(p));
+        //PlanDAO.getInstance().generateRiskTableXLSXFile(p).write(response.getOutputStream());
+        PlanDAO.getInstance().generateRiskTableXLSXFile(p).write(response.getOutputStream());
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
+
+
 
     // <editor-fold defaultstate="collapsed" desc="Plan Management methods.">
     /**
@@ -96,7 +122,7 @@ public class PlanServlet extends HttpServlet {
         requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         responseJSON = new Gson().toJson(PlanDAO.getInstance().searchInAllColumns(requestJSON.getString("searchPlan")));
         if (responseJSON == null) {
-             //Custom exception
+            //Custom exception
             response.getWriter().write(new InvalidPlanListIDEx().jsonify());
         } else {
             response.getWriter().write(responseJSON);
@@ -187,9 +213,9 @@ public class PlanServlet extends HttpServlet {
      * @param request contains the JSON data that is sent by the client and
      * other useful information from the client request.
      * @param response sends the information back to the client with the
-     * server's response. getIncidenceListByPlanNoRep answers to the client with a
-     * List<Incidence> object formatted as JSON which contains the complement of the
-     * List<Incidence> of the user that sent the request.
+     * server's response. getIncidenceListByPlanNoRep answers to the client with
+     * a List<Incidence> object formatted as JSON which contains the complement
+     * of the List<Incidence> of the user that sent the request.
      */
     private void retrievePlanIncidenceList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
@@ -208,7 +234,33 @@ public class PlanServlet extends HttpServlet {
         response.getWriter().flush();
         response.getWriter().close();
     }
-    
+
+    /**
+     * @param request contains the JSON data that is sent by the client and
+     * other useful information from the client request.
+     * @param response sends the information back to the client with the
+     * server's response. retrievePlanUserList answers to the client with a
+     * List<User> object formatted as JSON which contains the complement of the
+     * List<User> of the user that sent the request.
+     */
+    private void retrievePlanUserList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, Exception {
+        String responseJSON;
+        //JSONObject requestJSON;
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        responseJSON = new Gson().toJson(PlanDAO.getInstance().getUserListByPlanNoRep(requestJSON.getString("planID")));
+        if (responseJSON == null) {
+            //Custom exception
+//            response.getWriter().write(new EmptyIncidenceListEx().jsonify());
+        } else {
+            response.getWriter().write(responseJSON);
+        }
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
+
     /**
      * @param request contains the JSON data that is sent by the client and
      * other useful information from the client request.

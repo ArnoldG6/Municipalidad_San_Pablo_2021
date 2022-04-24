@@ -158,7 +158,7 @@
                     </execution>
                     
                     
-                     <execution>
+                    <execution>
                         <id>npm install react-show-more-text </id>
                         <goals>
                             <goal>npm</goal>

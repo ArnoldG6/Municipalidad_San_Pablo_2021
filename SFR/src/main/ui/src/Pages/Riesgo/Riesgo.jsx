@@ -34,7 +34,7 @@ export default class Plan extends Component {
             typeof cookies.get('roles', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
             typeof cookies.get('token', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
             typeof cookies.get('full_name', { path: process.env.REACT_APP_AUTH }) === 'undefined') {
-            document.location = "http://localhost:3000/#/logout";
+            document.location = process.env.REACT_APP_LOGOUT;
         }
 
         this.refreshPage();
@@ -44,7 +44,7 @@ export default class Plan extends Component {
         let query = new URLSearchParams(this.props.location.search);
 
         let options = {
-            url: process.env.REACT_APP_API_URL + "/RiskServlet/Retrieve/Riesgo",
+            url: process.env.REACT_APP_SFR_API_URL + "/RiskServlet/Retrieve/Riesgo",
             method: "POST",
             header: {
                 'Accept': 'application/json',
@@ -62,7 +62,6 @@ export default class Plan extends Component {
                     if (this.state.risk === null || typeof this.state.risk === 'undefined') {
                         this.props.history.push('/riesgos');
                     } else {
-                        console.log(this.state.risk)
                         this.retrieveTypes();
                     }
                 });
@@ -73,7 +72,7 @@ export default class Plan extends Component {
 
     retrieveTypes() {
         let options = {
-            url: process.env.REACT_APP_API_URL + `/RiskServlet/Retrieve/RiskType`,
+            url: process.env.REACT_APP_SFR_API_URL + `/RiskServlet/Retrieve/RiskType`,
             method: 'POST',
             header: {
                 'Accept': 'application/json',
@@ -117,7 +116,7 @@ export default class Plan extends Component {
 
     deleteRisk() {
         let options = {
-            url: process.env.REACT_APP_API_URL + `/RiskManager/Delete`,
+            url: process.env.REACT_APP_SFR_API_URL + `/RiskManager/Delete`,
             method: 'DELETE',
             header: {
                 'Accept': 'application/json',

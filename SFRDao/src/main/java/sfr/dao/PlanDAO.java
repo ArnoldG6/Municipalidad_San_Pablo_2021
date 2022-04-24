@@ -117,41 +117,88 @@ public class PlanDAO extends GenericDAO {
         if (p == null) {
             throw new IOException("Invalid parameter p");
         }
-        if (p.getRiskList() == null) {
-            throw new IOException("Invalid parameter p");
-        }
         XSSFWorkbook workbook = new XSSFWorkbook();
         //----1st title----
         XSSFSheet worksheet = workbook.createSheet(p.getId());
+        worksheet.setVerticallyCenter(true);
+        worksheet.setHorizontallyCenter(true);
         worksheet.createRow(0).createCell(1).setCellValue("MUNICIPALIDAD DE SAN PABLO DE HEREDIA");
-        CellRangeAddress m1 = new CellRangeAddress(0, 0, 1, 15); 
+        CellRangeAddress m1 = new CellRangeAddress(0, 0, 1, 15);
         worksheet.addMergedRegion(m1);
-        setBordersToMergedCells(worksheet, m1);
+        setBordersToMergedCells(worksheet, m1,"MEDIUM");
         //----2nd title----
         worksheet.createRow(1).createCell(1).setCellValue("MATRIZ DE IDENTIFICACIÓN DEL RIESGO");
-        CellRangeAddress m2 = new CellRangeAddress(1, 1, 1, 15); 
+        CellRangeAddress m2 = new CellRangeAddress(1, 1, 1, 15);
         worksheet.addMergedRegion(m2);
-        setBordersToMergedCells(worksheet, m2);
+        setBordersToMergedCells(worksheet, m2,"MEDIUM");
         //----3rd row (2 titles)----
         XSSFRow thirdRow = worksheet.createRow(2);
         thirdRow.createCell(1).setCellValue("ESTRUCTURA DE RIESGOS");
-        CellRangeAddress m3 = new CellRangeAddress(2, 2, 1, 5); 
+        CellRangeAddress m3 = new CellRangeAddress(2, 2, 1, 5);
         worksheet.addMergedRegion(m3);
-        setBordersToMergedCells(worksheet, m3);
+        setBordersToMergedCells(worksheet, m3,"MEDIUM");
         thirdRow.createCell(6).setCellValue("IDENTIFICACION DEL RIESGO");
-        CellRangeAddress m4 = new CellRangeAddress(2, 2, 6, 9); 
+        CellRangeAddress m4 = new CellRangeAddress(2, 2, 6, 9);
         worksheet.addMergedRegion(m4);
-        setBordersToMergedCells(worksheet, m4);
+        setBordersToMergedCells(worksheet, m4,"MEDIUM");
+        //----4th row, column headers----
+        XSSFRow fourthRow = worksheet.createRow(3);
+        fourthRow.createCell(1).setCellValue("NIVEL 1");
+        fourthRow.createCell(2).setCellValue("NIVEL 2");
+        fourthRow.createCell(3).setCellValue("NIVEL 3");
+        fourthRow.createCell(4).setCellValue("PROCESO");
+        fourthRow.createCell(5).setCellValue("OBJETIVO");
+        fourthRow.createCell(6).setCellValue("RIESGO");
+        fourthRow.createCell(7).setCellValue("DESCRIPCIÓN DEL RIESGO");
+        fourthRow.createCell(8).setCellValue("FACTOR DEL RIESGO (CAUSA)");
+        fourthRow.createCell(9).setCellValue("CONSECUENCIA");
+        setBordersToMergedCells(worksheet,new CellRangeAddress(3, 3, 1, 9) ,"MEDIUM");
+     
+        //Returns the workbook with no risk info if it is the case.
+        if (p.getRiskList() == null || p.getRiskList().isEmpty()) {
+            return workbook;
+        }
+        //----5th row(s)+, column data----
+        Integer rowCount = 4;
+        XSSFRow dataRow;
+        for(Risk r : p.getRiskList() ){
+            dataRow = worksheet.createRow(rowCount);
+            //dataRow.createCell(1).setCellValue("NIVEL 1");
+            //dataRow.createCell(2).setCellValue("NIVEL 2");
+            //dataRow.createCell(3).setCellValue("NIVEL 3");
+            //dataRow.createCell(4).setCellValue("PROCESO");
+            dataRow.createCell(5).setCellValue("FALTA EL CAMPO EN LA DB");
+            dataRow.createCell(6).setCellValue(r.getId() + " " + r.getName());
+            dataRow.createCell(7).setCellValue("FALTA EL CAMPO EN LA DB");
+            dataRow.createCell(8).setCellValue(r.getFactors());
+            dataRow.createCell(9).setCellValue("FALTA EL CAMPO EN LA DB");
+            rowCount += 1;
+        }
+        
         //XSSFCellStyle cellStyle = workbook.createCellStyle();
-        //cellA1.setCellStyle(cellStyle); 
+        //cellA1.setCellStyle(cellStyle);
+        setBordersToMergedCells(worksheet,new CellRangeAddress(4, 4, 1, 15),"THIN");
         return workbook;
     }
 
-    protected void setBordersToMergedCells(Sheet sheet, CellRangeAddress rangeAddress) {
-        RegionUtil.setBorderTop(BorderStyle.MEDIUM, rangeAddress, sheet);
-        RegionUtil.setBorderLeft(BorderStyle.MEDIUM, rangeAddress, sheet);
-        RegionUtil.setBorderRight(BorderStyle.MEDIUM, rangeAddress, sheet);
-        RegionUtil.setBorderBottom(BorderStyle.MEDIUM, rangeAddress, sheet);
+    protected void setBordersToMergedCells(Sheet sheet, CellRangeAddress rangeAddress, String style) throws IOException {
+        if (style == null) {
+            throw new IOException("Invalid parameter 'style'.");
+        }
+        switch (style) {
+            case "MEDIUM":
+                RegionUtil.setBorderTop(BorderStyle.MEDIUM, rangeAddress, sheet);
+                RegionUtil.setBorderLeft(BorderStyle.MEDIUM, rangeAddress, sheet);
+                RegionUtil.setBorderRight(BorderStyle.MEDIUM, rangeAddress, sheet);
+                RegionUtil.setBorderBottom(BorderStyle.MEDIUM, rangeAddress, sheet);
+                break;
+            case "THIN":
+                RegionUtil.setBorderTop(BorderStyle.THIN, rangeAddress, sheet);
+                RegionUtil.setBorderLeft(BorderStyle.THIN, rangeAddress, sheet);
+                RegionUtil.setBorderRight(BorderStyle.THIN, rangeAddress, sheet);
+                RegionUtil.setBorderBottom(BorderStyle.THIN, rangeAddress, sheet);
+                break;
+        }
     }
 
     /**

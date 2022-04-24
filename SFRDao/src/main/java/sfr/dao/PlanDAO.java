@@ -9,12 +9,21 @@ package sfr.dao;
 import common.dao.UserDAO;
 import common.model.User;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 import javax.persistence.Query;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.RegionUtil;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import sfr.model.Incidence;
 import sfr.model.Plan;
 import sfr.model.Risk;
@@ -94,6 +103,55 @@ public class PlanDAO extends GenericDAO {
             System.err.println(e.getMessage());
             throw e;
         }
+    }
+
+    public String generateRiskTableXLSXFileName(Plan p) throws IOException {
+        if (p == null) {
+            throw new IOException("Invalid parameter p");
+        }
+        return new StringBuilder().append("Matriz_de_riesgos_").append(p.getId()).append("_").append(Timestamp.from(Instant.now()).toString().
+                replace(":", "-").replace("/", "-")).append(".xls").toString();
+    }
+
+    public XSSFWorkbook generateRiskTableXLSXFile(Plan p) throws IOException {
+        if (p == null) {
+            throw new IOException("Invalid parameter p");
+        }
+        if (p.getRiskList() == null) {
+            throw new IOException("Invalid parameter p");
+        }
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        //----1st title----
+        XSSFSheet worksheet = workbook.createSheet(p.getId());
+        worksheet.createRow(0).createCell(1).setCellValue("MUNICIPALIDAD DE SAN PABLO DE HEREDIA");
+        CellRangeAddress m1 = new CellRangeAddress(0, 0, 1, 15); 
+        worksheet.addMergedRegion(m1);
+        setBordersToMergedCells(worksheet, m1);
+        //----2nd title----
+        worksheet.createRow(1).createCell(1).setCellValue("MATRIZ DE IDENTIFICACIÓN DEL RIESGO");
+        CellRangeAddress m2 = new CellRangeAddress(1, 1, 1, 15); 
+        worksheet.addMergedRegion(m2);
+        setBordersToMergedCells(worksheet, m2);
+        //----3rd row (2 titles)----
+        XSSFRow thirdRow = worksheet.createRow(2);
+        thirdRow.createCell(1).setCellValue("ESTRUCTURA DE RIESGOS");
+        CellRangeAddress m3 = new CellRangeAddress(2, 2, 1, 5); 
+        worksheet.addMergedRegion(m3);
+        setBordersToMergedCells(worksheet, m3);
+        thirdRow.createCell(6).setCellValue("IDENTIFICACION DEL RIESGO");
+        CellRangeAddress m4 = new CellRangeAddress(2, 2, 6, 9); 
+        worksheet.addMergedRegion(m4);
+        setBordersToMergedCells(worksheet, m4);
+        //XSSFCellStyle cellStyle = workbook.createCellStyle();
+        //cellA1.setCellStyle(cellStyle); 
+        return workbook;
+    }
+
+    protected void setBordersToMergedCells(Sheet sheet, CellRangeAddress rangeAddress) {
+        RegionUtil.setBorderTop(BorderStyle.MEDIUM, rangeAddress, sheet);
+        RegionUtil.setBorderLeft(BorderStyle.MEDIUM, rangeAddress, sheet);
+        RegionUtil.setBorderRight(BorderStyle.MEDIUM, rangeAddress, sheet);
+        RegionUtil.setBorderBottom(BorderStyle.MEDIUM, rangeAddress, sheet);
     }
 
     /**
@@ -211,11 +269,12 @@ public class PlanDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-    
-     /**
+
+    /**
      * This method associates a single Plan object to n Incidence objects.
      *
-     * @param planID the Plan object that will be associated to the Incidences objects
+     * @param planID the Plan object that will be associated to the Incidences
+     * objects
      * @param incidenceIDs List of riskIDs to associate with planID parameter.
      * @throws java.lang.Exception
      */
@@ -314,11 +373,11 @@ public class PlanDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-    
+
     /**
      *
-     * @return a list of incidences, including all incidences, except for the ones in the
-     * Plan identified by
+     * @return a list of incidences, including all incidences, except for the
+     * ones in the Plan identified by
      * @param planID
      * @throws java.lang.Exception
      */

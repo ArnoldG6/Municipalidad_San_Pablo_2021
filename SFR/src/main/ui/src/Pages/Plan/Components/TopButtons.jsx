@@ -1,10 +1,37 @@
 import React, { Component } from 'react';
 import './TopButtons.css';
 import { Stack, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
-//import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import axios from 'axios';
 
 class TopButtons extends Component {
+    constructor(props){
+        super(props);
+        this.handleRiskTableButtonClick = this.handleRiskTableButtonClick.bind(this);
+    }
+    handleRiskTableButtonClick (){
+        if (!this.props.planID) return;
+        let options = {
+            url: process.env.REACT_APP_SFR_API_URL + "/PlanServlet/riskTable",
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: {
+                'planID': this.props.planID,
+            }
+        }
 
+        axios(options).catch(error => {
+            toast.error("Error al solicitar la matriz de riesgos.", {
+                position: toast.POSITION.TOP_RIGHT,
+                pauseOnHover: true,
+                theme: 'colored',
+                autoClose: 6000
+            });
+        });
+    }
     render() {
         let statusClass = this.props.status;
         switch (statusClass) {
@@ -72,7 +99,7 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant="outline-warning">
+                            <Button variant="outline-warning" onClick={this.handleRiskTableButtonClick}>
                                 <h2><i className="bi bi-clipboard-data"></i></h2>
                             </Button>
                         </OverlayTrigger>
@@ -133,7 +160,7 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant="outline-warning">
+                            <Button variant="outline-warning" onClick={this.handleRiskTableButtonClick}>
                                 <h2><i className="bi bi-clipboard-data"></i></h2>
                             </Button>
                         </OverlayTrigger>

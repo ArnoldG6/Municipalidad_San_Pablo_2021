@@ -17,19 +17,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import static org.apache.poi.sl.usermodel.PaintStyle.GradientPaint.GradientType.shape;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.ss.util.RegionUtil;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.json.JSONObject;
 import sfr.dao.PlanDAO;
 import sfr.dao.PlanTypeDAO;
 import sfr.model.Plan;
-import sfr.model.Risk;
 
 @WebServlet(name = "PlanServlet", urlPatterns = {
     "/API/PlanServlet/Retrieve/Planes",
@@ -95,11 +86,9 @@ public class PlanServlet extends HttpServlet {
 
     private void generateRiskTable(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        //JSONObject requestJSON;
-        //requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        //Integer planID = Integer.parseInt(requestJSON.getString("planID"));
-        Plan p = PlanDAO.getInstance().searchById(1);
-        System.out.println(p.toString());
+        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        Plan p = PlanDAO.getInstance().searchByIdString(requestJSON.getString("planID"));
+        System.out.println(requestJSON.getString("planID"));
         response.setContentType("application/vnd.ms-excel");
         response.setHeader("Content-Disposition", "attachment; filename=" + PlanDAO.getInstance().generateRiskTableXLSXFileName(p));
         //PlanDAO.getInstance().generateRiskTableXLSXFile(p).write(response.getOutputStream());

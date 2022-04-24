@@ -18,7 +18,7 @@ public class Tests {
     @Test
     public void main() {
         try {
-            System.out.println(PlanDAO.getInstance().searchById(1));
+            System.out.println(PlanDAO.getInstance().searchByIdString("2020LA-00002-01"));
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

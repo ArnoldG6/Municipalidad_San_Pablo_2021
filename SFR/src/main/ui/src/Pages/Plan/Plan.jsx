@@ -442,7 +442,9 @@ class Plan extends Component {
                             openModalEdit={this.openModalEdit}
                             openModalDelete={this.openModalDelete}
                             status={(this.state.plan === null) ? "Cargando.." : this.state.plan.status}
-                            permsCheck={this.permsCheck} />
+                            permsCheck={this.permsCheck} 
+                            planID ={(this.state.plan === null) ? null : this.state.plan.id}
+                            />
                     </Row>
                     {/* Datos del Plan */}
                     <Row className="mt-4">

@@ -49,6 +49,8 @@ class EditPlanModal extends Component {
                 'subtype': this.props.plan.subtype,
                 'description': event.target.description.value,
                 'riskList': this.props.plan.riskList,
+                'incidenceList': this.props.plan.incidenceList,
+                'involvedList': this.props.plan.involvedList,
                 'entryDate': this.props.plan.entryDate,
                 'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
             }

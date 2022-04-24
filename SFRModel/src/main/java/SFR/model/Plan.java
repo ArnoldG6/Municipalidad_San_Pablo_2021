@@ -82,6 +82,15 @@ public class Plan implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "FK_INCIDENCE")
     )
     private List<Incidence> incidenceList;
+    
+    @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    @JoinTable(
+            name = "T_SFR_PLANCOMMENT",
+            joinColumns = @JoinColumn(name = "FK_PLAN"),
+            inverseJoinColumns = @JoinColumn(name = "FK_COMMENT")
+    )
+    private List<Comment> commentList;
 
     @OneToMany(fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
@@ -101,7 +110,7 @@ public class Plan implements Serializable {
     }
 
     public Plan(String authorName, String name, String desc, Date dateOfAdm, String status, String type, String subtype,
-            List<Risk> riskList, List<Incidence> incidenceList, List<User> involvedList) {
+            List<Risk> riskList, List<Incidence> incidenceList, List<Comment> commentList, List<User> involvedList) {
         this.authorName = authorName;
         this.name = name;
         this.description = desc;
@@ -111,6 +120,7 @@ public class Plan implements Serializable {
         this.subtype = subtype;
         this.riskList = riskList;
         this.incidenceList = incidenceList;
+        this.commentList = commentList;
         this.involvedList = involvedList;
     }
 
@@ -217,6 +227,26 @@ public class Plan implements Serializable {
             throw e;
         }
     }
+    
+    public void addComment(Comment comment) {
+        try {
+            this.commentList.add(comment);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        }
+    }
+
+    public void removeComment(Comment comment) {
+        try {
+            this.commentList.remove(comment);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        }
+    }
 
     public void addInvolucrado(User user) {
         try {
@@ -270,7 +300,8 @@ public class Plan implements Serializable {
         sb.append("\"status\": \"").append(status).append("\",\n");
         sb.append("\"type\": \"").append(type).append("\"\n");
         sb.append("\"riskList\":").append(riskList).append("\n");
-        sb.append("\"incidencekList\":").append(incidenceList).append("\n");
+        sb.append("\"incidenceList\":").append(incidenceList).append("\n");
+        sb.append("\"commentList\":").append(commentList).append("\n");
         sb.append("\"involvedList\": ").append(involvedList).append("\n");
         sb.append("}\n");
         return sb.toString();
@@ -292,14 +323,14 @@ public class Plan implements Serializable {
         this.riskList = riskList;
     }
 
-    /*
+    
     public List<Comment> getCommentList() {
         return commentList;
     }
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
     }
-     */
+     
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -343,6 +374,9 @@ public class Plan implements Serializable {
             return false;
         }
         if (!Objects.equals(this.incidenceList, other.incidenceList)) {
+            return false;
+        }
+        if (!Objects.equals(this.commentList, other.commentList)) {
             return false;
         }
         return true;

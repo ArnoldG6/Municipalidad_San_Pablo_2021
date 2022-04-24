@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.persistence.Query;
+import sfr.model.Comment;
 import sfr.model.Incidence;
 import sfr.model.Plan;
 import sfr.model.Risk;
@@ -254,6 +255,49 @@ public class PlanDAO extends GenericDAO {
             closeEntityManager();
         }
     }
+    
+    /**
+     * This method associates a single Plan object to n Comment objects.
+     *
+     * @param planID the Plan object that will be associated to the Comments objects
+     * @param commentIDs List of commentIDs to associate with planID parameter.
+     * @throws java.lang.Exception
+     */
+    public void associateCommentsToPlan(int planID, List<Integer> commentIDs) throws Exception {
+        try {
+            if (commentIDs == null) {
+                throw new IOException("Invalid commentIDs field");
+            }
+            Plan p = PlanDAO.getInstance().searchById(planID);
+            if (p == null) {
+                throw new IOException("Invalid planID field");
+            }
+            List<Comment> commentList = p.getCommentList();
+            if (commentList == null) {
+                throw new IOException("Empty commentList exception");
+            }
+            if (commentIDs.isEmpty()) {
+                throw new IOException("Empty commentIDs field exception");
+            }
+            Comment com;
+            for (int i = 0; i < commentIDs.size(); i++) {
+                com = CommentDAO.getInstance().searchById(commentIDs.get(i));
+                if (!commentList.contains(com)) {
+                    commentList.add(com);
+                } else {
+                    throw new IOException("This plan already contains this comment");
+                }
+            }
+            p.setCommentList(commentList);
+            PlanDAO.getInstance().update(p);
+        } catch (IOException ex) {
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
+    }
 
     /**
      *
@@ -306,6 +350,36 @@ public class PlanDAO extends GenericDAO {
                 }
             }
             return incidenceList;
+        } catch (Exception ex) {
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
+    }
+    
+    /**
+     *
+     * @return a list of comments, including all comments, except for the ones in the
+     * Plan identified by
+     * @param planID
+     * @throws java.lang.Exception
+     */
+    public List<Comment> getCommentListByPlanNoRep(String planID) throws Exception {
+        try {
+            Plan p = PlanDAO.getInstance().searchByIdString(planID);
+            List<Comment> pCommentList = p.getCommentList(); //comments of an specific Plan.
+            List<Comment> commentList = CommentDAO.getInstance().listByColumn("PK_ID", "DESC");
+            if (pCommentList == null || commentList == null) {
+                throw new IOException("Empty commentList exception");
+            }
+            for (int i = 0; i < pCommentList.size(); i++) {
+                if (commentList.contains(pCommentList.get(i))) {
+                    commentList.remove(pCommentList.get(i));
+                }
+            }
+            return commentList;
         } catch (Exception ex) {
             ex.printStackTrace(System.out);
             System.err.println(ex.getMessage());

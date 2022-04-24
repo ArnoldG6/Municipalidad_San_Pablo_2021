@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import org.hibernate.Session;
 import javax.persistence.Query;
 import static sfr.dao.GenericDAO.em;
+import sfr.model.Comment;
 import sfr.model.Incidence;
 import sfr.model.Plan;
 import sfr.model.Risk;
@@ -258,6 +259,49 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
+    
+    /**
+     * This method associates a single Risk object to n Comment objects.
+     *
+     * @param riskID the Risk object that will be associated to the Comments objects
+     * @param commentIDs List of commentIDs to associate with riskID parameter.
+     * @throws java.lang.Exception
+     */
+    public void associateCommentsToRisk(int riskID, List<Integer> commentIDs) throws Exception {
+        try {
+            if (commentIDs == null) {
+                throw new IOException("Invalid commentIDs field");
+            }
+            Risk r = RiskDAO.getInstance().searchById(riskID);
+            if (r == null) {
+                throw new IOException("Invalid riskID field");
+            }
+            List<Comment> commentList = r.getCommentList();
+            if (commentList == null) {
+                throw new IOException("Empty commentList exception");
+            }
+            if (commentIDs.isEmpty()) {
+                throw new IOException("Empty commentIDs field exception");
+            }
+            Comment com;
+            for (int i = 0; i < commentIDs.size(); i++) {
+                com = CommentDAO.getInstance().searchById(commentIDs.get(i));
+                if (!commentList.contains(com)) {
+                    commentList.add(com);
+                } else {
+                    throw new IOException("This plan already contains this comment");
+                }
+            }
+            r.setCommentList(commentList);
+            RiskDAO.getInstance().update(r);
+        } catch (IOException ex) {
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
+    }
 
     /**
      *
@@ -309,6 +353,65 @@ public class RiskDAO extends GenericDAO {
         } finally {
             closeEntityManager();
         }
+    }
+    
+    /**
+     *
+     * @return a list of comments, including all comments, except for the ones in the
+     * Risk identified by
+     * @param riskID
+     * @throws java.lang.Exception
+     */
+    public List<Comment> getCommentListByPlanNoRep(String riskID) throws Exception {
+        try {
+            Risk r = RiskDAO.getInstance().searchByIdString(riskID);
+            List<Comment> rCommentList = r.getCommentList(); //comments of an specific Plan.
+            List<Comment> commentList = CommentDAO.getInstance().listByColumn("PK_ID", "DESC");
+            if (rCommentList == null || commentList == null) {
+                throw new IOException("Empty commentList exception");
+            }
+            for (int i = 0; i < rCommentList.size(); i++) {
+                if (commentList.contains(rCommentList.get(i))) {
+                    commentList.remove(rCommentList.get(i));
+                }
+            }
+            return commentList;
+        } catch (Exception ex) {
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
+    }
+    
+    /**
+     *
+     * @return a Risk object that matches with
+     * @param id
+     */
+    public Risk searchByIdString(String id) {
+        try {
+            HashMap<String, Risk> riesgos = this.listAllHM();
+            return riesgos.get(id);
+        } catch (Exception e) {
+
+        }
+        return null;
+    }
+    
+    /**
+     * @return a casted HashMap of Risk objects from an HQL query sorted in
+     * descending order by entryDate.
+     * @throws java.lang.Exception
+     */
+    public HashMap<String, Risk> listAllHM() throws Exception {
+        HashMap<String, Risk> risks = new HashMap<>();
+        List<Risk> riskList = this.listByColumn("ENTRYDATE", "DESC");
+        riskList.forEach(p -> {
+            risks.put(p.getId(), p);
+        });
+        return risks;
     }
 
     /*
@@ -366,5 +469,7 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
+    
+    
 
 }

@@ -25,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import sfr.dao.PlanDAO;
 import sfr.dao.PlanTypeDAO;
+import sfr.model.Comment;
 import sfr.model.Incidence;
 import sfr.model.Plan;
 import sfr.model.Risk;
@@ -77,6 +78,12 @@ public class PlanManager extends HttpServlet {
                     break;
                 case "/API/PlanManager/Insert/Incidence":
                     associateIncidenceToPlan(request, response);
+                    break;
+                case "/API/PlanManager/Insert/Comment":
+                    associateCommentToPlan(request, response);
+                    break;
+                case "/API/PlanManager/Delete/Comment":
+                    deleteCommentFromPlan(request, response);
                     break;
             }
             //response.setContentType("text/html");
@@ -273,6 +280,47 @@ public class PlanManager extends HttpServlet {
             incidenceIds.add((Integer) incidenceIdJSONArray.get(i));
         }
         PlanDAO.getInstance().associateIncidencesToPlan(requestJSON.getInt("planPKID"), incidenceIds);
+    }
+    
+    private void associateCommentToPlan(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, Exception {
+        JSONObject requestJSON;
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        JSONArray commentIdJSONArray = requestJSON.getJSONArray("commentIDs");
+        if (commentIdJSONArray == null) {
+            //Custom exception
+//            response.getWriter().write(new InvalidCommentIDEx().jsonify());
+//            throw new IOException("Invalid comment ID list");
+        }
+        List<Integer> commentIds = new ArrayList<>();
+        for (int i = 0; i < commentIdJSONArray.length(); i++) {
+            commentIds.add((Integer) commentIdJSONArray.get(i));
+        }
+        PlanDAO.getInstance().associateCommentsToPlan(requestJSON.getInt("planPKID"), commentIds);
+    }
+    
+    private void deleteCommentFromPlan(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        JSONObject requestJSON;
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        Plan p = PlanDAO.getInstance().searchById(requestJSON.getInt("planPkID"));
+        if (p == null) {
+            //Custom exception
+//            response.getWriter().write(new CommentNotFoundEx().jsonify());
+        }
+        
+        List<Comment> commentList = p.getCommentList();
+        if (commentList == null) {
+            //Custom exception
+//            response.getWriter().write(new CommentsNotListedEx().jsonify());
+        }
+        commentList.removeIf(r -> (String.valueOf(r.getPkID()).equals(requestJSON.getString("commentID"))));
+        p.setCommentList(commentList);
+        PlanDAO.getInstance().update(p);
     }
 
     // </editor-fold>

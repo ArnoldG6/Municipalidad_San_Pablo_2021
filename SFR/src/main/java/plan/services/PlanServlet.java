@@ -61,6 +61,9 @@ public class PlanServlet extends HttpServlet {
                 case "/API/PlanServlet/Retrieve/Plan/RemainingIncidences":
                     retrievePlanIncidenceList(request, response);
                     break;
+                case "/API/PlanServlet/Retrieve/Plan/RemainingComments":
+                    retrievePlanCommentList(request, response);
+                    break;
                 case "/API/PlanServlet/Retrieve/PlanTypes":
                     retrievePlanTypes(request, response);
                     break;
@@ -199,6 +202,32 @@ public class PlanServlet extends HttpServlet {
         if (responseJSON == null) {
             //Custom exception
 //            response.getWriter().write(new EmptyIncidenceListEx().jsonify());
+        } else {
+            response.getWriter().write(responseJSON);
+        }
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
+    
+    /**
+     * @param request contains the JSON data that is sent by the client and
+     * other useful information from the client request.
+     * @param response sends the information back to the client with the
+     * server's response. getCommentListByPlanNoRep answers to the client with a
+     * List<Comment> object formatted as JSON which contains the complement of the
+     * List<Comment> of the user that sent the request.
+     */
+    private void retrievePlanCommentList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, Exception {
+        String responseJSON;
+        JSONObject requestJSON;
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        responseJSON = new Gson().toJson(PlanDAO.getInstance().getCommentListByPlanNoRep(requestJSON.getString("planID")));
+        if (responseJSON == null) {
+            //Custom exception
+//            response.getWriter().write(new EmptyCommentListEx().jsonify());
         } else {
             response.getWriter().write(responseJSON);
         }

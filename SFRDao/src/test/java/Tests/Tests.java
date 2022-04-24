@@ -4,12 +4,10 @@
  * and open the template in the editor.
  */
 package Tests;
-import common.dao.UserDAO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
 import sfr.dao.PlanDAO;
-import sfr.dao.RiskDAO;
 
 /**
  *

@@ -202,6 +202,10 @@ public class RiskManager extends HttpServlet {
             for (int i = 0; i < commentIdJSONArray.length(); i++) {
                 commentIds.add((Integer) commentIdJSONArray.get(i));
             }
+            Risk risk = RiskDAO.getInstance().searchById(requestJSON.getInt("riskPkID"));
+            if (risk == null) {
+                throw new NullPointerException("No se encuentra el riesgo al cual agregar comentarios.");
+            }
             RiskDAO.getInstance().associateCommentsToRisk(requestJSON.getInt("riskPKID"), commentIds);
         } catch (NullPointerException e) {
             response.sendError(406, e.getMessage());

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './TopButtons.css';
 import { Stack, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
-import axios from 'axios';
 
 class TopButtons extends Component {
     constructor(props) {
@@ -10,10 +9,18 @@ class TopButtons extends Component {
         this.handleRiskTableButtonClick = this.handleRiskTableButtonClick.bind(this);
     }
     handleRiskTableButtonClick() {
-        console.log(this.props);
-        if(this.props.planID === null || this.props.planID === undefined || this.props.planID.is);
-        console.log(process.env.REACT_APP_SFR_API_URL + "/PlanServlet/riskTable?planID="+this.props.planID);
-        document.location = process.env.REACT_APP_SFR_API_URL + "/PlanServlet/riskTable?planID="+this.props.planID
+        try {
+            if (this.state.plan === null || typeof this.state.plan === 'undefined')
+                throw new Error('Invalid parameter planID');
+            document.location = process.env.REACT_APP_SFR_API_URL + "/PlanServlet/riskTable?planID=" + this.props.planID
+        } catch (e) {
+            toast.error("Error al obtener la matriz de riesgos", {
+                position: toast.POSITION.TOP_RIGHT,
+                pauseOnHover: true,
+                theme: 'colored',
+                autoClose: 5000
+            });
+        }
 
     }
     render() {

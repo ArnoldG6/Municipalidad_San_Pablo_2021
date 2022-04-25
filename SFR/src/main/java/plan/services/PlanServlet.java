@@ -95,7 +95,6 @@ public class PlanServlet extends HttpServlet {
         Plan p = PlanDAO.getInstance().searchByIdString(request.getParameter("planID"));
         response.setContentType("application/vnd.ms-excel");
         response.addHeader("Content-Disposition", "attachment; filename=" + PlanDAO.getInstance().generateRiskTableXLSXFileName(p));
-        //PlanDAO.getInstance().generateRiskTableXLSXFile(p).write(response.getOutputStream());
         PlanDAO.getInstance().generateRiskTableXLSXFile(p).write(response.getOutputStream());
         response.getOutputStream().close();
     }

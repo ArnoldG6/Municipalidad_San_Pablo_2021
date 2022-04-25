@@ -79,21 +79,26 @@ public class RiskServlet extends HttpServlet {
      * a JSON formatted 'Risk' object that matches with the search data sent by
      * the client with any of the 'Risk' class attributes..
      */
-    private void searchRisk(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String responseJSON;
-        JSONObject requestJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        responseJSON = new Gson().toJson(RiskDAO.getInstance().searchInAllColumns(requestJSON.getString("searchRisk")));
-        if (responseJSON == null) {
-            //Custom exception
-            response.getWriter().write(new InvalidRiskListIDEx().jsonify());
-        } else {
+    private void searchRisk(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            String responseJSON;
+            JSONObject requestJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            responseJSON = new Gson().toJson(RiskDAO.getInstance().searchInAllColumns(requestJSON.getString("searchRisk")));
+            if (responseJSON == null) {
+                throw new NullPointerException("No se encontraron los elementos por buscar.");
+            }
             response.getWriter().write(responseJSON);
+        } catch (NullPointerException e) {
+            response.sendError(406, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
+        } finally {
+            response.getWriter().flush();
+            response.getWriter().close();
         }
-        response.getWriter().flush();
-        response.getWriter().close();
     }
 
     /**
@@ -103,28 +108,32 @@ public class RiskServlet extends HttpServlet {
      * 'Risk' object. retrieveRisk search for an specific 'Risk' ID in order to
      * match with a 'Risk' entry and returns it as an JSON.
      */
-    private void retrieveRisk(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        try{
+    private void retrieveRisk(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             JSONObject responseJSON, requestJSON;
-            Risk r = null;
             requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-            r = RiskDAO.getInstance().searchByIdHM(requestJSON.getString("riskID"));
-            if (r == null) throw new InvalidRiskIDEx();
+            Risk r = RiskDAO.getInstance().searchByIdHM(requestJSON.getString("riskID"));
+            if (r == null) {
+                throw new NullPointerException("No se pudo encontrar el riesgo solicitado.");
+            }
             responseJSON = new JSONObject(new Gson().toJson(r));
-            Integer planCount =RiskDAO.getInstance().countOfRiskAppearenceInPlans(r),
+            Integer planCount = RiskDAO.getInstance().countOfRiskAppearenceInPlans(r),
                     incidenceCount = RiskDAO.getInstance().countOfRiskAppearenceInIncidences(r);
             Float occurrenceFactor = 0.0f;
-            if(planCount != 0) 
-                occurrenceFactor =  new Float((incidenceCount/planCount)*100);
+            if (planCount != 0) {
+                occurrenceFactor = new Float((incidenceCount / planCount) * 100);
+            }
             responseJSON.append("planCount", planCount);
-            responseJSON.append("incidenceCount", incidenceCount);  
-            responseJSON.append("occurrenceFactor", occurrenceFactor.toString()+"%"); 
-            response.getWriter().write(responseJSON.toString()); 
-        }catch(InvalidRiskIDEx e){
-            response.getWriter().write(e.jsonify());
-        }finally{
+            responseJSON.append("incidenceCount", incidenceCount);
+            responseJSON.append("occurrenceFactor", occurrenceFactor.toString() + "%");
+            response.getWriter().write(responseJSON.toString());
+        } catch (NullPointerException e) {
+            response.sendError(406, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
+        } finally {
             response.getWriter().flush();
             response.getWriter().close();
         }
@@ -137,22 +146,27 @@ public class RiskServlet extends HttpServlet {
      * List 'Risk object. retrieveRisks returns a JSON list that contains the
      * requested 'Risk' list defined by a sorting criteria.
      */
-    private void retrieveRisks(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String responseJSON;
-        JSONObject requestJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        responseJSON = new Gson().toJson(RiskDAO.getInstance()
-                .listByColumn(requestJSON.getString("sortingValue"), requestJSON.getString("sortingWay")));
-        if (responseJSON == null) {
-            //Custom exception
-            response.getWriter().write(new RisksNotListedEx().jsonify());
-        } else {
+    private void retrieveRisks(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            String responseJSON;
+            JSONObject requestJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            responseJSON = new Gson().toJson(RiskDAO.getInstance()
+                    .listByColumn(requestJSON.getString("sortingValue"), requestJSON.getString("sortingWay")));
+            if (responseJSON == null) {
+                throw new NullPointerException("No se pudo encontrar los riesgos solicitados.");
+            }
             response.getWriter().write(responseJSON);
+        } catch (NullPointerException e) {
+            response.sendError(406, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
+        } finally {
+            response.getWriter().flush();
+            response.getWriter().close();
         }
-        response.getWriter().flush();
-        response.getWriter().close();
     }
 
     /**
@@ -162,21 +176,25 @@ public class RiskServlet extends HttpServlet {
      * server's response. retrievePlanTypes method answers to the client request
      * with a JSON formatted Map<String,List<PlanType>> object
      */
-    private void retrieveRiskTypes(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
-        String responseJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        Gson g = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        responseJSON = g.toJson(RiskTypeDAO.getInstance().listAllPlanTypeHM());
-        if (responseJSON == null) {
-            //Custom exception
-            response.getWriter().write(new RiskTypesEx().jsonify());
-        } else {
+    private void retrieveRiskTypes(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            String responseJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            Gson g = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+            responseJSON = g.toJson(RiskTypeDAO.getInstance().listAllPlanTypeHM());
+            if (responseJSON == null) {
+                throw new NullPointerException("Hubo un error cargando los tipos de los Riesgos.");
+            }
             response.getWriter().write(responseJSON);
+        } catch (NullPointerException e) {
+            response.sendError(406, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
+        } finally {
+            response.getWriter().flush();
+            response.getWriter().close();
         }
-        response.getWriter().flush();
-        response.getWriter().close();
     }
 
     // </editor-fold>

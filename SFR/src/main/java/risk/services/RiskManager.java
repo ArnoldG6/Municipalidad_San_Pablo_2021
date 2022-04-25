@@ -145,12 +145,13 @@ public class RiskManager extends HttpServlet {
             JSONObject responseJSON = new JSONObject();
             responseJSON.append("id", newRisk.getId());
             response.getWriter().write(responseJSON.toString());
-            response.getWriter().flush();
-            response.getWriter().close();
         } catch (NullPointerException e) {
             response.sendError(406, e.getMessage());
         } catch (Exception e) {
             response.sendError(500, e.getMessage());
+        } finally {
+            response.getWriter().flush();
+            response.getWriter().close();
         }
     }
 

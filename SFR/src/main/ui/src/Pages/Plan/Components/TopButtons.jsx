@@ -10,27 +10,11 @@ class TopButtons extends Component {
         this.handleRiskTableButtonClick = this.handleRiskTableButtonClick.bind(this);
     }
     handleRiskTableButtonClick() {
-        if (!this.props.planID) return;
-        let options = {
-            url: process.env.REACT_APP_SFR_API_URL + "/PlanServlet/riskTable",
-            method: 'POST',
-            header: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            data: {
-                'planID': this.props.planID,
-            }
-        }
+        console.log(this.props);
+        if(this.props.planID === null || this.props.planID === undefined || this.props.planID.is);
+        console.log(process.env.REACT_APP_SFR_API_URL + "/PlanServlet/riskTable?planID="+this.props.planID);
+        document.location = process.env.REACT_APP_SFR_API_URL + "/PlanServlet/riskTable?planID="+this.props.planID
 
-        axios(options).catch(error => {
-            toast.error("Error al solicitar la matriz de riesgos.", {
-                position: toast.POSITION.TOP_RIGHT,
-                pauseOnHover: true,
-                theme: 'colored',
-                autoClose: 6000
-            });
-        });
     }
     render() {
         let statusClass = this.props.status;

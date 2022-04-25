@@ -89,18 +89,16 @@ public class PlanServlet extends HttpServlet {
 
     private void generateRiskTable(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        Plan p = PlanDAO.getInstance().searchByIdString(requestJSON.getString("planID"));
-        System.out.println(requestJSON.getString("planID"));
+        if (request.getParameter("planID") == null || request.getParameter("planID").isEmpty()) {
+            throw new IOException("Invalid PlanID parameter");
+        }
+        Plan p = PlanDAO.getInstance().searchByIdString(request.getParameter("planID"));
         response.setContentType("application/vnd.ms-excel");
-        response.setHeader("Content-Disposition", "attachment; filename=" + PlanDAO.getInstance().generateRiskTableXLSXFileName(p));
+        response.addHeader("Content-Disposition", "attachment; filename=" + PlanDAO.getInstance().generateRiskTableXLSXFileName(p));
         //PlanDAO.getInstance().generateRiskTableXLSXFile(p).write(response.getOutputStream());
         PlanDAO.getInstance().generateRiskTableXLSXFile(p).write(response.getOutputStream());
-        response.getWriter().flush();
-        response.getWriter().close();
+        response.getOutputStream().close();
     }
-
-
 
     // <editor-fold defaultstate="collapsed" desc="Plan Management methods.">
     /**
@@ -264,8 +262,8 @@ public class PlanServlet extends HttpServlet {
      * other useful information from the client request.
      * @param response sends the information back to the client with the
      * server's response. getCommentListByPlanNoRep answers to the client with a
-     * List<Comment> object formatted as JSON which contains the complement of the
-     * List<Comment> of the user that sent the request.
+     * List<Comment> object formatted as JSON which contains the complement of
+     * the List<Comment> of the user that sent the request.
      */
     private void retrievePlanCommentList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
@@ -284,7 +282,7 @@ public class PlanServlet extends HttpServlet {
         response.getWriter().flush();
         response.getWriter().close();
     }
-    
+
     /**
      * @param request contains the JSON data that is sent by the client and
      * other useful information from the client request.
@@ -316,6 +314,7 @@ public class PlanServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+
         } catch (Exception ex) {
             Logger.getLogger(PlanServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

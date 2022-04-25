@@ -44,6 +44,7 @@
         <servlet-name>LoginManager</servlet-name>
         <url-pattern>/API/LoginManager/test</url-pattern>
     </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30

@@ -27,6 +27,10 @@ public class Comment implements Serializable {
     
     @Column(name = "Author")
     private String author;
+
+    public Comment() {
+        
+    }
     
     public Comment(String comment, String author){
         this.comment = comment;

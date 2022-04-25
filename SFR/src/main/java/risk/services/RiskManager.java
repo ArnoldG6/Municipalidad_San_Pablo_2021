@@ -20,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.hibernate.exception.JDBCConnectionException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sfr.dao.RiskDAO;
@@ -85,22 +86,31 @@ public class RiskManager extends HttpServlet {
      * verifies the user's credentials and verifies that the Risk ID that wants
      * to be deleted corresponds to an existing Risk.
      */
-    private void deleteRisk(HttpServletRequest request, HttpServletResponse response) throws IOException, Exception {
-        //String requestJSON = request.getReader().lines().collect(Collectors.joining());
-        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
-        requestJSON.remove("userID");
-        Risk newR = new Gson().fromJson(requestJSON.toString(), Risk.class);
-        Risk riskE = RiskDAO.getInstance().searchById(newR.getPkId());
-        if (riskE == null) {
-            //Custom exception
-            response.getWriter().write(new RiskNotFoundEx().jsonify());
-//            throw new IOException();
+    private void deleteRisk(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+            if (user == null) {
+                throw new IllegalAccessError("No se encontró el usuario que intentó realizar la transacción.");
+            }
+            if (!user.hasRol("SUPER_ADMIN")) {
+                throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
+            }
+            requestJSON.remove("userID");
+            Risk newR = new Gson().fromJson(requestJSON.toString(), Risk.class);
+            Risk riskE = RiskDAO.getInstance().searchById(newR.getPkId());
+            if (riskE == null) {
+                throw new NullPointerException("No se encontró el riesgo por eliminar.");
+            }
+            RiskDAO.getInstance().delete(riskE);
+
+        } catch (NullPointerException e) {
+            response.sendError(406, e.getMessage());
+        } catch (IllegalAccessError e) {
+            response.sendError(401, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        if (!user.hasRol("SUPER_ADMIN")) {
-            throw new IOException();
-        }
-        RiskDAO.getInstance().delete(riskE);
     }
 
     /**
@@ -110,32 +120,38 @@ public class RiskManager extends HttpServlet {
      * existing Risk entry. edited by: ArnoldG6.
      */
     private void insertRisk(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
-        requestJSON.remove("userID");
-        
-        Risk newRisk = new Gson().fromJson(requestJSON.toString(), Risk.class);
-        newRisk.updateMagnitude();
-        newRisk.setAuthor(user);
-        
-        long idCount = RiskTypeDAO.getInstance().handleIDAmount(newRisk.getId());
-        String id = String.format("%02d", idCount);
-        String newID = newRisk.getId() + id;
-        newRisk.setId(newID);
-        if (RiskDAO.getInstance().searchById(newRisk.getPkId()) != null) {
-            //Custom exception
-            response.getWriter().write(new RiskAlreadyExistEx().jsonify());
-//            throw new IOException("El riesgo que se insertó ya existe");
+        try {
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+            requestJSON.remove("userID");
+
+            if (user == null) {
+                throw new IllegalAccessError("No se encontró el usuario que intentó realizar la transacción.");
+            }
+
+            Risk newRisk = new Gson().fromJson(requestJSON.toString(), Risk.class);
+            newRisk.updateMagnitude();
+            newRisk.setAuthor(user);
+
+            long idCount = RiskTypeDAO.getInstance().handleIDAmount(newRisk.getId());
+            String id = String.format("%02d", idCount);
+            String newID = newRisk.getId() + id;
+            newRisk.setId(newID);
+
+            RiskDAO.getInstance().add(newRisk);
+            //JSON Response is required in order to redirect to the new Risk Page from the client-side.
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            JSONObject responseJSON = new JSONObject();
+            responseJSON.append("id", newRisk.getId());
+            response.getWriter().write(responseJSON.toString());
+            response.getWriter().flush();
+            response.getWriter().close();
+        } catch (NullPointerException e) {
+            response.sendError(406, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        RiskDAO.getInstance().add(newRisk);
-        //JSON Response is required in order to redirect to the new Risk Page from the client-side.
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        JSONObject responseJSON = new JSONObject();
-        responseJSON.append("id", newRisk.getId());
-        response.getWriter().write(responseJSON.toString());
-        response.getWriter().flush();
-        response.getWriter().close();
     }
 
     /**
@@ -146,63 +162,77 @@ public class RiskManager extends HttpServlet {
      * permissions.
      */
     private void editRisk(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
-        requestJSON.remove("userID");
-        Risk riskEdit = new Gson().fromJson(requestJSON.toString(), Risk.class);
-        
-        if (!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !riskEdit.getAuthor().getIdUser().equals(user.getIdUser())) {
-            throw new IOException();
-        }
-        
-        if (RiskDAO.getInstance().searchById(riskEdit.getPkId()) != null) {
+        try {
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+            requestJSON.remove("userID");
+            Risk riskEdit = new Gson().fromJson(requestJSON.toString(), Risk.class);
+            if (user == null) {
+                throw new IllegalAccessError("No se encontró el usuario que intentó realizar la transacción.");
+            }
+            if (!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !riskEdit.getAuthor().getIdUser().equals(user.getIdUser())) {
+                throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
+            }
+
+            if (RiskDAO.getInstance().searchById(riskEdit.getPkId()) == null) {
+                throw new NullPointerException("No se encontró el riesgo que se desea editar.");
+            }
+
             RiskDAO.getInstance().update(riskEdit);
-        } else {
-            //Custom exception
-            response.getWriter().write(new RiskNotFoundEx().jsonify());
-//            throw new IOException("Este riesgo no esta registrado en el sistema");     
+        } catch (NullPointerException e) {
+            response.sendError(406, e.getMessage());
+        } catch (IllegalAccessError e) {
+            response.sendError(401, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
     }
-    
-    private void associateCommentToRisk(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
-        JSONObject requestJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        JSONArray commentIdJSONArray = requestJSON.getJSONArray("commentIDs");
-        if (commentIdJSONArray == null) {
-            //Custom exception
-//            response.getWriter().write(new InvalidCommentIDEx().jsonify());
-//            throw new IOException("Invalid comment ID list");
+
+    private void associateCommentToRisk(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            JSONObject requestJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            JSONArray commentIdJSONArray = requestJSON.getJSONArray("commentIDs");
+            if (commentIdJSONArray == null) {
+                throw new NullPointerException("No se recibieron comentarios por agregar.");
+            }
+            List<Integer> commentIds = new ArrayList<>();
+            for (int i = 0; i < commentIdJSONArray.length(); i++) {
+                commentIds.add((Integer) commentIdJSONArray.get(i));
+            }
+            RiskDAO.getInstance().associateCommentsToRisk(requestJSON.getInt("riskPKID"), commentIds);
+        } catch (NullPointerException e) {
+            response.sendError(406, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        List<Integer> commentIds = new ArrayList<>();
-        for (int i = 0; i < commentIdJSONArray.length(); i++) {
-            commentIds.add((Integer) commentIdJSONArray.get(i));
-        }
-        RiskDAO.getInstance().associateCommentsToRisk(requestJSON.getInt("riskPKID"), commentIds);
     }
-    
-    private void deleteCommentFromRisk(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        JSONObject requestJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        Risk ri = RiskDAO.getInstance().searchById(requestJSON.getInt("riskPkID"));
-        if (ri == null) {
-            //Custom exception
-//            response.getWriter().write(new CommentNotFoundEx().jsonify());
+
+    private void deleteCommentFromRisk(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            JSONObject requestJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            Risk ri = RiskDAO.getInstance().searchById(requestJSON.getInt("riskPkID"));
+            if (ri == null) {
+                throw new NullPointerException("No se encontró el elemento al cual se deben remover comentarios.");
+            }
+
+            List<Comment> commentList = ri.getCommentList();
+            if (commentList == null) {
+                throw new NullPointerException("El elemento no cuenta con comentarios.");
+            }
+            commentList.removeIf(r -> (String.valueOf(r.getPkID()).equals(requestJSON.getString("commentID"))));
+            ri.setCommentList(commentList);
+            RiskDAO.getInstance().update(ri);
+        } catch (NullPointerException e) {
+            response.sendError(406, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        
-        List<Comment> commentList = ri.getCommentList();
-        if (commentList == null) {
-            //Custom exception
-//            response.getWriter().write(new CommentsNotListedEx().jsonify());
-        }
-        commentList.removeIf(r -> (String.valueOf(r.getPkID()).equals(requestJSON.getString("commentID"))));
-        ri.setCommentList(commentList);
-        RiskDAO.getInstance().update(ri);
     }
 
     // </editor-fold>

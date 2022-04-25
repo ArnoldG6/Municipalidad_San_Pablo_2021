@@ -5,11 +5,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 
 class TopButtons extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.handleRiskTableButtonClick = this.handleRiskTableButtonClick.bind(this);
     }
-    handleRiskTableButtonClick (){
+    handleRiskTableButtonClick() {
         if (!this.props.planID) return;
         let options = {
             url: process.env.REACT_APP_SFR_API_URL + "/PlanServlet/riskTable",
@@ -173,6 +173,7 @@ class TopButtons extends Component {
                         <Button variant={statusClass}>{this.props.status}</Button>{' '}
                     </Stack>
                 </div>
+                <ToastContainer />
             </div>
         );
     }

@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import org.hibernate.Session;
 import javax.persistence.Query;
+import org.hibernate.exception.JDBCConnectionException;
 import static sfr.dao.GenericDAO.em;
 import sfr.model.Comment;
 import sfr.model.Incidence;
@@ -109,7 +110,6 @@ public class RiskDAO extends GenericDAO {
      * the risk param.
      * @throws java.lang.Exception
      */
-
     public Integer countOfRiskAppearenceInPlans(Risk risk) throws Exception {
         try {
             if (risk == null) {
@@ -138,7 +138,6 @@ public class RiskDAO extends GenericDAO {
      * in all Incidence objects.
      * @throws java.lang.Exception
      */
-
     public Integer countOfRiskAppearenceInIncidences(Risk r) throws Exception {
         try {
             Integer count = 0;
@@ -259,11 +258,12 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-    
+
     /**
      * This method associates a single Risk object to n Comment objects.
      *
-     * @param riskID the Risk object that will be associated to the Comments objects
+     * @param riskID the Risk object that will be associated to the Comments
+     * objects
      * @param commentIDs List of commentIDs to associate with riskID parameter.
      * @throws java.lang.Exception
      */
@@ -354,11 +354,11 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-    
+
     /**
      *
-     * @return a list of comments, including all comments, except for the ones in the
-     * Risk identified by
+     * @return a list of comments, including all comments, except for the ones
+     * in the Risk identified by
      * @param riskID
      * @throws java.lang.Exception
      */
@@ -384,7 +384,7 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-    
+
     /**
      *
      * @return a Risk object that matches with
@@ -399,7 +399,7 @@ public class RiskDAO extends GenericDAO {
         }
         return null;
     }
-    
+
     /**
      * @return a casted HashMap of Risk objects from an HQL query sorted in
      * descending order by entryDate.
@@ -469,7 +469,5 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-    
-    
 
 }

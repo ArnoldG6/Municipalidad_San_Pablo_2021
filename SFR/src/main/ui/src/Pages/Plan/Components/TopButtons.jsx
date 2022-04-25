@@ -10,10 +10,11 @@ class TopButtons extends Component {
     }
     handleRiskTableButtonClick() {
         try {
-            if (this.state.plan === null || typeof this.state.plan === 'undefined')
+            if (this.props.planID === null || typeof this.props.planID === 'undefined')
                 throw new Error('Invalid parameter planID');
             document.location = process.env.REACT_APP_SFR_API_URL + "/PlanServlet/riskTable?planID=" + this.props.planID
         } catch (e) {
+            console.log(e);
             toast.error("Error al obtener la matriz de riesgos", {
                 position: toast.POSITION.TOP_RIGHT,
                 pauseOnHover: true,

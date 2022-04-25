@@ -32,18 +32,36 @@ class Search extends Component {
         axios(options)
             .then(response => {
                 this.props.updateRiesgos(response.data);
-            }).catch(error => {
-                console.log(error);
-                toast.error("Error al realizar la busqueda", {
+            })
+            .catch(error => {
+                var msj = "";
+                if (error.response) {
+                    //Server responded with an error
+                    switch (error.response.status) {
+                        case 406:
+                            msj = "Hubo un problema recuperando los datos solicitados.";
+                            break;
+                        case 500:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                        default:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                    }
+                } else if (error.request) {
+                    //Server did not respond
+                    msj = "Hubo un error con la conexión al servidor."
+                } else {
+                    //Something else went wrong
+                    msj = "Error desconocido."
+                }
+                toast.error(msj, {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
                     autoClose: 5000
                 });
-            });
-
-
-
+            })
     }
 
 

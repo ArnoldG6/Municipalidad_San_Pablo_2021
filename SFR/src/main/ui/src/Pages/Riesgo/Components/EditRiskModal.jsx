@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Modal, Button, Form, FormGroup, Stack, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -19,49 +19,79 @@ class EditRiskModal extends Component {
 
     handleSubmit = (event) => {
         const form = event.currentTarget;
-        if(form.checkValidity() === false) {
+        if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
         }
-        else{
-        event.preventDefault();
-        let options = {
-            url: process.env.REACT_APP_SFR_API_URL + `/RiskManager/Edit`,
-            method: 'PUT',
-            header: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            data: {
-                'pkID': this.props.risk.pkID,
-                'id': event.target.ID.value,
-                'name': event.target.name.value,
-                'probability': parseFloat(event.target.probability.value),
-                'impact': parseInt(event.target.impact.value),
-                'generalType': this.props.risk.generalType,
-                'areaType': this.props.risk.areaType,
-                'specType': event.target.specific_factor.value,
-                'magnitude': parseFloat(event.target.probability.value) * parseInt(event.target.impact.value),
-                'factors': event.target.factor.value,
-                'mitigationMeasures': event.target.mitigationMeasures.value,
-                'author': this.props.risk.author,
-                'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
+        else {
+            event.preventDefault();
+            let options = {
+                url: process.env.REACT_APP_SFR_API_URL + `/RiskManager/Edit`,
+                method: 'PUT',
+                header: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    'pkID': this.props.risk.pkID,
+                    'id': event.target.ID.value,
+                    'name': event.target.name.value,
+                    'probability': parseFloat(event.target.probability.value),
+                    'impact': parseInt(event.target.impact.value),
+                    'generalType': this.props.risk.generalType,
+                    'areaType': this.props.risk.areaType,
+                    'specType': event.target.specific_factor.value,
+                    'magnitude': parseFloat(event.target.probability.value) * parseInt(event.target.impact.value),
+                    'factors': event.target.factor.value,
+                    'mitigationMeasures': event.target.mitigationMeasures.value,
+                    'author': this.props.risk.author,
+                    'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
+                }
             }
-        }
 
-        axios(options)
-            .then(response => {
-                this.props.refreshPage();
-                this.props.closeModalEdit();
-            }).catch(error => {
-                console.log(error);
-            });
+            axios(options)
+                .then(response => {
+                    this.props.refreshPage();
+                    this.props.closeModalEdit();
+                })
+                .catch(error => {
+                    var msj = "";
+                    if (error.response) {
+                        //Server responded with an error
+                        switch (error.response.status) {
+                            case 406:
+                                msj = "Hubo un problema encontrando el Riesgo por actualizar.";
+                                break;
+                            case 401:
+                                msj = "Este usuario no cuenta con permisos para editar Riesgos.";
+                                break;
+                            case 500:
+                                msj = "El servidor ha encontrado un error desconocido.";
+                                break;
+                            default:
+                                msj = "El servidor ha encontrado un error desconocido.";
+                                break;
+                        }
+                    } else if (error.request) {
+                        //Server did not respond
+                        msj = "Hubo un error con la conexión al servidor."
+                    } else {
+                        //Something else went wrong
+                        msj = "Error desconocido."
+                    }
+                    toast.error(msj, {
+                        position: toast.POSITION.TOP_RIGHT,
+                        pauseOnHover: true,
+                        theme: 'colored',
+                        autoClose: 5000
+                    });
+                })
         }
         this.setValidated(true);
     }
 
     setValidated(value) {
-        this.setState({ validated: value});
+        this.setState({ validated: value });
     }
 
     render() {
@@ -81,21 +111,21 @@ class EditRiskModal extends Component {
                                 <input name="ID" id="ID" type="text" placeholder="ID" className="form-control" disabled defaultValue={risk.id} required />
                             </div>
                             <Form.Group>
-                            <div className="form-group">
-                                <Form.Label>Nombre: </Form.Label>
-                                <Form.Control
-                                name="name"
-                                id="name"
-                                type="text"
-                                placeholder="Nombre"
-                                className="form-control"
-                                defaultValue={risk.name}
-                                required
-                                />
-                            <Form.Control.Feedback type="invalid">
-                                Por favor ingresar nombre.
-                            </Form.Control.Feedback>
-                            </div>
+                                <div className="form-group">
+                                    <Form.Label>Nombre: </Form.Label>
+                                    <Form.Control
+                                        name="name"
+                                        id="name"
+                                        type="text"
+                                        placeholder="Nombre"
+                                        className="form-control"
+                                        defaultValue={risk.name}
+                                        required
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Por favor ingresar nombre.
+                                    </Form.Control.Feedback>
+                                </div>
                             </Form.Group>
                             <div className="form-group">
                                 <div className="number-input-container">
@@ -207,21 +237,21 @@ class EditRiskModal extends Component {
                                 </Form.Select>
                             </div>
                             <Form.Group>
-                            <div className="form-group">
-                                <Form.Label>Descripción de tipo específico:</Form.Label>
-                                <Form.Control
-                                name="specific_factor"
-                                id="specific_factor"
-                                type="text"
-                                placeholder=""
-                                className="form-control"
-                                defaultValue={risk.specType}
-                                required
-                                />
-                            <Form.Control.Feedback type="invalid">
-                            Por favor ingresar tipo específico.
-                            </Form.Control.Feedback>
-                            </div>
+                                <div className="form-group">
+                                    <Form.Label>Descripción de tipo específico:</Form.Label>
+                                    <Form.Control
+                                        name="specific_factor"
+                                        id="specific_factor"
+                                        type="text"
+                                        placeholder=""
+                                        className="form-control"
+                                        defaultValue={risk.specType}
+                                        required
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Por favor ingresar tipo específico.
+                                    </Form.Control.Feedback>
+                                </div>
                             </Form.Group>
                             <div className="form-group">
                                 <Stack direction="horizontal" gap={3}>

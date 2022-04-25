@@ -23,56 +23,78 @@ class AddRiskModal extends Component {
 
     handleSubmit = (event) => {
         const form = event.currentTarget;
-        if(form.checkValidity() === false) {
+        if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
         }
-        else{
-        event.preventDefault();
-        let id = this.getID(this.state.value, event.target.areatype.value);
-        let options = {
-            url: process.env.REACT_APP_SFR_API_URL + `/RiskManager/Insert`,
-            method: 'POST',
-            header: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            data: {
-                'id': id,
-                'name': event.target.name.value,
-                'probability': parseFloat(event.target.probability.value),
-                'impact': parseInt(event.target.impact.value),
-                'generalType': this.state.value,
-                'areaType': event.target.areatype.value,
-                'specType': event.target.specific_factor.value,
-                'factors': event.target.factor.value,
-                'mitigationMeasures': event.target.mitigationMeasures.value,
-                'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
+        else {
+            event.preventDefault();
+            let id = this.getID(this.state.value, event.target.areatype.value);
+            let options = {
+                url: process.env.REACT_APP_SFR_API_URL + `/RiskManager/Insert`,
+                method: 'POST',
+                header: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    'id': id,
+                    'name': event.target.name.value,
+                    'probability': parseFloat(event.target.probability.value),
+                    'impact': parseInt(event.target.impact.value),
+                    'generalType': this.state.value,
+                    'areaType': event.target.areatype.value,
+                    'specType': event.target.specific_factor.value,
+                    'factors': event.target.factor.value,
+                    'mitigationMeasures': event.target.mitigationMeasures.value,
+                    'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
+                }
             }
-        }
 
-        axios(options)
-            .then(response => {
-                this.props.updateRiesgos("add-success");
-                this.props.closeModal();
-                if (response.data.id)
-                  document.location= process.env.REACT_APP_SFR+"#/riesgo?id="+response.data.id
-                else
-                  throw new Error('Error al cargar página específica del riesgo ');
-            }).catch(error => {
-                toast.error(error, {
-                    position: toast.POSITION.TOP_RIGHT,
-                    pauseOnHover: true,
-                    theme: 'colored',
-                    autoClose: 5000
-                });
-            });
+            axios(options)
+                .then(response => {
+                    this.props.updateRiesgos("add-success");
+                    this.props.closeModal();
+                    if (response.data.id)
+                        document.location = process.env.REACT_APP_SFR + "#/riesgo?id=" + response.data.id
+                    else
+                        throw new Error('Error al cargar página específica del riesgo ');
+                })
+                .catch(error => {
+                    var msj = "";
+                    if (error.response) {
+                        //Server responded with an error
+                        switch (error.response.status) {
+                            case 406:
+                                msj = "Hubo un problema insertando el Riesgo.";
+                                break;
+                            case 500:
+                                msj = "El servidor ha encontrado un error desconocido.";
+                                break;
+                            default:
+                                msj = "El servidor ha encontrado un error desconocido.";
+                                break;
+                        }
+                    } else if (error.request) {
+                        //Server did not respond
+                        msj = "Hubo un error con la conexión al servidor."
+                    } else {
+                        //Something else went wrong
+                        msj = "Error desconocido."
+                    }
+                    toast.error(msj, {
+                        position: toast.POSITION.TOP_RIGHT,
+                        pauseOnHover: true,
+                        theme: 'colored',
+                        autoClose: 5000
+                    });
+                })
         }
         this.setValidated(true);
     }
 
     setValidated(value) {
-        this.setState({ validated: value});
+        this.setState({ validated: value });
     }
 
     getID(type, subtype) {
@@ -106,20 +128,20 @@ class AddRiskModal extends Component {
                 <Modal.Body>
                     <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
                         <Form.Group>
-                        <div className="form-group">
-                            <Form.Label>Nombre: </Form.Label>
-                            <Form.Control
-                                name="name"
-                                id="name"
-                                type="text"
-                                placeholder="Nombre"
-                                className="form-control"
-                                required
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                Por favor ingresar nombre.
-                            </Form.Control.Feedback>
-                        </div>
+                            <div className="form-group">
+                                <Form.Label>Nombre: </Form.Label>
+                                <Form.Control
+                                    name="name"
+                                    id="name"
+                                    type="text"
+                                    placeholder="Nombre"
+                                    className="form-control"
+                                    required
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Por favor ingresar nombre.
+                                </Form.Control.Feedback>
+                            </div>
                         </Form.Group>
                         <div className="form-group">
                             <div className="number-input-container">
@@ -234,19 +256,19 @@ class AddRiskModal extends Component {
                             </Form.Select>
                         </div>
                         <Form.Group>
-                        <div className="form-group">
-                            <Form.Label>Descripción de tipo específico:</Form.Label>
-                            <Form.Control
-                            name="specific_factor"
-                            id="specific_factor" type="text"
-                            placeholder=""
-                            className="form-control"
-                            required
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                Por favor ingresar tipo específico.
-                            </Form.Control.Feedback>
-                        </div>
+                            <div className="form-group">
+                                <Form.Label>Descripción de tipo específico:</Form.Label>
+                                <Form.Control
+                                    name="specific_factor"
+                                    id="specific_factor" type="text"
+                                    placeholder=""
+                                    className="form-control"
+                                    required
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Por favor ingresar tipo específico.
+                                </Form.Control.Feedback>
+                            </div>
                         </Form.Group>
                         <div className="form-group">
                             <Stack direction="horizontal" gap={3}>
@@ -285,7 +307,7 @@ class AddRiskModal extends Component {
                                 </OverlayTrigger>
                             </Stack>
 
-                            <textarea name="mitigationMeasures" id="mitigationMeasures" type="text" placeholder="Medidas necesarias para mitigar el riesgo."  className="form-control" required/>
+                            <textarea name="mitigationMeasures" id="mitigationMeasures" type="text" placeholder="Medidas necesarias para mitigar el riesgo." className="form-control" required />
                         </div>
                         <div className='text-center'>
                             <Button className='btn-sfr' type="submit" >

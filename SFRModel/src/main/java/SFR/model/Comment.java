@@ -32,6 +32,10 @@ public class Comment implements Serializable {
     
     @Column(name = "Author")
     private String author;
+
+    public Comment() {
+        
+    }
     
     @Column(name = "EntryDate")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)

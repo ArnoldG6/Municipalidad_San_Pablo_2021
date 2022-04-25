@@ -83,19 +83,16 @@ public class PlanManager extends HttpServlet {
                 case "/API/PlanManager/Insert/Incidence":
                     associateIncidenceToPlan(request, response);
                     break;
-<<<<<<< HEAD
                 case "/API/PlanManager/Insert/Comment":
                     associateCommentToPlan(request, response);
                     break;
                 case "/API/PlanManager/Delete/Comment":
                     deleteCommentFromPlan(request, response);
-=======
                 case "/API/PlanManager/Insert/Involved":
                     insertInvolved(request, response);
                     break;
                 case "/API/PlanManager/Delete/Involved":
                     deleteInvolved(request, response);
->>>>>>> b25dbe73e232ca2f237fbadc9acae6929f52f6d0
                     break;
             }
             //response.setContentType("text/html");

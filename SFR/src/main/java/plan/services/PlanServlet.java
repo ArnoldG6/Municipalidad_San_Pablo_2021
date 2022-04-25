@@ -63,13 +63,10 @@ public class PlanServlet extends HttpServlet {
                 case "/API/PlanServlet/Retrieve/Plan/RemainingIncidences":
                     retrievePlanIncidenceList(request, response);
                     break;
-<<<<<<< HEAD
                 case "/API/PlanServlet/Retrieve/Plan/RemainingComments":
                     retrievePlanCommentList(request, response);
-=======
                 case "/API/PlanServlet/Retrieve/Plan/RemainingUsers":
                     retrievePlanUserList(request, response);
->>>>>>> b25dbe73e232ca2f237fbadc9acae6929f52f6d0
                     break;
                 case "/API/PlanServlet/Retrieve/PlanTypes":
                     retrievePlanTypes(request, response);

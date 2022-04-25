@@ -34,8 +34,12 @@ public class CommentDAO extends GenericDAO {
                 return "pkID";
             case "COMMENT":
                 return "comment";
+            case "URL":
+                return "url";
             case "AUTHOR":
                 return "author";
+            case "ENTRYDATE":
+                return "entryDate";
             default:
                 throw new IOException("Invalid column");
         }
@@ -51,17 +55,6 @@ public class CommentDAO extends GenericDAO {
         return (Comment) em.find(Comment.class, id);
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     /**
      * @return a sorted list of Comment objects depending on the next
      * parameters:
@@ -75,7 +68,7 @@ public class CommentDAO extends GenericDAO {
         try {
             order = order.toUpperCase();
             column = this.translateColumnName(column, order);
-            String cmd = new StringBuilder().append("SELECT p from Incidence p order by p.")
+            String cmd = new StringBuilder().append("SELECT p from Comment p order by p.")
                     .append(column).append(" ").append(order).toString();
             em = getEntityManager();
             Query query = em.createQuery(cmd);
@@ -86,11 +79,6 @@ public class CommentDAO extends GenericDAO {
             throw e;
         }
     }
-    
-    
-    
-    
-    
     
     /**
      * This method adds a Comment object into the DB record, using HQL.

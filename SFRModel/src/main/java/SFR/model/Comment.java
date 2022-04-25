@@ -1,6 +1,7 @@
 package sfr.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -25,8 +27,15 @@ public class Comment implements Serializable {
     @Column(name = "Comment")
     private String comment;
     
+    @Column(name = "Url")
+    private String url;
+    
     @Column(name = "Author")
     private String author;
+    
+    @Column(name = "EntryDate")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date entryDate;
     
     public Comment(String comment, String author){
         this.comment = comment;
@@ -57,12 +66,16 @@ public class Comment implements Serializable {
         this.author = author;
     }
     
+    
+    
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Comment:").append("{\n");
         sb.append("\"comment\": \"").append(comment).append("\",");
-        sb.append("\"author\":").append(author).append("\n");
+        sb.append("\"url\": \"").append(url).append("\",");
+        sb.append("\"author\": \"").append(author).append("\",");
+        sb.append("\"entrydate\":").append(entryDate).append("\n");
         sb.append("}\n");
         return sb.toString();
     }
@@ -89,5 +102,21 @@ public class Comment implements Serializable {
             return false;
         }
         return true;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Date getEntryDate() {
+        return entryDate;
+    }
+
+    public void setEntryDate(Date entryDate) {
+        this.entryDate = entryDate;
     }
 }

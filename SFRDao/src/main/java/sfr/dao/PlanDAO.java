@@ -17,9 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 import javax.persistence.Query;
-<<<<<<< HEAD
 import sfr.model.Comment;
-=======
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -27,7 +25,6 @@ import org.apache.poi.ss.util.RegionUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
->>>>>>> b25dbe73e232ca2f237fbadc9acae6929f52f6d0
 import sfr.model.Incidence;
 import sfr.model.Plan;
 import sfr.model.Risk;

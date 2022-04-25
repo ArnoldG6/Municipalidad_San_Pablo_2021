@@ -8,10 +8,7 @@ package risk.services;
 import com.google.gson.Gson;
 import common.dao.UserDAO;
 import common.model.User;
-import ex.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -20,12 +17,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.hibernate.exception.JDBCConnectionException;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import sfr.dao.RiskDAO;
 import sfr.dao.RiskTypeDAO;
-import sfr.model.Comment;
 import sfr.model.Risk;
 
 @WebServlet(name = "RiskManager", urlPatterns = {
@@ -182,60 +176,6 @@ public class RiskManager extends HttpServlet {
             response.sendError(500, e.getMessage());
         }
     }
-<<<<<<< HEAD
-=======
-
-    private void associateCommentToRisk(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try {
-            JSONObject requestJSON;
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-            JSONArray commentIdJSONArray = requestJSON.getJSONArray("commentIDs");
-            if (commentIdJSONArray == null) {
-                throw new NullPointerException("No se recibieron comentarios por agregar.");
-            }
-            List<Integer> commentIds = new ArrayList<>();
-            for (int i = 0; i < commentIdJSONArray.length(); i++) {
-                commentIds.add((Integer) commentIdJSONArray.get(i));
-            }
-            Risk risk = RiskDAO.getInstance().searchById(requestJSON.getInt("riskPkID"));
-            if (risk == null) {
-                throw new NullPointerException("No se encuentra el riesgo al cual agregar comentarios.");
-            }
-            RiskDAO.getInstance().associateCommentsToRisk(requestJSON.getInt("riskPKID"), commentIds);
-        } catch (NullPointerException e) {
-            response.sendError(406, e.getMessage());
-        } catch (Exception e) {
-            response.sendError(500, e.getMessage());
-        }
-    }
-
-    private void deleteCommentFromRisk(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try {
-            JSONObject requestJSON;
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-            Risk ri = RiskDAO.getInstance().searchById(requestJSON.getInt("riskPkID"));
-            if (ri == null) {
-                throw new NullPointerException("No se encontró el elemento al cual se deben remover comentarios.");
-            }
-
-            List<Comment> commentList = ri.getCommentList();
-            if (commentList == null) {
-                throw new NullPointerException("El elemento no cuenta con comentarios.");
-            }
-            commentList.removeIf(r -> (String.valueOf(r.getPkID()).equals(requestJSON.getString("commentID"))));
-            ri.setCommentList(commentList);
-            RiskDAO.getInstance().update(ri);
-        } catch (NullPointerException e) {
-            response.sendError(406, e.getMessage());
-        } catch (Exception e) {
-            response.sendError(500, e.getMessage());
-        }
-    }
->>>>>>> remotes/origin/sfr
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods.">

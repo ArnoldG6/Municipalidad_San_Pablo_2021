@@ -13,11 +13,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import org.hibernate.Session;
 import javax.persistence.Query;
-import org.hibernate.exception.JDBCConnectionException;
 import static sfr.dao.GenericDAO.em;
-import sfr.model.Comment;
 import sfr.model.Incidence;
 import sfr.model.Plan;
 import sfr.model.Risk;
@@ -258,53 +255,6 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-<<<<<<< HEAD
-=======
-
-    /**
-     * This method associates a single Risk object to n Comment objects.
-     *
-     * @param riskID the Risk object that will be associated to the Comments
-     * objects
-     * @param commentIDs List of commentIDs to associate with riskID parameter.
-     * @throws java.lang.Exception
-     */
-    public void associateCommentsToRisk(int riskID, List<Integer> commentIDs) throws Exception {
-        try {
-            if (commentIDs == null) {
-                throw new IOException("Invalid commentIDs field");
-            }
-            Risk r = RiskDAO.getInstance().searchById(riskID);
-            if (r == null) {
-                throw new IOException("Invalid riskID field");
-            }
-            List<Comment> commentList = r.getCommentList();
-            if (commentList == null) {
-                throw new IOException("Empty commentList exception");
-            }
-            if (commentIDs.isEmpty()) {
-                throw new IOException("Empty commentIDs field exception");
-            }
-            Comment com;
-            for (int i = 0; i < commentIDs.size(); i++) {
-                com = CommentDAO.getInstance().searchById(commentIDs.get(i));
-                if (!commentList.contains(com)) {
-                    commentList.add(com);
-                } else {
-                    throw new IOException("This plan already contains this comment");
-                }
-            }
-            r.setCommentList(commentList);
-            RiskDAO.getInstance().update(r);
-        } catch (IOException ex) {
-            ex.printStackTrace(System.out);
-            System.err.println(ex.getMessage());
-            throw ex;
-        } finally {
-            closeEntityManager();
-        }
-    }
->>>>>>> remotes/origin/sfr
 
     /**
      *
@@ -360,39 +310,6 @@ public class RiskDAO extends GenericDAO {
 
     /**
      *
-<<<<<<< HEAD
-=======
-     * @return a list of comments, including all comments, except for the ones
-     * in the Risk identified by
-     * @param riskID
-     * @throws java.lang.Exception
-     */
-    public List<Comment> getCommentListByPlanNoRep(String riskID) throws Exception {
-        try {
-            Risk r = RiskDAO.getInstance().searchByIdString(riskID);
-            List<Comment> rCommentList = r.getCommentList(); //comments of an specific Plan.
-            List<Comment> commentList = CommentDAO.getInstance().listByColumn("PK_ID", "DESC");
-            if (rCommentList == null || commentList == null) {
-                throw new IOException("Empty commentList exception");
-            }
-            for (int i = 0; i < rCommentList.size(); i++) {
-                if (commentList.contains(rCommentList.get(i))) {
-                    commentList.remove(rCommentList.get(i));
-                }
-            }
-            return commentList;
-        } catch (Exception ex) {
-            ex.printStackTrace(System.out);
-            System.err.println(ex.getMessage());
-            throw ex;
-        } finally {
-            closeEntityManager();
-        }
-    }
-
-    /**
-     *
->>>>>>> remotes/origin/sfr
      * @return a Risk object that matches with
      * @param id
      */

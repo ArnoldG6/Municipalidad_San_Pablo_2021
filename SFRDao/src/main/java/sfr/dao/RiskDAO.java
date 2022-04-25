@@ -258,6 +258,8 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
+<<<<<<< HEAD
+=======
 
     /**
      * This method associates a single Risk object to n Comment objects.
@@ -302,6 +304,7 @@ public class RiskDAO extends GenericDAO {
             closeEntityManager();
         }
     }
+>>>>>>> remotes/origin/sfr
 
     /**
      *
@@ -357,6 +360,8 @@ public class RiskDAO extends GenericDAO {
 
     /**
      *
+<<<<<<< HEAD
+=======
      * @return a list of comments, including all comments, except for the ones
      * in the Risk identified by
      * @param riskID
@@ -387,6 +392,7 @@ public class RiskDAO extends GenericDAO {
 
     /**
      *
+>>>>>>> remotes/origin/sfr
      * @return a Risk object that matches with
      * @param id
      */

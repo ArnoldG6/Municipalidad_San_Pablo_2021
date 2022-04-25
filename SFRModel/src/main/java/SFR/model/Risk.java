@@ -2,20 +2,14 @@ package sfr.model;
 
 import common.model.User;
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -63,15 +57,6 @@ public class Risk implements Serializable {
     private List<Plan> plans;
      */
     
-    @OneToMany(fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT)
-    @JoinTable(
-            name = "T_SFR_RISKCOMMENT",
-            joinColumns = @JoinColumn(name = "FK_RISK"),
-            inverseJoinColumns = @JoinColumn(name = "FK_COMMENT")
-    )
-    private List<Comment> commentList;
-    
     public Risk() {
 
     }
@@ -81,7 +66,7 @@ public class Risk implements Serializable {
     }
 
     public Risk(String id, String name, String desc, String generalType, String areaType,
-            String specificType, Float probability, Integer impact, List<Comment> commentList, User author) {
+            String specificType, Float probability, Integer impact, User author) {
         this.id = id;
         this.name = name;
         this.factors = desc;
@@ -92,7 +77,6 @@ public class Risk implements Serializable {
         this.impact = impact;
         this.magnitude = (probability * impact);
         this.mitigationMeasures = "";
-        this.commentList = commentList;
         this.author = author;
     }
 
@@ -187,33 +171,6 @@ public class Risk implements Serializable {
     public void setMitigationMeasures(String mitigationMeasures) {
         this.mitigationMeasures = mitigationMeasures;
     }
-    
-    public void addComment(Comment comment) {
-        try {
-            this.commentList.add(comment);
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            System.err.println(e.getMessage());
-            throw e;
-        }
-    }
-
-    public void removeComment(Comment comment) {
-        try {
-            this.commentList.remove(comment);
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            System.err.println(e.getMessage());
-            throw e;
-        }
-    }
-    
-    public List<Comment> getCommentList() {
-        return commentList;
-    }
-    public void setCommentList(List<Comment> commentList) {
-        this.commentList = commentList;
-    }
 
     public User getAuthor() {
         return author;
@@ -253,7 +210,6 @@ public class Risk implements Serializable {
         //sb.append("\"mitigationMeasures\": \"").append(mitigationMeasures).append("\" \n");
         //sb.append("\"mitigationMeasures\": \"").append(mitigationMeasures).append("\", \n");
         //sb.append("\"plans: \"").append(plans).append("\n");
-        sb.append("\"comments\": \"").append(commentList).append("\n");
         sb.append("} \n");
         return sb.toString();
     }

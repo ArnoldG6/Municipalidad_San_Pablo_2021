@@ -62,12 +62,6 @@ public class RiskManager extends HttpServlet {
                 case "/API/RiskManager/Edit":
                     editRisk(request, response);
                     break;
-                case "/API/RiskManager/Insert/Comment":
-                    associateCommentToRisk(request, response);
-                    break;
-                case "/API/RiskManager/Delete/Comment":
-                    deleteCommentFromRisk(request, response);
-                    break;
             }
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");
@@ -145,12 +139,13 @@ public class RiskManager extends HttpServlet {
             JSONObject responseJSON = new JSONObject();
             responseJSON.append("id", newRisk.getId());
             response.getWriter().write(responseJSON.toString());
-            response.getWriter().flush();
-            response.getWriter().close();
         } catch (NullPointerException e) {
             response.sendError(406, e.getMessage());
         } catch (Exception e) {
             response.sendError(500, e.getMessage());
+        } finally {
+            response.getWriter().flush();
+            response.getWriter().close();
         }
     }
 
@@ -187,6 +182,8 @@ public class RiskManager extends HttpServlet {
             response.sendError(500, e.getMessage());
         }
     }
+<<<<<<< HEAD
+=======
 
     private void associateCommentToRisk(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
@@ -238,6 +235,7 @@ public class RiskManager extends HttpServlet {
             response.sendError(500, e.getMessage());
         }
     }
+>>>>>>> remotes/origin/sfr
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods.">

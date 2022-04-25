@@ -88,7 +88,10 @@ public class PlanManager extends HttpServlet {
                     break;
                 case "/API/PlanManager/Delete/Comment":
                     deleteCommentFromPlan(request, response);
+<<<<<<< HEAD
+=======
                     break;
+>>>>>>> remotes/origin/sfr
                 case "/API/PlanManager/Insert/Involved":
                     insertInvolved(request, response);
                     break;

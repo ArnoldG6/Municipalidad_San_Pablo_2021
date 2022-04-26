@@ -7,6 +7,7 @@ package Tests;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
+import sfr.dao.EmailFactory;
 import sfr.dao.PlanDAO;
 
 /**
@@ -18,7 +19,7 @@ public class Tests {
     @Test
     public void main() {
         try {
-            System.out.println(PlanDAO.getInstance().searchByIdString("2020LA-00002-01"));
+            EmailFactory.getInstance().sendResetPassword("ld.ramirezch14@gmail.com");
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

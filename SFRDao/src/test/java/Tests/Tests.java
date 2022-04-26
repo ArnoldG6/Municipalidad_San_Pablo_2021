@@ -19,7 +19,7 @@ public class Tests {
     @Test
     public void main() {
         try {
-            EmailFactory.getInstance().sendResetPassword("ld.ramirezch14@gmail.com");
+            //EmailFactory.getInstance().sendResetPassword("ld.ramirezch14@gmail.com");
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

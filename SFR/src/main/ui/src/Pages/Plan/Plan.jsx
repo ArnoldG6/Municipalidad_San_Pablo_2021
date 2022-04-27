@@ -480,11 +480,12 @@ class Plan extends Component {
                             {tableData}
                         </Card.Body>
                     </Card>
+                    <CommentSideBar mobile ={true}/>
                 </div>
                 {/* PC */}
                 <div className="d-none d-lg-block">
                     {/* Comentarios del Plan */}
-                    <CommentSideBar />
+                    <CommentSideBar mobile ={false}/>
 
                     {/* Contenedor para el resto de la pagina */}
                     <div className="container-fluid Data-Container">

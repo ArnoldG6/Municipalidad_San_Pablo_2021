@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package sfr.dao;
+package common.dao;
 
+import common.model.User;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.PasswordAuthentication;
@@ -36,7 +37,7 @@ public class EmailFactory {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.setProperty("mail.imap.ssl.enable", "true");
-        
+
         session = Session.getInstance(props,
                 new jakarta.mail.Authenticator() {
             @Override
@@ -54,15 +55,25 @@ public class EmailFactory {
         return ef;
     }
 
-    public void sendResetPassword(String to) throws MessagingException {
+    public void sendResetPassword(User user, String code) throws MessagingException {
         Message msj = new MimeMessage(session);
         msj.setFrom(new InternetAddress(from));
         msj.setRecipient(
                 Message.RecipientType.TO,
-                new InternetAddress(to)
+                new InternetAddress(user.getEmail())
         );
+
         msj.setSubject("Reinicio de contraseña");
-        msj.setText("Usted ha solicitado un reinicio de contraseña.");
+
+        String htmlCode
+                = "<h3>Estimado/a " + user.getOfficial().getName() + "<br/>"
+                + "Hemos recibido una solicitúd de cambio de contraseña en su cuenta.<br/>"
+                + "Por favor ingrese el siguiente código en el campo solicitado en el sistema:</h3>"
+                + "<h1>" + code + "</h1>"
+                + "<h3>Si usted no realizó esta solicitud, por favor ponerse en contacto con su correspondiente Administrador Tecnológico</h3>"
+                + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
+
+        msj.setContent(htmlCode, "text/html");
 
         Transport.send(msj);
         System.err.println("Done");

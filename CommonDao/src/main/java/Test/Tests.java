@@ -6,6 +6,7 @@
 package Test;
 
 import common.dao.UserDAO;
+import common.model.User;
 
 /**
  *
@@ -14,6 +15,5 @@ import common.dao.UserDAO;
 public class Tests {
 
     public void main() {
-        System.out.println(UserDAO.getInstance().listAll());
     }
 }

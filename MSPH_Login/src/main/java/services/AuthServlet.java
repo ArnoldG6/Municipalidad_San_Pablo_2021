@@ -5,11 +5,12 @@
  */
 package services;
 
-import com.google.gson.Gson;
 import common.dao.UserDAO;
 import common.model.User;
 import ex.*;
 import java.io.IOException;
+import java.security.SecureRandom;
+import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -18,11 +19,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import jakarta.mail.MessagingException;
 import org.json.JSONObject;
 
 @WebServlet(name = "AuthServlet",
         urlPatterns = {
-            "/API/Auth"
+            "/API/Auth",
+            "/API/PasswordReset"
         }
 )
 public class AuthServlet extends HttpServlet {
@@ -38,7 +41,9 @@ public class AuthServlet extends HttpServlet {
                 case "/API/Auth":
                     authUser(request, response);
                     break;
-                
+                case "/API/PasswordReset":
+                    passwordReset(request, response);
+
                 //case "/API/ExpireSession": expireSession(request,response); break;
             }
         } catch (IOException | ServletException ex) {
@@ -51,33 +56,60 @@ public class AuthServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="Auth methods.">
     private void authUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try{
+        try {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             JSONObject responseJSON = new JSONObject();
             JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
             User u = UserDAO.getInstance().userAuth(requestJSON.getString("username"), requestJSON.getString("pwd"));
-            if (u == null) throw new AuthException();
+            if (u == null) {
+                throw new AuthException();
+            }
             responseJSON.put("authStatus", true);
             responseJSON.put("username", String.valueOf(u.getIdUser()));
             responseJSON.put("full_name", u.getOfficial().getName() + " " + u.getOfficial().getSurname());
             responseJSON.put("roles", u.getRoles());
             responseJSON.put("token", "xd");
             response.getWriter().write(responseJSON.toString());
-        }catch(AuthException e){
+        } catch (AuthException e) {
             response.getWriter().write(e.jsonify());
-        }finally{
+        } finally {
             response.getWriter().flush();
             response.getWriter().close();
         }
-            
-
     }
 
-    //private void expireSession(HttpServletRequest request, HttpServletResponse response) 
-    //throws ServletException, IOException {
-    //    throw new UnsupportedOperationException("Service not implemented yet");
-    //}
+    private void passwordReset(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            String email = requestJSON.getString("userEmail");
+            User user = UserDAO.getInstance().searchByEmail(email);
+
+            if (user == null) {
+                throw new NoSuchElementException("No se encontró un usuario con el correo indicado.");
+            }
+
+            SecureRandom rnd = new SecureRandom();
+
+            int max = 999999999;
+            int min = 100000000;
+
+            Integer code = rnd.nextInt(max - min + 1) + min;
+
+            UserDAO.getInstance().handlePasswordReset(user, code);
+
+        } catch (MessagingException e) {
+            response.sendError(404, "Hubo un error enviando el correo solicitado.");
+        } catch (NoSuchElementException e) {
+            response.sendError(400, "No se encontró un usuario con el correo indicado.");
+        } catch (Exception e) {
+            response.sendError(500, "Hubo un error desconocido.");
+        } finally {
+            response.getWriter().flush();
+            response.getWriter().close();
+        }
+    }
+
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods.">
     @Override
@@ -118,6 +150,6 @@ public class AuthServlet extends HttpServlet {
             Logger.getLogger(AuthServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   
+    // </editor-fold>
 
 }

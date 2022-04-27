@@ -12,6 +12,7 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { Container, Form, Image, Button } from 'react-bootstrap';
 import logo from "../components/images/MSPH_LOGO.png";
+import PasswordRecoveryModal from './PasswordRecoveryModal';
 const requestURL = "http://localhost:8080/auth/API/Auth";
 const cookies = new Cookies();
 
@@ -25,10 +26,13 @@ export default class Login extends React.Component {
     this.state = {
       username: '',
       pwd: '',
-      disabled: true
+      disabled: true,
+      showPassResetModal: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.showPasswordReset = this.showPasswordReset.bind(this);
+    this.hidePasswordReset = this.hidePasswordReset.bind(this);
   }
 
   async handlePwdRedirect(e) {
@@ -94,29 +98,40 @@ export default class Login extends React.Component {
     });
   }
 
+  showPasswordReset = () => {
+    this.setState({ showPassResetModal: true });
+  }
+
+  hidePasswordReset = () => {
+    this.setState({ showPassResetModal: false });
+  }
+
   render() {
     return (
-      <Container className="w-auto text-center mx-auto p-3 mt-2 container">
-        <Form className="centered-element" onSubmit={this.handleSubmit}>
-          <Form.Group className="mb-3">
-            <Image src={logo} fluid height={300} width={300} className='img-fluid hover-shadow' onClick={() => { console.log(cookies) }} />
-          </Form.Group>
-          <Form.Group className="mb-3" >
-            <Form.Label>Nombre de usuario o correo electrónico: </Form.Label>
-            <Form.Control autoFocus type="text" name="username" onChange={this.handleInputChange} />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Contraseña: </Form.Label>
-            <Form.Control type="password" name="pwd" onChange={this.handleInputChange} />
-          </Form.Group>
-          <div className="text-center">
-            <Button className="btnSFR" type="submit" disabled={this.state.disabled}>
-              Ingresar
-            </Button>
-          </div>
-          <a href="/auth">¿Olvidó su contraseña?</a>
-        </Form>
-      </Container>
+      <div>
+        <Container className="w-auto text-center mx-auto p-3 mt-2 container">
+          <Form className="centered-element" onSubmit={this.handleSubmit}>
+            <Form.Group className="mb-3">
+              <Image src={logo} fluid height={300} width={300} className='img-fluid hover-shadow' onClick={() => { console.log(cookies) }} />
+            </Form.Group>
+            <Form.Group className="mb-3" >
+              <Form.Label>Nombre de usuario o correo electrónico: </Form.Label>
+              <Form.Control autoFocus type="text" name="username" onChange={this.handleInputChange} />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Contraseña: </Form.Label>
+              <Form.Control type="password" name="pwd" onChange={this.handleInputChange} />
+            </Form.Group>
+            <div className="text-center">
+              <Button className="btnSFR" type="submit" disabled={this.state.disabled}>
+                Ingresar
+              </Button>
+            </div>
+            <Button variant="link" onClick={this.showPasswordReset}>¿Olvidó su contraseña?</Button>
+          </Form>
+        </Container>
+        <PasswordRecoveryModal show={this.state.showPassResetModal} closeModal={this.hidePasswordReset} />
+      </div>
     );
   }
 }

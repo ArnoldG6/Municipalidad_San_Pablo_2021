@@ -7,6 +7,7 @@
     <servlet-mapping>
         <servlet-name>AuthServlet</servlet-name>
         <url-pattern>/API/Auth</url-pattern>
+        <url-pattern>/API/PasswordReset</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

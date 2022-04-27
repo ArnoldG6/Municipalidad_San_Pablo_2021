@@ -42,8 +42,9 @@ public class UserServlet extends HttpServlet {
                 case "/API/User/":
                     getUser(request, response);
                     break;
-                case "/API/editUser": break;
-                
+                case "/API/editUser":
+                    break;
+
                 //case "/API/ExpireSession": expireSession(request,response); break;
             }
         } catch (IOException | ServletException ex) {
@@ -56,27 +57,30 @@ public class UserServlet extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="Auth methods.">
     private void getUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try{
+        try {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             JSONObject responseJSON = new JSONObject();
             JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
             User u = UserDAO.getInstance().searchById(Integer.valueOf(requestJSON.getString("username")));
-            if (u == null) throw new AuthException();
+            if (u == null) {
+                throw new AuthException();
+            }
             responseJSON.put("username", String.valueOf(u.getIdUser()));
             responseJSON.put("full_name", u.getOfficial().getName() + " " + u.getOfficial().getSurname());
             responseJSON.put("roles", u.getRoles());
+            responseJSON.put("email", u.getEmail());
             responseJSON.put("department", u.getOfficial().getDepartment().getDescription());
             responseJSON.put("token", "xd");
             response.getWriter().write(responseJSON.toString());
-            
-        }catch(AuthException e){
+
+        } catch (AuthException e) {
             response.getWriter().write(e.jsonify());
-        }finally{
+        } finally {
             response.getWriter().flush();
             response.getWriter().close();
         }
-            
+
     }
 
     //private void expireSession(HttpServletRequest request, HttpServletResponse response) 
@@ -109,16 +113,15 @@ public class UserServlet extends HttpServlet {
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
+
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{   
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+
     }
 
     @Override
@@ -134,6 +137,5 @@ public class UserServlet extends HttpServlet {
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   
 
 }

@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '../Perfil.css'
-import { Modal, Button, Form, Stack, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Modal, Button, Form} from "react-bootstrap";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
 
 class EditPerfilModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
-            
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);

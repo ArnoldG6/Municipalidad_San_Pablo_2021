@@ -24,9 +24,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 
-@WebServlet(name = "UserServlet",
+@WebServlet(name = "User",
         urlPatterns = {
-            "/API/User"
+            "/API/User",
+            "/API/User/edit",
+            "/API/User/add"                       
         }
 )
 public class UserServlet extends HttpServlet {
@@ -42,7 +44,10 @@ public class UserServlet extends HttpServlet {
                 case "/API/User/":
                     getUser(request, response);
                     break;
-                case "/API/editUser": break;
+                case "/API/User/edit": 
+                    editUser(request, response); break;
+                
+                case "/API/User/add": break;
                 
                 //case "/API/ExpireSession": expireSession(request,response); break;
             }
@@ -53,7 +58,7 @@ public class UserServlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Auth methods.">
+    // <editor-fold defaultstate="collapsed" desc="User methods.">
     private void getUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try{
@@ -61,7 +66,7 @@ public class UserServlet extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             JSONObject responseJSON = new JSONObject();
             JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-            User u = UserDAO.getInstance().searchById(Integer.valueOf(requestJSON.getString("username")));
+            User u = UserDAO.getInstance().searchById(requestJSON.getInt("username"));
             if (u == null) throw new AuthException();
             responseJSON.put("username", String.valueOf(u.getIdUser()));
             responseJSON.put("full_name", u.getOfficial().getName() + " " + u.getOfficial().getSurname());
@@ -78,6 +83,43 @@ public class UserServlet extends HttpServlet {
         }
             
     }
+    
+    private void editUser(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+    
+        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+        
+        User editUser = new Gson().fromJson(requestJSON.toString(), User.class);
+        
+        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN"))) {
+            throw new IOException();
+        }
+        
+        if(UserDAO.getInstance().searchById(requestJSON.getInt("username"))!=null){
+            UserDAO.getInstance().update(editUser);
+        }
+        else {
+            throw new IOException("El usuario no existe.");
+        }
+    }
+    
+    
+    
+    private void addUser(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+        
+     JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+     
+     User newUser = new Gson().fromJson(requestJSON.toString(), User.class);
+     
+     if(UserDAO.getInstance().searchById(requestJSON.getInt("userID")) != null){
+         UserDAO.getInstance().add(newUser);
+         
+     }else throw new IOException("El usuario ya existe.");
+    
+    }
+    
 
     //private void expireSession(HttpServletRequest request, HttpServletResponse response) 
     //throws ServletException, IOException {

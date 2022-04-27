@@ -114,9 +114,10 @@ public class UserServlet extends HttpServlet {
      User newUser = new Gson().fromJson(requestJSON.toString(), User.class);
      
      if(UserDAO.getInstance().searchById(requestJSON.getInt("userID")) != null){
-         UserDAO.getInstance().add(newUser);
          
-     }else throw new IOException("El usuario ya existe.");
+         throw new IOException("El usuario ya existe.");
+         
+     }else UserDAO.getInstance().add(newUser);
     
     }
     

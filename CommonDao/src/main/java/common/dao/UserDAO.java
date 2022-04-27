@@ -9,7 +9,11 @@ import jakarta.mail.MessagingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureParameter;
+import javax.persistence.StoredProcedureQuery;
 import org.hibernate.Session;
 
 public class UserDAO extends GenericDAO {
@@ -124,17 +128,21 @@ public class UserDAO extends GenericDAO {
     }
 
     public void handlePasswordReset(User user, Integer code) throws MessagingException {
-        em = getEntityManager();
-        Session session = em.unwrap(Session.class);
-        Query query = session.createSQLQuery("CALL insertResetCode(:userID, :code)");
-        query.setParameter("userID", user.getIdUser());
-        query.setParameter("code", code);
-        
-        query.getSingleResult();
-        closeEntityManager();
-        
-        EmailFactory.getInstance().sendResetPassword(user, code.toString());
-        
-    }
+        try {
+            em = getEntityManager();
+            Session session = em.unwrap(Session.class); 
+            Query query = session.createSQLQuery("CALL StoredProcedureTest(:P_IN_FK_USER, :P_IN_RESET_CODE)")
+            .addEntity(User.class)
+            .setParameter("P_IN_FK_USER", user.getIdUser())
+            .setParameter("P_IN_RESET_CODE", code.toString());
+            EmailFactory.getInstance().sendResetPassword(user, code.toString());
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        } finally {
+            closeEntityManager();
+        }
 
+    }
 }

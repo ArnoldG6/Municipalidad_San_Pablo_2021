@@ -8,6 +8,7 @@
         <servlet-name>AuthServlet</servlet-name>
         <url-pattern>/API/Auth</url-pattern>
         <url-pattern>/API/PasswordReset</url-pattern>
+        <url-pattern>/API/ValidateResetCode</url-pattern>
     </servlet-mapping>
      <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>

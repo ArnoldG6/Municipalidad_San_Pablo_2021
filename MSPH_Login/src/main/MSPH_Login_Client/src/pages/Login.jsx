@@ -13,6 +13,8 @@ import Cookies from 'universal-cookie';
 import { Container, Form, Image, Button } from 'react-bootstrap';
 import logo from "../components/images/MSPH_LOGO.png";
 import PasswordRecoveryModal from './PasswordRecoveryModal';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const requestURL = "http://localhost:8080/auth/API/Auth";
 const cookies = new Cookies();
 
@@ -76,7 +78,12 @@ export default class Login extends React.Component {
           cookies.set("token", response.data.token, { path: process.env.REACT_APP_AUTH, sameSite: 'lax' });
           this.props.history.push('/menu');
         } else
-          alert("Usuario o contraseña inválidos.");
+          toast.error("Usuario o contraseña inválidos.", {
+            position: toast.POSITION.TOP_RIGHT,
+            pauseOnHover: true,
+            theme: 'colored',
+            autoClose: 5000
+          });
       })
     });
   }
@@ -131,6 +138,7 @@ export default class Login extends React.Component {
           </Form>
         </Container>
         <PasswordRecoveryModal show={this.state.showPassResetModal} closeModal={this.hidePasswordReset} />
+        <ToastContainer/>
       </div>
     );
   }

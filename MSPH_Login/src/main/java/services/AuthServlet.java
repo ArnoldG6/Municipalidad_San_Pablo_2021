@@ -25,7 +25,8 @@ import org.json.JSONObject;
 @WebServlet(name = "AuthServlet",
         urlPatterns = {
             "/API/Auth",
-            "/API/PasswordReset"
+            "/API/PasswordReset",
+            "/API/ValidateResetCode"
         }
 )
 public class AuthServlet extends HttpServlet {
@@ -43,6 +44,10 @@ public class AuthServlet extends HttpServlet {
                     break;
                 case "/API/PasswordReset":
                     passwordReset(request, response);
+                    break;
+                case "/API/ValidateResetCode":
+                    validateCode(request, response);
+                    break;
 
                 //case "/API/ExpireSession": expireSession(request,response); break;
             }
@@ -100,6 +105,35 @@ public class AuthServlet extends HttpServlet {
 
         } catch (MessagingException e) {
             response.sendError(404, "Hubo un error enviando el correo solicitado.");
+        } catch (NoSuchElementException e) {
+            response.sendError(400, "No se encontró un usuario con el correo indicado.");
+        } catch (Exception e) {
+            response.sendError(500, "Hubo un error desconocido.");
+        } finally {
+            response.getWriter().flush();
+            response.getWriter().close();
+        }
+    }
+
+        private void validateCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            String userCode = requestJSON.getString("validationCode");
+            String newPassword = requestJSON.getString("newPassword");
+            User user = UserDAO.getInstance().searchByEmail(requestJSON.getString("userEmail"));
+
+            if (user == null) {
+                throw new NoSuchElementException("No se encontró un usuario con el correo indicado.");
+            }
+            
+            if (!userCode.equals(UserDAO.getInstance().getPasswordCode(user))) {
+                throw new IllegalArgumentException("El código ingresado por el usuario es incorrecto.");
+            }
+            
+            
+
+        } catch (IllegalArgumentException e) {
+            response.sendError(401, "Hubo un error enviando el correo solicitado.");
         } catch (NoSuchElementException e) {
             response.sendError(400, "No se encontró un usuario con el correo indicado.");
         } catch (Exception e) {

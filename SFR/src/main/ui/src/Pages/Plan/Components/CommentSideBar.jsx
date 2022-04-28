@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Nav } from "react-bootstrap";
 import './CommentSideBar.css';
-import { Button, Accordion } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import AddCommentModal from './AddCommentModal';
 import GenericModal from '../../../SharedComponents/GenericModal/GenericModal';
 export default class CommentSideBar extends Component {
@@ -43,11 +43,10 @@ export default class CommentSideBar extends Component {
 
     render() {
         return (
-            <div className="plan-sidebar flex-column">
+            <Nav className="plan-sidebar flex-column">
                 <h2 className="text-center mt-3">
                     Comentarios
                 </h2>
-                <hr />
                 <Button
                     variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "primary" : "outline-dark"}
                     disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
@@ -74,13 +73,6 @@ export default class CommentSideBar extends Component {
                                                     <Card.Text>
                                                         Comentario: {comentario.comment} <br />
                                                     </Card.Text>
-                                                    {comentario.url !== "" ?
-                                                        <Card.Link href={comentario.url}>
-                                                            <Button variant="link">
-                                                                Más información
-                                                            </Button>
-                                                        </Card.Link>
-                                                        : null}
                                                     <Button
                                                         variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "outline-danger" : "outline-dark"}
                                                         disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
@@ -88,6 +80,13 @@ export default class CommentSideBar extends Component {
                                                         <i className="bi bi-dash-square-fill"></i>{' '}
                                                         Remover comentario
                                                     </Button>
+                                                    {comentario.url !== "" ?
+                                                        <Card.Link href={comentario.url}>
+                                                            <Button variant="link">
+                                                                Más información
+                                                            </Button>
+                                                        </Card.Link>
+                                                        : null}
 
                                                 </Card.Body>
                                             </div>
@@ -108,7 +107,7 @@ export default class CommentSideBar extends Component {
                     action={this.handleRemove}
                     header={"Eliminar un comentario de un Plan"}
                     body={"¿Esta seguro que desea eliminar este comentario del Plan?"} />
-            </div>
+            </Nav>
         );
     }
 };

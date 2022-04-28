@@ -21,9 +21,9 @@ import sfr.dao.PlanDAO;
 public class Tests {
 
     @Test
-    public void main() {
+    public void main() throws Exception {
         try {
-            UserDAO.getInstance().handlePasswordReset(UserDAO.getInstance().searchById(50), 5);
+            UserDAO.getInstance().handlePasswordReset(UserDAO.getInstance().searchById(51), 5);
         } catch (MessagingException ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

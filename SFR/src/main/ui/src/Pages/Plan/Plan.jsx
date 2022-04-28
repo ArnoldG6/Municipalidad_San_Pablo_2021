@@ -89,7 +89,7 @@ class Plan extends Component {
         return perm;
     }
 
-    refreshPage() {
+    async refreshPage() {
         let query = new URLSearchParams(this.props.location.search);
 
         let options = {
@@ -294,7 +294,9 @@ class Plan extends Component {
             });
     }
 
-    removeComment(idComment){
+    removeComment(idComment, idPlan){
+        console.log(idComment)
+        console.log(idPlan)
         let options = {
             url: process.env.REACT_APP_SFR_API_URL + "/PlanManager/Delete/Comment",
             method: "DELETE",
@@ -310,14 +312,14 @@ class Plan extends Component {
         axios(options)
             .then(response => {
                 this.refreshPage();
-                toast.success("La incidencia fue eliminada correctamente!", {
+                toast.success("El comentario fue eliminado correctamente!", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
                     autoClose: 5000
                 });
             }).catch(error => {
-                toast.error("Error al remover la incidencia seleccionada.", {
+                toast.error("Error al remover el comentario seleccionado.", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
@@ -511,12 +513,12 @@ class Plan extends Component {
                             {tableData}
                         </Card.Body>
                     </Card>
-                    <CommentSideBar refreshPage={this.refreshPage} removeComment={this.removeComment} plan={this.state.plan}  mobile ={true}/>
+                    <CommentSideBar refreshPage={this.refreshPage} removeComment={this.removeComment} plan={this.state.plan} permsCheck={this.permsCheck} mobile ={true}/>
                 </div>
                 {/* PC */}
                 <div className="d-none d-lg-block">
                     {/* Comentarios del Plan */}
-                    <CommentSideBar refreshPage={this.refreshPage} removeComment={this.removeComment} plan={this.state.plan} mobile ={false}/>
+                    <CommentSideBar refreshPage={this.refreshPage} removeComment={this.removeComment} plan={this.state.plan} permsCheck={this.permsCheck} mobile ={false}/>
 
                     {/* Contenedor para el resto de la pagina */}
                     <div className="container-fluid Data-Container">

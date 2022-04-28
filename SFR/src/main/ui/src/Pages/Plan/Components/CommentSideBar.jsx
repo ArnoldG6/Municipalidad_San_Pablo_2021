@@ -11,7 +11,8 @@ export default class CommentSideBar extends Component {
             comments: [],
             show: false,
             showDel: false,
-            delID: ""
+            delID: "",
+            planID: ""
         }
         this.removeComment = this.removeComment.bind(this)
         this.openModalAddComment = this.openModalAddComment.bind(this);
@@ -21,7 +22,7 @@ export default class CommentSideBar extends Component {
     }
     removeComment() {
         this.props.removeComment(this.state.delID);
-        this.closeModalDelIncident();
+        this.closeModalDelComment();
     }
     openModalAddComment() {
         this.setState({ show: true });
@@ -31,8 +32,9 @@ export default class CommentSideBar extends Component {
         this.setState({ show: false });
     };
 
-    openModalDelComment(id) {
-        this.setState({ showDel: true, delID: id });
+    openModalDelComment(id, pkID) {
+        console.log(pkID);
+        this.setState({ showDel: true, delID: id, planID: pkID});
     };
 
     closeModalDelComment() {
@@ -40,7 +42,6 @@ export default class CommentSideBar extends Component {
     };
 
     render() {
-
         return (
             <div className="plan-sidebar flex-column">
                 <h2 className="text-center mt-3">
@@ -54,10 +55,10 @@ export default class CommentSideBar extends Component {
                     Agregar comentario
                 </Button>
                 <Nav className="navbar navbar-default" role="navigation">
-                {(typeof this.props.comentarios === 'undefined' || this.props.comentarios === null) ? <h1>No se han agregado comentarios</h1> :
-                        this.props.comentarios.length === 0 ? <h1>No se han agregado comentarios</h1> :
+                {(typeof  this.props.plan === 'undefined' ||  this.props.plan=== null) ? <h1>Cargando...</h1> :
+                          this.props.plan.commentList.length === 0 ? <h1>No se han agregado comentarios</h1> :
                             <Accordion className='mt-2'>
-                                {this.props.comentarios.map((comentario) => {
+                                { (this.props.plan.commentList).map((comentario) => {
                                     return (
                                         <Accordion.Item eventKey={comentario.pkID} key={comentario.pkID}>
                                             <Accordion.Header>
@@ -68,11 +69,12 @@ export default class CommentSideBar extends Component {
                                                     Nombre: {comentario.author} <br />
                                                     Fecha: {comentario.entryDate} <br />
                                                     Comentario: {comentario.comment} <br />
+                                                    URL: {comentario.url} <br />
                                                 </p>
                                                 <Button
                                                     variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "outline-danger" : "outline-dark"}
                                                     disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
-                                                    onClick={() => this.openModalDelComment(comentario.pkID)}>
+                                                    onClick={() => this.openModalDelComment(comentario.pkID, this.props.plan.pkID)}>
                                                     <i className="bi bi-dash-square-fill"></i>{' '}
                                                     Remover comentario
                                                 </Button>

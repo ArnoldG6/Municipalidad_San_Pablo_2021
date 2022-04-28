@@ -336,21 +336,18 @@ public class PlanManager extends HttpServlet {
     
     private void associateCommentToPlan(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        JSONObject requestJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        JSONArray commentIdJSONArray = requestJSON.getJSONArray("commentIDs");
-        if (commentIdJSONArray == null) {
-            //Custom exception
-//            response.getWriter().write(new InvalidCommentIDEx().jsonify());
-//            throw new IOException("Invalid comment ID list");
+        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+
+        Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planID"));
+        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+
+        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
+            throw new IOException();
         }
-        List<Integer> commentIds = new ArrayList<>();
-        for (int i = 0; i < commentIdJSONArray.length(); i++) {
-            commentIds.add((Integer) commentIdJSONArray.get(i));
-        }
-        PlanDAO.getInstance().associateCommentsToPlan(requestJSON.getInt("planPKID"), commentIds);
+       
+        Comment c = new Comment(requestJSON.getString("comentario"), (user.getOfficial().getName() +" "+ user.getOfficial().getSurname()), requestJSON.getString("url"), new Date());
+        plan.addComment(c);
+        PlanDAO.getInstance().update(plan);
     }
     
     private void deleteCommentFromPlan(HttpServletRequest request, HttpServletResponse response)

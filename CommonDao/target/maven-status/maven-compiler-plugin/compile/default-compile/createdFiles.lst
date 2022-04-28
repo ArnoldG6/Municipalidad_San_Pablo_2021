@@ -1,3 +1,4 @@
-Test\Tests.class
+common\dao\EmailFactory.class
 common\dao\UserDAO.class
+common\dao\EmailFactory$1.class
 common\dao\generic\GenericDAO.class

@@ -26,50 +26,50 @@ class AddPlanModal extends Component {
 
     handleSubmit = (event) => {
         const form = event.currentTarget;
-        if(form.checkValidity() === false) {
+        if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
         }
-        else{
-        event.preventDefault();
-        let id = this.getID(event.target.type.value, event.target.subtype.value);
-        let options = {
-            url: process.env.REACT_APP_SFR_API_URL + `/PlanManager/Insert`,
-            method: 'POST',
-            header: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            data: {
-                'name': event.target.name.value,
-                'id': id,
-                'status': event.target.status.value,
-                'authorName': event.target.authorName.value,
-                'type': event.target.type.value,
-                'subtype': event.target.subtype.value,
-                'description': event.target.description.value,
-                'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
+        else {
+            event.preventDefault();
+            let id = this.getID(event.target.type.value, event.target.subtype.value);
+            let options = {
+                url: process.env.REACT_APP_SFR_API_URL + `/PlanManager/Insert`,
+                method: 'POST',
+                header: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    'name': event.target.name.value,
+                    'id': id,
+                    'status': event.target.status.value,
+                    'authorName': event.target.authorName.value,
+                    'type': event.target.type.value,
+                    'subtype': event.target.subtype.value,
+                    'description': event.target.description.value,
+                    'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
+                }
             }
-        }
 
-        axios(options)
-            .then(response => {
-                this.props.updatePlanes("add-success");
-                this.props.closeModal();
-            }).catch(error => {
-                toast.error("ID del plan ya se encuentra registrado en el sistema.", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    pauseOnHover: true,
-                    theme: 'colored',
-                    autoClose: 5000
+            axios(options)
+                .then(response => {
+                    this.props.updatePlanes("add-success");
+                    this.props.closeModal();
+                }).catch(error => {
+                    toast.error("ID del plan ya se encuentra registrado en el sistema.", {
+                        position: toast.POSITION.TOP_RIGHT,
+                        pauseOnHover: true,
+                        theme: 'colored',
+                        autoClose: 5000
+                    });
                 });
-            });
         }
         this.setValidated(true);
     }
 
     setValidated(value) {
-        this.setState({ validated: value});
+        this.setState({ validated: value });
     }
 
     getID(type, subtype) {
@@ -87,31 +87,31 @@ class AddPlanModal extends Component {
         let render = this.props.show;
         let closeModal = this.props.closeModal;
         return (
-            <Modal show={render} onHide={() => {this.setState({value:"Evaluar, Dirigir y Monitorear"});closeModal()}} >
+            <Modal show={render} onHide={() => { this.setState({ value: "Evaluar, Dirigir y Monitorear" }); closeModal() }} >
                 <Modal.Header closeButton>
                     Ingrese los datos para el nuevo Plan
                 </Modal.Header>
                 <Modal.Body>
                     <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
                         <Form.Group>
-                        <div className="form-group">
-                            <Form.Label>Nombre:</Form.Label>
-                            <Form.Control 
-                            name="name" 
-                            id="name" 
-                            type="text" 
-                            placeholder="Nombre" 
-                            className="form-control" 
-                            required 
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                Por favor ingresar nombre.
-                            </Form.Control.Feedback>
-                        </div>
+                            <div className="form-group">
+                                <Form.Label>Nombre:</Form.Label>
+                                <Form.Control
+                                    name="name"
+                                    id="name"
+                                    type="text"
+                                    placeholder="Nombre"
+                                    className="form-control"
+                                    required
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Por favor ingresar nombre.
+                                </Form.Control.Feedback>
+                            </div>
                         </Form.Group>
                         <div className="form-group">
                             <label>Autor:</label>
-                            <input name="authorName" id="authorName" type="text" className="form-control" disabled defaultValue={cookies.get('full_name', { path: process.env.REACT_APP_AUTH })}/>
+                            <input name="authorName" id="authorName" type="text" className="form-control" disabled defaultValue={cookies.get('full_name', { path: process.env.REACT_APP_AUTH })} />
                         </div>
                         <div className="form-group">
                             <label>Estado:</label>

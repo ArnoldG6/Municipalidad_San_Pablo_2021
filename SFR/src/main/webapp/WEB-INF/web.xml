@@ -39,6 +39,8 @@
         <url-pattern>/API/PlanManager/Insert/Risk</url-pattern>
         <url-pattern>/API/PlanManager/Delete/Involved</url-pattern>
         <url-pattern>/API/PlanManager/Insert/Involved</url-pattern>
+        <url-pattern>/API/PlanManager/Insert/Comment</url-pattern>
+        <url-pattern>/API/PlanManager/Delete/Comment</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginManager</servlet-name>

@@ -41,9 +41,11 @@ public class Comment implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date entryDate;
     
-    public Comment(String comment, String author){
+    public Comment(String comment, String author, String url, Date entryDate){
         this.comment = comment;
         this.author = author;
+        this.url = url;
+        this.entryDate = entryDate;
     }
 
     public Integer getPkID() {

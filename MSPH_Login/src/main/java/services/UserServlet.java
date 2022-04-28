@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 
-@WebServlet(name = "User",
+@WebServlet(name = "UserServlet",
         urlPatterns = {
             "/API/User",
             "/API/User/edit",
@@ -177,5 +177,7 @@ public class UserServlet extends HttpServlet {
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    //</editor-fold>
+   
 
 }

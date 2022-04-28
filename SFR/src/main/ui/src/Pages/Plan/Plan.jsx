@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Plan.css'
-import { Row, Card, Nav } from "react-bootstrap";
+import { Row, Col, Card, Nav, Container } from "react-bootstrap";
 import CommentSideBar from './Components/CommentSideBar';
 import TopButtons from './Components/TopButtons';
 import RiskTable from './Components/RiskTable';
@@ -295,7 +295,7 @@ class Plan extends Component {
             });
     }
 
-    removeComment(idComment){
+    removeComment(idComment) {
         let options = {
             url: process.env.REACT_APP_SFR_API_URL + "/PlanManager/Delete/Comment",
             method: "DELETE",
@@ -512,62 +512,67 @@ class Plan extends Component {
                             {tableData}
                         </Card.Body>
                     </Card>
-                    <CommentSideBar refreshPage={this.refreshPage} removeComment={this.removeComment} plan={this.state.plan} permsCheck={this.permsCheck} mobile ={true}/>
+                    <CommentSideBar refreshPage={this.refreshPage} removeComment={this.removeComment} plan={this.state.plan} permsCheck={this.permsCheck} mobile={true} />
                 </div>
                 {/* PC */}
-                <div className="d-none d-lg-block">
-                    {/* Comentarios del Plan */}
-                    <CommentSideBar refreshPage={this.refreshPage} removeComment={this.removeComment} plan={this.state.plan} permsCheck={this.permsCheck} mobile ={false}/>
+                <Container fluid className="d-none d-lg-block">
+                    <Row>
+                        <Col lg="3" className='Comment-Container overflow-y-scroll'>
+                            {/* Comentarios del Plan */}
+                            <CommentSideBar refreshPage={this.refreshPage} removeComment={this.removeComment} plan={this.state.plan} permsCheck={this.permsCheck} mobile={false} />
+                        </Col>
+                        <Col>
+                            {/* Contenedor para el resto de la pagina */}
+                            <div className="container-fluid">
 
-                    {/* Contenedor para el resto de la pagina */}
-                    <div className="container-fluid Data-Container">
+                                {/* Botones de uso en el Plan */}
+                                <Row>
+                                    <TopButtons
+                                        openModalEdit={this.openModalEdit}
+                                        openModalDelete={this.openModalDelete}
+                                        status={(this.state.plan === null) ? "Cargando.." : this.state.plan.status}
+                                        permsCheck={this.permsCheck}
+                                        planID={(this.state.plan === null) ? null : this.state.plan.id} />
+                                </Row>
+                                {/* Datos del Plan */}
+                                <Row className="mt-4">
+                                    {
+                                        (this.state.plan === null || typeof this.state.plan === 'undefined') ?
+                                            <h1>Cargando Datos</h1> :
+                                            <div>
+                                                <h1>{this.state.plan.name}</h1>
+                                                <h2>{this.state.plan.id}</h2>
+                                                <h2>{this.state.plan.type} - {this.state.plan.subtype}</h2>
+                                                <h4>{this.state.plan.entryDate}</h4>
+                                                <h4>{this.state.plan.authorName}</h4>
+                                                <p>{this.state.plan.description}</p>
+                                            </div>
+                                    }
+                                </Row>
 
-                        {/* Botones de uso en el Plan */}
-                        <Row>
-                            <TopButtons
-                                openModalEdit={this.openModalEdit}
-                                openModalDelete={this.openModalDelete}
-                                status={(this.state.plan === null) ? "Cargando.." : this.state.plan.status}
-                                permsCheck={this.permsCheck}
-                                planID={(this.state.plan === null) ? null : this.state.plan.id} />
-                        </Row>
-                        {/* Datos del Plan */}
-                        <Row className="mt-4">
-                            {
-                                (this.state.plan === null || typeof this.state.plan === 'undefined') ?
-                                    <h1>Cargando Datos</h1> :
-                                    <div>
-                                        <h1>{this.state.plan.name}</h1>
-                                        <h2>{this.state.plan.id}</h2>
-                                        <h2>{this.state.plan.type} - {this.state.plan.subtype}</h2>
-                                        <h4>{this.state.plan.entryDate}</h4>
-                                        <h4>{this.state.plan.authorName}</h4>
-                                        <p>{this.state.plan.description}</p>
-                                    </div>
-                            }
-                        </Row>
-
-                        {/* Listas de Datos del Plan */}
-                        <Card id="card">
-                            <Card.Header>
-                                <Nav justify variant="tabs" defaultActiveKey="riesgosTab">
-                                    <Nav.Item>
-                                        <Nav.Link eventKey="riesgosTab" onClick={() => { this.tableHandler("risks") }}>Riesgos</Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link eventKey="incidenciasTab" onClick={() => { this.tableHandler("incidents") }}>Incidencias</Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link eventKey="involucradosTab" onClick={() => { this.tableHandler("involved") }}>Involucrados</Nav.Link>
-                                    </Nav.Item>
-                                </Nav>
-                            </Card.Header>
-                            <Card.Body>
-                                {tableData}
-                            </Card.Body>
-                        </Card>
-                    </div>
-                </div>
+                                {/* Listas de Datos del Plan */}
+                                <Card id="card">
+                                    <Card.Header>
+                                        <Nav justify variant="tabs" defaultActiveKey="riesgosTab">
+                                            <Nav.Item>
+                                                <Nav.Link eventKey="riesgosTab" onClick={() => { this.tableHandler("risks") }}>Riesgos</Nav.Link>
+                                            </Nav.Item>
+                                            <Nav.Item>
+                                                <Nav.Link eventKey="incidenciasTab" onClick={() => { this.tableHandler("incidents") }}>Incidencias</Nav.Link>
+                                            </Nav.Item>
+                                            <Nav.Item>
+                                                <Nav.Link eventKey="involucradosTab" onClick={() => { this.tableHandler("involved") }}>Involucrados</Nav.Link>
+                                            </Nav.Item>
+                                        </Nav>
+                                    </Card.Header>
+                                    <Card.Body>
+                                        {tableData}
+                                    </Card.Body>
+                                </Card>
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
                 <EditPlanModal
                     plan={this.state.plan}
                     show={this.state.showEdit}

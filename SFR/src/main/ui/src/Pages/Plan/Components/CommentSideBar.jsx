@@ -43,27 +43,28 @@ export default class CommentSideBar extends Component {
 
     render() {
         return (
-            <Nav className="plan-sidebar flex-column">
+            <div className='comment-container'>
                 <h2 className="text-center mt-3">
                     Comentarios
                 </h2>
                 <Button
-                    variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "primary" : "outline-dark"}
+                    variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "success" : "outline-dark"}
                     disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
                     size="sm"
                     onClick={this.openModalAddComment}
                 >
+                    <i className="bi bi-plus-square"></i> {' '}
                     Agregar comentario
                 </Button>
                 <Nav className="navbar navbar-default" role="navigation">
                     {(typeof this.props.plan === 'undefined' || this.props.plan === null) ? <h1>Cargando...</h1> :
-                        this.props.plan.commentList.length === 0 ? <h1>No se han agregado comentarios</h1> :
+                        this.props.plan.commentList.length === 0 ? <h4>No se han agregado comentarios</h4> :
                             <div className='mt-2'>
                                 {(this.props.plan.commentList).map((comentario) => {
                                     return (
-                                        <Card key={comentario.pkID} className="cardClass">
+                                        <Card key={comentario.pkID} >
                                             <div className="card-text-body">
-                                                <Card.Body>
+                                                <Card.Body className="cardClass">
                                                     <Card.Title>
                                                         {comentario.author}
                                                     </Card.Title>
@@ -105,9 +106,9 @@ export default class CommentSideBar extends Component {
                     show={this.state.showDel}
                     close={this.closeModalDelComment}
                     action={this.handleRemove}
-                    header={"Eliminar un comentario de un Plan"}
-                    body={"¿Esta seguro que desea eliminar este comentario del Plan?"} />
-            </Nav>
+                    header={"Eliminar un Comentario de un Plan"}
+                    body={"¿Esta seguro que desea eliminar este Comentario del Plan?"} />
+            </div>
         );
     }
 };

@@ -25,6 +25,7 @@ import org.apache.poi.ss.util.RegionUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import static org.eclipse.persistence.jpa.jpql.JPAVersion.value;
 import sfr.model.Incidence;
 import sfr.model.Plan;
 import sfr.model.Risk;
@@ -126,22 +127,22 @@ public class PlanDAO extends GenericDAO {
         worksheet.createRow(0).createCell(1).setCellValue("MUNICIPALIDAD DE SAN PABLO DE HEREDIA");
         CellRangeAddress m1 = new CellRangeAddress(0, 0, 1, 15);
         worksheet.addMergedRegion(m1);
-        setBordersToMergedCells(worksheet, m1,"MEDIUM");
+        setBordersToMergedCells(worksheet, m1, "MEDIUM");
         //----2nd title----
         worksheet.createRow(1).createCell(1).setCellValue("MATRIZ DE IDENTIFICACIÓN DEL RIESGO");
         CellRangeAddress m2 = new CellRangeAddress(1, 1, 1, 15);
         worksheet.addMergedRegion(m2);
-        setBordersToMergedCells(worksheet, m2,"MEDIUM");
+        setBordersToMergedCells(worksheet, m2, "MEDIUM");
         //----3rd row (2 titles)----
         XSSFRow thirdRow = worksheet.createRow(2);
         thirdRow.createCell(1).setCellValue("ESTRUCTURA DE RIESGOS");
         CellRangeAddress m3 = new CellRangeAddress(2, 2, 1, 5);
         worksheet.addMergedRegion(m3);
-        setBordersToMergedCells(worksheet, m3,"MEDIUM");
+        setBordersToMergedCells(worksheet, m3, "MEDIUM");
         thirdRow.createCell(6).setCellValue("IDENTIFICACION DEL RIESGO");
         CellRangeAddress m4 = new CellRangeAddress(2, 2, 6, 9);
         worksheet.addMergedRegion(m4);
-        setBordersToMergedCells(worksheet, m4,"MEDIUM");
+        setBordersToMergedCells(worksheet, m4, "MEDIUM");
         //----4th row, column headers----
         XSSFRow fourthRow = worksheet.createRow(3);
         fourthRow.createCell(1).setCellValue("NIVEL 1");
@@ -153,8 +154,8 @@ public class PlanDAO extends GenericDAO {
         fourthRow.createCell(7).setCellValue("DESCRIPCIÓN DEL RIESGO");
         fourthRow.createCell(8).setCellValue("FACTOR DEL RIESGO (CAUSA)");
         fourthRow.createCell(9).setCellValue("CONSECUENCIA");
-        setBordersToMergedCells(worksheet,new CellRangeAddress(3, 3, 1, 9) ,"MEDIUM");
-     
+        setBordersToMergedCells(worksheet, new CellRangeAddress(3, 3, 1, 9), "MEDIUM");
+
         //Returns the workbook with no risk info if it is the case.
         if (p.getRiskList() == null || p.getRiskList().isEmpty()) {
             return workbook;
@@ -162,7 +163,7 @@ public class PlanDAO extends GenericDAO {
         //----5th row(s)+, column data----
         Integer rowCount = 4;
         XSSFRow dataRow;
-        for(Risk r : p.getRiskList() ){
+        for (Risk r : p.getRiskList()) {
             dataRow = worksheet.createRow(rowCount);
             //dataRow.createCell(1).setCellValue("NIVEL 1");
             //dataRow.createCell(2).setCellValue("NIVEL 2");
@@ -175,10 +176,10 @@ public class PlanDAO extends GenericDAO {
             dataRow.createCell(9).setCellValue("FALTA EL CAMPO EN LA DB");
             rowCount += 1;
         }
-        
+
         //XSSFCellStyle cellStyle = workbook.createCellStyle();
         //cellA1.setCellStyle(cellStyle);
-        setBordersToMergedCells(worksheet,new CellRangeAddress(4, 4, 1, 15),"THIN");
+        setBordersToMergedCells(worksheet, new CellRangeAddress(4, 4, 1, 15), "THIN");
         return workbook;
     }
 
@@ -361,11 +362,12 @@ public class PlanDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-    
+
     /**
      * This method associates a single Plan object to n Comment objects.
      *
-     * @param planID the Plan object that will be associated to the Comments objects
+     * @param planID the Plan object that will be associated to the Comments
+     * objects
      * @param commentIDs List of commentIDs to associate with planID parameter.
      * @throws java.lang.Exception
      */
@@ -494,11 +496,11 @@ public class PlanDAO extends GenericDAO {
             closeEntityManager();
         }
     }
-    
+
     /**
      *
-     * @return a list of comments, including all comments, except for the ones in the
-     * Plan identified by
+     * @return a list of comments, including all comments, except for the ones
+     * in the Plan identified by
      * @param planID
      * @throws java.lang.Exception
      */
@@ -582,6 +584,43 @@ public class PlanDAO extends GenericDAO {
             e.printStackTrace(System.out);
             System.err.println(e.getMessage());
             throw e;
+        }
+    }
+
+    public List<Risk> searchInRiskListNonRep(String planID, String value) throws Exception {
+        try {
+            Plan pl = PlanDAO.getInstance().searchByIdString(planID);
+            List<Risk> pRiskList = pl.getRiskList(); //risks of an specific Plan.
+            ArrayList<Risk> result = new ArrayList<>();
+            if (pl == null) {
+                throw new IOException("Invalid PlanID exception");
+            }
+            if (pRiskList == null) {
+                throw new IOException("Empty riskList exception");
+            }
+            Pattern p = Pattern.compile(value, Pattern.CASE_INSENSITIVE);
+            for (Risk r : pRiskList) {
+                if (p.matcher(String.valueOf(r.getId())).find()
+                        || p.matcher(r.getName()).find()
+                        || p.matcher(r.getFactors()).find()
+                        || p.matcher(r.getGeneralType()).find()
+                        || p.matcher(r.getAreaType()).find()
+                        || p.matcher(r.getSpecType()).find()
+                        || p.matcher(String.valueOf(r.getProbability())).find()
+                        || p.matcher(String.valueOf(r.getImpact())).find()
+                        || p.matcher(String.valueOf(r.getMagnitude())).find()
+                        || p.matcher(String.valueOf(r.getAuthor().toString())).find() 
+                        || p.matcher(r.getMitigationMeasures()).find()) {
+                    result.add(r);
+                }
+            }
+            return result;
+        } catch (Exception ex) {
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
         }
     }
 

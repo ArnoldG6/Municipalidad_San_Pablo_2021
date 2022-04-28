@@ -367,7 +367,7 @@ public class PlanManager extends HttpServlet {
             //Custom exception
 //            response.getWriter().write(new CommentsNotListedEx().jsonify());
         }
-        commentList.removeIf(r -> (String.valueOf(r.getPkID()).equals(requestJSON.getString("commentID"))));
+        commentList.removeIf(comment -> comment.getPkID() == requestJSON.getInt("commentID"));
         p.setCommentList(commentList);
         PlanDAO.getInstance().update(p);
     }

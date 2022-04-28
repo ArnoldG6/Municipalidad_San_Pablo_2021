@@ -43,6 +43,7 @@ class Plan extends Component {
         this.openModalDelete = this.openModalDelete.bind(this);
         this.closeModalDelete = this.closeModalDelete.bind(this);
         this.permsCheck = this.permsCheck.bind(this);
+        this.removeComment = this.removeComment.bind(this);
     }
 
     componentDidMount() {
@@ -294,9 +295,7 @@ class Plan extends Component {
             });
     }
 
-    removeComment(idComment, idPlan){
-        console.log(idComment)
-        console.log(idPlan)
+    removeComment(idComment){
         let options = {
             url: process.env.REACT_APP_SFR_API_URL + "/PlanManager/Delete/Comment",
             method: "DELETE",

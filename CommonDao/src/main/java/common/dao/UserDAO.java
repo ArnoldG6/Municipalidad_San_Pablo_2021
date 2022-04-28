@@ -160,22 +160,6 @@ public class UserDAO extends GenericDAO {
 
     }
 
-    public void getPasswordCode(User user) throws MessagingException, Exception {
-        try {
-            StoredProcedureQuery proc = getEntityManager().createStoredProcedureQuery("checkPwdResetCodeValidity");
-            proc.registerStoredProcedureParameter("P_IN_FK_USER", String.class, ParameterMode.IN);
-            proc.setParameter("P_IN_FK_USER", user.getIdUser().toString());
-            proc.execute();
-            System.out.println(proc.getResultList());
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            System.err.println(e.getMessage());
-            throw e;
-        } finally {
-            closeEntityManager();
-        }
-
-    }
        public void changePassword(User user,String pwdSha256Hash) throws MessagingException, Exception {
         try {
             StoredProcedureQuery proc = getEntityManager().createStoredProcedureQuery("setUserPassword");

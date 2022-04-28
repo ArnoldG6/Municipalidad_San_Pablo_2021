@@ -4,6 +4,10 @@
         <servlet-name>AuthServlet</servlet-name>
         <servlet-class>services.AuthServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserServlet</servlet-name>
+        <servlet-class>services.UserServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AuthServlet</servlet-name>
         <url-pattern>/API/Auth</url-pattern>

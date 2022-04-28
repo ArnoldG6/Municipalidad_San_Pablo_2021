@@ -130,10 +130,10 @@ public class AuthServlet extends HttpServlet {
                 throw new IllegalArgumentException("El código ingresado por el usuario es incorrecto.");
             }
             
-            
+            UserDAO.getInstance().changePassword(user, newPassword);
 
         } catch (IllegalArgumentException e) {
-            response.sendError(401, "Hubo un error enviando el correo solicitado.");
+            response.sendError(401, "El codigo ingresado por el usuario es incorrecto.");
         } catch (NoSuchElementException e) {
             response.sendError(400, "No se encontró un usuario con el correo indicado.");
         } catch (Exception e) {

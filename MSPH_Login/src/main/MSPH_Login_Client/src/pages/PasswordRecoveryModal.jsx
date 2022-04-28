@@ -4,6 +4,7 @@ import '../css/Login.css';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { sha256 } from 'js-sha256';
 
 export default class PasswordRecoveryModal extends Component {
     constructor(props) {
@@ -38,6 +39,7 @@ export default class PasswordRecoveryModal extends Component {
         }
         else {
             event.preventDefault();
+            var email = event.target.email.value;
             let options = {
                 url: process.env.REACT_APP_AUTH_API_PATH + "/PasswordReset",
                 method: "POST",
@@ -46,13 +48,13 @@ export default class PasswordRecoveryModal extends Component {
                     'Content-Type': 'application/json'
                 },
                 data: {
-                    'userEmail': event.target.email.value
+                    'userEmail': email
                 }
             }
             axios(options)
                 .then(response => {
                     this.setState({
-                        email: event.target.email.value,
+                        email: email,
                         hideWritePassword: true,
                         hideCodeInput: false
                     })
@@ -93,8 +95,67 @@ export default class PasswordRecoveryModal extends Component {
 
     }
 
-    handleCodeSubmit() {
-
+    handleCodeSubmit = (event) => {
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        else {
+            event.preventDefault();
+            let options = {
+                url: process.env.REACT_APP_AUTH_API_PATH + "/ValidateResetCode",
+                method: "POST",
+                header: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    'userEmail': this.state.email,
+                    'validationCode': event.target.resetCode.value,
+                    'newPassword': sha256(event.target.password.value)
+                }
+            }
+            axios(options)
+                .then(response => {
+                    console.log("password changed");
+                })
+                .catch(error => {
+                    var msj = "";
+                    if (error.response) {
+                        //Server responded with an error
+                        switch (error.response.status) {
+                            case 400:
+                                msj = "No se encontró un usuario con el correo indicado.";
+                                break;
+                            case 401:
+                                msj = "El código ingresado por el usuario es incorrecto.";
+                                break;
+                            case 500:
+                                msj = "El servidor ha encontrado un error desconocido enviando el código.";
+                                break;
+                            default:
+                                msj = "El servidor ha encontrado un error desconocido.";
+                                break;
+                        }
+                    } else if (error.request) {
+                        //Server did not respond
+                        msj = "Hubo un error con la conexión al servidor."
+                    } else {
+                        //Something else went wrong
+                        msj = "Error desconocido."
+                    }
+                    toast.error(msj, {
+                        position: toast.POSITION.TOP_RIGHT,
+                        pauseOnHover: true,
+                        theme: 'colored',
+                        autoClose: 5000
+                    });
+                });
+        }
+        this.setState({
+            validateEmail: true
+        })
     }
 
     render() {

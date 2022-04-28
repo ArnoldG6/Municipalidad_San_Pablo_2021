@@ -47,6 +47,7 @@ class AddRiskModal extends Component {
                     'specType': event.target.specific_factor.value,
                     'factors': event.target.factor.value,
                     'mitigationMeasures': event.target.mitigationMeasures.value,
+                    'consequences': event.target.consequences.value,
                     'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
                 }
             }
@@ -308,6 +309,26 @@ class AddRiskModal extends Component {
                             </Stack>
 
                             <textarea name="mitigationMeasures" id="mitigationMeasures" type="text" placeholder="Medidas necesarias para mitigar el riesgo." className="form-control" required />
+                        </div>
+                        <div className="form-group">
+                            <Stack direction="horizontal" gap={3}>
+                                <label>Consecuencias:</label>
+                                <OverlayTrigger
+                                    delay={{ hide: 450, show: 300 }}
+                                    overlay={(props) => (
+                                        <Tooltip {...props}>
+                                            {process.env.REACT_APP_RIESGOS_HELP_CONSECUENCIAS}
+                                        </Tooltip>
+                                    )}
+                                    placement="bottom"
+                                >
+                                    <h5 className='ms-auto mt-1'>
+                                        <i className="bi bi-info-circle"></i>
+                                    </h5>
+                                </OverlayTrigger>
+                            </Stack>
+
+                            <textarea name="consequences" id="consequences" type="text" placeholder="Consecuencias de este riesgo." className="form-control" required />
                         </div>
                         <div className='text-center'>
                             <Button className='btn-sfr' type="submit" >

@@ -244,6 +244,13 @@ export default class Plan extends Component {
                                                         <tr><td>{this.state.risk.mitigationMeasures}</td></tr>
                                                     </tbody>
                                                 </Table>
+                                                <div>&nbsp;</div>
+                                                <h2>Consecuencias</h2>
+                                                <Table border="1" hover responsive="md">
+                                                    <tbody>
+                                                        <tr><td>{this.state.risk.consequences}</td></tr>
+                                                    </tbody>
+                                                </Table>
 
                                             </Table>
                                         </Col>
@@ -315,6 +322,13 @@ export default class Plan extends Component {
                                                                 <Table border="1" hover responsive="md">
                                                                     <tbody>
                                                                         <tr><td>{this.state.risk.mitigationMeasures}</td></tr>
+                                                                    </tbody>
+                                                                </Table>
+                                                                <div>&nbsp;</div>
+                                                                <h2>Consecuencias</h2>
+                                                                <Table border="1" hover responsive="md">
+                                                                    <tbody>
+                                                                        <tr><td>{this.state.risk.consequences}</td></tr>
                                                                     </tbody>
                                                                 </Table>
 

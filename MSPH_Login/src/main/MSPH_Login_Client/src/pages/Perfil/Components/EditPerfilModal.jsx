@@ -88,6 +88,7 @@ class EditPerfilModal extends Component {
                         </div>
 
                         <div className="form-group">
+                            <label>Rol: </label>
                             <Form.Select name="roles" id="roles" defaultValue={roles}>
                                 <option value="ADMIN">Administrados</option>
                                 <option value="SUPER_ADMIN">Super Administrador</option>

@@ -28,7 +28,7 @@ import org.json.JSONObject;
         urlPatterns = {
             "/API/User",
             "/API/User/edit",
-            "/API/User/add"                       
+            "/API/User/add"
         }
 )
 public class UserServlet extends HttpServlet {
@@ -41,14 +41,16 @@ public class UserServlet extends HttpServlet {
         response.setContentType("application/json");
         try {
             switch (request.getServletPath()) {
-                case "/API/User/":
+                case "/API/User":
                     getUser(request, response);
                     break;
-                case "/API/User/edit": 
-                    editUser(request, response); break;
-                
-                case "/API/User/add": break;
-                
+                case "/API/User/edit":
+                    editUser(request, response);
+                    break;
+
+                case "/API/User/add":
+                    break;
+
                 //case "/API/ExpireSession": expireSession(request,response); break;
             }
         } catch (IOException | ServletException ex) {
@@ -67,61 +69,60 @@ public class UserServlet extends HttpServlet {
             JSONObject responseJSON = new JSONObject();
             JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
             User u = UserDAO.getInstance().searchById(requestJSON.getInt("username"));
-            if (u == null) throw new AuthException();
+            if (u == null) {
+                throw new AuthException();
+            }
             responseJSON.put("username", String.valueOf(u.getIdUser()));
             responseJSON.put("full_name", u.getOfficial().getName() + " " + u.getOfficial().getSurname());
             responseJSON.put("roles", u.getRoles());
             responseJSON.put("email", u.getEmail());
             responseJSON.put("department", u.getOfficial().getDepartment().getDescription());
-            responseJSON.put("token", "xd");
             response.getWriter().write(responseJSON.toString());
 
-        } catch (AuthException e) {
-            response.getWriter().write(e.jsonify());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         } finally {
             response.getWriter().flush();
             response.getWriter().close();
         }
 
     }
-    
+
     private void editUser(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
-    
+            throws ServletException, IOException {
+
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
-        
+
         User editUser = new Gson().fromJson(requestJSON.toString(), User.class);
-        
+
         if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN"))) {
             throw new IOException();
         }
-        
-        if(UserDAO.getInstance().searchById(requestJSON.getInt("username"))!=null){
+
+        if (UserDAO.getInstance().searchById(requestJSON.getInt("username")) != null) {
             UserDAO.getInstance().update(editUser);
-        }
-        else {
+        } else {
             throw new IOException("El usuario no existe.");
         }
     }
-    
-    
-    
+
     private void addUser(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
-        
-     JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-     
-     User newUser = new Gson().fromJson(requestJSON.toString(), User.class);
-     
-     if(UserDAO.getInstance().searchById(requestJSON.getInt("userID")) != null){
-         
-         throw new IOException("El usuario ya existe.");
-         
-     }else UserDAO.getInstance().add(newUser);
-    
+            throws ServletException, IOException {
+
+        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+
+        User newUser = new Gson().fromJson(requestJSON.toString(), User.class);
+
+        if (UserDAO.getInstance().searchById(requestJSON.getInt("userID")) != null) {
+
+            throw new IOException("El usuario ya existe.");
+
+        } else {
+            UserDAO.getInstance().add(newUser);
+        }
+
     }
-    
 
     //private void expireSession(HttpServletRequest request, HttpServletResponse response) 
     //throws ServletException, IOException {
@@ -178,6 +179,5 @@ public class UserServlet extends HttpServlet {
         }
     }
     //</editor-fold>
-   
 
 }

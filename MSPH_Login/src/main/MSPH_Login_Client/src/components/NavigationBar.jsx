@@ -18,7 +18,7 @@ export default class NavigationBar extends Component {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link href={"/profile?id="+ cookies.get('username', { path: process.env.REACT_APP_AUTH })} >Perfil</Nav.Link>
+                            <Nav.Link href={"#/profile?id="+ cookies.get('username', { path: process.env.REACT_APP_AUTH })} >Perfil</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>

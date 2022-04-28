@@ -23,8 +23,8 @@ public class Tests {
     @Test
     public void main() throws Exception {
         try {
-            System.out.println(PlanDAO.getInstance().searchInRiskListNonRep("2020LA-00002-01", "89"));
-        } catch (MessagingException ex) {
+            System.out.println(UserDAO.getInstance().searchById(50));
+        } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

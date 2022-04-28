@@ -33,14 +33,14 @@ public class Comment implements Serializable {
     @Column(name = "Author")
     private String author;
 
-    public Comment() {
-        
-    }
-    
     @Column(name = "EntryDate")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date entryDate;
     
+    public Comment() {
+        
+    }
+
     public Comment(String comment, String author, String url, Date entryDate){
         this.comment = comment;
         this.author = author;

@@ -14,6 +14,6 @@ import jakarta.mail.MessagingException;
  */
 public class TestM {
     public void main() throws MessagingException{
-        UserDAO.getInstance().handlePasswordReset(UserDAO.getInstance().searchById(50), 5);
+        //UserDAO.getInstance().handlePasswordReset(UserDAO.getInstance().searchById(50), 5);
     }
 }

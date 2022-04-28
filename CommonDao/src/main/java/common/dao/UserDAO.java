@@ -127,13 +127,47 @@ public class UserDAO extends GenericDAO {
 
     public void handlePasswordReset(User user, Integer code) throws MessagingException, Exception {
         try {
-            StoredProcedureQuery proc  = getEntityManager().createStoredProcedureQuery("insertResetCode");
+            StoredProcedureQuery proc = getEntityManager().createStoredProcedureQuery("insertResetCode");
             proc.registerStoredProcedureParameter("P_IN_FK_USER", String.class, ParameterMode.IN);
             proc.registerStoredProcedureParameter("P_IN_RESET_CODE", String.class, ParameterMode.IN);
             proc.setParameter("P_IN_FK_USER", user.getIdUser().toString());
             proc.setParameter("P_IN_RESET_CODE", code.toString());
             proc.execute();
             EmailFactory.getInstance().sendResetPassword(user, code.toString());
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        } finally {
+            closeEntityManager();
+        }
+
+    }
+
+    public void getPasswordCode(User user) throws MessagingException, Exception {
+        try {
+            StoredProcedureQuery proc = getEntityManager().createStoredProcedureQuery("checkPwdResetCodeValidity");
+            proc.registerStoredProcedureParameter("P_IN_FK_USER", String.class, ParameterMode.IN);
+            proc.setParameter("P_IN_FK_USER", user.getIdUser().toString());
+            proc.execute();
+            System.out.println(proc.getResultList());
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        } finally {
+            closeEntityManager();
+        }
+
+    }
+       public void changePassword(User user,String pwdSha256Hash) throws MessagingException, Exception {
+        try {
+            StoredProcedureQuery proc = getEntityManager().createStoredProcedureQuery("setUserPassword");
+            proc.registerStoredProcedureParameter("P_IN_FK_USER", String.class, ParameterMode.IN);
+            proc.registerStoredProcedureParameter("P_IN_PWD_HASH", String.class, ParameterMode.IN);
+            proc.setParameter("P_IN_FK_USER", user.getIdUser().toString());
+            proc.setParameter("P_IN_PWD_HASH", pwdSha256Hash);
+            proc.execute();
         } catch (Exception e) {
             e.printStackTrace(System.out);
             System.err.println(e.getMessage());

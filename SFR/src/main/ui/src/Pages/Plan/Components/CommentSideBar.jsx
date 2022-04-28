@@ -49,6 +49,8 @@ export default class CommentSideBar extends Component {
                 </h2>
                 <hr />
                 <Button
+                    variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "primary" : "outline-dark"}
+                    disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
                     size="sm"
                     onClick={this.openModalAddComment}
                 >

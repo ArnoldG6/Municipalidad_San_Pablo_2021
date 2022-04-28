@@ -58,7 +58,6 @@ class RiskTable extends Component {
                         this.props.riesgos.length === 0 ? <h1>No se han agregado riesgos</h1> :
                             <ListGroup className='mt-2'>
                                 {this.props.riesgos.map((risk) => {
-                                    console.log(risk)
                                     return (
                                         <ListGroup.Item className="d-flex justify-content-between align-items-start" key={risk.id}>
                                             <div className="ms-2 me-auto">

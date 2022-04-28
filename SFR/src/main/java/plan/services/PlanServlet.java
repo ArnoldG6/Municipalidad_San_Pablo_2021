@@ -28,7 +28,8 @@ import sfr.model.Plan;
     "/API/PlanServlet/Retrieve/Plan/RemainingRisks",
     "/API/PlanServlet/Retrieve/Plan/RemainingUsers",
     "/API/PlanServlet/Retrieve/PlanTypes",
-    "/API/PlanServlet/Search"
+    "/API/PlanServlet/Search",
+    "/API/PlanServlet/RiskTable"
 })
 public class PlanServlet extends HttpServlet {
 
@@ -75,7 +76,7 @@ public class PlanServlet extends HttpServlet {
                 case "/API/PlanServlet/Search":
                     searchPlans(request, response);
                     break;
-                case "/API/PlanServlet/riskTable":
+                case "/API/PlanServlet/RiskTable":
                     generateRiskTable(request, response);
                     break;
 

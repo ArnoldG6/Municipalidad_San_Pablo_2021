@@ -84,7 +84,7 @@ export default class CommentSideBar extends Component {
                                                     {comentario.url !== "" ?
                                                         <Card.Link href={comentario.url}>
                                                             <Button variant="link">
-                                                                Más información
+                                                                + Más información
                                                             </Button>
                                                         </Card.Link>
                                                         : null}

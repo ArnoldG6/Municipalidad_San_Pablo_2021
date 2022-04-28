@@ -51,6 +51,7 @@ class EditPlanModal extends Component {
                 'riskList': this.props.plan.riskList,
                 'incidenceList': this.props.plan.incidenceList,
                 'involvedList': this.props.plan.involvedList,
+                'commentList': this.props.plan.commentList,
                 'entryDate': this.props.plan.entryDate,
                 'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
             }

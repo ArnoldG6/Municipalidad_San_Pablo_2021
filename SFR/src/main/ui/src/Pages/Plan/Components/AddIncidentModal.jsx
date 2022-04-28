@@ -42,7 +42,7 @@ class AddIncidentModal extends Component {
         else {
             event.preventDefault();
             let options = {
-                url: process.env.REACT_APP_SFR_API_URL + `/IncidenceManager/Insert`,
+                url: process.env.REACT_APP_SFR_API_URL + `/PlanManager/Insert/Incidence`,
                 method: 'POST',
                 header: {
                     'Accept': 'application/json',

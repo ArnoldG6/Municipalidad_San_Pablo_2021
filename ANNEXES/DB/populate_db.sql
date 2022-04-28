@@ -602,3 +602,12 @@ INSERT INTO `si_db`.`T_SFR_PlanIncidence` (`FK_PLAN`, `FK_INCIDENCE`) VALUES (2,
 INSERT INTO `si_db`.`T_SFR_PlanIncidence` (`FK_PLAN`, `FK_INCIDENCE`) VALUES (2,4);
 
 commit;
+
+-- -------------------------------------------------COMMENTS---------------------------------------------------
+
+INSERT INTO `si_db`.`T_SFR_Comment` (`PK_ID`, `Comment`, `Url`, `Author`, `EntryDate`)
+VALUES (1, "Revisen este riesgo, es posible que les sirva ya que se presenta en proyectos anteriores.", "http://localhost:3001/SFR#/riesgo?id=RS15", "Ismael Salazar", NOW());
+
+INSERT INTO `si_db`.`T_SFR_PlanComment` (`FK_PLAN`, `FK_COMMENT`) VALUES (1,1);
+
+commit;

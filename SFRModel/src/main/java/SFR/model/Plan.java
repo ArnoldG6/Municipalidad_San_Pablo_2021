@@ -76,7 +76,7 @@ public class Plan implements Serializable {
     )
     private List<Risk> riskList;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(
             name = "T_SFR_PLANINCIDENCE",
@@ -85,7 +85,7 @@ public class Plan implements Serializable {
     )
     private List<Incidence> incidenceList;
     
-    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(
             name = "T_SFR_PLANCOMMENT",

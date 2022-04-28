@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
-import { Nav } from "react-bootstrap";
+import { Card, Nav } from "react-bootstrap";
 import './CommentSideBar.css';
-import { Button, Accordion } from "react-bootstrap";
-import AddCommentModal  from './AddCommentModal';
+import { Button } from "react-bootstrap";
+import AddCommentModal from './AddCommentModal';
 import GenericModal from '../../../SharedComponents/GenericModal/GenericModal';
 export default class CommentSideBar extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             comments: [],
             show: false,
             showDel: false,
-            delID: ""
+            delID: "",
+            planID: ""
         }
-        this.removeComment = this.removeComment.bind(this)
+        this.handleRemove = this.handleRemove.bind(this)
         this.openModalAddComment = this.openModalAddComment.bind(this);
         this.closeModalAddComment = this.closeModalAddComment.bind(this);
         this.openModalDelComment = this.openModalDelComment.bind(this);
         this.closeModalDelComment = this.closeModalDelComment.bind(this);
     }
-    removeComment() {
+
+    handleRemove() {
         this.props.removeComment(this.state.delID);
-        this.closeModalDelIncident();
+        this.closeModalDelComment();
     }
     openModalAddComment() {
         this.setState({ show: true });
@@ -36,65 +38,76 @@ export default class CommentSideBar extends Component {
     };
 
     closeModalDelComment() {
-        this.setState({ showDel: false});
+        this.setState({ showDel: false, delID: "" });
     };
 
     render() {
-
         return (
-            <div className="plan-sidebar flex-column">
+            <Nav className="plan-sidebar flex-column">
                 <h2 className="text-center mt-3">
                     Comentarios
                 </h2>
-                <hr />
                 <Button
+                    variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "primary" : "outline-dark"}
+                    disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
                     size="sm"
                     onClick={this.openModalAddComment}
                 >
                     Agregar comentario
                 </Button>
                 <Nav className="navbar navbar-default" role="navigation">
-                {(typeof this.props.comentarios === 'undefined' || this.props.comentarios === null) ? <h1>No se han agregado comentarios</h1> :
-                        this.props.comentarios.length === 0 ? <h1>No se han agregado comentarios</h1> :
-                            <Accordion className='mt-2'>
-                                {this.props.comentarios.map((comentario) => {
+                    {(typeof this.props.plan === 'undefined' || this.props.plan === null) ? <h1>Cargando...</h1> :
+                        this.props.plan.commentList.length === 0 ? <h1>No se han agregado comentarios</h1> :
+                            <div className='mt-2'>
+                                {(this.props.plan.commentList).map((comentario) => {
                                     return (
-                                        <Accordion.Item eventKey={comentario.pkID} key={comentario.pkID}>
-                                            <Accordion.Header>
-                                                {comentario.author}
-                                            </Accordion.Header>
-                                            <Accordion.Body>
-                                                <p>
-                                                    Nombre: {comentario.author} <br />
-                                                    Fecha: {comentario.entryDate} <br />
-                                                    Comentario: {comentario.comment} <br />
-                                                </p>
-                                                <Button
-                                                    variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "outline-danger" : "outline-dark"}
-                                                    disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
-                                                    onClick={() => this.openModalDelComment(comentario.pkID)}>
-                                                    <i className="bi bi-dash-square-fill"></i>{' '}
-                                                    Remover comentario
-                                                </Button>
-                                            </Accordion.Body>
-                                        </Accordion.Item>
+                                        <Card key={comentario.pkID} className="cardClass">
+                                            <div className="card-text-body">
+                                                <Card.Body>
+                                                    <Card.Title>
+                                                        {comentario.author}
+                                                    </Card.Title>
+                                                    <Card.Subtitle>
+                                                        {"Ingresado: " + comentario.entryDate}
+                                                    </Card.Subtitle>
+                                                    <Card.Text>
+                                                        Comentario: {comentario.comment} <br />
+                                                    </Card.Text>
+                                                    <Button
+                                                        variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "outline-danger" : "outline-dark"}
+                                                        disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
+                                                        onClick={() => this.openModalDelComment(comentario.pkID)}>
+                                                        <i className="bi bi-dash-square-fill"></i>{' '}
+                                                        Remover comentario
+                                                    </Button>
+                                                    {comentario.url !== "" ?
+                                                        <Card.Link href={comentario.url}>
+                                                            <Button variant="link">
+                                                                Más información
+                                                            </Button>
+                                                        </Card.Link>
+                                                        : null}
+
+                                                </Card.Body>
+                                            </div>
+                                        </Card>
                                     );
                                 })}
-                            </Accordion>
+                            </div>
                     }
                 </Nav>
                 <AddCommentModal
-                    show={this.state.show} 
+                    show={this.state.show}
                     plan={this.props.plan}
                     refreshPage={this.props.refreshPage}
                     closeModal={this.closeModalAddComment} />
                 <GenericModal
                     show={this.state.showDel}
                     close={this.closeModalDelComment}
-                    action={this.removeComment}
+                    action={this.handleRemove}
                     header={"Eliminar un comentario de un Plan"}
                     body={"¿Esta seguro que desea eliminar este comentario del Plan?"} />
-            </div>
+            </Nav>
         );
     }
 };

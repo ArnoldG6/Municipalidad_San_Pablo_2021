@@ -584,5 +584,4 @@ public class PlanDAO extends GenericDAO {
             throw e;
         }
     }
-
 }

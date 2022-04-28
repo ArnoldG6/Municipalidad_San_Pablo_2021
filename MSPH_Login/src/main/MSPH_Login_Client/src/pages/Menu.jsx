@@ -6,7 +6,11 @@ Contact me via: "arnoldgq612@gmail.com".
 */
 import React, { Component } from 'react';
 import Cookies from 'universal-cookie';
-import { Container, Button } from 'react-bootstrap';
+import { Container, Button, Image, Table, Col, Row } from 'react-bootstrap';
+import SFRLogo from "../components/images/logoSFR.png";
+import other from "../components/images/otro.png";
+import exitDoor from "../components/images/exitDoor.png";
+import '../css/Login.css';
 const cookies = new Cookies();
 
 export default class Menu extends Component {
@@ -24,21 +28,47 @@ export default class Menu extends Component {
 
     render() {
         return (
-            <div>
-                <h1 className="text-center">Menu Principal</h1>
+            <div className = "vertical-center">
                 <Container className="w-auto text-center mx-auto p-3 mt-2 container">
-                    <div className="text-center">
-                        <Button onClick={() => { document.location = "http://localhost:3001/SFR/#/planes"; }}>
-                            SFR
-                        </Button>
-                    </div>
-                    
-                    <div className="text-center">
-                        <Button onClick={() => { this.props.history.push('/logout') }}>
-                            Salir :v
-                        </Button>
-                    </div>
+                    <Table>
+                        <Row>
+                            <Col>
+                                <Button className="btnSFR" onClick={() => { document.location = process.env.REACT_APP_SFR_CLIENT_PATH; }}>
+                                    <Image src={SFRLogo} height={100} width={250} className=' hover-shadow' />
+                                </Button>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Button className="btnSFR" onClick={() => { document.location = process.env.REACT_APP_SFR_CLIENT_PATH; }}>
+                                    <Image src={SFRLogo} height={100} width={250} className=' hover-shadow' />
+                                </Button>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Button className="btnSFR" onClick={() => { document.location = process.env.REACT_APP_SFR_CLIENT_PATH; }}>
+                                    <Image src={SFRLogo} height={100} width={250} className=' hover-shadow' />
+                                </Button>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Button className="btnSFR" onClick={() => { document.location = process.env.REACT_APP_SFR_CLIENT_PATH; }}>
+                                    <Image src={SFRLogo} height={100} width={250} className=' hover-shadow' />
+                                </Button>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Button className="btnSFR">
+                                <Image src={exitDoor} height={100} width={250} className=' hover-shadow' onClick = {() => {this.props.history.push("/logout");}}/>
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Table>
                 </Container>
+
             </div>
         );
     }

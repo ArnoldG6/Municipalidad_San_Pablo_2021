@@ -8,14 +8,6 @@
         <servlet-name>PlanManager</servlet-name>
         <servlet-class>plan.services.PlanManager</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>IncidenceServlet</servlet-name>
-        <servlet-class>incidence.services.IncidenceServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>LoginManager</servlet-name>
-        <servlet-class>plan.login.LoginManager</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>PlanServlet</servlet-name>
         <url-pattern>/API/PlanServlet/Retrieve/Planes</url-pattern>
@@ -24,11 +16,7 @@
         <url-pattern>/API/PlanServlet/Retrieve/Plan/RemainingUsers</url-pattern>
         <url-pattern>/API/PlanServlet/Retrieve/PlanTypes</url-pattern>
         <url-pattern>/API/PlanServlet/Search</url-pattern>
-        <url-pattern>/API/PlanServlet/riskTable</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>IncidenceServlet</servlet-name>
-        <url-pattern>/API/IncidenceServlet/Retrieve/Incidencias</url-pattern>
+        <url-pattern>/API/PlanServlet/RiskTable</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PlanManager</servlet-name>
@@ -37,14 +25,12 @@
         <url-pattern>/API/PlanManager/Delete</url-pattern>
         <url-pattern>/API/PlanManager/Delete/Risk</url-pattern>
         <url-pattern>/API/PlanManager/Insert/Risk</url-pattern>
+        <url-pattern>/API/PlanManager/Delete/Incidence</url-pattern>
+        <url-pattern>/API/PlanManager/Insert/Incidence</url-pattern>
         <url-pattern>/API/PlanManager/Delete/Involved</url-pattern>
         <url-pattern>/API/PlanManager/Insert/Involved</url-pattern>
         <url-pattern>/API/PlanManager/Insert/Comment</url-pattern>
         <url-pattern>/API/PlanManager/Delete/Comment</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>LoginManager</servlet-name>
-        <url-pattern>/API/LoginManager/test</url-pattern>
     </servlet-mapping>
     
     <session-config>

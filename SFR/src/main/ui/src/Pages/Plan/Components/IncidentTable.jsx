@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Accordion } from "react-bootstrap";
+import { Button, ListGroup } from "react-bootstrap";
 import AddIncidentModal from './AddIncidentModal';
 import GenericModal from '../../../SharedComponents/GenericModal/GenericModal';
 
@@ -57,35 +57,36 @@ class IncidentTable extends Component {
                     </Button>
                     {(typeof this.props.incidentes === 'undefined' || this.props.incidentes === null) ? <h1>No se han agregado incidentes</h1> :
                         this.props.incidentes.length === 0 ? <h1>No se han agregado incidentes</h1> :
-                            <Accordion className='mt-2'>
+                            <ListGroup className='mt-2'>
                                 {this.props.incidentes.map((incidence) => {
                                     return (
-                                        <Accordion.Item eventKey={incidence.pkID} key={incidence.pkID}>
-                                            <Accordion.Header>
-                                                {incidence.name}
-                                            </Accordion.Header>
-                                            <Accordion.Body>
-                                                <p>
-                                                    ID: {incidence.pkID} <br />
-                                                    Nombre: {incidence.name} <br />
-                                                    Fecha: {incidence.entryDate} <br />
-                                                    Causa: {incidence.cause} <br />
-                                                    Afectacion: {incidence.affectation} <br />
-                                                    Descripcion: {incidence.description} <br />
-                                                    Riesgo Asociado: {(typeof incidence.risk === 'undefined' || incidence.risk === null) ? 'N/A' : incidence.risk.id + ' - ' + incidence.risk.name}<br />
-                                                </p>
-                                                <Button
+                                        <ListGroup.Item className="d-flex justify-content-between align-items-start" key={incidence.pkID}>
+                                            <div className="ms-2 me-auto">
+                                                <div className="fw-bold">{incidence.name}</div>
+                                                {"Ingresado: " + incidence.entryDate} <br />
+                                                {"Causa: " + incidence.cause} <br />
+                                                {"Afectación: " + incidence.affectation + "%"} <br />
+                                                {"Descripcion: " + incidence.description} <br />
+                                                {(typeof incidence.risk !== 'undefined' && incidence.risk !== null) ? "Riesgo asociado: " + incidence.risk.id + ' - ' + incidence.risk.name : null} <br />
+                                                <Button className="d-lg-none"
                                                     variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "outline-danger" : "outline-dark"}
                                                     disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
                                                     onClick={() => this.openModalDelIncident(incidence.pkID)}>
                                                     <i className="bi bi-dash-square-fill"></i>{' '}
                                                     Remover Incidencia
                                                 </Button>
-                                            </Accordion.Body>
-                                        </Accordion.Item>
+                                            </div>
+                                            <Button className="d-none d-lg-block"
+                                                variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "outline-danger" : "outline-dark"}
+                                                disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
+                                                onClick={() => this.openModalDelIncident(incidence.pkID)}>
+                                                <i className="bi bi-dash-square-fill"></i>{' '}
+                                                Remover Incidencia
+                                            </Button>
+                                        </ListGroup.Item>
                                     );
                                 })}
-                            </Accordion>
+                            </ListGroup>
                     }
                 </div>
                 <AddIncidentModal

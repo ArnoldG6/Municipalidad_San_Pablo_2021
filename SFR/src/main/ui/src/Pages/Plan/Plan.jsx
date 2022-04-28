@@ -329,7 +329,7 @@ class Plan extends Component {
 
     removeIncidences(idIncidence) {
         let options = {
-            url: process.env.REACT_APP_SFR_API_URL + "/IncidenceManager/Delete",
+            url: process.env.REACT_APP_SFR_API_URL + "/PlanManager/Delete/Incidence",
             method: "DELETE",
             header: {
                 'Accept': 'application/json',

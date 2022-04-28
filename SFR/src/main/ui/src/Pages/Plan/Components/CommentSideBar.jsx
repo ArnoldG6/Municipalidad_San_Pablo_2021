@@ -68,7 +68,7 @@ export default class CommentSideBar extends Component {
                                                     <Card.Title>
                                                         {comentario.author}
                                                     </Card.Title>
-                                                    <Card.Subtitle>
+                                                    <Card.Subtitle className="mb-2 text-muted">
                                                         {"Ingresado: " + comentario.entryDate}
                                                     </Card.Subtitle>
                                                     <Card.Text>

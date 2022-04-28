@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Accordion } from "react-bootstrap";
+import { Button, ListGroup } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 import AddExistingRiskModal from './AddExistingRiskModal';
 import GenericModal from '../../../SharedComponents/GenericModal/GenericModal';
 
@@ -55,35 +56,37 @@ class RiskTable extends Component {
                     </Button>
                     {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado riesgos</h1> :
                         this.props.riesgos.length === 0 ? <h1>No se han agregado riesgos</h1> :
-                            <Accordion className='mt-2'>
+                            <ListGroup className='mt-2'>
                                 {this.props.riesgos.map((risk) => {
+                                    console.log(risk)
                                     return (
-                                        <Accordion.Item eventKey={risk.id} key={risk.id}>
-                                            <Accordion.Header >
-                                                {risk.name}
-                                            </Accordion.Header>
-                                            <Accordion.Body>
-                                                <p>
-                                                    ID: {risk.id} <br />
-                                                    Tipo General: {risk.generalType} <br />
-                                                    Tipo por Área: {risk.areaType} <br />
-                                                    Tipo Específico: {risk.specType} <br />
-                                                    Probabilidad: {risk.probability} <br />
-                                                    Impacto: {risk.impact} <br />
-                                                    Magnitud: {risk.magnitude} <br />
-                                                </p>
-                                                <Button
+                                        <ListGroup.Item className="d-flex justify-content-between align-items-start" key={risk.id}>
+                                            <div className="ms-2 me-auto">
+                                                <div className="fw-bold">{risk.name}</div>
+                                                {"Tipo por área: " + risk.areaType} <br />
+                                                <Button variant="link">
+                                                    <Link to={{ pathname: "/riesgo", search: `?id=${risk.id}` }}>+ Más información</Link>
+                                                </Button>
+                                                <Button className="d-lg-none"
                                                     variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "outline-danger" : "outline-dark"}
                                                     disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
                                                     onClick={() => this.openModalDelRisk(risk.pkID)} >
                                                     <i className="bi bi-dash-square-fill"></i>{' '}
                                                     Remover Riesgo
                                                 </Button>
-                                            </Accordion.Body>
-                                        </Accordion.Item>
+                                            </div>
+                                            <Button className="d-none d-lg-block"
+                                                variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "outline-danger" : "outline-dark"}
+                                                disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
+                                                onClick={() => this.openModalDelRisk(risk.pkID)} >
+                                                <i className="bi bi-dash-square-fill"></i>{' '}
+                                                Remover Riesgo
+                                            </Button>
+
+                                        </ListGroup.Item>
                                     );
                                 })}
-                            </Accordion>
+                            </ListGroup>
                     }
                 </div>
 

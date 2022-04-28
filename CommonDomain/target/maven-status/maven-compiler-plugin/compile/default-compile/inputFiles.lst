@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 C:\Users\USER\Desktop\Municipalidad_San_Pablo_2021\CommonDomain\src\main\java\common\model\Rol.java
 C:\Users\USER\Desktop\Municipalidad_San_Pablo_2021\CommonDomain\src\main\java\common\model\Department.java
 C:\Users\USER\Desktop\Municipalidad_San_Pablo_2021\CommonDomain\src\main\java\common\model\Official.java
 C:\Users\USER\Desktop\Municipalidad_San_Pablo_2021\CommonDomain\src\main\java\common\model\User.java
+=======
+C:\Users\jorsu\Documents\GitHub\Municipalidad_San_Pablo_2021\CommonDomain\src\main\java\common\model\Department.java
+C:\Users\jorsu\Documents\GitHub\Municipalidad_San_Pablo_2021\CommonDomain\src\main\java\common\model\User.java
+C:\Users\jorsu\Documents\GitHub\Municipalidad_San_Pablo_2021\CommonDomain\src\main\java\common\model\Rol.java
+C:\Users\jorsu\Documents\GitHub\Municipalidad_San_Pablo_2021\CommonDomain\src\main\java\common\model\Official.java
+>>>>>>> 1326556fb3356f719ca9127e99dd6fcaf73068ad

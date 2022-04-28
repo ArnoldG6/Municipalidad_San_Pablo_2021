@@ -1,18 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import axios from 'axios';
-import { Row, Button } from "react-bootstrap";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button, Row } from 'react-bootstrap';
 import EditPerfilModal from './Components/EditPerfilModal';
 const cookies = new Cookies();
+const requestURL = "http://localhost:8080/auth/API/Auth";
 
-export default class Plan extends Component {
+export default class Plan extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             user: null,
-            official: null,
             showEdit: false
         };
         this.refreshPage = this.refreshPage.bind(this);
@@ -36,7 +35,7 @@ export default class Plan extends Component {
         let query = new URLSearchParams(this.props.location.search);
 
         let options = {
-            url: process.env.REACT_APP_SFR_API_URL + "/User",
+            url: requestURL + '/User',
             method: "POST",
             header: {
                 'Accept': 'application/json',
@@ -54,7 +53,7 @@ export default class Plan extends Component {
                 });
             })
             .catch(error => {
-                this.props.history.push('/perfil');
+                this.props.history.push('/User');
             });
     }
 
@@ -130,7 +129,6 @@ export default class Plan extends Component {
                     closeModal={this.closeModalEdit}
                     refreshPage={this.refreshPage}
                 />
-                <ToastContainer />
             </div>
         );
     }

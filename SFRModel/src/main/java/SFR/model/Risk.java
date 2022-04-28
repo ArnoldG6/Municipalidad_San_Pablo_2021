@@ -46,6 +46,8 @@ public class Risk implements Serializable {
     @JoinColumn(name = "Author")
     @ManyToOne
     private User author;
+    @Column(name = "Consequences")
+    private String consequences;
 
     /*
     @ManyToMany
@@ -56,7 +58,6 @@ public class Risk implements Serializable {
     )
     private List<Plan> plans;
      */
-    
     public Risk() {
 
     }
@@ -66,7 +67,7 @@ public class Risk implements Serializable {
     }
 
     public Risk(String id, String name, String desc, String generalType, String areaType,
-            String specificType, Float probability, Integer impact, User author) {
+            String specificType, Float probability, Integer impact, User author, String consequences) {
         this.id = id;
         this.name = name;
         this.factors = desc;
@@ -78,6 +79,7 @@ public class Risk implements Serializable {
         this.magnitude = (probability * impact);
         this.mitigationMeasures = "";
         this.author = author;
+        this.consequences = consequences;
     }
 
     public int getPkId() {
@@ -170,6 +172,14 @@ public class Risk implements Serializable {
 
     public void setMitigationMeasures(String mitigationMeasures) {
         this.mitigationMeasures = mitigationMeasures;
+    }
+
+    public String getConsequences() {
+        return consequences;
+    }
+
+    public void setConsequences(String consequences) {
+        this.consequences = consequences;
     }
 
     public User getAuthor() {

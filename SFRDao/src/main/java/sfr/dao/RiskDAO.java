@@ -70,6 +70,8 @@ public class RiskDAO extends GenericDAO {
                 return "magnitude";
             case "MITIGATIONMEASURES":
                 return "mitigationMeasures";
+            case "CONSEQUENCES":
+                return "consequences";
             default:
                 throw new IOException("Invalid column");
         }

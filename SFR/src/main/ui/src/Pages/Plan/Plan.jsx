@@ -294,6 +294,37 @@ class Plan extends Component {
             });
     }
 
+    removeComment(idComment){
+        let options = {
+            url: process.env.REACT_APP_SFR_API_URL + "/PlanManager/Delete/Comment",
+            method: "DELETE",
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: {
+                'planPkID': this.state.plan.pkID,
+                'commentID': idComment,
+            }
+        }
+        axios(options)
+            .then(response => {
+                this.refreshPage();
+                toast.success("La incidencia fue eliminada correctamente!", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
+            }).catch(error => {
+                toast.error("Error al remover la incidencia seleccionada.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
+            });
+    }
 
     removeIncidences(idIncidence) {
         let options = {
@@ -480,12 +511,12 @@ class Plan extends Component {
                             {tableData}
                         </Card.Body>
                     </Card>
-                    <CommentSideBar mobile ={true}/>
+                    <CommentSideBar refreshPage={this.refreshPage} removeComment={this.removeComment} plan={this.state.plan}  mobile ={true}/>
                 </div>
                 {/* PC */}
                 <div className="d-none d-lg-block">
                     {/* Comentarios del Plan */}
-                    <CommentSideBar mobile ={false}/>
+                    <CommentSideBar refreshPage={this.refreshPage} removeComment={this.removeComment} plan={this.state.plan} mobile ={false}/>
 
                     {/* Contenedor para el resto de la pagina */}
                     <div className="container-fluid Data-Container">

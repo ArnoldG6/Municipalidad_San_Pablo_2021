@@ -23,7 +23,7 @@ public class Tests {
     @Test
     public void main() throws Exception {
         try {
-            UserDAO.getInstance().handlePasswordReset(UserDAO.getInstance().searchById(51), 5);
+            System.out.println(PlanDAO.getInstance().searchInRiskListNonRep("2020LA-00002-01", "89"));
         } catch (MessagingException ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

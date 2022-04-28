@@ -6,13 +6,12 @@ package common.dao;
 import common.dao.generic.GenericDAO;
 import common.model.User;
 import jakarta.mail.MessagingException;
-import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.sql.DriverManager;
+import javax.persistence.ParameterMode;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 import org.hibernate.Session;
 
 public class UserDAO extends GenericDAO {
@@ -128,13 +127,13 @@ public class UserDAO extends GenericDAO {
 
     public void handlePasswordReset(User user, Integer code) throws MessagingException, Exception {
         try {
-            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-            String url = "jdbc:mysql://localhost:3306/si_db";
-            Connection con = DriverManager.getConnection(url, "root", "root");
-            CallableStatement cstmt = con.prepareCall("{call insertResetCode(?, ?)}");
-            cstmt.setInt(1, user.getIdUser());
-            cstmt.setInt(2, code);
-            cstmt.executeUpdate();
+            StoredProcedureQuery proc  = getEntityManager().createStoredProcedureQuery("insertResetCode");
+            proc.registerStoredProcedureParameter("P_IN_FK_USER", String.class, ParameterMode.IN);
+            proc.registerStoredProcedureParameter("P_IN_RESET_CODE", String.class, ParameterMode.IN);
+            proc.setParameter("P_IN_FK_USER", user.getIdUser().toString());
+            proc.setParameter("P_IN_RESET_CODE", code.toString());
+            proc.execute();
+            EmailFactory.getInstance().sendResetPassword(user, code.toString());
         } catch (Exception e) {
             e.printStackTrace(System.out);
             System.err.println(e.getMessage());

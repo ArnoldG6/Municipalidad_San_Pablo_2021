@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../Perfil.css'
 import { Modal, Button, Form } from "react-bootstrap";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 class EditPerfilModal extends Component {
     constructor(props) {
@@ -102,7 +100,7 @@ class EditPerfilModal extends Component {
                         </Button>
                     </Form>
                 </Modal.Body>
-                <ToastContainer />
+                
             </Modal>
         );
     }

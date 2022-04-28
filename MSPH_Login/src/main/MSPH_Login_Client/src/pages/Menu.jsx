@@ -32,8 +32,9 @@ export default class Menu extends Component {
                             SFR
                         </Button>
                     </div>
+                    
                     <div className="text-center">
-                        <Button onClick={() => {this.props.history.push('/logout')}}>
+                        <Button onClick={() => { this.props.history.push('/logout') }}>
                             Salir :v
                         </Button>
                     </div>

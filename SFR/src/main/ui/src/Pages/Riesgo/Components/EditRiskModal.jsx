@@ -60,11 +60,11 @@ class EditRiskModal extends Component {
                     if (error.response) {
                         //Server responded with an error
                         switch (error.response.status) {
-                            case 406:
+                            case 400:
                                 msj = "Hubo un problema encontrando el Riesgo por actualizar.";
                                 break;
                             case 401:
-                                msj = "Este usuario no cuenta con permisos para editar Riesgos.";
+                                msj = "Este usuario no cuenta con permisos para editar este Riesgo.";
                                 break;
                             case 500:
                                 msj = "El servidor ha encontrado un error desconocido.";

@@ -56,14 +56,36 @@ class AddPlanModal extends Component {
                 .then(response => {
                     this.props.updatePlanes("add-success");
                     this.props.closeModal();
-                }).catch(error => {
-                    toast.error("ID del plan ya se encuentra registrado en el sistema.", {
+                })
+                .catch(error => {
+                    var msj = "";
+                    if (error.response) {
+                        //Server responded with an error
+                        switch (error.response.status) {
+                            case 401:
+                                msj = "Hubo un problema en la creación del Plan.";
+                                break;
+                            case 500:
+                                msj = "El servidor ha encontrado un error desconocido.";
+                                break;
+                            default:
+                                msj = "El servidor ha encontrado un error desconocido.";
+                                break;
+                        }
+                    } else if (error.request) {
+                        //Server did not respond
+                        msj = "Hubo un error con la conexión al servidor."
+                    } else {
+                        //Something else went wrong
+                        msj = "Error desconocido."
+                    }
+                    toast.error(msj, {
                         position: toast.POSITION.TOP_RIGHT,
                         pauseOnHover: true,
                         theme: 'colored',
                         autoClose: 5000
                     });
-                });
+                })
         }
         this.setValidated(true);
     }

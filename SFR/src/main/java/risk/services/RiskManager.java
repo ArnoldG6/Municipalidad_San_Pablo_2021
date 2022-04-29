@@ -17,6 +17,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.hibernate.JDBCException;
+import org.hibernate.exception.JDBCConnectionException;
 import org.json.JSONObject;
 import sfr.dao.RiskDAO;
 import sfr.dao.RiskTypeDAO;
@@ -93,7 +95,7 @@ public class RiskManager extends HttpServlet {
             RiskDAO.getInstance().delete(riskE);
 
         } catch (NullPointerException e) {
-            response.sendError(406, e.getMessage());
+            response.sendError(400, e.getMessage());
         } catch (IllegalAccessError e) {
             response.sendError(401, e.getMessage());
         } catch (Exception e) {
@@ -133,8 +135,8 @@ public class RiskManager extends HttpServlet {
             JSONObject responseJSON = new JSONObject();
             responseJSON.append("id", newRisk.getId());
             response.getWriter().write(responseJSON.toString());
-        } catch (NullPointerException e) {
-            response.sendError(406, e.getMessage());
+        } catch (IllegalAccessError e) {
+            response.sendError(401, e.getMessage());
         } catch (Exception e) {
             response.sendError(500, e.getMessage());
         } finally {
@@ -159,17 +161,16 @@ public class RiskManager extends HttpServlet {
             if (user == null) {
                 throw new IllegalAccessError("No se encontró el usuario que intentó realizar la transacción.");
             }
+            if (RiskDAO.getInstance().searchById(riskEdit.getPkId()) == null) {
+                throw new NullPointerException("No se encontró el riesgo que se desea editar.");
+            }
             if (!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !riskEdit.getAuthor().getIdUser().equals(user.getIdUser())) {
                 throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
             }
 
-            if (RiskDAO.getInstance().searchById(riskEdit.getPkId()) == null) {
-                throw new NullPointerException("No se encontró el riesgo que se desea editar.");
-            }
-
             RiskDAO.getInstance().update(riskEdit);
         } catch (NullPointerException e) {
-            response.sendError(406, e.getMessage());
+            response.sendError(400, e.getMessage());
         } catch (IllegalAccessError e) {
             response.sendError(401, e.getMessage());
         } catch (Exception e) {

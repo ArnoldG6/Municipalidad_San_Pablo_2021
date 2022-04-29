@@ -66,7 +66,7 @@ class AddRiskModal extends Component {
                     if (error.response) {
                         //Server responded with an error
                         switch (error.response.status) {
-                            case 406:
+                            case 401:
                                 msj = "Hubo un problema insertando el Riesgo.";
                                 break;
                             case 500:

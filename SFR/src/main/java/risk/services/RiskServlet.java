@@ -92,7 +92,7 @@ public class RiskServlet extends HttpServlet {
             }
             response.getWriter().write(responseJSON);
         } catch (NullPointerException e) {
-            response.sendError(406, e.getMessage());
+            response.sendError(400, e.getMessage());
         } catch (Exception e) {
             response.sendError(500, e.getMessage());
         } finally {
@@ -130,7 +130,7 @@ public class RiskServlet extends HttpServlet {
             responseJSON.append("occurrenceFactor", occurrenceFactor.toString() + "%");
             response.getWriter().write(responseJSON.toString());
         } catch (NullPointerException e) {
-            response.sendError(406, e.getMessage());
+            response.sendError(400, e.getMessage());
         } catch (Exception e) {
             response.sendError(500, e.getMessage());
         } finally {
@@ -160,7 +160,7 @@ public class RiskServlet extends HttpServlet {
             }
             response.getWriter().write(responseJSON);
         } catch (NullPointerException e) {
-            response.sendError(406, e.getMessage());
+            response.sendError(400, e.getMessage());
         } catch (Exception e) {
             response.sendError(500, e.getMessage());
         } finally {
@@ -188,7 +188,7 @@ public class RiskServlet extends HttpServlet {
             }
             response.getWriter().write(responseJSON);
         } catch (NullPointerException e) {
-            response.sendError(406, e.getMessage());
+            response.sendError(400, e.getMessage());
         } catch (Exception e) {
             response.sendError(500, e.getMessage());
         } finally {

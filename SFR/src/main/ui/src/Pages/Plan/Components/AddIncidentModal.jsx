@@ -30,7 +30,7 @@ class AddIncidentModal extends Component {
     }
 
     onChangeDatePicker = e => {
-        this.setState({startDate: e})
+        this.setState({ startDate: e })
     }
 
     handleSubmit = (event) => {
@@ -64,15 +64,39 @@ class AddIncidentModal extends Component {
                 .then(response => {
                     this.props.closeModal();
                     this.props.refreshPage();
-                }).catch(error => {
-                    console.log(error);
-                    toast.error("ID de la incidencia ya se encuentra registrado en el sistema.", {
+                })
+                .catch(error => {
+                    var msj = "";
+                    if (error.response) {
+                        //Server responded with an error
+                        switch (error.response.status) {
+                            case 400:
+                                msj = "Hubo un problema insertando la Incidencia solicitada.";
+                                break;
+                            case 401:
+                                msj = "Este usuario no cuenta con permisos para insertar Incidencias a este Plan.";
+                                break;
+                            case 500:
+                                msj = "El servidor ha encontrado un error desconocido.";
+                                break;
+                            default:
+                                msj = "El servidor ha encontrado un error desconocido.";
+                                break;
+                        }
+                    } else if (error.request) {
+                        //Server did not respond
+                        msj = "Hubo un error con la conexión al servidor."
+                    } else {
+                        //Something else went wrong
+                        msj = "Error desconocido."
+                    }
+                    toast.error(msj, {
                         position: toast.POSITION.TOP_RIGHT,
                         pauseOnHover: true,
                         theme: 'colored',
                         autoClose: 5000
                     });
-                });
+                })
         }
         this.setValidated(true);
     }
@@ -114,13 +138,13 @@ class AddIncidentModal extends Component {
                         </Form.Group>
                         <Form.Group>
                             <div className="form-group">
-                                <Form.Label>Fecha:</Form.Label>
+                                <Form.Label>Fecha:</Form.Label><br />
                                 <DatePicker
                                     selected={this.state.startDate}
                                     onChange={this.onChangeDatePicker}
                                     name="fecha"
                                     customInput={<DateButton />}
-                                    locale={es}                                    
+                                    locale={es}
                                     dateFormat="dd/MM/yyyy" />
                             </div>
                         </Form.Group>
@@ -138,13 +162,13 @@ class AddIncidentModal extends Component {
                         <div className="form-group">
                             <label>Riesgo Asociado:</label>
                             <Form.Select name="risk" id="risk" onChange={this.onChange}>
-                            <option value={-1} >Sin riesgos</option>
+                                <option value={-1} >Sin riesgos</option>
                                 {
                                     (this.props.risks === null) ?
                                         <option value={null} key="disabledRiskIncidence" disabled>Error cargando los riegos</option> :
-                                        
+
                                         this.props.risks.map((risk) => {
-                                            
+
                                             return <option value={risk.pkID} key={risk.name}>{risk.name}</option>
                                         })
                                 }

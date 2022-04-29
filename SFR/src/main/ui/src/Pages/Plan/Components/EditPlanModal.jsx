@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../Plan.css'
 import { Modal, Button, Form, Stack, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -61,9 +61,36 @@ class EditPlanModal extends Component {
             .then(response => {
                 this.props.refreshPage();
                 this.props.closeModal();
-            }).catch(error => {
-                console.log(error);
-            });
+            })
+            .catch(error => {
+                var msj = "";
+                if (error.response) {
+                    //Server responded with an error
+                    switch (error.response.status) {
+                        case 401:
+                            msj = "Este usuario no cuenta con permisos para editar este Plan.";
+                            break;
+                        case 500:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                        default:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                    }
+                } else if (error.request) {
+                    //Server did not respond
+                    msj = "Hubo un error con la conexión al servidor."
+                } else {
+                    //Something else went wrong
+                    msj = "Error desconocido."
+                }
+                toast.error(msj, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
+            })
     }
 
     render() {

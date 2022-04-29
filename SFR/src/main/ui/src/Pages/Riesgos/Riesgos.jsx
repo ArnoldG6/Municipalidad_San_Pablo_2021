@@ -81,7 +81,7 @@ class Riesgos extends Component {
                 if (error.response) {
                     //Server responded with an error
                     switch (error.response.status) {
-                        case 406:
+                        case 400:
                             msj = "Hubo un problema recuperando los Riesgos.";
                             break;
                         case 500:
@@ -131,7 +131,7 @@ class Riesgos extends Component {
                 if (error.response) {
                     //Server responded with an error
                     switch (error.response.status) {
-                        case 406:
+                        case 400:
                             msj = "Hubo un problema recuperando los Tipos de Riesgos.";
                             break;
                         case 500:

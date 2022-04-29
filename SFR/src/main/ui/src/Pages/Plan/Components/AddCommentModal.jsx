@@ -52,15 +52,39 @@ export default class AddCommentModal extends Component {
                 .then(response => {
                     this.props.closeModal();
                     this.props.refreshPage();
-                }).catch(error => {
-                    console.log(error);
-                    toast.error("Error al ingresar el comentario al sistema.", {
+                })
+                .catch(error => {
+                    var msj = "";
+                    if (error.response) {
+                        //Server responded with an error
+                        switch (error.response.status) {
+                            case 400:
+                                msj = "Hubo un problema insertando el Comentario solicitado.";
+                                break;
+                            case 401:
+                                msj = "Este usuario no cuenta con permisos para insertar Comentarios a este Plan.";
+                                break;
+                            case 500:
+                                msj = "El servidor ha encontrado un error desconocido.";
+                                break;
+                            default:
+                                msj = "El servidor ha encontrado un error desconocido.";
+                                break;
+                        }
+                    } else if (error.request) {
+                        //Server did not respond
+                        msj = "Hubo un error con la conexión al servidor."
+                    } else {
+                        //Something else went wrong
+                        msj = "Error desconocido."
+                    }
+                    toast.error(msj, {
                         position: toast.POSITION.TOP_RIGHT,
                         pauseOnHover: true,
                         theme: 'colored',
                         autoClose: 5000
                     });
-                });
+                })
         }
         this.setValidated(true);
     }
@@ -80,10 +104,10 @@ export default class AddCommentModal extends Component {
                 <Modal.Body>
                     <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
                         <Form.Group>
-                        <div className="form-group">
-                            <label>Autor:</label>
-                            <input name="authorName" id="authorName" type="text" className="form-control" disabled defaultValue={cookies.get('full_name', { path: process.env.REACT_APP_AUTH })}/>
-                        </div>
+                            <div className="form-group">
+                                <label>Autor:</label>
+                                <input name="authorName" id="authorName" type="text" className="form-control" disabled defaultValue={cookies.get('full_name', { path: process.env.REACT_APP_AUTH })} />
+                            </div>
                         </Form.Group>
                         <div className="form-group">
                             <Stack direction="horizontal" gap={3}>

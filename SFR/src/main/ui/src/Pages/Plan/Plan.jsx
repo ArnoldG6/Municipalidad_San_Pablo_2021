@@ -252,14 +252,39 @@ class Plan extends Component {
                     theme: 'colored',
                     autoClose: 5000
                 });
-            }).catch(error => {
-                toast.error("Hubo un error agregando los riesgos al plan.", {
+            })
+            .catch(error => {
+                var msj = "";
+                if (error.response) {
+                    //Server responded with an error
+                    switch (error.response.status) {
+                        case 400:
+                            msj = "Hubo un problema insertando los Riesgos solicitados.";
+                            break;
+                        case 401:
+                            msj = "Este usuario no cuenta con permisos para insertar Riesgos a este Plan.";
+                            break;
+                        case 500:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                        default:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                    }
+                } else if (error.request) {
+                    //Server did not respond
+                    msj = "Hubo un error con la conexión al servidor."
+                } else {
+                    //Something else went wrong
+                    msj = "Error desconocido."
+                }
+                toast.error(msj, {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
                     autoClose: 5000
                 });
-            });
+            })
     }
 
     removeRisks(idRisk) {
@@ -285,14 +310,39 @@ class Plan extends Component {
                     theme: 'colored',
                     autoClose: 5000
                 });
-            }).catch(error => {
-                toast.error("Error al remover el riesgo seleccionado.", {
+            })
+            .catch(error => {
+                var msj = "";
+                if (error.response) {
+                    //Server responded with an error
+                    switch (error.response.status) {
+                        case 400:
+                            msj = "Hubo un problema encontrando los datos necesarios para eliminar el Riesgo.";
+                            break;
+                        case 401:
+                            msj = "Este usuario no cuenta con permisos para eliminar Riesgos de este Plan.";
+                            break;
+                        case 500:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                        default:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                    }
+                } else if (error.request) {
+                    //Server did not respond
+                    msj = "Hubo un error con la conexión al servidor."
+                } else {
+                    //Something else went wrong
+                    msj = "Error desconocido."
+                }
+                toast.error(msj, {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
                     autoClose: 5000
                 });
-            });
+            })
     }
 
     removeComment(idComment) {
@@ -306,6 +356,7 @@ class Plan extends Component {
             data: {
                 'planPkID': this.state.plan.pkID,
                 'commentID': idComment,
+                'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
             }
         }
         axios(options)
@@ -317,14 +368,39 @@ class Plan extends Component {
                     theme: 'colored',
                     autoClose: 5000
                 });
-            }).catch(error => {
-                toast.error("Error al remover el comentario seleccionado.", {
+            })
+            .catch(error => {
+                var msj = "";
+                if (error.response) {
+                    //Server responded with an error
+                    switch (error.response.status) {
+                        case 400:
+                            msj = "Hubo un problema eliminando el Comentario solicitado.";
+                            break;
+                        case 401:
+                            msj = "Este usuario no cuenta con permisos para eliminar Comentarios de este Plan.";
+                            break;
+                        case 500:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                        default:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                    }
+                } else if (error.request) {
+                    //Server did not respond
+                    msj = "Hubo un error con la conexión al servidor."
+                } else {
+                    //Something else went wrong
+                    msj = "Error desconocido."
+                }
+                toast.error(msj, {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
                     autoClose: 5000
                 });
-            });
+            })
     }
 
     removeIncidences(idIncidence) {
@@ -350,14 +426,39 @@ class Plan extends Component {
                     theme: 'colored',
                     autoClose: 5000
                 });
-            }).catch(error => {
-                toast.error("Error al remover la incidencia seleccionada.", {
+            })
+            .catch(error => {
+                var msj = "";
+                if (error.response) {
+                    //Server responded with an error
+                    switch (error.response.status) {
+                        case 400:
+                            msj = "Hubo un problema encontrando los datos necesarios para eliminar la Incidencia.";
+                            break;
+                        case 401:
+                            msj = "Este usuario no cuenta con permisos para eliminar Incidencias de este Plan.";
+                            break;
+                        case 500:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                        default:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                    }
+                } else if (error.request) {
+                    //Server did not respond
+                    msj = "Hubo un error con la conexión al servidor."
+                } else {
+                    //Something else went wrong
+                    msj = "Error desconocido."
+                }
+                toast.error(msj, {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
                     autoClose: 5000
                 });
-            });
+            })
     }
 
     addInvolved(userIDs) {
@@ -384,14 +485,39 @@ class Plan extends Component {
                     theme: 'colored',
                     autoClose: 5000
                 });
-            }).catch(error => {
-                toast.error("Hubo un error agregando los involucrados al plan.", {
+            })
+            .catch(error => {
+                var msj = "";
+                if (error.response) {
+                    //Server responded with an error
+                    switch (error.response.status) {
+                        case 400:
+                            msj = "Hubo un problema insertando el/los Involucrado(s) solicitado(s).";
+                            break;
+                        case 401:
+                            msj = "Este usuario no cuenta con permisos para insertar Involucrados a este Plan.";
+                            break;
+                        case 500:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                        default:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                    }
+                } else if (error.request) {
+                    //Server did not respond
+                    msj = "Hubo un error con la conexión al servidor."
+                } else {
+                    //Something else went wrong
+                    msj = "Error desconocido."
+                }
+                toast.error(msj, {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
                     autoClose: 5000
                 });
-            });
+            })
     }
 
     removeInvolved(userID) {
@@ -417,14 +543,39 @@ class Plan extends Component {
                     theme: 'colored',
                     autoClose: 5000
                 });
-            }).catch(error => {
-                toast.error("Error al remover el involucrado seleccionado.", {
+            })
+            .catch(error => {
+                var msj = "";
+                if (error.response) {
+                    //Server responded with an error
+                    switch (error.response.status) {
+                        case 400:
+                            msj = "Hubo un problema eliminando el Involucrado solicitado.";
+                            break;
+                        case 401:
+                            msj = "Este usuario no cuenta con permisos para eliminar Involucrados de este Plan.";
+                            break;
+                        case 500:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                        default:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                    }
+                } else if (error.request) {
+                    //Server did not respond
+                    msj = "Hubo un error con la conexión al servidor."
+                } else {
+                    //Something else went wrong
+                    msj = "Error desconocido."
+                }
+                toast.error(msj, {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',
                     autoClose: 5000
                 });
-            });
+            })
     }
 
     deletePlan() {
@@ -443,6 +594,38 @@ class Plan extends Component {
         axios(options)
             .then(response => {
                 this.props.history.push('/planes');
+            })
+            .catch(error => {
+                var msj = "";
+                if (error.response) {
+                    //Server responded with an error
+                    switch (error.response.status) {
+                        case 400:
+                            msj = "Hubo un problema encontrando el Plan que desea eliminar.";
+                            break;
+                        case 401:
+                            msj = "Este usuario no cuenta con permisos para eliminar Planes.";
+                            break;
+                        case 500:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                        default:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                    }
+                } else if (error.request) {
+                    //Server did not respond
+                    msj = "Hubo un error con la conexión al servidor."
+                } else {
+                    //Something else went wrong
+                    msj = "Error desconocido."
+                }
+                toast.error(msj, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
             })
     }
 

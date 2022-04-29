@@ -38,7 +38,7 @@ class Search extends Component {
                 if (error.response) {
                     //Server responded with an error
                     switch (error.response.status) {
-                        case 406:
+                        case 400:
                             msj = "Hubo un problema recuperando los datos solicitados.";
                             break;
                         case 500:

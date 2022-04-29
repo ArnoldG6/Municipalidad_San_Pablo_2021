@@ -120,33 +120,38 @@ public class PlanManager extends HttpServlet {
      * server's response. insertPlan creates a new Plan entry in the DB if it
      * does not exists.
      */
-    private void insertPlan(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
-        requestJSON.remove("userID");
+    private void insertPlan(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+            requestJSON.remove("userID");
 
-        Date d = new Date();
-        LocalDate localDate = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            if (user == null) {
+                throw new IllegalAccessError("No se encontró el usuario que intentó realizar la transacción.");
+            }
 
-        Plan newPlan = new Gson().fromJson(requestJSON.toString(), Plan.class);
-        newPlan.setEntryDate(d);
-        newPlan.addInvolucrado(user);
+            Date d = new Date();
+            LocalDate localDate = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-        int idCount = PlanTypeDAO.getInstance().handleIDAmount(newPlan.getId());
-        String year = Integer.toString(localDate.getYear());
-        String month = String.format("%02d", localDate.getMonthValue());
-        String day = String.format("%02d", localDate.getDayOfMonth());
-        String id = String.format("%05d", idCount);
-        String newID = newPlan.getId() + "-" + year + month + day + "-" + id;
-        newPlan.setId(newID);
+            Plan newPlan = new Gson().fromJson(requestJSON.toString(), Plan.class);
+            newPlan.setEntryDate(d);
+            newPlan.addInvolucrado(user);
 
-        if (PlanDAO.getInstance().searchById(newPlan.getPkId()) != null) {
-            //Custom exception
-            response.getWriter().write(new PlanAlreadyExistEx().jsonify());
-//            throw new IOException("El plan que se insertó ya existe");
+            int idCount = PlanTypeDAO.getInstance().handleIDAmount(newPlan.getId());
+            String year = Integer.toString(localDate.getYear());
+            String month = String.format("%02d", localDate.getMonthValue());
+            String day = String.format("%02d", localDate.getDayOfMonth());
+            String id = String.format("%05d", idCount);
+            String newID = newPlan.getId() + "-" + year + month + day + "-" + id;
+            newPlan.setId(newID);
+
+            PlanDAO.getInstance().add(newPlan);
+
+        } catch (IllegalAccessError e) {
+            response.sendError(401, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        PlanDAO.getInstance().add(newPlan);
     }
 
     /**
@@ -156,25 +161,35 @@ public class PlanManager extends HttpServlet {
      * server's response. editPlan edits a Plan entry in the DB if it exists
      * according to the requestJSON data.
      */
-    private void editPlan(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
-        requestJSON.remove("userID");
-        Plan editPlan = new Gson().fromJson(requestJSON.toString(), Plan.class);
+    private void editPlan(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
 
-        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !editPlan.containsInvolved(user)) || editPlan.getStatus().equals("Completo")) {
-            throw new IOException();
-        }
+            if (user == null) {
+                throw new IllegalAccessError("No se encontró el usuario que intentó realizar la transacción.");
+            }
 
-        if (PlanDAO.getInstance().searchById(editPlan.getPkId()) != null) {
+            requestJSON.remove("userID");
+            Plan editPlan = new Gson().fromJson(requestJSON.toString(), Plan.class);
+
+            if (PlanDAO.getInstance().searchById(editPlan.getPkId()) == null) {
+                throw new NullPointerException("No se encontró el plan que se desea editar.");
+            }
+
+            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !editPlan.containsInvolved(user)) || editPlan.getStatus().equals("Completo")) {
+                throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
+            }
+
             PlanDAO.getInstance().update(editPlan);
-        } else {
-            //Custom exception
-            response.getWriter().write(new PlanNotFoundEx().jsonify());
-            throw new IOException("El plan indicado no está registrado");
-        }
 
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (IllegalAccessError e) {
+            response.sendError(401, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
+        }
     }
 
     /**
@@ -184,24 +199,32 @@ public class PlanManager extends HttpServlet {
      * server's response. deletePlan deletes a Plan entry in the DB if it exists
      * according to the requestJSON data.
      */
-    private void deletePlan(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        Plan toDelete = new Plan();
-        toDelete.setPkId(requestJSON.getInt("pkID"));
-        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+    private void deletePlan(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            Plan toDelete = new Plan();
+            toDelete.setPkId(requestJSON.getInt("pkID"));
+            User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
 
-        if ((!user.hasRol("SUPER_ADMIN")) || toDelete.getStatus().equals("Completo")) {
-            throw new IOException();
-        }
+            if (user == null) {
+                throw new IllegalAccessError("No se encontró el usuario que intentó realizar la transacción.");
+            }
+            if (PlanDAO.getInstance().searchById(toDelete.getPkId()) == null) {
+                throw new NullPointerException("No se encontró el plan que se desea eliminar.");
+            }
 
-        if (PlanDAO.getInstance().searchById(toDelete.getPkId()) != null) {
+            if ((!user.hasRol("SUPER_ADMIN")) || toDelete.getStatus().equals("Completo")) {
+                throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
+            }
+
             PlanDAO.getInstance().delete(toDelete);
-        } else //Custom exception
-        {
-            response.getWriter().write(new PlanNotFoundEx().jsonify());
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (IllegalAccessError e) {
+            response.sendError(401, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        throw new IOException("El plan indicado no está registrado");
     }
 
     /**
@@ -211,31 +234,43 @@ public class PlanManager extends HttpServlet {
      * server's response. deleteRiskFromPlan deletes a Plan list of Risks
      * determined by the requestJSON.
      */
-    private void deleteRiskFromPlan(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        JSONObject requestJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planPkID"));
-        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+    private void deleteRiskFromPlan(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            JSONObject requestJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planPkID"));
+            User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
 
-        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
-            throw new IOException();
-        }
+            if (user == null) {
+                throw new IllegalAccessError("No se encontró el usuario que intentó realizar la transacción.");
+            }
 
-        if (plan == null) {
-            //Custom exception
-            response.getWriter().write(new PlanNotFoundEx().jsonify());
+            if (plan == null) {
+                throw new NullPointerException("No se encontró el plan del cual desea eliminar riesgos.");
+            }
+
+            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
+                throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
+            }
+
+            List<Risk> riskList = plan.getRiskList();
+
+            if (riskList == null) {
+                throw new NullPointerException("El Plan no cuenta con riesgos por eliminar.");
+            }
+            riskList.removeIf(r -> r.getPkId() == requestJSON.getInt("riskPkID"));
+            plan.setRiskList(riskList);
+            PlanDAO.getInstance().update(plan);
+
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (IllegalAccessError e) {
+            response.sendError(401, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        List<Risk> riskList = plan.getRiskList();
-        if (riskList == null) {
-            //Custom exception
-            response.getWriter().write(new RisksNotListedEx().jsonify());
-        }
-        riskList.removeIf(r -> r.getPkId() == requestJSON.getInt("riskPkID"));
-        plan.setRiskList(riskList);
-        PlanDAO.getInstance().update(plan);
     }
 
     /**
@@ -245,23 +280,38 @@ public class PlanManager extends HttpServlet {
      * server's response. deleteIncidenceFromPlan deletes a Plan list of
      * Incidences determined by the requestJSON.
      */
-    private void deleteIncidenceFromPlan(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    private void deleteIncidenceFromPlan(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planPkID"));
+            User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
 
-        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planPkID"));
-        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+            if (user == null) {
+                throw new IllegalAccessError("No se encontró el usuario que intentó realizar la transacción.");
+            }
 
-        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
-            throw new IOException();
+            if (plan == null) {
+                throw new NullPointerException("No se encontró el plan del cual desea eliminar incidencias.");
+            }
+
+            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
+                throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
+            }
+
+            List<Incidence> l = plan.getIncidenceList();
+
+            l.removeIf(incidence -> incidence.getPkID() == requestJSON.getInt("incidencePkID"));
+
+            plan.setIncidenceList(l);
+            PlanDAO.getInstance().update(plan);
+
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (IllegalAccessError e) {
+            response.sendError(401, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-
-        List<Incidence> l = plan.getIncidenceList();
-
-        l.removeIf(incidence -> incidence.getPkID() == requestJSON.getInt("incidencePkID"));
-
-        plan.setIncidenceList(l);
-        PlanDAO.getInstance().update(plan);
     }
 
     /**
@@ -271,30 +321,44 @@ public class PlanManager extends HttpServlet {
      * server's response. associateRiskToPlan updates the DB entries of 'Plan'
      * associating it to a list of 'Plan' entries sent by the client.
      */
-    private void associateRiskToPlan(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
-        JSONObject requestJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        JSONArray riskIdJSONArray = requestJSON.getJSONArray("riskIDs");
-        Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planPKID"));
-        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+    private void associateRiskToPlan(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            JSONObject requestJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            JSONArray riskIdJSONArray = requestJSON.getJSONArray("riskIDs");
+            Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planPKID"));
+            User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
 
-        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
-            throw new IOException();
-        }
+            if (user == null) {
+                throw new IllegalAccessError("No se encontró el usuario que intentó realizar la transacción.");
+            }
 
-        if (riskIdJSONArray == null) {
-            //Custom exception
-            response.getWriter().write(new InvalidRiskIDEx().jsonify());
-//            throw new IOException("Invalid risk ID list");
+            if (plan == null) {
+                throw new NullPointerException("No se encontró el plan del cual desea agregar riesgos.");
+            }
+
+            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
+                throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
+            }
+
+            if (riskIdJSONArray == null) {
+                throw new NullPointerException("No se enviaron riesgos por agregar a este plan.");
+            }
+            List<Integer> riskIds = new ArrayList<>();
+            for (int i = 0; i < riskIdJSONArray.length(); i++) {
+                riskIds.add((Integer) riskIdJSONArray.get(i));
+            }
+            PlanDAO.getInstance().associateRisksToPlan(requestJSON.getInt("planPKID"), riskIds);
+
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (IllegalAccessError e) {
+            response.sendError(401, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        List<Integer> riskIds = new ArrayList<>();
-        for (int i = 0; i < riskIdJSONArray.length(); i++) {
-            riskIds.add((Integer) riskIdJSONArray.get(i));
-        }
-        PlanDAO.getInstance().associateRisksToPlan(requestJSON.getInt("planPKID"), riskIds);
     }
 
     /**
@@ -304,64 +368,109 @@ public class PlanManager extends HttpServlet {
      * server's response. associateIncidenceToPlan updates the DB entries of
      * 'Plan' associating it to a list of 'Plan' entries sent by the client.
      */
-    private void associateIncidenceToPlan(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
+    private void associateIncidenceToPlan(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
 
-        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planID"));
+            User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+            Risk risk = RiskDAO.getInstance().searchById(requestJSON.getInt("risk"));
+            Date d = new Date(requestJSON.getLong("entryDate"));
 
-        Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planID"));
-        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
-        Risk risk = RiskDAO.getInstance().searchById(requestJSON.getInt("risk"));
-        Date d = new Date(requestJSON.getLong("entryDate"));
-        
-        Incidence newIncidence = new Incidence(requestJSON.getString("name"), requestJSON.getString("description"), d, requestJSON.getInt("affectation"), requestJSON.getString("cause"), risk);
-        newIncidence.setEntryDate(d);
+            if (user == null) {
+                throw new IllegalAccessError("No se encontró el usuario que intentó realizar la transacción.");
+            }
 
-        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
-            throw new IOException();
+            if (plan == null) {
+                throw new NullPointerException("No se encontró el plan del cual desea agregar incidencias.");
+            }
+
+            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
+                throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
+            }
+
+            Incidence newIncidence = new Incidence(requestJSON.getString("name"), requestJSON.getString("description"), d, requestJSON.getInt("affectation"), requestJSON.getString("cause"), risk);
+            newIncidence.setEntryDate(d);
+
+            plan.addIncidence(newIncidence);
+            PlanDAO.getInstance().update(plan);
+
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (IllegalAccessError e) {
+            response.sendError(401, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-
-        plan.addIncidence(newIncidence);
-        PlanDAO.getInstance().update(plan);
 
     }
 
-    private void associateCommentToPlan(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
-        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+    private void associateCommentToPlan(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
 
-        Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planID"));
-        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+            Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planID"));
+            User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
 
-        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
-            throw new IOException();
+            if (user == null) {
+                throw new IllegalAccessError("No se encontró el usuario que intentó realizar la transacción.");
+            }
+
+            if (plan == null) {
+                throw new NullPointerException("No se encontró el plan del cual desea agregar comentarios.");
+            }
+
+            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
+                throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
+            }
+
+            Comment c = new Comment(requestJSON.getString("comentario"), (user.getOfficial().getName() + " " + user.getOfficial().getSurname()), requestJSON.getString("url"), new Date());
+            plan.addComment(c);
+            PlanDAO.getInstance().update(plan);
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (IllegalAccessError e) {
+            response.sendError(401, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-
-        Comment c = new Comment(requestJSON.getString("comentario"), (user.getOfficial().getName() + " " + user.getOfficial().getSurname()), requestJSON.getString("url"), new Date());
-        plan.addComment(c);
-        PlanDAO.getInstance().update(plan);
     }
 
-    private void deleteCommentFromPlan(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        JSONObject requestJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        Plan p = PlanDAO.getInstance().searchById(requestJSON.getInt("planPkID"));
-        if (p == null) {
-            //Custom exception
-//            response.getWriter().write(new CommentNotFoundEx().jsonify());
-        }
+    private void deleteCommentFromPlan(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            JSONObject requestJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            Plan p = PlanDAO.getInstance().searchById(requestJSON.getInt("planPkID"));
+            User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
 
-        List<Comment> commentList = p.getCommentList();
-        if (commentList == null) {
-            //Custom exception
-//            response.getWriter().write(new CommentsNotListedEx().jsonify());
+            if (user == null) {
+                throw new IllegalAccessError("No se encontró el usuario que intentó realizar la transacción.");
+            }
+
+            if (p == null) {
+                throw new NullPointerException("No se encontró el plan del cual desea eliminar comentarios.");
+            }
+
+            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !p.containsInvolved(user)) || p.getStatus().equals("Completo")) {
+                throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
+            }
+
+            List<Comment> commentList = p.getCommentList();
+            if (commentList == null) {
+                throw new NullPointerException("Este Plan no cuenta con comentarios para ser eliminados.");
+            }
+            commentList.removeIf(comment -> comment.getPkID() == requestJSON.getInt("commentID"));
+            p.setCommentList(commentList);
+            PlanDAO.getInstance().update(p);
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (IllegalAccessError e) {
+            response.sendError(401, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        commentList.removeIf(comment -> comment.getPkID() == requestJSON.getInt("commentID"));
-        p.setCommentList(commentList);
-        PlanDAO.getInstance().update(p);
     }
 
     /**
@@ -370,43 +479,75 @@ public class PlanManager extends HttpServlet {
      * @param response sends the information back to the client with the
      * server's response.
      */
-    private void insertInvolved(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
-        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+    private void insertInvolved(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
 
-        Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planID"));
-        JSONArray involvedIdJSONArray = requestJSON.getJSONArray("userIDs");
-        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+            Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planID"));
+            JSONArray involvedIdJSONArray = requestJSON.getJSONArray("userIDs");
+            User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
 
-        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
-            throw new IOException();
-        }
+            if (user == null) {
+                throw new IllegalAccessError("No se encontró el usuario que intentó realizar la transacción.");
+            }
 
-        if (involvedIdJSONArray == null) {
-            //Custom exception
-//            response.getWriter().write(new InvalidRiskIDEx().jsonify());
-//            throw new IOException("Invalid risk ID list");
+            if (plan == null) {
+                throw new NullPointerException("No se encontró el plan del cual desea insertar involucrados.");
+            }
+
+            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
+                throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
+            }
+
+            if (involvedIdJSONArray == null) {
+                throw new NullPointerException("No se recibieron involucrados por agregar a este plan.");
+            }
+            for (int i = 0; i < involvedIdJSONArray.length(); i++) {
+                User u = UserDAO.getInstance().searchById((Integer) involvedIdJSONArray.get(i));
+                if (u != null) {
+                    plan.addInvolucrado(u);
+                }
+            }
+            PlanDAO.getInstance().update(plan);
+
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (IllegalAccessError e) {
+            response.sendError(401, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        for (int i = 0; i < involvedIdJSONArray.length(); i++) {
-            User u = UserDAO.getInstance().searchById((Integer) involvedIdJSONArray.get(i));
-            plan.addInvolucrado(u);
-        }
-        PlanDAO.getInstance().update(plan);
     }
 
-    private void deleteInvolved(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
-        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        User involved = UserDAO.getInstance().searchById(requestJSON.getInt("involvedID"));
-        Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planID"));
-        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+    private void deleteInvolved(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            User involved = UserDAO.getInstance().searchById(requestJSON.getInt("involvedID"));
+            Plan plan = PlanDAO.getInstance().searchById(requestJSON.getInt("planID"));
+            User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
 
-        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
-            throw new IOException();
+            if (user == null) {
+                throw new IllegalAccessError("No se encontró el usuario que intentó realizar la transacción.");
+            }
+
+            if (plan == null) {
+                throw new NullPointerException("No se encontró el plan del cual desea eliminar involucrados.");
+            }
+
+            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
+                throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
+            }
+
+            plan.removeInvolucrado(involved);
+            PlanDAO.getInstance().update(plan);
+
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (IllegalAccessError e) {
+            response.sendError(401, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-
-        plan.removeInvolucrado(involved);
-        PlanDAO.getInstance().update(plan);
     }
 
     // </editor-fold>

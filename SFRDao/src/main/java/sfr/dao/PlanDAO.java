@@ -155,8 +155,6 @@ public class PlanDAO extends GenericDAO {
         fourthRow.createCell(8).setCellValue("FACTOR DEL RIESGO (CAUSA)");
         fourthRow.createCell(9).setCellValue("CONSECUENCIA");
         setBordersToMergedCells(worksheet, new CellRangeAddress(3, 3, 1, 9), "MEDIUM");
-        for (int i = 0; i<16; i++)
-             worksheet.autoSizeColumn(i);
         //Returns the workbook with no risk info if it is the case.
         if (p.getRiskList() == null || p.getRiskList().isEmpty()) {
             return workbook;
@@ -181,6 +179,8 @@ public class PlanDAO extends GenericDAO {
         //XSSFCellStyle cellStyle = workbook.createCellStyle();
         //cellA1.setCellStyle(cellStyle);
         setBordersToMergedCells(worksheet, new CellRangeAddress(4, 4, 1, 15), "THIN");
+        for (int i = 0; i<16; i++)
+             worksheet.autoSizeColumn(i,true);
         return workbook;
     }
 

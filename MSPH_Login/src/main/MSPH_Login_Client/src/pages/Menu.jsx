@@ -40,27 +40,6 @@ export default class Menu extends Component {
                         </Row>
                         <Row>
                             <Col>
-                                <Button className="btnSFR" onClick={() => { document.location = process.env.REACT_APP_SFR_CLIENT_PATH; }}>
-                                    <Image src={SFRLogo} height={100} width={250} className=' hover-shadow' />
-                                </Button>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Button className="btnSFR" onClick={() => { document.location = process.env.REACT_APP_SFR_CLIENT_PATH; }}>
-                                    <Image src={SFRLogo} height={100} width={250} className=' hover-shadow' />
-                                </Button>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Button className="btnSFR" onClick={() => { document.location = process.env.REACT_APP_SFR_CLIENT_PATH; }}>
-                                    <Image src={SFRLogo} height={100} width={250} className=' hover-shadow' />
-                                </Button>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
                                 <Button className="btnSFR">
                                 <Image src={exitDoor} height={100} width={250} className=' hover-shadow' onClick = {() => {this.props.history.push("/logout");}}/>
                                 </Button>

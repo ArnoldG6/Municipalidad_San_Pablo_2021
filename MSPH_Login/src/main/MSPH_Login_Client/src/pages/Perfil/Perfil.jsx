@@ -50,6 +50,7 @@ export default class Plan extends React.Component {
                 this.setState({
                     user: response.data
                 }, () => {
+                    console.log(this.state.user)
                 });
             })
             .catch(error => {

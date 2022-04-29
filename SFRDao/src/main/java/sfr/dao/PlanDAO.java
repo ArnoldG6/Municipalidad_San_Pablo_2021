@@ -112,7 +112,7 @@ public class PlanDAO extends GenericDAO {
             throw new IOException("Invalid parameter p");
         }
         return new StringBuilder().append("Matriz_de_riesgos_").append(p.getId()).append("_").append(Timestamp.from(Instant.now()).toString().
-                replace(":", "-").replace("/", "-")).append(".xls").toString();
+                replace(":", "-").replace("/", "-")).append(".xlsx").toString();
     }
 
     public XSSFWorkbook generateRiskTableXLSXFile(Plan p) throws IOException {
@@ -155,7 +155,6 @@ public class PlanDAO extends GenericDAO {
         fourthRow.createCell(8).setCellValue("FACTOR DEL RIESGO (CAUSA)");
         fourthRow.createCell(9).setCellValue("CONSECUENCIA");
         setBordersToMergedCells(worksheet, new CellRangeAddress(3, 3, 1, 9), "MEDIUM");
-
         //Returns the workbook with no risk info if it is the case.
         if (p.getRiskList() == null || p.getRiskList().isEmpty()) {
             return workbook;
@@ -173,13 +172,15 @@ public class PlanDAO extends GenericDAO {
             dataRow.createCell(6).setCellValue(r.getId() + " " + r.getName());
             dataRow.createCell(7).setCellValue("FALTA EL CAMPO EN LA DB");
             dataRow.createCell(8).setCellValue(r.getFactors());
-            dataRow.createCell(9).setCellValue("FALTA EL CAMPO EN LA DB");
+            dataRow.createCell(9).setCellValue(r.getConsequences());
             rowCount += 1;
         }
 
         //XSSFCellStyle cellStyle = workbook.createCellStyle();
         //cellA1.setCellStyle(cellStyle);
         setBordersToMergedCells(worksheet, new CellRangeAddress(4, 4, 1, 15), "THIN");
+        for (int i = 0; i<16; i++)
+             worksheet.autoSizeColumn(i,true);
         return workbook;
     }
 

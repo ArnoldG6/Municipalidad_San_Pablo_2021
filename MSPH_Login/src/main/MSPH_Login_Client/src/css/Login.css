@@ -19,3 +19,12 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.vertical-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bottom-element{
+  grid-area: footer;
+}

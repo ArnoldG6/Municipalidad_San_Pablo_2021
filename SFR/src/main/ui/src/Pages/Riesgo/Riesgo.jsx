@@ -216,11 +216,11 @@ export default class Plan extends Component {
                                                     <tbody>
                                                         <tr><td><b>Tipo General</b></td><td>{this.state.risk.generalType}</td></tr>
                                                         <tr><td><b>Tipo Por Área</b></td><td>{this.state.risk.areaType}</td></tr>
-                                                        <tr><td><b>Tipo Específico</b></td><td>{this.state.risk.specType}</td></tr>
                                                         <tr><td><b>Probabilidad</b></td><td>{this.state.risk.probability}</td></tr>
                                                         <tr><td><b>Impacto</b></td><td>{this.state.risk.impact}</td></tr>
                                                         <tr><td><b>Magnitud</b></td><td>{this.state.risk.magnitude}</td></tr>
                                                         <tr><td><b>Factores</b></td><td>{this.state.risk.factors}</td></tr>
+                                                        <tr><td><b>Description</b></td><td>{this.state.risk.description}</td></tr>
                                                     </tbody>
                                                 </Table>
                                             </Table>
@@ -286,19 +286,17 @@ export default class Plan extends Component {
                                                                 <h2>ID: {this.state.risk.id}</h2>
                                                                 <h4>Autor: {this.state.risk.author.official.name} {this.state.risk.author.official.surname}</h4>
                                                             </Card.Title>
-                                                            <div>&nbsp;</div>
-                                                            <div>&nbsp;</div>
                                                             <Table>
                                                                 <h2>Información General</h2>
                                                                 <Table border="1" hover responsive="md">
                                                                     <tbody>
                                                                         <tr><td><b>Tipo General</b></td><td>{this.state.risk.generalType}</td></tr>
                                                                         <tr><td><b>Tipo Por Área</b></td><td>{this.state.risk.areaType}</td></tr>
-                                                                        <tr><td><b>Tipo Específico</b></td><td>{this.state.risk.specType}</td></tr>
                                                                         <tr><td><b>Probabilidad</b></td><td>{this.state.risk.probability}</td></tr>
                                                                         <tr><td><b>Impacto</b></td><td>{this.state.risk.impact}</td></tr>
                                                                         <tr><td><b>Magnitud</b></td><td>{this.state.risk.magnitude}</td></tr>
                                                                         <tr><td><b>Factores</b></td><td>{this.state.risk.factors}</td></tr>
+                                                                        <tr><td><b>Descripción</b></td><td>{this.state.risk.description}</td></tr>
                                                                     </tbody>
                                                                 </Table>
                                                             </Table>

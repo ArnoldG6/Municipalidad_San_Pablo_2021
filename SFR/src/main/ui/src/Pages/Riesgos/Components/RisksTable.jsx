@@ -23,7 +23,6 @@ class RisksTable extends Component {
                                                     ID: {risk.id} <br />
                                                     Tipo General: {risk.generalType} <br />
                                                     Tipo por Área: {risk.areaType} <br />
-                                                    Tipo Específico: {risk.specType} <br />
                                                     Probabilidad: {risk.probability} <br />
                                                     Impacto: {risk.impact} <br />
                                                     Magnitud: {risk.magnitude} <br />
@@ -45,7 +44,6 @@ class RisksTable extends Component {
                                 <th>Nombre</th>
                                 <th>Tipo General</th>
                                 <th>Tipo por Área</th>
-                                <th>Tipo Específico</th>
                                 <th>Probabilidad</th>
                                 <th>Impacto</th>
                                 <th>Magnitud</th>
@@ -62,7 +60,6 @@ class RisksTable extends Component {
                                                 <td className="nameSlot"><Link to={{ pathname: "/riesgo", search: `?id=${risk.id}` }}><p>{risk.name}</p></Link></td>
                                                 <td>{risk.generalType}</td>
                                                 <td>{risk.areaType}</td>
-                                                <td>{risk.specType}</td>
                                                 <td>{risk.probability}</td>
                                                 <td>{risk.impact}</td>
                                                 <td>{risk.magnitude}</td>

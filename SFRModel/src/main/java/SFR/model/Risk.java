@@ -33,8 +33,8 @@ public class Risk implements Serializable {
     private String generalType;
     @Column(name = "AreaType")
     private String areaType;
-    @Column(name = "SpecType")
-    private String specType;
+    @Column(name = "Description")
+    private String description;
     @Column(name = "Probability")
     private Float probability;
     @Column(name = "Impact")
@@ -67,12 +67,12 @@ public class Risk implements Serializable {
     }
 
     public Risk(String id, String name, String desc, String generalType, String areaType,
-            String specificType, Float probability, Integer impact, User author, String consequences) {
+            String description, Float probability, Integer impact, User author, String consequences) {
         this.id = id;
         this.name = name;
         this.factors = desc;
         this.generalType = generalType;
-        this.specType = specificType;
+        this.description = description;
         this.areaType = areaType;
         this.probability = probability;
         this.impact = impact;
@@ -134,12 +134,12 @@ public class Risk implements Serializable {
         this.areaType = areaType;
     }
 
-    public String getSpecType() {
-        return specType;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSpecType(String specType) {
-        this.specType = specType;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Float getProbability() {
@@ -211,7 +211,7 @@ public class Risk implements Serializable {
         sb.append("\"name\": \"").append(name).append("\", \n");
         sb.append("\"factors\": \"").append(factors).append("\", \n");
         sb.append("\"generalType\": \"").append(generalType).append("\", \n");
-        sb.append("\"specType\": \"").append(specType).append("\", \n");
+        sb.append("\"description\": \"").append(description).append("\", \n");
         sb.append("\"areaType\": \"").append(areaType).append("\", \n");
         sb.append("\"probability\": ").append(probability).append(", \n");
         sb.append("\"impact\": ").append(impact).append(", \n");

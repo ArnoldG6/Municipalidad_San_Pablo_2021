@@ -40,7 +40,7 @@ class EditRiskModal extends Component {
                     'impact': parseInt(event.target.impact.value),
                     'generalType': this.props.risk.generalType,
                     'areaType': this.props.risk.areaType,
-                    'specType': event.target.specific_factor.value,
+                    'description': event.target.description.value,
                     'magnitude': parseFloat(event.target.probability.value) * parseInt(event.target.impact.value),
                     'factors': event.target.factor.value,
                     'mitigationMeasures': event.target.mitigationMeasures.value,
@@ -240,15 +240,7 @@ class EditRiskModal extends Component {
                             <Form.Group>
                                 <div className="form-group">
                                     <Form.Label>Descripción de tipo específico:</Form.Label>
-                                    <Form.Control
-                                        name="specific_factor"
-                                        id="specific_factor"
-                                        type="text"
-                                        placeholder=""
-                                        className="form-control"
-                                        defaultValue={risk.specType}
-                                        required
-                                    />
+                                    <textarea name="description" id="description" type="text" defaultValue={risk.description} className="form-control" required />
                                     <Form.Control.Feedback type="invalid">
                                         Por favor ingresar tipo específico.
                                     </Form.Control.Feedback>

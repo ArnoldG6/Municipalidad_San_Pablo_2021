@@ -278,7 +278,6 @@ class Riesgos extends Component {
                             <option value='name'>Nombre</option>
                             <option value='generalType'>Tipo General</option>
                             <option value='areaType'>Tipo por Área</option>
-                            <option value='specType'>Tipo Específico</option>
                             <option value='probability'>Probabilidad</option>
                             <option value='impact'>Impacto</option>
                             <option value='magnitude'>Magnitud</option>
@@ -323,7 +322,6 @@ class Riesgos extends Component {
                             <option value='name'>Nombre</option>
                             <option value='generalType'>Tipo General</option>
                             <option value='areaType'>Tipo por Área</option>
-                            <option value='specType'>Tipo Específico</option>
                             <option value='probability'>Probabilidad</option>
                             <option value='impact'>Impacto</option>
                             <option value='magnitude'>Magnitud</option>

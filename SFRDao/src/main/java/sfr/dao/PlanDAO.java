@@ -168,9 +168,9 @@ public class PlanDAO extends GenericDAO {
             //dataRow.createCell(2).setCellValue("NIVEL 2");
             //dataRow.createCell(3).setCellValue("NIVEL 3");
             //dataRow.createCell(4).setCellValue("PROCESO");
-            dataRow.createCell(5).setCellValue("FALTA EL CAMPO EN LA DB");
-            dataRow.createCell(6).setCellValue(r.getId() + " " + r.getName());
-            dataRow.createCell(7).setCellValue("FALTA EL CAMPO EN LA DB");
+            //dataRow.createCell(5).setCellValue("FALTA EL CAMPO EN LA DB");
+            dataRow.createCell(6).setCellValue(r.getId() + " - " + r.getName());
+            dataRow.createCell(7).setCellValue(r.getDescription());
             dataRow.createCell(8).setCellValue(r.getFactors());
             dataRow.createCell(9).setCellValue(r.getConsequences());
             rowCount += 1;
@@ -606,7 +606,7 @@ public class PlanDAO extends GenericDAO {
                         || p.matcher(r.getFactors()).find()
                         || p.matcher(r.getGeneralType()).find()
                         || p.matcher(r.getAreaType()).find()
-                        || p.matcher(r.getSpecType()).find()
+                        || p.matcher(r.getDescription()).find()
                         || p.matcher(String.valueOf(r.getProbability())).find()
                         || p.matcher(String.valueOf(r.getImpact())).find()
                         || p.matcher(String.valueOf(r.getMagnitude())).find()

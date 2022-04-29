@@ -60,8 +60,8 @@ public class RiskDAO extends GenericDAO {
                 return "generalType";
             case "AREATYPE":
                 return "areaType";
-            case "SPECTYPE":
-                return "specType";
+            case "DESCRIPTION":
+                return "description";
             case "PROBABILITY":
                 return "probability";
             case "IMPACT":
@@ -378,7 +378,7 @@ public class RiskDAO extends GenericDAO {
                 Risk r = risk.getValue();
                 if (p.matcher(String.valueOf(r.getId())).find() || p.matcher(r.getName()).find()
                         || p.matcher(r.getFactors()).find() || p.matcher(r.getGeneralType()).find()
-                        || p.matcher(r.getAreaType()).find() || p.matcher(r.getSpecType()).find()
+                        || p.matcher(r.getAreaType()).find() || p.matcher(r.getDescription()).find()
                         || p.matcher(String.valueOf(r.getProbability())).find() || p.matcher(String.valueOf(r.getImpact())).find()
                         || // p.matcher(String.valueOf(r.getMagnitude())).find()||p.matcher(r.getMitigationMeasures()).find()
                         p.matcher(String.valueOf(r.getMagnitude())).find()) {

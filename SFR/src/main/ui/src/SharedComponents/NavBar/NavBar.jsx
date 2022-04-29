@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, Image } from "react-bootstrap";
 import logoMuni from "../images/logoHeader.png"
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 class NavBar extends Component {
     render() {
@@ -15,7 +17,7 @@ class NavBar extends Component {
                             <Nav.Link href="#/riesgos">Riesgos</Nav.Link>
                         </Nav>
                         <Nav>
-                            <Nav.Link href="#/perfil">Perfil</Nav.Link>
+                            <Nav.Link href={process.env.REACT_APP_PROFILE + "?id=" + cookies.get('username', { path: process.env.REACT_APP_AUTH })}>Perfil</Nav.Link>
                             <Nav.Link href={process.env.REACT_APP_AUTH}>Salir del SFR</Nav.Link>
                             <Nav.Link href={process.env.REACT_APP_LOGOUT}>Logout</Nav.Link>
                         </Nav>

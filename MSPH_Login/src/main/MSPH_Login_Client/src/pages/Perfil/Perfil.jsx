@@ -50,6 +50,7 @@ export default class Plan extends React.Component {
                 this.setState({
                     user: response.data
                 }, () => {
+                    console.log(this.state.user)
                 });
             })
             .catch(error => {
@@ -83,7 +84,6 @@ export default class Plan extends React.Component {
                                     <h1>Nombre: {this.state.user.full_name}</h1>
                                     <h1>Email: {this.state.user.email}</h1>
                                     <h1>Departamento: {this.state.user.department}</h1>
-                                    <h1>Rol: {this.state.user.roles}</h1>
                                     <Button onClick={() => this.openModalEdit(this.state.user)}>Editar Perfil</Button>
 
                                 </div>
@@ -101,7 +101,7 @@ export default class Plan extends React.Component {
                                         <h1>Nombre: {this.state.user.full_name}</h1>
                                         <h1>Email: {this.state.user.email}</h1>
                                         <h1>Departamento: {this.state.user.department}</h1>
-                                        <h1>Rol: {this.state.user.roles}</h1>
+                                        
                                         <Button onClick={() => this.openModalEdit(this.state.user)}>Editar Perfil</Button>
                                     </div>
                             }

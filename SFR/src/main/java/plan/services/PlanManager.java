@@ -202,8 +202,7 @@ public class PlanManager extends HttpServlet {
     private void deletePlan(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-            Plan toDelete = new Plan();
-            toDelete.setPkId(requestJSON.getInt("pkID"));
+            Plan toDelete = PlanDAO.getInstance().searchById(requestJSON.getInt("pkID"));
             User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
 
             if (user == null) {

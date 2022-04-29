@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Row } from 'react-bootstrap';
+import { Button, Row, Table } from 'react-bootstrap';
 import EditPerfilModal from './Components/EditPerfilModal';
 import './Perfil.css'
 const cookies = new Cookies();
@@ -77,15 +77,21 @@ export default class Plan extends React.Component {
                             (this.state.user === null || typeof this.state.user === 'undefined') ?
                                 <div><h1>Cargando Datos</h1>
                                 </div> :
-                                
                                 <div>
-                                    <h1>Usuario: {this.state.user.username}</h1>
-                                    <h1>Nombre: {this.state.user.full_name}</h1>
-                                    <h1>Email: {this.state.user.email}</h1>
-                                    <h1>Departamento: {this.state.user.department}</h1>
-                                    <h1>Rol: {this.state.user.roles}</h1>
+                                    <Table>
+                                        <h2>Perfil</h2>
+                                        <Table border="1" hover responsive="md">
+                                            <tbody>
+                                                <tr><td><b>Usuario:</b></td><td>{this.state.user.username}</td></tr>
+                                                <tr><td><b>Nombre: </b></td><td>{this.state.user.full_name}</td></tr>
+                                                <tr><td><b>Email: </b></td><td>{this.state.user.email}</td></tr>
+                                                <tr><td><b>Departamento: </b></td><td>{this.state.user.department}</td></tr>
+                                                {//<tr><td><b>Rol: </b></td><td>{this.state.user.roles}</td></tr>
+                                                }
+                                            </tbody>
+                                        </Table>
+                                    </Table>
                                     <Button onClick={() => this.openModalEdit(this.state.user)}>Editar Perfil</Button>
-
                                 </div>
                         }
                     </Row>
@@ -97,11 +103,19 @@ export default class Plan extends React.Component {
                                     <div><h1>Cargando Datos</h1>
                                     </div> :
                                     <div>
-                                        <h1>Usuario: {this.state.user.username}</h1>
-                                        <h1>Nombre: {this.state.user.full_name}</h1>
-                                        <h1>Email: {this.state.user.email}</h1>
-                                        <h1>Departamento: {this.state.user.department}</h1>
-                                        <h1>Rol: {this.state.user.roles}</h1>
+                                        <Table>
+                                            <h2>Perfil</h2>
+                                            <Table border="1" hover responsive="md">
+                                                <tbody>
+                                                    <tr><td><b>Usuario:</b></td><td>{this.state.user.username}</td></tr>
+                                                    <tr><td><b>Nombre: </b></td><td>{this.state.user.full_name}</td></tr>
+                                                    <tr><td><b>Email: </b></td><td>{this.state.user.email}</td></tr>
+                                                    <tr><td><b>Departamento: </b></td><td>{this.state.user.department}</td></tr>
+                                                    {//<tr><td><b>Rol: </b></td><td>{this.state.user.roles}</td></tr>
+                                                    }
+                                                </tbody>
+                                            </Table>
+                                        </Table>
                                         <Button onClick={() => this.openModalEdit(this.state.user)}>Editar Perfil</Button>
                                     </div>
                             }

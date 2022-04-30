@@ -67,8 +67,8 @@ export default class Plan extends React.Component {
     };
 
     render() {
-        let logeado = cookies.get('username', { path: process.env.REACT_APP_AUTH });
-        let roles = cookies.get('roles', { path: process.env.REACT_APP_AUTH });
+        //let logeado = cookies.get('username', { path: process.env.REACT_APP_AUTH });
+        //let roles = cookies.get('roles', { path: process.env.REACT_APP_AUTH });
         return (
             <div className="Usuario-Container">
                 <div className='d-lg-none container-fluid'>

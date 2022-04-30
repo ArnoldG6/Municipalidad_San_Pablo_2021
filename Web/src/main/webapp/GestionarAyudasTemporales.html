@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="CSS/Formularios.css" rel="stylesheet" type="text/css"/>
+        <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css'>
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css'>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+        <link rel='stylesheet' href='https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css'>
+        <link rel='stylesheet' href='https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css'>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+        <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" 
+                integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+        <script src="JavaScript/UsuarioMunicipal/Header.js"></script>
+    </head>
+    <body>
+        <div class="container" style="width:100%">
+            <div class="card bg-light">     
+                <h4 class="card-title mt-3 text-center">Histórico de ayudas temporales</h4> 
+                <div class="card-body">  
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-modal-ayudas-temporales" style="background-color: #02315f">
+                        Agregar solicitud
+                    </button>
+                    <br>
+                    <div class="container py-5">
+                        <div class="row">
+                            <table id="dataTable" class="table table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Cédula</th>
+                                        <th>Nombre completo</th>
+                                        <th>Motivo ayuda</th>
+                                        <th>Fecha creación</th>
+                                        <th>Dirección</th>
+                                        <th>Clave recuperación</th>
+                                        <th>Estado</th>
+                                        <th>Modificar</th>
+                                        <th>Historial</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Cédula</th>
+                                        <th>Nombre completo</th>
+                                        <th>Motivo ayuda</th>
+                                        <th>Fecha creación</th>
+                                        <th>Dirección</th>
+                                        <th>Clave recuperación</th>
+                                        <th>Estado</th>
+                                        <th>Modificar</th>
+                                        <th>Historial</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal add ayudasTemporales-->      
+                <div class="modal fade modal-fade-centered" id="add-modal-ayudas-temporales" tabindex="-1" role="dialog" style="min-width:720px!important">
+                    <div class="modal-dialog" style="min-width:720px!important">
+                        <div class="modal-content" style="min-width:720px!important;   justify-content: center;">
+                            <main>
+                                <article>
+                                    <div class="container justify-content-center">
+                                        <div class="col-12 col-offset">
+                                            <div class="progress mt-3" style="height: 30px;">
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="font-weight:bold; font-size:15px; background-color: #42AA25" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <div class="card mt-3">
+                                                <div class="card-header font-weight-bold">Formulario ayuda temporal</div>
+                                                <div class="card-body p-4 step">
+                                                    <div id="datosPersonales" class="form-group row">
+                                                        <div class="col-6">
+                                                            <label for="cedula">Cedula<b style="color: #dc3545;">*</b></label>
+                                                            <input type="text" name="cedula" class="form-control" id="cedulaInput" required>
+                                                            <div class="invalid-feedback">Este campo es requerido</div>  
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <br>
+                                                            <button id="consultarCedulaBtn" type="button" class="btn btn-primary" style="background-color: #02315f">Consultar</button>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <br>
+                                                            <label for="nombre">Nombre<b style="color: #dc3545;">*</b></label>
+                                                            <input type="text" name="nombre" class="form-control" id="nombreInput" required>
+                                                            <div class="invalid-feedback">Este campo es requerido</div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <br>
+                                                            <label for="primerApellido">Primer apellido<b style="color: #dc3545;">*</b></label>
+                                                            <input type="text" name="primerApellido" class="form-control" id="primerApellidoInput" required>
+                                                            <div class="invalid-feedback">Este campo es requerido</div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <br>
+                                                            <label for="segundoApellido">Segundo apellido<b style="color: #dc3545;">*</b></label>
+                                                            <input type="text" name="segundoApellido" class="form-control" id="segundoApellidoInput" required>
+                                                            <div class="invalid-feedback">Este campo es requerido</div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <br>
+                                                            <label for="fechaNacimiento">Fecha nacimiento<b style="color: #dc3545;">*</b></label>
+                                                            <div class="row form-group">
+                                                                <div class="input-group date" id="datepicker">
+                                                                    <input type="text" name="fechaNacimientoInput" class="form-control" id="fechaNacimientoInput" required>
+                                                                    <span class="input-group-append">
+                                                                        <span class="input-group-text bg-white d-block">
+                                                                            <i class="fa fa-calendar"></i>
+                                                                        </span>
+                                                                    </span>
+                                                                </div>                  
+                                                            </div>
+                                                            <div class="invalid-feedback">Este campo es requerido</div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <br>
+                                                            <label for="edad">Edad<b style="color: #dc3545;">*</b></label>
+                                                            <input type="number" name="edad" class="form-control" id="edadInput" min="18" max="120" required>
+                                                            <div class="invalid-feedback">Este campo es requerido</div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="text-center text-muted"><b style="color: #dc3545;">*</b>Campos requeridos</div>
+                                                </div>
+                                                <div class="card-body p-4 step" style="display: none"> 
+                                                    <div id="datosContacto" class="form-group row">
+                                                        <div class="form-group row">
+                                                            <div class="col-6">
+                                                                <br>
+                                                                <label for="telefonoHabitacion">Teléfono habitación<b style="color: #dc3545;">*</b></label>
+                                                                <input type="text" name="telefonoHabitacion" class="form-control" id="telefonoHabitacionInput" required>
+                                                                <div class="invalid-feedback">Este campo es requerido</div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <br>
+                                                                <label for="telefonoCelular">Teléfono celular<b style="color: #dc3545;">*</b></label>
+                                                                <input type="text" name="telefonoCelular" class="form-control" id="telefonoCelularInput" required>
+                                                                <div class="invalid-feedback">Este campo es requerido</div>
+                                                            </div>
+                                                            <div>
+                                                                <br>
+                                                                <label for="correoElectronico">Correo electrónico<b style="color: #dc3545;">*</b></label>
+                                                                <input type="text" name="correoElectronico" class="form-control" id="correoElectronicoInput" required>
+                                                                <div class="invalid-feedback">Este campo es requerido</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="text-center text-muted"><b style="color: #dc3545;">*</b>Campos requeridos</div>
+                                                </div>
+                                                <div class="card-body p-4 step" style="display: none">
+                                                    <div id="datosDireccion" class="form-group row">
+                                                        <div>
+                                                            <br>
+                                                            <label for="distrito">Distrito<b style="color: #dc3545;">*</b></label>
+                                                            <input type="text" name="distrito" class="form-control" id="distritoInput" required>
+                                                            <div class="invalid-feedback">Este campo es requerido</div>
+                                                        </div>
+                                                        <div>
+                                                            <br>
+                                                            <label for="barrio">Barrio<b style="color: #dc3545;">*</b></label>
+                                                            <input type="text" name="barrio" class="form-control" id="barrioInput" required>
+                                                            <div class="invalid-feedback">Este campo es requerido</div>
+                                                        </div>
+                                                        <div>
+                                                            <br>
+                                                            <label for="direccionExacta">Dirección exacta<b style="color: #dc3545;">*</b></label>
+                                                            <input type="text" name="direccionExacta" class="form-control" id="direccionExactaInput" required>
+                                                            <div class="invalid-feedback">Este campo es requerido</div>
+                                                        </div>
+                                                    </div> 
+                                                    <br>
+                                                    <div class="text-center text-muted"><b style="color: #dc3545;">*</b>Campos requeridos</div>
+                                                </div>
+                                                <div class="card-body p-4 step" style="display: none">
+                                                    <br>                                
+                                                    <div id="datosMotivo" class="form-group row">
+                                                        <label for="motivoAyuda">Motivo de la ayuda<b style="color: #dc3545;">*</b></label>
+                                                        <textarea name="motivoAyuda" class="form-control" id="motivoAyudaInput" rows="10" required></textarea>
+                                                        <div class="invalid-feedback">Este campo es requerido</div>
+                                                    </div> 
+                                                    <br>
+                                                    <div class="text-center text-muted"><b style="color: #dc3545;">*</b>Campos requeridos</div>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <button class="action back btn btn-sm btn-warning btn-lg" style="display: none">Atrás</button>
+                                                    <button class="action next btn btn-sm btn btn-primary btn-lg float-end" disabled="" style="background-color: #02315f">Siguiente</button>
+                                                    <button id="crearFormularioATBtn" class="action submit btn btn-sm btn-success float-end" style="display: none">Enviar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                            </main>
+                        </div>
+                    </div>              
+                </div>
+
+                <!-- Modal ayudasTemporales por solicitante-->      
+                <div class="modal fade modal-fade-centered" id="add-modal-ayudas-temporales-por-usuario" tabindex="-1" role="dialog" style="min-width:720px!important">
+                    <div class="modal-dialog" style="min-width:720px!important">
+                        <div class="modal-content" style="min-width:720px!important; justify-content: center;">
+                            <div class="card bg-light">
+                                <div class="card-body mx-auto w-75" id="buscarDiv" >
+                                    <h4 id="nombreSolicitanteTitle" class="card-title mt-3 text-center"></h4>
+                                    <table class="table table-striped table-hover">
+                                        <thead><tr>
+                                                <th scope="col">Id Solicitud</th>
+                                                <th scope="col">Motivo</th>
+                                                <th scope="col">Estado</th>
+                                        </thead>
+                                        <tbody id="listaAyudasPorSolicitante">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>              
+            </div>
+        </div>
+        <footer class="credit">Municipalidad de San Pablo, Heredia</footer>
+        <script src="JavaScript/UsuarioMunicipal/GestionarAyudasTemporales.js"></script>
+        <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
+    </body>
+</html>

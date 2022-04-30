@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="CSS/Formularios.css" rel="stylesheet" type="text/css"/>
+        <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css'>
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css'>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+        <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" 
+                integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+        <script src="JavaScript/UsuarioSolicitante/Header.js"></script>
+    </head>
+    <body>
+        <main>
+            <article>
+                <div class="container justify-content-center">
+                    <div class="col-12 col-offset">
+                        <div class="progress mt-3" style="height: 30px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" style="font-weight:bold; font-size:15px; background-color: #42AA25" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="card mt-3">
+                            <div class="card-header font-weight-bold">Formulario beca académica</div>
+
+                            <div class="card-body p-4 step">
+                                <div id="datosPersonales" class="form-group row">
+                                    <div class="col-6">
+                                        <label for="cedula">Cedula<b style="color: #dc3545;">*</b></label>
+                                        <input type="text" name="cedula" class="form-control" id="cedulaInput" required>
+                                        <div class="invalid-feedback">Este campo es requerido</div>  
+                                    </div>
+                                    <div class="col-6">
+                                        <br>
+                                        <button id="consultarCedulaBtn" type="button" class="btn btn-primary" style="background-color: #02315f">Consultar</button>
+                                    </div>
+                                    <div class="col-4">
+                                        <br>
+                                        <label for="nombre">Nombre<b style="color: #dc3545;">*</b></label>
+                                        <input type="text" name="nombre" class="form-control" id="nombreInput" required>
+                                        <div class="invalid-feedback">Este campo es requerido</div>
+                                    </div>
+                                    <div class="col-4">
+                                        <br>
+                                        <label for="primerApellido">Primer apellido<b style="color: #dc3545;">*</b></label>
+                                        <input type="text" name="primerApellido" class="form-control" id="primerApellidoInput" required>
+                                        <div class="invalid-feedback">Este campo es requerido</div>
+                                    </div>
+                                    <div class="col-4">
+                                        <br>
+                                        <label for="segundoApellido">Segundo apellido<b style="color: #dc3545;">*</b></label>
+                                        <input type="text" name="segundoApellido" class="form-control" id="segundoApellidoInput" required>
+                                        <div class="invalid-feedback">Este campo es requerido</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <br>
+                                        <label for="fechaNacimiento">Fecha nacimiento<b style="color: #dc3545;">*</b></label>
+                                        <div class="row form-group">
+                                            <div class="input-group date" id="datepicker">
+                                                <input type="text" name="fechaNacimientoInput" class="form-control" id="fechaNacimientoInput" required>
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text bg-white d-block">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </span>
+                                                </span>
+                                            </div>                  
+                                        </div>
+                                        <div class="invalid-feedback">Este campo es requerido</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <br>
+                                        <label for="edad">Edad<b style="color: #dc3545;">*</b></label>
+                                        <input type="number" name="edad" class="form-control" id="edadInput" min="18" max="120" required>
+                                        <div class="invalid-feedback">Este campo es requerido</div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="text-center text-muted"><b style="color: #dc3545;">*</b>Campos requeridos</div>
+                            </div>
+
+                            <div class="card-body p-4 step" style="display: none"> 
+                                <div id="datosContacto" class="form-group row">
+                                    <div class="form-group row">
+                                        <div class="col-6">
+                                            <br>
+                                            <label for="telefonoHabitacion">Teléfono habitación<b style="color: #dc3545;">*</b></label>
+                                            <input type="text" name="telefonoHabitacion" class="form-control" id="telefonoHabitacionInput" required>
+                                            <div class="invalid-feedback">Este campo es requerido</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <br>
+                                            <label for="telefonoCelular">Teléfono celular<b style="color: #dc3545;">*</b></label>
+                                            <input type="text" name="telefonoCelular" class="form-control" id="telefonoCelularInput" required>
+                                            <div class="invalid-feedback">Este campo es requerido</div>
+                                        </div>
+                                        <div>
+                                            <br>
+                                            <label for="correoElectronico">Correo electrónico<b style="color: #dc3545;">*</b></label>
+                                            <input type="text" name="correoElectronico" class="form-control" id="correoElectronicoInput" required>
+                                            <div class="invalid-feedback">Este campo es requerido</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="text-center text-muted"><b style="color: #dc3545;">*</b>Campos requeridos</div>
+                            </div>
+
+                            <div class="card-body p-4 step" style="display: none">
+                                <div id="datosDireccion" class="form-group row">
+                                    <div>
+                                        <br>
+                                        <label for="distrito">Distrito<b style="color: #dc3545;">*</b></label>
+                                        <input type="text" name="distrito" class="form-control" id="distritoInput" required>
+                                        <div class="invalid-feedback">Este campo es requerido</div>
+                                    </div>
+                                    <div>
+                                        <br>
+                                        <label for="barrio">Barrio<b style="color: #dc3545;">*</b></label>
+                                        <input type="text" name="barrio" class="form-control" id="barrioInput" required>
+                                        <div class="invalid-feedback">Este campo es requerido</div>
+                                    </div>
+                                    <div>
+                                        <br>
+                                        <label for="direccionExacta">Dirección exacta<b style="color: #dc3545;">*</b></label>
+                                        <input type="text" name="direccionExacta" class="form-control" id="direccionExactaInput" required>
+                                        <div class="invalid-feedback">Este campo es requerido</div>
+                                    </div>
+                                </div> 
+                                <br>
+                                <div class="text-center text-muted"><b style="color: #dc3545;">*</b>Campos requeridos</div>
+                            </div>
+
+                            <div class="card-body p-4 step" style="display: none">                                
+                                <div id="datosEstudiante" class="form-group row">
+                                    <div>
+                                        <br>
+                                        <label for="cedulaEst">Cedula<b style="color: #dc3545;">*</b></label>
+                                        <input type="text" name="cedulaEst" class="form-control" id="cedulaEstInput" required>
+                                        <div class="invalid-feedback">Este campo es requerido</div>
+                                    </div>
+                                    <div class="col-4">
+                                        <br>
+                                        <label for="nombreEst">Nombre<b style="color: #dc3545;">*</b></label>
+                                        <input type="text" name="nombreEst" class="form-control" id="nombreEstInput" required>
+                                        <div class="invalid-feedback">Este campo es requerido</div>
+                                    </div>
+                                    <div class="col-4">
+                                        <br>
+                                        <label for="primerApellidoEst">Primer apellido<b style="color: #dc3545;">*</b></label>
+                                        <input type="text" name="primerApellidoEst" class="form-control" id="primerApellidoEstInput" required>
+                                        <div class="invalid-feedback">Este campo es requerido</div>
+                                    </div>
+                                    <div class="col-4">
+                                        <br>
+                                        <label for="segundoApellidoEst">Segundo apellido<b style="color: #dc3545;">*</b></label>
+                                        <input type="text" name="segundoApellidoEst" class="form-control" id="segundoApellidoEstInput" required>
+                                        <div class="invalid-feedback">Este campo es requerido</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <br>
+                                        <label for="fechaNacimientoEst">Fecha nacimiento<b style="color: #dc3545;">*</b></label>
+                                        <div class="row form-group">
+                                            <div class="input-group date" id="datepicker">
+                                                <input type="text" name="fechaNacimientoEst" class="form-control" id="fechaNacimientoEstInput" required>
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text bg-white d-block">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </span>
+                                                </span>
+                                            </div>                  
+                                        </div>
+                                        <div class="invalid-feedback">Este campo es requerido</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <br>
+                                        <label for="edadEst">Edad<b style="color: #dc3545;">*</b></label>
+                                        <input type="number" name="edadEst" class="form-control" id="edadEstInput" min="0" max="18" required>
+                                        <div class="invalid-feedback">Este campo es requerido</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <br>
+                                        <label for="gradoAcademicoE">Grado académico<b style="color: #dc3545;">*</b></label>
+                                        <select class="form-select" id="gradoAcademicoEstSelect" required>
+                                            <option selected>-</option>
+                                            <option value="1">Primer grado</option>
+                                            <option value="2">Segundo grado</option>
+                                            <option value="3">Tercer grado</option>
+                                            <option value="4">Cuarto grado</option>
+                                            <option value="5">Quinto grado</option>
+                                            <option value="6">Sexto grado</option>
+                                            <option value="7">Séptimo año</option>
+                                            <option value="8">Octavo año</option>
+                                            <option value="9">Noveno año</option>
+                                            <option value="10">Décimo año</option>
+                                            <option value="11">Undécimo año</option>
+                                            <option value="12">Duodécimo año</option>
+                                        </select>
+                                        <div class="invalid-feedback">Este campo es requerido</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="action back btn btn-sm btn-warning btn-lg" style="display: none">Atrás</button>
+                                <button class="action next btn btn-sm btn btn-primary btn-lg float-end" disabled="" style="background-color: #02315f">Siguiente</button>
+                                <button id="crearFormularioBABtn" class="action submit btn btn-sm btn-success float-end" style="display: none">Enviar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </article>
+        </main>
+        <footer class="credit">Municipalidad de San Pablo, Heredia</footer>
+        <script src="JavaScript/UsuarioSolicitante/SolicitarBecaAcademica.js"></script>
+    </body>
+</html>

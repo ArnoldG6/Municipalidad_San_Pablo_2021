@@ -250,7 +250,7 @@ public class PlanManager extends HttpServlet {
                 throw new NullPointerException("No se encontró el plan del cual desea eliminar riesgos.");
             }
 
-            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
+            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN")) || plan.getStatus().equals("Completo")) {
                 throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
             }
 
@@ -293,7 +293,7 @@ public class PlanManager extends HttpServlet {
                 throw new NullPointerException("No se encontró el plan del cual desea eliminar incidencias.");
             }
 
-            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
+            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN")) || plan.getStatus().equals("Completo")) {
                 throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
             }
 
@@ -452,7 +452,7 @@ public class PlanManager extends HttpServlet {
                 throw new NullPointerException("No se encontró el plan del cual desea eliminar comentarios.");
             }
 
-            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !p.containsInvolved(user)) || p.getStatus().equals("Completo")) {
+            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN")) || p.getStatus().equals("Completo")) {
                 throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
             }
 
@@ -533,7 +533,7 @@ public class PlanManager extends HttpServlet {
                 throw new NullPointerException("No se encontró el plan del cual desea eliminar involucrados.");
             }
 
-            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
+            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN")) || plan.getStatus().equals("Completo")) {
                 throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
             }
 

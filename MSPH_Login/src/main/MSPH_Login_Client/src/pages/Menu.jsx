@@ -18,7 +18,6 @@ export default class Menu extends Component {
     componentDidMount() {
         if (!(cookies.get('username', { path: process.env.REACT_APP_AUTH })
             && cookies.get('roles', { path: process.env.REACT_APP_AUTH })
-            && cookies.get('token', { path: process.env.REACT_APP_AUTH })
             && cookies.get('full_name', { path: process.env.REACT_APP_AUTH })))
             this.props.history.push('/auth');
     }

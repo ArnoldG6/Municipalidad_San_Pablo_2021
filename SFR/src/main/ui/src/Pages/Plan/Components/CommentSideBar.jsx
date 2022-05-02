@@ -75,8 +75,8 @@ export default class CommentSideBar extends Component {
                                                         Comentario: {comentario.comment} <br />
                                                     </Card.Text>
                                                     <Button
-                                                        variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "outline-danger" : "outline-dark"}
-                                                        disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
+                                                        variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") ? "outline-danger" : "outline-dark"}
+                                                        disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") ? true : false}
                                                         onClick={() => this.openModalDelComment(comentario.pkID)}>
                                                         <i className="bi bi-dash-square-fill"></i>{' '}
                                                         Remover comentario

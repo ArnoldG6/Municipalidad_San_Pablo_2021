@@ -54,6 +54,9 @@ class AddPlanModal extends Component {
 
             axios(options)
                 .then(response => {
+                    this.setState({
+                        validated: false
+                    })
                     this.props.updatePlanes("add-success");
                     this.props.closeModal();
                 })

@@ -12,7 +12,6 @@ import Planes from './Pages/Planes/Planes';
 import Plan from './Pages/Plan/Plan';
 import Riesgos from './Pages/Riesgos/Riesgos';
 import Riesgo from './Pages/Riesgo/Riesgo';
-import Perfil from './Pages/Perfil/Perfil';
 import Error from './Pages/Error/Error';
 import Footer from "./SharedComponents/Footer/Footer"
 
@@ -32,8 +31,6 @@ class App extends Component {
               <Route path="/plan" component={Plan} />
               <Route path="/riesgos" component={Riesgos} />
               <Route path="/riesgo" component={Riesgo} />
-              <Route path="/perfil" component={Perfil}>
-              </Route>
               <Route render={() => <Error status={404} text={'Página no encontrada'} />} />
             </Switch>
           </div>

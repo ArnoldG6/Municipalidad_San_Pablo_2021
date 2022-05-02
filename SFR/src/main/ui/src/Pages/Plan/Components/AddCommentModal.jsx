@@ -11,9 +11,7 @@ export default class AddCommentModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            risks: [],
-            validated: false,
-            planID: "",
+            validated: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -50,6 +48,9 @@ export default class AddCommentModal extends Component {
 
             axios(options)
                 .then(response => {
+                    this.setState({
+                        validated: false
+                    })
                     this.props.closeModal();
                     this.props.refreshPage();
                 })

@@ -69,16 +69,16 @@ class IncidentTable extends Component {
                                                 {"Descripcion: " + incidence.description} <br />
                                                 {(typeof incidence.risk !== 'undefined' && incidence.risk !== null) ? "Riesgo asociado: " + incidence.risk.id + ' - ' + incidence.risk.name : null} <br />
                                                 <Button className="d-lg-none"
-                                                    variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "outline-danger" : "outline-dark"}
-                                                    disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
+                                                    variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") ? "outline-danger" : "outline-dark"}
+                                                    disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") ? true : false}
                                                     onClick={() => this.openModalDelIncident(incidence.pkID)}>
                                                     <i className="bi bi-dash-square-fill"></i>{' '}
                                                     Remover Incidencia
                                                 </Button>
                                             </div>
                                             <Button className="d-none d-lg-block"
-                                                variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "outline-danger" : "outline-dark"}
-                                                disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
+                                                variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") ? "outline-danger" : "outline-dark"}
+                                                disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") ? true : false}
                                                 onClick={() => this.openModalDelIncident(incidence.pkID)}>
                                                 <i className="bi bi-dash-square-fill"></i>{' '}
                                                 Remover Incidencia

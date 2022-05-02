@@ -64,16 +64,16 @@ class InvolvedTable extends Component {
                                                 {user.official.department.description} <br />
                                                 <Button variant="link" href={process.env.REACT_APP_PROFILE + "?id=" + user.idUser}>+ Perfil del Usuario</Button>
                                                 <Button className="d-lg-none"
-                                                    variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "outline-danger" : "outline-dark"}
-                                                    disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
+                                                    variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") ? "outline-danger" : "outline-dark"}
+                                                    disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") ? true : false}
                                                     onClick={() => this.openModalDelUser(user.idUser)}>
                                                     <i className="bi bi-dash-square-fill"></i>{' '}
                                                     Remover Involucrado
                                                 </Button>
                                             </div>
                                             <Button className="d-none d-lg-block"
-                                                variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") || this.props.permsCheck("INVOLVED") ? "outline-danger" : "outline-dark"}
-                                                disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
+                                                variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") ? "outline-danger" : "outline-dark"}
+                                                disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") ? true : false}
                                                 onClick={() => this.openModalDelUser(user.idUser)}>
                                                 <i className="bi bi-dash-square-fill"></i>{' '}
                                                 Remover Involucrado

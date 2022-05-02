@@ -60,7 +60,6 @@ export default class Login extends React.Component {
           cookies.set("username", response.data.username, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
           cookies.set("full_name", response.data.full_name, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
           cookies.set("roles", response.data.roles, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
-          cookies.set("token", response.data.token, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
           this.setState({
             username: '',
             pwd: '',
@@ -82,7 +81,6 @@ export default class Login extends React.Component {
   componentDidMount() {
     if (cookies.get('username', { path: process.env.REACT_APP_AUTH })
       && cookies.get('roles', { path: process.env.REACT_APP_AUTH })
-      && cookies.get('token', { path: process.env.REACT_APP_AUTH })
       && cookies.get('full_name', { path: process.env.REACT_APP_AUTH }))
       this.props.history.push('/menu');
   }
@@ -109,7 +107,7 @@ export default class Login extends React.Component {
         <Container className="w-auto text-center mx-auto p-3 mt-2 container">
           <Form className="centered-element" onSubmit={this.handleSubmit}>
             <Form.Group className="mb-3">
-              <Image src={logo} fluid height={300} width={300} className=' hover-shadow' onClick={() => { console.log(cookies) }} />
+              <Image src={logo} height={300} width={300} className=' hover-shadow' onClick={() => { console.log(cookies) }} />
             </Form.Group>
             <Form.Group className="mb-3" >
               <Form.Label>Nombre de usuario o correo electrónico: </Form.Label>

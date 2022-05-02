@@ -54,6 +54,9 @@ class AddRiskModal extends Component {
 
             axios(options)
                 .then(response => {
+                    this.setState({
+                        validated: false
+                    })
                     this.props.updateRiesgos("add-success");
                     this.props.closeModal();
                     if (response.data.id)

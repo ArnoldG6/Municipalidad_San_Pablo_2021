@@ -74,7 +74,6 @@ public class AuthServlet extends HttpServlet {
             responseJSON.put("username", String.valueOf(u.getIdUser()));
             responseJSON.put("full_name", u.getOfficial().getName() + " " + u.getOfficial().getSurname());
             responseJSON.put("roles", u.getRoles());
-            responseJSON.put("token", "xd");
             response.getWriter().write(responseJSON.toString());
             request.getSession(true).setAttribute("user", u);//For other dependencies
         } catch (AuthException e) {

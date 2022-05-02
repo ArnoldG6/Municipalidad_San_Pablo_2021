@@ -24,7 +24,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 .bottom-element{
   grid-area: footer;
 }
+
+.menuIcon{
+  font-size: 18vh;
+  
+
+}
+.menuCard{
+  width: 40vh;
+  margin: 5px;
+}
+ .menuCard:hover{
+   cursor: pointer;
+ }

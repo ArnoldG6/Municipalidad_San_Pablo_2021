@@ -21,7 +21,15 @@ export default class PasswordRecoveryModal extends Component {
         this.handleCodeSubmit = this.handleCodeSubmit.bind(this);
     }
 
-    closeModal() {
+    closeModal(success) {
+        if (success) {
+            toast.success("La contraseña ha sido cambiada exitosamente!", {
+                position: toast.POSITION.TOP_RIGHT,
+                pauseOnHover: true,
+                theme: 'colored',
+                autoClose: 5000
+            });
+        }
         this.setState({
             hideWritePassword: false,
             validateEmail: false
@@ -118,7 +126,7 @@ export default class PasswordRecoveryModal extends Component {
             }
             axios(options)
                 .then(response => {
-                    console.log("password changed");
+                    this.closeModal(true);
                 })
                 .catch(error => {
                     var msj = "";
@@ -160,7 +168,7 @@ export default class PasswordRecoveryModal extends Component {
 
     render() {
         return (
-            <Modal show={this.props.show} onHide={this.closeModal} id="resetPasswordModal" >
+            <Modal show={this.props.show} onHide={() => {this.closeModal(false)}} id="resetPasswordModal" >
                 <Modal.Header>
                     Reinicio de contraseña
                 </Modal.Header>

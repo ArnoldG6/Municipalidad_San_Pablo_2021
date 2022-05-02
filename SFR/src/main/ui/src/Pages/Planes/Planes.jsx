@@ -41,11 +41,12 @@ class Planes extends Component {
     //On load
     componentDidMount() {
         //Account check
+        console.log(cookies);
         if (typeof cookies.get('username', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
             typeof cookies.get('roles', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
             typeof cookies.get('token', { path: process.env.REACT_APP_AUTH }) === 'undefined' ||
             typeof cookies.get('full_name', { path: process.env.REACT_APP_AUTH }) === 'undefined') {
-            document.location = process.env.REACT_APP_LOGOUT;
+            document.location = process.env.REACT_APP_SIMSP_LOGOUT;
         }
 
         this.updatePlanesSort();

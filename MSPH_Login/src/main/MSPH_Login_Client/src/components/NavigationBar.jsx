@@ -14,7 +14,7 @@ export default class NavigationBar extends Component {
         return (
             <div className="Header  container-fluid">
                 <Navbar collapseOnSelect expand="lg" variant="dark">
-                    <Navbar.Brand href="/"><Image src={logoMuni} fluid height={25} width={50} /></Navbar.Brand>
+                    <Navbar.Brand href="#/"><Image src={logoMuni} fluid height={25} width={50} /></Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">

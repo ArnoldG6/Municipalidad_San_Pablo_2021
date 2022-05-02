@@ -20,12 +20,12 @@ export default class Menu extends Component {
             && cookies.get('roles', { path: process.env.REACT_APP_AUTH })
             && cookies.get('token', { path: process.env.REACT_APP_AUTH })
             && cookies.get('full_name', { path: process.env.REACT_APP_AUTH })))
-            this.props.history.push('/login');
+            this.props.history.push('/auth');
     }
 
     render() {
         return (
-            <div className = "vertical-center">
+            <div className="vertical-center">
                 <Container className="w-auto text-center mx-auto p-3 mt-2 container">
                     <Table>
                         <Row>
@@ -46,10 +46,10 @@ export default class Menu extends Component {
                         </Row>
                         <Row>
                             <Col>
-                                <Button className="btnSFR">
-                                {/*<Image src={exitDoor} height={100} width={250} className=' hover-shadow' onClick = {() => {this.props.history.push("/logout");}}/>
+                                <Button className="btnSFR" onClick={() => { this.props.history.push("/logout"); }}>
+                                    {/*<Image src={exitDoor} height={100} width={250} className=' hover-shadow' onClick = {() => {this.props.history.push("/logout");}}/>
                                 */}
-                                Salir
+                                    Salir
                                 </Button>
                             </Col>
                         </Row>

@@ -15,7 +15,6 @@ import logo from "../components/images/MSPH_LOGO.png";
 import PasswordRecoveryModal from './PasswordRecoveryModal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-const requestURL = "http://localhost:8080/auth/API/Auth";
 const cookies = new Cookies();
 
 export default class Login extends React.Component {
@@ -37,16 +36,7 @@ export default class Login extends React.Component {
     this.hidePasswordReset = this.hidePasswordReset.bind(this);
   }
 
-  async handlePwdRedirect(e) {
-    this.state = {
-      username: '',
-      pwd: '',
-      disabled: true
-    };
-    this.props.history.push('/passwordRecovery')
-  }
-
-  async handleSubmit(e) {
+  handleSubmit(e) {
     e.preventDefault();
     this.setState({
       username: e.target.username.value,
@@ -54,7 +44,7 @@ export default class Login extends React.Component {
       disabled: false
     }, () => {
       var options = {
-        url: requestURL,
+        url: process.env.REACT_APP_AUTH_API_PATH + "/Auth",
         method: 'POST',
         header: {
           'Accept': 'application/json',
@@ -67,15 +57,16 @@ export default class Login extends React.Component {
       }
       axios(options).then(response => {
         if (response.data.authStatus) {
-          /*this.setState({
+          cookies.set("username", response.data.username, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
+          cookies.set("full_name", response.data.full_name, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
+          cookies.set("roles", response.data.roles, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
+          cookies.set("token", response.data.token, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
+          this.setState({
             username: '',
             pwd: '',
-            disabled: true
-          });*/
-          cookies.set("username", response.data.username, { path: process.env.REACT_APP_AUTH, sameSite: 'lax' });
-          cookies.set("full_name", response.data.full_name, { path: process.env.REACT_APP_AUTH, sameSite: 'lax' });
-          cookies.set("roles", response.data.roles, { path: process.env.REACT_APP_AUTH, sameSite: 'lax' });
-          cookies.set("token", response.data.token, { path: process.env.REACT_APP_AUTH, sameSite: 'lax' });
+            disabled: true,
+            showPassResetModal: false
+          });
           this.props.history.push('/menu');
         } else
           toast.error("Usuario o contraseña inválidos.", {
@@ -89,7 +80,6 @@ export default class Login extends React.Component {
   }
 
   componentDidMount() {
-    console.log(cookies);
     if (cookies.get('username', { path: process.env.REACT_APP_AUTH })
       && cookies.get('roles', { path: process.env.REACT_APP_AUTH })
       && cookies.get('token', { path: process.env.REACT_APP_AUTH })
@@ -138,7 +128,7 @@ export default class Login extends React.Component {
           </Form>
         </Container>
         <PasswordRecoveryModal show={this.state.showPassResetModal} closeModal={this.hidePasswordReset} />
-        <ToastContainer/>
+        <ToastContainer />
       </div>
     );
   }

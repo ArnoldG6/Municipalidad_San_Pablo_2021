@@ -1,5 +1,6 @@
 package common.dao.generic;
 
+import java.util.logging.Level;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.FlushModeType;
@@ -14,6 +15,7 @@ public class GenericDAO {
     public GenericDAO() {
         if (emf == null) {
             emf = Persistence.createEntityManagerFactory(PU);
+            java.util.logging.Logger.getLogger("org.hibernate").setLevel((Level.OFF));
         }
     }
 

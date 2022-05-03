@@ -9,6 +9,7 @@ import Cookies from 'universal-cookie';
 import { Container, Button, Row, Card } from 'react-bootstrap';
 
 import '../css/Login.css';
+import NavigationBar from '../components/NavigationBar';
 const cookies = new Cookies();
 
 export default class Menu extends Component {
@@ -25,31 +26,32 @@ export default class Menu extends Component {
 
     render() {
         return (
+            <div>
+                <NavigationBar/>
+                <div className="p-3 ">
+                    <Row>
+                        <Container className='vertical-center'> <h1> Sistema de Identificación de la Municipalidad de San Pablo </h1></Container>
+                    </Row>
+                    <Row className='vertical-center'>
 
-            <div className="p-3 ">
-                <Row>
-                    <Container className='vertical-center'> <h1> Sistema de Identificación de la Municipalidad de San Pablo </h1></Container>
-                </Row>
-                <Row className='vertical-center'>
+                        <Card className='menuCard' onClick={() => { document.location = process.env.REACT_APP_SFR_CLIENT_PATH; }}>
+                            <Card.Header variant="top" className='vertical-center'><i class="bi bi-table menuIcon"></i></Card.Header>
+                            <Button className="btnSFR"  >
+                                SFR
+                            </Button>
+                        </Card>
 
-                    <Card className='menuCard' onClick={() => { document.location = process.env.REACT_APP_SFR_CLIENT_PATH; }}>
-                        <Card.Header variant="top" className='vertical-center'><i class="bi bi-table menuIcon"></i></Card.Header>
-                        <Button className="btnSFR"  >
-                            SFR
-                        </Button>
-                    </Card>
+                        <Card className='menuCard' onClick={() => { document.location = process.env.REACT_APP_SIGCD_PATH; }}>
+                            <Card.Header variant="top" className='vertical-center'><i class="bi bi-pencil menuIcon"></i> </Card.Header>
+                            <Button className="btnSFR" >
+                                SIGCD
+                            </Button>
+                        </Card>
 
-                    <Card className='menuCard' onClick={() => { document.location = process.env.REACT_APP_SIGCD_PATH; }}>
-                        <Card.Header variant="top" className='vertical-center'><i class="bi bi-pencil menuIcon"></i> </Card.Header>
-                        <Button className="btnSFR" >
-                            SIGCD
-                        </Button>
-                    </Card>
+                    </Row>
 
-                </Row>
-
+                </div>
             </div>
-
 
         );
     }

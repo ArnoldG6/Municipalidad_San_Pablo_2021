@@ -24,7 +24,6 @@ function Routes() {
     <div className="page-container">
       <HashRouter>
         <div className="content-wrap">
-          <NavigationBar />
           <Switch>
             <Route exact path="/auth" component={Login} />
             <Route exact path="/logout" component={Logout} />

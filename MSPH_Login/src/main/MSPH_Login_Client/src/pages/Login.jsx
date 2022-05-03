@@ -15,6 +15,7 @@ import logo from "../components/images/MSPH_LOGO.png";
 import PasswordRecoveryModal from './PasswordRecoveryModal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import NavigationBar from '../components/NavigationBar';
 const cookies = new Cookies();
 
 export default class Login extends React.Component {
@@ -104,6 +105,7 @@ export default class Login extends React.Component {
   render() {
     return (
       <div>
+        <NavigationBar/>
         <Container className="w-auto text-center mx-auto p-3 mt-2 container">
           <Form className="centered-element" onSubmit={this.handleSubmit}>
             <Form.Group className="mb-3">

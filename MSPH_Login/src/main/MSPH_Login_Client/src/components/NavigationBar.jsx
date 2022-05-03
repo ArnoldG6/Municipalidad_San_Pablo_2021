@@ -17,9 +17,14 @@ export default class NavigationBar extends Component {
                     <Navbar.Brand href="#/"><Image src={logoMuni} fluid height={25} width={50} /></Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="me-auto">
-                            <Nav.Link href={"#/profile?id=" + cookies.get('username', { path: process.env.REACT_APP_AUTH })} >Perfil</Nav.Link>
-                        </Nav>
+                        {(typeof cookies.get('username', { path: process.env.REACT_APP_AUTH }) === 'undefined'
+                            || cookies.get('username', { path: process.env.REACT_APP_AUTH }) === null) ?
+                            null :
+                            <Nav>
+                                <Nav.Link href={"#/profile?id=" + cookies.get('username', { path: process.env.REACT_APP_AUTH })} >Perfil</Nav.Link>
+                                <Nav.Link href="#/logout">Cerrar sesión</Nav.Link>
+                            </Nav>
+                        }
                     </Navbar.Collapse>
                 </Navbar>
             </div>

@@ -122,21 +122,18 @@ public class PlanManager extends HttpServlet {
      */
     private void insertPlan(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining())),
+            responseJSON = new JSONObject();
             User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
             requestJSON.remove("userID");
-
             if (user == null) {
                 throw new IllegalAccessError("No se encontró el usuario que intentó realizar la transacción.");
             }
-
             Date d = new Date();
             LocalDate localDate = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
             Plan newPlan = new Gson().fromJson(requestJSON.toString(), Plan.class);
             newPlan.setEntryDate(d);
             newPlan.addInvolucrado(user);
-
             int idCount = PlanTypeDAO.getInstance().handleIDAmount(newPlan.getId());
             String year = Integer.toString(localDate.getYear());
             String month = String.format("%02d", localDate.getMonthValue());
@@ -146,7 +143,12 @@ public class PlanManager extends HttpServlet {
             newPlan.setId(newID);
 
             PlanDAO.getInstance().add(newPlan);
-
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            responseJSON.append("id", newPlan.getId());
+            response.getWriter().write(responseJSON.toString());
+            response.getWriter().flush();
+            response.getWriter().close();
         } catch (IllegalAccessError e) {
             response.sendError(401, e.getMessage());
         } catch (Exception e) {

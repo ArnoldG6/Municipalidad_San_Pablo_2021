@@ -4,6 +4,7 @@
  * in order to cast Java objects from HQL queries.
  */
 package sfr.dao;
+import java.util.logging.Level;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -14,8 +15,11 @@ public class GenericDAO {
     private static EntityManagerFactory emf;
     private static final String PU = "SFRPU";
     public GenericDAO() {
-        if (emf == null) 
+        if (emf == null) {
             emf = Persistence.createEntityManagerFactory(PU);
+            java.util.logging.Logger.getLogger("org.hibernate").setLevel((Level.OFF));
+            
+        }
     }
     /**
     getEntityManager() method 

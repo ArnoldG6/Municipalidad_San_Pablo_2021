@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-class AddPlanModal extends Component {
+export default class AddPlanModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -59,6 +59,12 @@ class AddPlanModal extends Component {
                     })
                     this.props.updatePlanes("add-success");
                     this.props.closeModal();
+                    if (response.data.id)
+                        document.location = process.env.REACT_APP_SFR + "#/plan?planID=" + id
+                    else
+                        throw new Error('Error al cargar página específica del riesgo ');
+                        
+
                 })
                 .catch(error => {
                     var msj = "";
@@ -202,4 +208,3 @@ class AddPlanModal extends Component {
         );
     }
 };
-export default AddPlanModal;

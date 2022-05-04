@@ -6,10 +6,7 @@ Contact me via: "arnoldgq612@gmail.com".
 */
 import React, { Component } from 'react';
 import Cookies from 'universal-cookie';
-import { Container, Button, Image, Table, Col, Row } from 'react-bootstrap';
-import SFRLogo from "../components/images/logoSFR.png";
-import other from "../components/images/otro.png";
-import exitDoor from "../components/images/exitDoor.png";
+import { Container, Button, Table, Col, Row } from 'react-bootstrap';
 import '../css/Login.css';
 const cookies = new Cookies();
 
@@ -34,14 +31,17 @@ export default class Menu extends Component {
                         <Row>
                             <Col>
                                 <Button className="btnSFR" onClick={() => { document.location = process.env.REACT_APP_SFR_CLIENT_PATH; }}>
-                                    <Image src={SFRLogo} height={100} width={250} className=' hover-shadow' />
+                                    {/*<Image src={SFRLogo} height={100} width={250} className=' hover-shadow' />*/}
+                                    SFR
                                 </Button>
                             </Col>
                         </Row>
                         <Row>
                             <Col>
                                 <Button className="btnSFR">
-                                <Image src={exitDoor} height={100} width={250} className=' hover-shadow' onClick = {() => {this.props.history.push("/logout");}}/>
+                                {/*<Image src={exitDoor} height={100} width={250} className=' hover-shadow' onClick = {() => {this.props.history.push("/logout");}}/>
+                                */}
+                                SALIR
                                 </Button>
                             </Col>
                         </Row>

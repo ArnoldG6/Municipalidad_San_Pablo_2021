@@ -18,8 +18,8 @@ class NavBar extends Component {
                         </Nav>
                         <Nav>
                             <Nav.Link href={process.env.REACT_APP_PROFILE + "?id=" + cookies.get('username', { path: process.env.REACT_APP_AUTH })}>Perfil</Nav.Link>
-                            <Nav.Link href={process.env.REACT_APP_AUTH}>Salir del SFR</Nav.Link>
-                            <Nav.Link href={process.env.REACT_APP_LOGOUT}>Logout</Nav.Link>
+                            <Nav.Link href={process.env.REACT_APP_AUTH}>Menú Principal</Nav.Link>
+                            <Nav.Link href={process.env.REACT_APP_LOGOUT}>Cerrar sesión</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>

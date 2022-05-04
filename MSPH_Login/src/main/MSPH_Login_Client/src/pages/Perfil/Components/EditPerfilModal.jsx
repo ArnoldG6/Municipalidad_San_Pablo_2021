@@ -20,7 +20,7 @@ class EditPerfilModal extends Component {
         event.preventDefault();
 
         let options = {
-            url: process.env.REACT_APP_SFR_API_URL + `/User/edit`,
+            url: process.env.REACT_APP_AUTH_API_PATH + `/User/edit`,
             method: 'PUT',
             header: {
                 'Accept': 'application/json',

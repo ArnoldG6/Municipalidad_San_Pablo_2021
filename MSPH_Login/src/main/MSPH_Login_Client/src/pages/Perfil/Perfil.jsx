@@ -87,8 +87,7 @@ export default class Plan extends React.Component {
                                                 <tr><td><b>Nombre: </b></td><td>{this.state.user.full_name}</td></tr>
                                                 <tr><td><b>Email: </b></td><td>{this.state.user.email}</td></tr>
                                                 <tr><td><b>Departamento: </b></td><td>{this.state.user.department}</td></tr>
-                                                {//<tr><td><b>Rol: </b></td><td>{this.state.user.roles}</td></tr>
-                                                }
+
                                             </tbody>
                                         </Table>
                                     </Table>
@@ -96,41 +95,40 @@ export default class Plan extends React.Component {
                                 </div>
                         }
                     </Row>
-                    {/* PC */}
-                    <div className="d-none d-lg-block">
-                        <div className='container-fluid Data-container'>
-                            {
-                                (this.state.user === null || typeof this.state.user === 'undefined') ?
-                                    <div><h1>Cargando Datos</h1>
-                                    </div> :
-                                    <div>
-                                        <Table>
-                                            <h2>Perfil</h2>
-                                            <Table border="1" hover responsive="md">
-                                                <tbody>
-                                                    <tr><td><b>Usuario:</b></td><td>{this.state.user.username}</td></tr>
-                                                    <tr><td><b>Nombre: </b></td><td>{this.state.user.full_name}</td></tr>
-                                                    <tr><td><b>Email: </b></td><td>{this.state.user.email}</td></tr>
-                                                    <tr><td><b>Departamento: </b></td><td>{this.state.user.department}</td></tr>
-                                                    {//<tr><td><b>Rol: </b></td><td>{this.state.user.roles}</td></tr>
-                                                    }
-                                                </tbody>
-                                            </Table>
-                                        </Table>
-                                        <Button onClick={() => this.openModalEdit(this.state.user)}>Editar Perfil</Button>
-                                    </div>
-                            }
-                        </div>
-                    </div>
-                    <EditPerfilModal
-                        user={this.state.user}
-                        show={this.state.showEdit}
-                        closeModal={this.closeModalEdit}
-                        refreshPage={this.refreshPage}
-
-                    />
                 </div>
+                {/* PC */}
+                <div className="d-none d-lg-block">
+                    <div className='container-fluid Data-container'>
+                        {
+                            (this.state.user === null || typeof this.state.user === 'undefined') ?
+                                <div><h1>Cargando Datos</h1>
+                                </div> :
+                                <div>
+                                    <h2>Perfil</h2>
+                                    <Table>
+                                        <Table border="1" hover responsive="md">
+                                            <tbody>
+                                                <tr><td><b>Usuario:</b></td><td>{this.state.user.username}</td></tr>
+                                                <tr><td><b>Nombre: </b></td><td>{this.state.user.full_name}</td></tr>
+                                                <tr><td><b>Email: </b></td><td>{this.state.user.email}</td></tr>
+                                                <tr><td><b>Departamento: </b></td><td>{this.state.user.department}</td></tr>
+                                            </tbody>
+                                        </Table>
+                                    </Table>
+                                    <Button onClick={() => this.openModalEdit(this.state.user)}>Editar Perfil</Button>
+                                </div>
+                        }
+                    </div>
+                </div>
+                <EditPerfilModal
+                    user={this.state.user}
+                    show={this.state.showEdit}
+                    closeModal={this.closeModalEdit}
+                    refreshPage={this.refreshPage}
+
+                />
             </div>
+
         );
     }
 }

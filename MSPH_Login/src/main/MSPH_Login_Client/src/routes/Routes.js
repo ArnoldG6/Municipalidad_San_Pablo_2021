@@ -11,7 +11,6 @@ import Logout from '../pages/Logout';
 import Menu from '../pages/Menu';
 import Perfil from '../pages/Perfil/Perfil';
 import Footer from '../components/Footer';
-import NavigationBar from '../components/NavigationBar';
 import '../css/Routes.css';
 
 function Routes() {

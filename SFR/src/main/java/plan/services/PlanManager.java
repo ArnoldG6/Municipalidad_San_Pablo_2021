@@ -178,8 +178,10 @@ public class PlanManager extends HttpServlet {
             if (PlanDAO.getInstance().searchById(editPlan.getPkId()) == null) {
                 throw new NullPointerException("No se encontró el plan que se desea editar.");
             }
+            
+            Plan plan = PlanDAO.getInstance().searchById(editPlan.getPkId());
 
-            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !editPlan.containsInvolved(user)) || editPlan.getStatus().equals("Completo")) {
+            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
                 throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
             }
 

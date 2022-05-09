@@ -613,9 +613,9 @@ INSERT INTO `si_db`.`T_SFR_PlanComment` (`FK_PLAN`, `FK_COMMENT`) VALUES (1,1);
 
 -- ----------------------------------------------------------------------------------------------------------------
 
-INSERT INTO estado VALUES(1,"En proceso");
-INSERT INTO estado VALUES(2,"Aceptada");
-INSERT INTO estado VALUES(3,"Denegada");
+INSERT INTO si_db.estado VALUES(1,"En proceso");
+INSERT INTO si_db.estado VALUES(2,"Aceptada");
+INSERT INTO si_db.estado VALUES(3,"Denegada");
 
 INSERT INTO si_db.gradoAcademico values(1,"Primer grado");
 INSERT INTO si_db.gradoAcademico values(2,"Segundo grado");

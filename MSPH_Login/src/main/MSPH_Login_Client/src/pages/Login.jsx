@@ -109,7 +109,7 @@ export default class Login extends React.Component {
         <Container className="w-auto text-center mx-auto p-3 mt-2 container">
           <Form className="centered-element" onSubmit={this.handleSubmit}>
             <Form.Group className="mb-3">
-              <Image src={logo} height={300} width={300} className=' hover-shadow' onClick={() => { console.log(cookies) }} />
+              <Image src={logo} height={200} width={200} className=' hover-shadow' onClick={() => { console.log(cookies) }} />
             </Form.Group>
             <Form.Group className="mb-3" >
               <Form.Label>Nombre de usuario o correo electrónico: </Form.Label>

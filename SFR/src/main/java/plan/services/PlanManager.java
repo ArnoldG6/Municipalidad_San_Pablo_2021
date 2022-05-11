@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import sfr.dao.PlanDAO;
 import sfr.dao.PlanTypeDAO;
 import sfr.dao.RiskDAO;
+import sfr.dao.Transaction;
 import sfr.model.Comment;
 import sfr.model.Incidence;
 import sfr.model.Plan;
@@ -121,8 +122,9 @@ public class PlanManager extends HttpServlet {
      */
     private void insertPlan(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
+            Boolean errorOcurred = false;
             JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining())),
-            responseJSON = new JSONObject();
+                    responseJSON = new JSONObject();
             User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
             requestJSON.remove("userID");
             if (user == null) {
@@ -141,14 +143,19 @@ public class PlanManager extends HttpServlet {
             String newID = newPlan.getId() + "-" + year + month + day + "-" + id;
             newPlan.setId(newID);
 
-            PlanDAO.getInstance().add(newPlan);
+            try {
+                PlanDAO.getInstance().add(newPlan);
+                PlanDAO.getInstance().recordTransaction(user, Transaction.INSERT_PLAN, true, "PLAN_ID: " + newID);
+            } catch (Exception e) {
+                PlanDAO.getInstance().recordTransaction(user, Transaction.INSERT_PLAN, Boolean.FALSE, "PLAN_ID: " + newID);
+                throw e;
+            }
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             responseJSON.append("id", newPlan.getId());
             response.getWriter().write(responseJSON.toString());
             response.getWriter().flush();
             response.getWriter().close();
-            PlanDAO.getInstance().recordTransaction(user, "Insert Plan", Boolean.TRUE);
         } catch (IllegalAccessError e) {
             response.sendError(401, e.getMessage());
         } catch (Exception e) {
@@ -178,7 +185,7 @@ public class PlanManager extends HttpServlet {
             if (PlanDAO.getInstance().searchById(editPlan.getPkId()) == null) {
                 throw new NullPointerException("No se encontró el plan que se desea editar.");
             }
-            
+
             Plan plan = PlanDAO.getInstance().searchById(editPlan.getPkId());
 
             if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {

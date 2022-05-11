@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import org.junit.Test;
 import sfr.dao.EmailFactory;
 import sfr.dao.PlanDAO;
+import sfr.dao.Transaction;
 
 /**
  *
@@ -23,7 +24,7 @@ public class Tests {
     @Test
     public void main() throws Exception {
         try {
-            System.out.println(UserDAO.getInstance().searchById(50));
+            PlanDAO.getInstance().recordTransaction(UserDAO.getInstance().searchById(50), Transaction.INSERT_PLAN, Boolean.TRUE, "a");
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

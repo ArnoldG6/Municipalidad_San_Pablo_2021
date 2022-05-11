@@ -46,7 +46,7 @@ public class GenericDAO {
         try {
             if (user == null ||transaction == null|| success == null || description == null)
                 throw new NullPointerException();
-            StoredProcedureQuery proc = getEntityManager().createStoredProcedureQuery("insertResetCode");
+            StoredProcedureQuery proc = getEntityManager().createStoredProcedureQuery("recordTransaction");
             proc.registerStoredProcedureParameter("P_USERNAME", Integer.class, ParameterMode.IN);
             proc.registerStoredProcedureParameter("P_EMAIL", String.class, ParameterMode.IN);
             proc.registerStoredProcedureParameter("P_TRANSACTION_NAME", String.class, ParameterMode.IN);

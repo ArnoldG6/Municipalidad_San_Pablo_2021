@@ -4,7 +4,7 @@ package sfr.dao;
  * @author ArnoldG6
  * Enum class for Transactions records
  */
-enum Transaction {
+public enum Transaction {
     INSERT_PLAN,
     DELETE_PLAN,
     EDIT_PLAN,

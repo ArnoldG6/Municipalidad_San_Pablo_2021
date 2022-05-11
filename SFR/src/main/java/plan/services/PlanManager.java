@@ -148,6 +148,7 @@ public class PlanManager extends HttpServlet {
             response.getWriter().write(responseJSON.toString());
             response.getWriter().flush();
             response.getWriter().close();
+            PlanDAO.getInstance().recordTransaction(user, "Insert Plan", Boolean.TRUE);
         } catch (IllegalAccessError e) {
             response.sendError(401, e.getMessage());
         } catch (Exception e) {

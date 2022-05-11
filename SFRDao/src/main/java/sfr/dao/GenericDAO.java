@@ -42,19 +42,21 @@ public class GenericDAO {
             em = null;
         }
     }
-    public void recordTransaction(User user, String transactionName,Boolean success) throws  Exception {
+    public void recordTransaction(User user, Transaction transaction,Boolean success, String description) throws  Exception {
         try {
-            if (user == null ||transactionName == null|| success == null )
+            if (user == null ||transaction == null|| success == null || description == null)
                 throw new NullPointerException();
             StoredProcedureQuery proc = getEntityManager().createStoredProcedureQuery("insertResetCode");
             proc.registerStoredProcedureParameter("P_USERNAME", Integer.class, ParameterMode.IN);
             proc.registerStoredProcedureParameter("P_EMAIL", String.class, ParameterMode.IN);
             proc.registerStoredProcedureParameter("P_TRANSACTION_NAME", String.class, ParameterMode.IN);
             proc.registerStoredProcedureParameter("P_SUCCESS", Boolean.class, ParameterMode.IN);
+            proc.registerStoredProcedureParameter("P_DESCRIPTION", String.class, ParameterMode.IN);
             proc.setParameter("P_USERNAME", user.getIdUser());
             proc.setParameter("P_EMAIL", user.getEmail());
-            proc.setParameter("P_TRANSACTION_NAME", transactionName);
+            proc.setParameter("P_TRANSACTION_NAME", transaction.name());
             proc.setParameter("P_SUCCESS", success);
+            proc.setParameter("P_DESCRIPTION", description);
             proc.execute();
         } catch (Exception e) {
             e.printStackTrace(System.out);

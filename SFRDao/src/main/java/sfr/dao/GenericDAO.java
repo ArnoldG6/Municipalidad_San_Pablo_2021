@@ -4,11 +4,14 @@
  * in order to cast Java objects from HQL queries.
  */
 package sfr.dao;
+import common.model.User;
 import java.util.logging.Level;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.ParameterMode;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
 public class GenericDAO {
     @PersistenceContext
     protected static EntityManager em;
@@ -39,5 +42,24 @@ public class GenericDAO {
             em = null;
         }
     }
-
+        public void handlePasswordReset(User user, String transactionName,Boolean success) throws  Exception {
+        try {
+            if (user == null ||transactionName == null|| success == null )
+                throw new NullPointerException();
+            StoredProcedureQuery proc = getEntityManager().createStoredProcedureQuery("insertResetCode");
+            proc.registerStoredProcedureParameter("P_IN_FK_USER", String.class, ParameterMode.IN);
+            proc.registerStoredProcedureParameter("P_IN_RESET_CODE", String.class, ParameterMode.IN);
+            proc.registerStoredProcedureParameter("P_IN_FK_USER", String.class, ParameterMode.IN);
+            proc.registerStoredProcedureParameter("P_IN_RESET_CODE", String.class, ParameterMode.IN);
+            proc.setParameter("P_IN_FK_USER", user.getIdUser().toString());
+            proc.setParameter("P_IN_RESET_CODE", code.toString());
+            proc.execute();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            System.err.println(e.getMessage());
+            throw e;
+        } finally {
+            closeEntityManager();
+        }
+    }
 }

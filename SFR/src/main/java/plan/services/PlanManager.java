@@ -145,7 +145,7 @@ public class PlanManager extends HttpServlet {
 
             try {
                 PlanDAO.getInstance().add(newPlan);
-                PlanDAO.getInstance().recordTransaction(user, Transaction.INSERT_PLAN, true, "PLAN_ID: " + newID);
+                PlanDAO.getInstance().recordTransaction(user, Transaction.INSERT_PLAN, Boolean.TRUE, "PLAN_ID: " + newID);
             } catch (Exception e) {
                 PlanDAO.getInstance().recordTransaction(user, Transaction.INSERT_PLAN, Boolean.FALSE, "PLAN_ID: " + newID);
                 throw e;
@@ -192,7 +192,12 @@ public class PlanManager extends HttpServlet {
                 throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
             }
 
-            PlanDAO.getInstance().update(editPlan);
+            try {
+                PlanDAO.getInstance().update(editPlan);
+                PlanDAO.getInstance().recordTransaction(user, Transaction.EDIT_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId());
+            } catch (Exception e) {
+                PlanDAO.getInstance().recordTransaction(user, Transaction.EDIT_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId());
+            }
 
         } catch (NullPointerException e) {
             response.sendError(400, e.getMessage());
@@ -226,8 +231,13 @@ public class PlanManager extends HttpServlet {
             if ((!user.hasRol("SUPER_ADMIN")) || toDelete.getStatus().equals("Completo")) {
                 throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
             }
-
-            PlanDAO.getInstance().delete(toDelete);
+            try {
+                PlanDAO.getInstance().delete(toDelete);
+                PlanDAO.getInstance().recordTransaction(user, Transaction.DELETE_PLAN, Boolean.TRUE, "PLAN_ID: " + toDelete.getId());
+            } catch (Exception e) {
+                PlanDAO.getInstance().recordTransaction(user, Transaction.DELETE_PLAN, Boolean.FALSE, "PLAN_ID: " + toDelete.getId());
+            }
+            
         } catch (NullPointerException e) {
             response.sendError(400, e.getMessage());
         } catch (IllegalAccessError e) {

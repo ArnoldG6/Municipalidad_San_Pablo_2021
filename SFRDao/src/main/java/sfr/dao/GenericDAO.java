@@ -42,17 +42,19 @@ public class GenericDAO {
             em = null;
         }
     }
-        public void handlePasswordReset(User user, String transactionName,Boolean success) throws  Exception {
+    public void recordTransaction(User user, String transactionName,Boolean success) throws  Exception {
         try {
             if (user == null ||transactionName == null|| success == null )
                 throw new NullPointerException();
             StoredProcedureQuery proc = getEntityManager().createStoredProcedureQuery("insertResetCode");
-            proc.registerStoredProcedureParameter("P_IN_FK_USER", String.class, ParameterMode.IN);
-            proc.registerStoredProcedureParameter("P_IN_RESET_CODE", String.class, ParameterMode.IN);
-            proc.registerStoredProcedureParameter("P_IN_FK_USER", String.class, ParameterMode.IN);
-            proc.registerStoredProcedureParameter("P_IN_RESET_CODE", String.class, ParameterMode.IN);
-            proc.setParameter("P_IN_FK_USER", user.getIdUser().toString());
-            proc.setParameter("P_IN_RESET_CODE", code.toString());
+            proc.registerStoredProcedureParameter("P_USERNAME", Integer.class, ParameterMode.IN);
+            proc.registerStoredProcedureParameter("P_EMAIL", String.class, ParameterMode.IN);
+            proc.registerStoredProcedureParameter("P_TRANSACTION_NAME", String.class, ParameterMode.IN);
+            proc.registerStoredProcedureParameter("P_SUCCESS", Boolean.class, ParameterMode.IN);
+            proc.setParameter("P_USERNAME", user.getIdUser());
+            proc.setParameter("P_EMAIL", user.getEmail());
+            proc.setParameter("P_TRANSACTION_NAME", transactionName);
+            proc.setParameter("P_SUCCESS", success);
             proc.execute();
         } catch (Exception e) {
             e.printStackTrace(System.out);

@@ -197,6 +197,7 @@ public class PlanManager extends HttpServlet {
                 PlanDAO.getInstance().recordTransaction(user, Transaction.EDIT_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId());
             } catch (Exception e) {
                 PlanDAO.getInstance().recordTransaction(user, Transaction.EDIT_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId());
+                throw e;
             }
 
         } catch (NullPointerException e) {
@@ -236,6 +237,7 @@ public class PlanManager extends HttpServlet {
                 PlanDAO.getInstance().recordTransaction(user, Transaction.DELETE_PLAN, Boolean.TRUE, "PLAN_ID: " + toDelete.getId());
             } catch (Exception e) {
                 PlanDAO.getInstance().recordTransaction(user, Transaction.DELETE_PLAN, Boolean.FALSE, "PLAN_ID: " + toDelete.getId());
+                throw e;
             }
             
         } catch (NullPointerException e) {

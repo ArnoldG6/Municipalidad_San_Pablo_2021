@@ -46,6 +46,10 @@ public class RiskType implements Serializable {
     @Column(name = "ID_Amount")
     private int id_amount;
 
+    @Column(name = "Consequence")
+    @Expose
+    private String consequence;
+
     public RiskType() {
         //super();
     }
@@ -54,10 +58,11 @@ public class RiskType implements Serializable {
         this.id = id;
     }
 
-    public RiskType(Integer id, String name, String idName) {
+    public RiskType(Integer id, String name, String idName, String consequence) {
         this.id = id;
         this.name = name;
         this.idName = idName;
+        this.consequence = consequence;
     }
 
     public Integer getId() {
@@ -106,6 +111,14 @@ public class RiskType implements Serializable {
 
     public void setId_amount(int id_amount) {
         this.id_amount = id_amount;
+    }
+
+    public String getConsequence() {
+        return consequence;
+    }
+
+    public void setConsequence(String consequence) {
+        this.consequence = consequence;
     }
 
 }

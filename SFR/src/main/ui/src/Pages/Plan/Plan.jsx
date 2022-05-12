@@ -11,8 +11,6 @@ import GenericModal from '../../SharedComponents/GenericModal/GenericModal';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import fileDownload from 'js-file-download';
-import FileSaver from 'file-saver';
 import JsFileDownloader from 'js-file-downloader';
 const cookies = new Cookies();
 

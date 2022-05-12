@@ -132,7 +132,7 @@ public class RiskManager extends HttpServlet {
             Risk newRisk = new Gson().fromJson(requestJSON.toString(), Risk.class);
             newRisk.updateMagnitude();
             newRisk.setAuthor(user);
-            long idCount = RiskTypeDAO.getInstance().handleIDAmount(newRisk.getId());
+            long idCount = RiskTypeDAO.getInstance().handleIDAmount(newRisk.getId().substring(4));
             String id = String.format("%02d", idCount);
             String newID = newRisk.getId() + id;
             newRisk.setId(newID);

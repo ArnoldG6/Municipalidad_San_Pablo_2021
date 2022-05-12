@@ -1,29 +1,8 @@
 import React, { Component } from 'react';
 import './TopButtons.css';
 import { Stack, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { ToastContainer, toast } from 'react-toastify';
 
 class TopButtons extends Component {
-    constructor(props) {
-        super(props);
-        this.handleRiskTableButtonClick = this.handleRiskTableButtonClick.bind(this);
-    }
-    handleRiskTableButtonClick() {
-        try {
-            if (this.props.planID === null || typeof this.props.planID === 'undefined')
-                throw new Error('Invalid parameter planID');
-            document.location = process.env.REACT_APP_SFR_API_URL + "/PlanServlet/RiskTable?planID=" + this.props.planID
-        } catch (e) {
-            console.log(e);
-            toast.error("Error al obtener la matriz de riesgos", {
-                position: toast.POSITION.TOP_RIGHT,
-                pauseOnHover: true,
-                theme: 'colored',
-                autoClose: 5000
-            });
-        }
-
-    }
     render() {
         let statusClass = this.props.status;
         switch (statusClass) {
@@ -91,7 +70,7 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant="outline-warning" onClick={this.handleRiskTableButtonClick}>
+                            <Button variant="outline-warning" onClick={this.props.handleRiskTableButtonClick}>
                                 <h2><i className="bi bi-clipboard-data"></i></h2>
                             </Button>
                         </OverlayTrigger>
@@ -152,7 +131,7 @@ class TopButtons extends Component {
                             )}
                             placement="bottom"
                         >
-                            <Button variant="outline-warning" onClick={this.handleRiskTableButtonClick}>
+                            <Button variant="outline-warning" onClick={this.props.handleRiskTableButtonClick}>
                                 <h2><i className="bi bi-clipboard-data"></i></h2>
                             </Button>
                         </OverlayTrigger>
@@ -165,7 +144,6 @@ class TopButtons extends Component {
                         <Button variant={statusClass}>{this.props.status}</Button>{' '}
                     </Stack>
                 </div>
-                <ToastContainer />
             </div>
         );
     }

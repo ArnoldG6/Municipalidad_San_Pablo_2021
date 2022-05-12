@@ -7,8 +7,12 @@ package plan.services;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import common.dao.UserDAO;
+import common.model.User;
 import ex.*;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -18,6 +22,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
+import sfr.dao.PdfFactory;
 import sfr.dao.PlanDAO;
 import sfr.dao.PlanTypeDAO;
 import sfr.model.Plan;
@@ -93,10 +98,36 @@ public class PlanServlet extends HttpServlet {
         if (request.getParameter("planID") == null || request.getParameter("planID").isEmpty()) {
             throw new IOException("Invalid PlanID parameter");
         }
-        Plan p = PlanDAO.getInstance().searchByIdString(request.getParameter("planID"));
-        response.setContentType("application/vnd.ms-excel");
-        response.addHeader("Content-Disposition", "attachment; filename=" + PlanDAO.getInstance().generateRiskTableXLSXFileName(p));
-        PlanDAO.getInstance().generateRiskTableXLSXFile(p).write(response.getOutputStream());
+        if (request.getParameter("userID") == null || request.getParameter("userID").isEmpty()) {
+            throw new IOException("Invalid UserID parameter");
+        }
+        Plan plan = PlanDAO.getInstance().searchById(Integer.parseInt(request.getParameter("planID")));
+        User user = UserDAO.getInstance().searchById(Integer.parseInt(request.getParameter("userID")));
+
+        if (plan == null) {
+            throw new NullPointerException("No se encontro el plan solicitado.");
+        }
+        if (user == null) {
+            throw new NullPointerException("No se encontro el usuario solicitado.");
+        }
+
+        String title = new StringBuilder()
+                .append("Matriz_de_riesgos_")
+                .append(plan.getId())
+                .append("_")
+                .append(Timestamp.from(Instant.now()))
+                .append(".pdf")
+                .toString()
+                .replace(":", "-")
+                .replace("/", "-");
+
+        response.setContentType("application/pdf");
+        response.addHeader("Content-Disposition", "attachment; filename=" + title);
+        response.addHeader("X-Suggested-Filename", title);
+        response.addHeader("Access-Control-Expose-Headers", "X-Suggested-Filename");
+        
+        //PlanDAO.getInstance().generateRiskTableXLSXFile(p).write(response.getOutputStream());
+        new PdfFactory().createRiskMatrix(response.getOutputStream(), title, user, plan);
         response.getOutputStream().close();
     }
 

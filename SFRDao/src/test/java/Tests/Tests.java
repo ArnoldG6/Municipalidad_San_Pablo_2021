@@ -7,12 +7,12 @@ package Tests;
 
 import common.dao.UserDAO;
 import common.model.User;
-import jakarta.mail.MessagingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
-import sfr.dao.EmailFactory;
+import sfr.dao.PdfFactory;
 import sfr.dao.PlanDAO;
+import sfr.model.Plan;
 
 /**
  *
@@ -23,7 +23,9 @@ public class Tests {
     @Test
     public void main() throws Exception {
         try {
-            System.out.println(UserDAO.getInstance().searchById(50));
+            User user = UserDAO.getInstance().searchById(50);
+            Plan plan = PlanDAO.getInstance().searchById(1);
+            new PdfFactory().createRiskMatrix(null, "asd", user, plan);
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

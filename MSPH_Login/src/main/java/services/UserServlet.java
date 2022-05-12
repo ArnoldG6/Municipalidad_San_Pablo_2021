@@ -49,6 +49,7 @@ public class UserServlet extends HttpServlet {
                     break;
 
                 case "/API/User/add":
+                    addUser(request, response);
                     break;
 
                 //case "/API/ExpireSession": expireSession(request,response); break;

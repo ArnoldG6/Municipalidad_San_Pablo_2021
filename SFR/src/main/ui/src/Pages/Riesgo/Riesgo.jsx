@@ -215,7 +215,7 @@ export default class Plan extends Component {
                                                     <tbody>
                                                         <tr><td><b>Tipo General</b></td><td>{this.state.risk.generalType}</td></tr>
                                                         <tr><td><b>Tipo Por Área</b></td><td>{this.state.risk.areaType}</td></tr>
-                                                        <tr><td><b>Tipo Por Área Específica</b></td><td>{this.state.risk.areaSpecificType}</td></tr>
+                                                        <tr><td><b>Tipo Por Área Específico</b></td><td>{this.state.risk.areaSpecificType}</td></tr>
                                                         <tr><td><b>Probabilidad</b></td><td>{this.state.risk.probability}</td></tr>
                                                         <tr><td><b>Impacto</b></td><td>{this.state.risk.impact}</td></tr>
                                                         <tr><td><b>Magnitud</b></td><td>{this.state.risk.magnitude}</td></tr>
@@ -292,7 +292,7 @@ export default class Plan extends Component {
                                                                     <tbody>
                                                                         <tr><td><b>Tipo General</b></td><td>{this.state.risk.generalType}</td></tr>
                                                                         <tr><td><b>Tipo Por Área</b></td><td>{this.state.risk.areaType}</td></tr>
-                                                                        <tr><td><b>Tipo Por Área Específica</b></td><td>{this.state.risk.areaSpecificType}</td></tr>
+                                                                        <tr><td><b>Tipo Por Área Específico</b></td><td>{this.state.risk.areaSpecificType}</td></tr>
                                                                         <tr><td><b>Probabilidad</b></td><td>{this.state.risk.probability}</td></tr>
                                                                         <tr><td><b>Impacto</b></td><td>{this.state.risk.impact}</td></tr>
                                                                         <tr><td><b>Magnitud</b></td><td>{this.state.risk.magnitude}</td></tr>

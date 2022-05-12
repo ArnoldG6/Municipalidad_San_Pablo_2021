@@ -65,7 +65,7 @@ class TopButtons extends Component {
                             delay={{ hide: 450, show: 300 }}
                             overlay={(props) => (
                                 <Tooltip {...props}>
-                                    Matriz de Riesgos
+                                    Matriz de Identificación de Riesgos
                                 </Tooltip>
                             )}
                             placement="bottom"
@@ -126,7 +126,7 @@ class TopButtons extends Component {
                             delay={{ hide: 450, show: 300 }}
                             overlay={(props) => (
                                 <Tooltip {...props}>
-                                    Matriz de Riesgos
+                                    Matriz de Identificación de Riesgos
                                 </Tooltip>
                             )}
                             placement="bottom"

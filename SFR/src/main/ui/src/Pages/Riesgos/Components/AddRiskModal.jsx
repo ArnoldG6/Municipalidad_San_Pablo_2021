@@ -224,7 +224,7 @@ class AddRiskModal extends Component {
 
                         <FormGroup>
                             <Stack direction="horizontal" gap={3}>
-                                <label>Tipo General:</label>
+                                <label>Tipo General del Riesgo:</label>
                                 <OverlayTrigger
                                     delay={{ hide: 450, show: 300 }}
                                     overlay={(props) => (
@@ -266,7 +266,7 @@ class AddRiskModal extends Component {
 
                         <div className="form-group">
                             <Stack direction="horizontal" gap={3}>
-                                <label>Tipo por Área: </label>
+                                <label>Tipo por Área del Riesgo: </label>
                                 <OverlayTrigger
                                     delay={{ hide: 450, show: 300 }}
                                     overlay={(props) => (
@@ -295,7 +295,7 @@ class AddRiskModal extends Component {
 
                         <div className="form-group">
                             <Stack direction="horizontal" gap={3}>
-                                <label>Tipo por Área Específico: </label>
+                                <label>Tipo por Área Específica del Riesgo: </label>
                                 <OverlayTrigger
                                     delay={{ hide: 450, show: 300 }}
                                     overlay={(props) => (

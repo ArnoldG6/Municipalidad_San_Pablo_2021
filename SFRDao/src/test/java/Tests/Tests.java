@@ -7,6 +7,8 @@ package Tests;
 
 import common.dao.UserDAO;
 import common.model.User;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
@@ -23,9 +25,9 @@ public class Tests {
     @Test
     public void main() throws Exception {
         try {
-            User user = UserDAO.getInstance().searchById(50);
-            Plan plan = PlanDAO.getInstance().searchById(1);
-            new PdfFactory().createRiskMatrix(null, "asd", user, plan);
+            //User user = UserDAO.getInstance().searchById(50);
+            //Plan plan = PlanDAO.getInstance().searchById(1);
+            //new PdfFactory().createRiskMatrix(new FileOutputStream(new File("D:/my.pdf")), user, plan, "src/main/resources/images/MSPH_LOGO.png");
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

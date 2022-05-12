@@ -125,9 +125,11 @@ public class PlanServlet extends HttpServlet {
         response.addHeader("Content-Disposition", "attachment; filename=" + title);
         response.addHeader("X-Suggested-Filename", title);
         response.addHeader("Access-Control-Expose-Headers", "X-Suggested-Filename");
-        
+
+        String filePath = getServletContext().getRealPath("/") + "static\\media\\logoHeader.dc9e7964.png";
+
         //PlanDAO.getInstance().generateRiskTableXLSXFile(p).write(response.getOutputStream());
-        new PdfFactory().createRiskMatrix(response.getOutputStream(), title, user, plan);
+        new PdfFactory().createRiskMatrix(response.getOutputStream(), user, plan, filePath);
         response.getOutputStream().close();
     }
 

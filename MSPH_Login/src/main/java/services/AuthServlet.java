@@ -6,6 +6,7 @@
 package services;
 
 import common.dao.UserDAO;
+import common.dao.generic.Transaction;
 import common.model.User;
 import ex.*;
 import java.io.IOException;
@@ -31,7 +32,7 @@ import org.json.JSONObject;
 )
 public class AuthServlet extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
         response.addHeader("Access-Control-Allow-Credentials", "true");
@@ -60,22 +61,28 @@ public class AuthServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="Auth methods.">
     private void authUser(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, Exception {
         try {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             JSONObject responseJSON = new JSONObject();
             JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-            User u = UserDAO.getInstance().userAuth(requestJSON.getString("username"), requestJSON.getString("pwd"));
-            if (u == null) {
-                throw new AuthException();
+            try {
+                User u = UserDAO.getInstance().userAuth(requestJSON.getString("username"), requestJSON.getString("pwd"));
+                if (u == null) {
+                    throw new AuthException();
+                }
+                responseJSON.put("authStatus", true);
+                responseJSON.put("username", String.valueOf(u.getIdUser()));
+                responseJSON.put("full_name", u.getOfficial().getName() + " " + u.getOfficial().getSurname());
+                responseJSON.put("roles", u.getRoles());
+                response.getWriter().write(responseJSON.toString());
+                request.getSession(true).setAttribute("user", u);//For other dependencies
+                UserDAO.getInstance().recordTransaction(requestJSON.getString("username"), common.dao.generic.Transaction.AUTHENTICATE, Boolean.TRUE, null);
+            } catch (Exception e) {
+                UserDAO.getInstance().recordTransaction(requestJSON.getString("username"), common.dao.generic.Transaction.AUTHENTICATE, Boolean.FALSE, null);
+                throw e;
             }
-            responseJSON.put("authStatus", true);
-            responseJSON.put("username", String.valueOf(u.getIdUser()));
-            responseJSON.put("full_name", u.getOfficial().getName() + " " + u.getOfficial().getSurname());
-            responseJSON.put("roles", u.getRoles());
-            response.getWriter().write(responseJSON.toString());
-            request.getSession(true).setAttribute("user", u);//For other dependencies
         } catch (AuthException e) {
             response.getWriter().write(e.jsonify());
         } finally {
@@ -100,8 +107,13 @@ public class AuthServlet extends HttpServlet {
             int min = 100000000;
 
             Integer code = rnd.nextInt(max - min + 1) + min;
-
-            UserDAO.getInstance().handlePasswordReset(user, code);
+            try {
+                UserDAO.getInstance().handlePasswordReset(user, code);
+                UserDAO.getInstance().recordTransaction(email, common.dao.generic.Transaction.PASSWORD_RESET, Boolean.TRUE, null);
+            } catch (Exception e) {
+                UserDAO.getInstance().recordTransaction(email, common.dao.generic.Transaction.PASSWORD_RESET, Boolean.FALSE, null);
+                throw e;
+            }
 
         } catch (MessagingException e) {
             response.sendError(404, "Hubo un error enviando el correo solicitado.");
@@ -115,7 +127,7 @@ public class AuthServlet extends HttpServlet {
         }
     }
 
-        private void validateCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void validateCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
             String userCode = requestJSON.getString("validationCode");
@@ -125,12 +137,17 @@ public class AuthServlet extends HttpServlet {
             if (user == null) {
                 throw new NoSuchElementException("No se encontró un usuario con el correo indicado.");
             }
-            
+
             if (!userCode.equals(UserDAO.getInstance().getPasswordCode(user))) {
                 throw new IllegalArgumentException("El código ingresado por el usuario es incorrecto.");
             }
-            
-            UserDAO.getInstance().changePassword(user, newPassword);
+            try {
+                UserDAO.getInstance().changePassword(user, newPassword);
+                UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), common.dao.generic.Transaction.PASSWORD_CODE_VALIDATION, Boolean.TRUE, null);
+            } catch (Exception e) {
+                UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), common.dao.generic.Transaction.PASSWORD_CODE_VALIDATION, Boolean.FALSE, null);
+                throw e;
+            }
 
         } catch (IllegalArgumentException e) {
             response.sendError(401, "El codigo ingresado por el usuario es incorrecto.");

@@ -15,8 +15,7 @@ export default class Plan extends React.Component {
         super(props);
         this.state = {
             user: null,
-            showEdit: false,
-
+            showEdit: false
         };
         this.refreshPage = this.refreshPage.bind(this);
         this.closeModalEdit = this.closeModalEdit.bind(this);
@@ -143,8 +142,9 @@ export default class Plan extends React.Component {
                                                 <Table border="1" hover responsive="md">
                                                     <tbody>
                                                         <tr><td><b>Usuario:</b></td><td>{this.state.user.username}</td></tr>
-                                                        <tr><td><b>Nombre: </b></td><td>{this.state.user.full_name}</td></tr>
                                                         <tr><td><b>Email: </b></td><td>{this.state.user.email}</td></tr>
+                                                        <tr><td><b>Nombre: </b></td><td>{this.state.user.name}</td></tr>
+                                                        <tr><td><b>Apellido: </b></td><td>{this.state.user.surname}</td></tr>
                                                         <tr><td><b>Departamento: </b></td><td>{this.state.user.department}</td></tr>
                                                         <tr><td><b>Rol: </b></td><td>{this.state.user.roles}</td></tr>
 
@@ -178,8 +178,9 @@ export default class Plan extends React.Component {
                                                             <Table border="1" hover responsive="md">
                                                                 <tbody>
                                                                     <tr><td><b>Usuario:</b></td><td>{this.state.user.username}</td></tr>
-                                                                    <tr><td><b>Nombre: </b></td><td>{this.state.user.full_name}</td></tr>
                                                                     <tr><td><b>Email: </b></td><td>{this.state.user.email}</td></tr>
+                                                                    <tr><td><b>Nombre: </b></td><td>{this.state.user.name}</td></tr>
+                                                                    <tr><td><b>Apellido: </b></td><td>{this.state.user.surname}</td></tr>
                                                                     <tr><td><b>Departamento: </b></td><td>{this.state.user.department}</td></tr>
                                                                     <tr><td><b>Rol: </b></td><td>{this.state.user.roles}</td></tr>
                                                                 </tbody>
@@ -201,6 +202,7 @@ export default class Plan extends React.Component {
                 <EditPerfilModal
                     user={this.state.user}
                     show={this.state.showEdit}
+                    username={(typeof cookies.get('username', { path: process.env.REACT_APP_AUTH }))}
                     departmentMap={this.state.departmentMap}
                     closeModal={this.closeModalEdit}
                     refreshPage={this.refreshPage}

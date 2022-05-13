@@ -11,9 +11,11 @@ package services;
  */
 import com.google.gson.Gson;
 import common.dao.DepartmentDAO;
+import common.dao.OfficialDAO;
 import common.dao.RolDAO;
 import common.dao.UserDAO;
 import common.model.Department;
+import common.model.Official;
 import common.model.Rol;
 import common.model.User;
 import ex.*;
@@ -81,7 +83,8 @@ public class UserServlet extends HttpServlet {
                 throw new AuthException();
             }
             responseJSON.put("username", String.valueOf(u.getIdUser()));
-            responseJSON.put("full_name", u.getOfficial().getName() + " " + u.getOfficial().getSurname());
+            responseJSON.put("name", u.getOfficial().getName());
+            responseJSON.put("surname", u.getOfficial().getSurname());
             responseJSON.put("roles", u.getRoles().get(0).getDescription());
             responseJSON.put("email", u.getEmail());
             responseJSON.put("department", u.getOfficial().getDepartment().getDescription());
@@ -100,18 +103,19 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
 
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
+        User user = UserDAO.getInstance().searchById(requestJSON.getInt("username"));
         //User editUser = new Gson().fromJson(requestJSON.toString(), User.class);
-        User editUser = UserDAO.getInstance().searchByEmail(requestJSON.getString("username"));
+        User editUser = UserDAO.getInstance().searchByEmail(requestJSON.getString("emailOriginal"));
         if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN"))) {
             throw new IOException();
         }
         if (editUser != null) {
-            editUser.getOfficial().setName(requestJSON.getString("name"));
-            editUser.getOfficial().setEmail(requestJSON.getString("email"));
+            Official offi = editUser.getOfficial();
+            offi.setName(requestJSON.getString("name"));
+            offi.setSurname(requestJSON.getString("surname"));
             Department depa = DepartmentDAO.getInstance().searchById(requestJSON.getInt("department"));
             editUser.getOfficial().setDepartment(depa);
-            editUser.setEmail(requestJSON.getString("email"));
+            OfficialDAO.getInstance().update(offi);
             editUser.getRoles().clear();
             Rol role = RolDAO.getInstance().searchById(requestJSON.getInt("role"));
             editUser.getRoles().add(role);

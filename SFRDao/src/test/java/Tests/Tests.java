@@ -26,11 +26,7 @@ public class Tests {
     @Test
     public void main() throws Exception {
         try {
-            System.out.print(DepartmentDAO.getInstance().listAll());
-            User user = UserDAO.getInstance().searchById(50);
-            Plan plan = PlanDAO.getInstance().searchById(1);
-            new PdfFactory().createPlanReport(new FileOutputStream(new File("D:/reporte.pdf")), user, plan, "src/main/resources/images/MSPH_LOGO.png");
-            //new PdfFactory().createRiskMatrix(new FileOutputStream(new File("D:/my.pdf")), user, plan, "src/main/resources/images/MSPH_LOGO.png");
+            UserDAO.getInstance().recordTransaction("usernameOrEmail", common.dao.generic.Transaction.USER_EDITION, Boolean.TRUE, null);
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

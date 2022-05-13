@@ -1,6 +1,5 @@
 package common.dao.generic;
 
-import common.model.User;
 import java.util.logging.Level;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -39,7 +38,7 @@ public class GenericDAO {
         }
     }
 
-    public void recordTransaction(String usernameOrEmail, Transaction transaction, Boolean success, String description) throws Exception {
+    public void recordTransaction(String usernameOrEmail, common.dao.generic.Transaction transaction, Boolean success, String description) throws Exception {
         try {
             if (usernameOrEmail == null || transaction == null || success == null) {
                 throw new NullPointerException();

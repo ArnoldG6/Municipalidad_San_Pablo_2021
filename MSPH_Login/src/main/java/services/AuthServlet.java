@@ -78,9 +78,9 @@ public class AuthServlet extends HttpServlet {
                 responseJSON.put("roles", u.getRoles());
                 response.getWriter().write(responseJSON.toString());
                 request.getSession(true).setAttribute("user", u);//For other dependencies
-                UserDAO.getInstance().recordTransaction(requestJSON.getString("username"), Transaction.AUTHENTICATE, Boolean.TRUE, null);
+                UserDAO.getInstance().recordTransaction(requestJSON.getString("username"), common.dao.generic.Transaction.AUTHENTICATE, Boolean.TRUE, null);
             } catch (Exception e) {
-                UserDAO.getInstance().recordTransaction(requestJSON.getString("username"), Transaction.AUTHENTICATE, Boolean.FALSE, null);
+                UserDAO.getInstance().recordTransaction(requestJSON.getString("username"), common.dao.generic.Transaction.AUTHENTICATE, Boolean.FALSE, null);
                 throw e;
             }
         } catch (AuthException e) {
@@ -109,9 +109,9 @@ public class AuthServlet extends HttpServlet {
             Integer code = rnd.nextInt(max - min + 1) + min;
             try {
                 UserDAO.getInstance().handlePasswordReset(user, code);
-                UserDAO.getInstance().recordTransaction(email, Transaction.PASSWORD_RESET, Boolean.TRUE, null);
+                UserDAO.getInstance().recordTransaction(email, common.dao.generic.Transaction.PASSWORD_RESET, Boolean.TRUE, null);
             } catch (Exception e) {
-                UserDAO.getInstance().recordTransaction(email, Transaction.PASSWORD_RESET, Boolean.FALSE, null);
+                UserDAO.getInstance().recordTransaction(email, common.dao.generic.Transaction.PASSWORD_RESET, Boolean.FALSE, null);
                 throw e;
             }
 
@@ -143,9 +143,9 @@ public class AuthServlet extends HttpServlet {
             }
             try {
                 UserDAO.getInstance().changePassword(user, newPassword);
-                UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), Transaction.PASSWORD_CODE_VALIDATION, Boolean.TRUE, null);
+                UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), common.dao.generic.Transaction.PASSWORD_CODE_VALIDATION, Boolean.TRUE, null);
             } catch (Exception e) {
-                UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), Transaction.PASSWORD_CODE_VALIDATION, Boolean.FALSE, null);
+                UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), common.dao.generic.Transaction.PASSWORD_CODE_VALIDATION, Boolean.FALSE, null);
                 throw e;
             }
 

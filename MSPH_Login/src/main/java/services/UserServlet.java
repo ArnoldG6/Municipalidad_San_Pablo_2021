@@ -119,11 +119,11 @@ public class UserServlet extends HttpServlet {
                 Rol role = RolDAO.getInstance().searchById(requestJSON.getInt("role"));
                 editUser.getRoles().add(role);
                 UserDAO.getInstance().update(editUser);
-                UserDAO.getInstance().recordTransaction(user.getEmail(), Transaction.USER_EDITION, Boolean.TRUE, "New name: " + requestJSON.getString("name")
+                UserDAO.getInstance().recordTransaction(user.getEmail(), common.dao.generic.Transaction.USER_EDITION, Boolean.TRUE, "New name: " + requestJSON.getString("name")
                         + " New email: " + requestJSON.getString("email") + " New department: " + String.valueOf(requestJSON.getInt("department")) + " New role: "
                         + String.valueOf(requestJSON.getInt("role")));
             } catch (Exception e) {
-                UserDAO.getInstance().recordTransaction(user.getEmail(), Transaction.USER_EDITION, Boolean.FALSE, "New name: " + requestJSON.getString("name")
+                UserDAO.getInstance().recordTransaction(user.getEmail(), common.dao.generic.Transaction.USER_EDITION, Boolean.FALSE, "New name: " + requestJSON.getString("name")
                         + " New email: " + requestJSON.getString("email") + " New department: " + String.valueOf(requestJSON.getInt("department")) + " New role: "
                         + String.valueOf(requestJSON.getInt("role")));
                 throw e;
@@ -157,9 +157,9 @@ public class UserServlet extends HttpServlet {
                 }
                 sb.append("]");
                 UserDAO.getInstance().add(newUser);
-                UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), Transaction.USER_CREATION, Boolean.TRUE, sb.toString());
+                UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), common.dao.generic.Transaction.USER_CREATION, Boolean.TRUE, sb.toString());
             } catch (Exception e) {
-                UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), Transaction.USER_CREATION, Boolean.FALSE, sb.toString());
+                UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), common.dao.generic.Transaction.USER_CREATION, Boolean.FALSE, sb.toString());
                 throw e;
             }
 

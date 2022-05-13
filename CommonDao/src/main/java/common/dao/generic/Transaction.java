@@ -9,5 +9,6 @@ public enum Transaction {
     LOGOUT,
     PASSWORD_RESET,
     PASSWORD_CODE_VALIDATION,
-    USER_EDITION
+    USER_EDITION,
+    USER_CREATION
 }

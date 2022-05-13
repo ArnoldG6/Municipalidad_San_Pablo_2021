@@ -19,6 +19,7 @@
         <url-pattern>/API/User</url-pattern>
         <url-pattern>/API/User/edit</url-pattern>
         <url-pattern>/API/User/add</url-pattern>
+        <url-pattern>/API/Department</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

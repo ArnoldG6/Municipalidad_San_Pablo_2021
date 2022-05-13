@@ -18,7 +18,7 @@ class EditPlanModal extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(this.props.plan !== prevProps.plan) {
+        if (this.props.plan !== prevProps.plan) {
             this.setState({
                 value: this.props.plan.type
             });
@@ -104,7 +104,7 @@ class EditPlanModal extends Component {
         let authorName;
         let description;
         let status;
-        
+
         if (this.props.plan !== null) {
             name = this.props.plan.name;
             type = this.props.plan.type;

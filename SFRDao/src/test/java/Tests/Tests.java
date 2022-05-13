@@ -5,6 +5,7 @@
  */
 package Tests;
 
+import common.dao.DepartmentDAO;
 import common.dao.UserDAO;
 import common.model.User;
 import jakarta.mail.MessagingException;
@@ -23,7 +24,7 @@ public class Tests {
     @Test
     public void main() throws Exception {
         try {
-            System.out.println(UserDAO.getInstance().searchById(50));
+            System.out.print(DepartmentDAO.getInstance().listAll());
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

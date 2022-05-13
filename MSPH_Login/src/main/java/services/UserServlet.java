@@ -10,7 +10,11 @@ package services;
  * @author tebya
  */
 import com.google.gson.Gson;
+import common.dao.DepartmentDAO;
+import common.dao.RolDAO;
 import common.dao.UserDAO;
+import common.model.Department;
+import common.model.Rol;
 import common.model.User;
 import ex.*;
 import java.io.IOException;
@@ -28,7 +32,8 @@ import org.json.JSONObject;
         urlPatterns = {
             "/API/User",
             "/API/User/edit",
-            "/API/User/add"
+            "/API/User/add",
+            "/API/Department"
         }
 )
 public class UserServlet extends HttpServlet {
@@ -47,8 +52,10 @@ public class UserServlet extends HttpServlet {
                 case "/API/User/edit":
                     editUser(request, response);
                     break;
-
                 case "/API/User/add":
+                    break;
+                case "/API/Department":
+                    getDepartments(request, response);
                     break;
 
                 //case "/API/ExpireSession": expireSession(request,response); break;
@@ -74,7 +81,7 @@ public class UserServlet extends HttpServlet {
             }
             responseJSON.put("username", String.valueOf(u.getIdUser()));
             responseJSON.put("full_name", u.getOfficial().getName() + " " + u.getOfficial().getSurname());
-            responseJSON.put("roles", u.getRoles());
+            responseJSON.put("roles", u.getRoles().get(0).getDescription());
             responseJSON.put("email", u.getEmail());
             responseJSON.put("department", u.getOfficial().getDepartment().getDescription());
             response.getWriter().write(responseJSON.toString());
@@ -93,14 +100,20 @@ public class UserServlet extends HttpServlet {
 
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
-
-        User editUser = new Gson().fromJson(requestJSON.toString(), User.class);
-
+        //User editUser = new Gson().fromJson(requestJSON.toString(), User.class);
+        User editUser = UserDAO.getInstance().searchByEmail(requestJSON.getString("username"));
         if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN"))) {
             throw new IOException();
         }
-
-        if (UserDAO.getInstance().searchById(requestJSON.getInt("username")) != null) {
+        if (editUser != null) {
+            editUser.getOfficial().setName(requestJSON.getString("name"));
+            editUser.getOfficial().setEmail(requestJSON.getString("email"));
+            Department depa = DepartmentDAO.getInstance().searchById(requestJSON.getInt("department"));
+            editUser.getOfficial().setDepartment(depa);
+            editUser.setEmail(requestJSON.getString("email"));
+            editUser.getRoles().clear();
+            Rol role = RolDAO.getInstance().searchById(requestJSON.getInt("role"));
+            editUser.getRoles().add(role);
             UserDAO.getInstance().update(editUser);
         } else {
             throw new IOException("El usuario no existe.");
@@ -122,6 +135,26 @@ public class UserServlet extends HttpServlet {
             UserDAO.getInstance().add(newUser);
         }
 
+    }
+
+    private void getDepartments(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+//pedir usaruio y ver roles
+            String responseJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            responseJSON = new Gson().toJson(DepartmentDAO.getInstance().listAll());
+            if (responseJSON == null) {
+                throw new NullPointerException("Hubo un error cargando los departamentos.");
+            }
+            response.getWriter().write(responseJSON);
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
+        } finally {
+            response.getWriter().flush();
+            response.getWriter().close();
+        }
     }
 
     //private void expireSession(HttpServletRequest request, HttpServletResponse response) 

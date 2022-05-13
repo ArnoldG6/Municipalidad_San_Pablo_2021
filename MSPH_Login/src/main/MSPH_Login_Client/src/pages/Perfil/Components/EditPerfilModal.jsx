@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
+import Cookies from 'universal-cookie';
 import axios from 'axios';
 import '../Perfil.css'
 import { Modal, Button, Form } from "react-bootstrap";
+const cookies = new Cookies();
 
 class EditPerfilModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            value: null
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -27,6 +30,7 @@ class EditPerfilModal extends Component {
                 'Content-Type': 'application/json'
             },
             data: {
+                'emailOriginal': this.props.user.email,
                 'username': event.target.username.value,
                 'full_name': event.target.full_name.value,
                 'email': event.target.email.value,
@@ -41,6 +45,20 @@ class EditPerfilModal extends Component {
             }).catch(error => {
                 console.log(error);
             });
+    }
+
+    checkPermissions(toCheck) {
+        let perm = false;
+        if (typeof cookies.get('roles', { path: process.env.REACT_APP_AUTH }) !== 'undefined') {
+            cookies.get('roles', { path: process.env.REACT_APP_AUTH }).map((rol) => {
+                if (rol.description === toCheck) {
+                    perm = true;
+                    return true;
+                }
+                return false;
+            })
+        }
+        return perm;
     }
 
     render() {
@@ -68,11 +86,6 @@ class EditPerfilModal extends Component {
                 <Modal.Body>
                     <Form onSubmit={this.handleSubmit}>
                         <div className="form-group">
-                            <label>Usuario:</label>
-                            <input name="username" id="username" type="text" className="form-control" placeholder="username" defaultValue={username} required />
-                        </div>
-
-                        <div className="form-group">
                             <label>Nombre:</label>
                             <input name="full_name" id="full_name" type="text" placeholder="Nombre" className="form-control" defaultValue={full_name} required />
                         </div>
@@ -84,15 +97,25 @@ class EditPerfilModal extends Component {
 
                         <div className="form-group">
                             <label>Departamento:</label>
-                            <input name="department" id="department" type="text" className="form-control" placeholder="department" defaultValue={department} required />
+                            <Form.Select name="department" id="department" onChange={this.onChange} defaultValue={department}>
+                                {
+                                    (this.props.departmentMap === null || typeof this.props.departmentMap === 'undefined') ?
+                                        <option value={null} key="disabledDepartmentEditUser" disabled>Error cargando departamentos</option> :
+
+                                        this.props.departmentMap.map((dep) => {
+                                            return <option value={dep.idDepartment} key={dep.description}>{dep.description}</option>
+                                        })
+                                }
+
+                            </Form.Select>
                         </div>
 
                         <div className="form-group">
                             <label>Rol: </label>
-                            <Form.Select name="roles" id="roles" defaultValue={roles}>
-                                <option value="ADMIN">Administrados</option>
-                                <option value="SUPER_ADMIN">Super Administrador</option>
-                                <option value="USER">Usuario</option>
+                            <Form.Select name="roles" id="roles" defaultValue={roles} disabled={(!this.checkPermissions("SUPER_ADMIN"))}>
+                                <option value="1" key="ADMIN">ADMIN</option>
+                                <option value="2" key="SUPER_ADMIN">SUPER_ADMIN</option>
+                                <option value="3" key="USER">USER</option>
                             </Form.Select>
                         </div>
 
@@ -101,7 +124,7 @@ class EditPerfilModal extends Component {
                         </Button>
                     </Form>
                 </Modal.Body>
-                
+
             </Modal>
         );
     }

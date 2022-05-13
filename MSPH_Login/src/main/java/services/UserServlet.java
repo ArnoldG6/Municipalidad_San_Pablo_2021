@@ -144,16 +144,16 @@ public class UserServlet extends HttpServlet {
             throw new IOException("El usuario ya existe.");
 
         } else {
-           
+            User newUser = new Gson().fromJson(requestJSON.toString(), User.class);
+            StringBuilder sb = new StringBuilder();
             try {
-                User newUser = new Gson().fromJson(requestJSON.toString(), User.class);
-                 StringBuilder sb = new StringBuilder();
+
                 sb.append("Username: ").append(newUser.getIdUser());
-                sb.append("Name: ").append(newUser.getOfficial().getName()+" "+newUser.getOfficial().getSurname());
+                sb.append("Name: ").append(newUser.getOfficial().getName() + " " + newUser.getOfficial().getSurname());
                 sb.append("Email: ").append(newUser.getOfficial().getEmail());
                 sb.append("Roles: [");
-                for(Rol r: newUser.getRoles()){
-                    sb.append(r.getIdRol()+",");
+                for (Rol r : newUser.getRoles()) {
+                    sb.append(r.getIdRol() + ",");
                 }
                 sb.append("]");
                 UserDAO.getInstance().add(newUser);

@@ -20,8 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.JDBCException;
 import org.hibernate.exception.JDBCConnectionException;
 import org.json.JSONObject;
+import sfr.dao.PlanDAO;
 import sfr.dao.RiskDAO;
 import sfr.dao.RiskTypeDAO;
+import sfr.dao.Transaction;
 import sfr.model.Risk;
 
 @WebServlet(name = "RiskManager", urlPatterns = {
@@ -92,7 +94,16 @@ public class RiskManager extends HttpServlet {
             if (riskE == null) {
                 throw new NullPointerException("No se encontró el riesgo por eliminar.");
             }
-            RiskDAO.getInstance().delete(riskE);
+            try {
+                RiskDAO.getInstance().delete(riskE);
+                RiskDAO.getInstance().recordTransaction(user, Transaction.DELETE_RISK, Boolean.TRUE, "RISK_ID: " + riskE.getId());
+
+            } catch (Exception e) {
+                RiskDAO.getInstance().recordTransaction(user, Transaction.DELETE_RISK, Boolean.FALSE, "RISK_ID: " + riskE.getId());
+                throw e;
+            }
+
+            
 
         } catch (NullPointerException e) {
             response.sendError(400, e.getMessage());
@@ -118,23 +129,27 @@ public class RiskManager extends HttpServlet {
             if (user == null) {
                 throw new IllegalAccessError("No se encontró el usuario que intentó realizar la transacción.");
             }
-
             Risk newRisk = new Gson().fromJson(requestJSON.toString(), Risk.class);
             newRisk.updateMagnitude();
             newRisk.setAuthor(user);
-
-            long idCount = RiskTypeDAO.getInstance().handleIDAmount(newRisk.getId());
+            long idCount = RiskTypeDAO.getInstance().handleIDAmount(newRisk.getId().substring(4));
             String id = String.format("%02d", idCount);
             String newID = newRisk.getId() + id;
             newRisk.setId(newID);
+            try {
+                RiskDAO.getInstance().add(newRisk);
+                RiskDAO.getInstance().recordTransaction(user, Transaction.INSERT_RISK, Boolean.TRUE, "RISK_ID: " + newID);
+                //JSON Response is required in order to redirect to the new Risk Page from the client-side.
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                JSONObject responseJSON = new JSONObject();
+                responseJSON.append("id", newRisk.getId());
+                response.getWriter().write(responseJSON.toString());
+            } catch (Exception e) {
+                RiskDAO.getInstance().recordTransaction(user, Transaction.INSERT_RISK, Boolean.FALSE, "RISK_ID: " + newID);
+                throw e;
+            }
 
-            RiskDAO.getInstance().add(newRisk);
-            //JSON Response is required in order to redirect to the new Risk Page from the client-side.
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            JSONObject responseJSON = new JSONObject();
-            responseJSON.append("id", newRisk.getId());
-            response.getWriter().write(responseJSON.toString());
         } catch (IllegalAccessError e) {
             response.sendError(401, e.getMessage());
         } catch (Exception e) {
@@ -168,7 +183,14 @@ public class RiskManager extends HttpServlet {
                 throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
             }
 
-            RiskDAO.getInstance().update(riskEdit);
+            try {
+                RiskDAO.getInstance().update(riskEdit);
+                RiskDAO.getInstance().recordTransaction(user, Transaction.EDIT_RISK, Boolean.TRUE, "RISK_ID: " + riskEdit.getId());
+
+            } catch (Exception e) {
+                RiskDAO.getInstance().recordTransaction(user, Transaction.EDIT_RISK, Boolean.FALSE, "RISK_ID: " + riskEdit.getId());
+                throw e;
+            }
         } catch (NullPointerException e) {
             response.sendError(400, e.getMessage());
         } catch (IllegalAccessError e) {

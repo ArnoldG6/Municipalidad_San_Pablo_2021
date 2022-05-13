@@ -48,74 +48,6 @@ VALUES
 INSERT INTO si_db.T_SFR_PlanUser (FK_PLAN, FK_USER) VALUES (1, 51);
 INSERT INTO si_db.T_SFR_PlanUser (FK_PLAN, FK_USER) VALUES (2, 51);
 INSERT INTO si_db.T_SFR_PlanUser (FK_PLAN, FK_USER) VALUES (1, 52);
--- -------------------------------------------------T_SFR_Risk---------------------------------------------------
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`)
-VALUES (
-1 , 
-'1',
-'CAMBIO DE GOBIERNO DE REPÚBLICA ', 
-'CADA CUATRO AÑOS SE DA UN CAMBIO DE GOBIERNO EN COSTA RICA', 
-'EXTERNO', 
-'Político', 
-'CAMBIOS DE GOBIERNO DE LA REPÚBLICA', 
-'0.9', 
-'30', 
-'27', 
-'PREVENIR CAMBIOS DE LEYES CON ANTICIPACIÓN ANTE UN CAMBIO DE GOBIERNO ESTABLECIDO CADA CUATRO AÑOS.',
-50,
-"N/A"
-);
-
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`, `ID`,`Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`)
-VALUES (
-2 , 
-'2',
-'DESASTRES NATURALES', 
-'Desastres naturales como terremotos, ciclones, fuertes lluvias, etc., pueden, además de afectar a los habitantes, destruir importante infraestructura de administración municipal.\n\nExisten otros eventos de menor impacto (fuertes lluvias), que pueden afectar la infraestructura cantonal de administración municipal, por carencia o insuficiencia.\n', 
-'EXTERNO', 
-'Eventos naturales', 
-'DESASTRES NATURALES', 
-'0.7', 
-'50', 
-'35', 
-'TOMAR EN CUENTA EL CASO DE QUE SURJAN TORMENTAS TROPICALES QUE SE PUEDAN ANTICIPAR Y DOCUMENTAR PARA PREVENIR POSIBLES ATRASOS EN LAS AGENDAS DE LOS PROYECTOS.',
-50,
-"N/A"
-);
-
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`, `ID`,`Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`)
-VALUES (
-3 , 
-'3', 
-'RIESGO DE PRUEBA', 
-'ESTA ES OTRA DESCRIPCION DE PRUEBA', 
-'EXTERNO', 
-'Económico', 
-'Cambios en las condiciones económicas del país.', 
-'0.7', 
-'30', 
-'21', 
-'ESTA ES OTRA MEDIDA DE MITIGACION',
-50,
-"N/A"
-);
-
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`, `ID`,`Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`)
-VALUES (
-4 ,
-'4', 
-'CAMBIO CLIMATICO', 
-'El cambio climático puede traer efectos en la prestación de servicios básicos.', 
-'EXTERNO', 
-'Ambiental', 
-'Cambio climático.', 
-'0.5', 
-'50', 
-'25', 
-'ESTA ES UNA MEDIDA DE MITIGACION',
-50,
-"N/A"
-);
 
 -- -------------------------------------------------T_SFR_PlanTypes---------------------------------------------------
 INSERT INTO `si_db`.`T_SFR_PlanTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (null,"Evaluar, Dirigir y Monitorear",null,0);
@@ -170,408 +102,525 @@ INSERT INTO `si_db`.`T_SFR_PlanTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) va
 INSERT INTO `si_db`.`T_SFR_PlanTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (5,"Gestionar el aseguramiento","MEA04",0);
 
 -- -------------------------------------------------T_SFR_RiskTypes---------------------------------------------------
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (null,"Externo",null,0);
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (null,"Interno",null,0);
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (null,"TIC",null,0);
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (null,"Externo",null,0,null);
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (null,"Interno",null,0,null);
 
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (1,"Político","REP",0);
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (1,"Legal","REL",0);
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (1,"Económico","REE",0);
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (1,"Eventos Naturales","REN",0);
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (1,"Ambiental","REA",0);
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (1,"Político","REP",0,null);
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (1,"Legal","REL",0,null);
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (1,"Económico","REE",0,null);
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (1,"Tecnologías de la información","RET",0,null);
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (1,"Eventos Naturales","REN",0,null);
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (1,"Ambiental","REA",0,null);
 
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (2,"Estratégicos","RIE",0);
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (2,"Financieros","RIF",0);
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (2,"Desarrollo de los procesos","RID",0);
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (2,"Tecnológicos y de información","RIT",0);
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (2,"Gestión de procesos sustantivos","RIP",0);
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (2,"Funcionario municipal","RIM",0);
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (2,"Estratégicos","RIE",0,null);
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (2,"Financieros","RIF",0,null);
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (2,"Desarrollo de los procesos","RID",0,null);
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (2,"Tecnológicos y de información","RIT",0,null);
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (2,"Gestión de procesos sustantivos","RIP",0,null);
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (2,"Funcionario municipal","RIM",0,null);
 
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (3,"Gestión de la información","RG",0);
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (3,"Gestión de la continuidad","RC",0);
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (3,"Gestión de las comunicaciones","RA",0);
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (3,"Centros de datos","RD",0);
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (3,"Gestión de proveedores","RP",0);
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (3,"Cumplimiento","RI",0);
-INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`) values (3,"Seguridad de la información","RS",0);
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (3,"Cambios de gobierno de la República","CGR",0,"Repercute en la forma de gestionar la corporación municipal, puede alterar la continuidad de las actividades y proyectos que se desarrollan.");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (3,"Cambio de Concejo Municipal","CCM",0,"Repercute en la forma de gestionar la corporación municipal, puede alterar la continuidad de las actividades y proyectos que se desarrollan.");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (3,"Cambio de Alcaldía","CA",0,"Repercute en la forma de gestionar la corporación municipal, puede alterar la continuidad de las actividades y proyectos que se desarrollan.");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (3,"Cambio de políticas públicas","CPP",0,"Repercute en la forma de gestionar la corporación municipal, puede alterar la continuidad de las actividades y proyectos que se desarrollan.");
+
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (4,"Cambios en la normativa de alcance general","CNG",0,"Cambios en las normas generales, pueden eliminar o cambiar la continuidad de las actividades y proyectos que desarrollan las municipalidades.");
+
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (5,"Cambios en las condiciones económicas del país","CEP",0,"Cambios económicos repercuten en la disponibilidad de fondos de las familias y su capacidad de pago de impuestos y tasas municipales.");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (5,"Cambios en las condiciones económicas regionales y cantonales","CER",0,"Cambios económicos repercuten en la disponibilidad de fondos de las familias y su capacidad de pago de impuestos y tasas municipales.");
+
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (6,"Innovación de equipos tecnológicos para el procesamiento de la información","IET",0,"Obsolescencia de equipos y sistemas de información.
+Problemas de conectividad con los munícipes y de desarrollo de un eficiente gobierno municipal.");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (6,"Desarrollo de nuevos sistemas de información","DSI",0,"Obsolescencia de equipos y sistemas de información.
+Problemas de conectividad con los munícipes y de desarrollo de un eficiente gobierno municipal.");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (6,"Telecomunicaciones y conectividad","TMC",0,"Obsolescencia de equipos y sistemas de información.
+Problemas de conectividad con los munícipes y de desarrollo de un eficiente gobierno municipal.");
+
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (7,"Desastres naturales","DSN",0,"Desastres naturales como terremotos, ciclones, fuertes lluvias, etc., pueden, además de afectar a los habitantes, destruir importante infraestructura de administración municipal.
+
+Existen otros eventos de menor impacto (fuertes lluvias), que pueden afectar la infraestructura cantonal de administración municipal, por carencia o insuficiencia.");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (7,"Eventos de la naturaleza que producen efectos en la población, por carencia de infraestructura","ECI",0,"Desastres naturales como terremotos, ciclones, fuertes lluvias, etc., pueden, además de afectar a los habitantes, destruir importante infraestructura de administración municipal.
+Existen otros eventos de menor impacto (fuertes lluvias), que pueden afectar la infraestructura cantonal de administración municipal, por carencia o insuficiencia.");
+
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (8,"Cambio climático","CCT",0,"El cambio climático puede traer efectos en la prestación de servicios básicos.");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (8,"Contaminación por manejo de desechos sólidos, gaseosos y líquidos","CMD",0,"La contaminación por desechos puede afectar a grupos de familias o sectores, lo que obliga a la intervención de la municipalidad con la consecuente aplicación de recursos.");
+
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (9,"Planificación Estratégica de la Municipalidad","PEM",0,"Eventos, que no permitan que la planificación estratégica institucional, se fundamente en una adecuada identificación del entorno del cantón o que tenga una adecuada vinculación con los planes operativos.");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (9,"Estructura organizativa de la Municipalidad","EOM",0,"Eventos que no permiten que la estructura administrativa en su conformación y funcionamiento logre el alcance eficiente de los objetivos.");
+
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (10,"Presupuesto","PST",0,"No asociar adecuadamente los objetivos y metas del PAO, con las disponibilidades presupuestarias; de administración del presupuesto (alcance de metas); de no lograr las metas propuestas de ingresos y gastos.");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (10,"Flujo de caja","FCJ",0,"Las disponibilidades de efectivo afectan el desarrollo de las actividades o proyectos.");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (10,"Morosidad","MRS",0,"Cambios en la morosidad afectan la disponibilidad de fondos, requeridos para la operación y desarrollo de actividades y proyectos.");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (10,"Costo prestación servicios","CPS",0,"Que el ingreso por servicios no cubra los costos (déficit en prestación).");
+
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (11,"Deficiencia en la ejecución de los procesos, subprocesos y actividades municipales","DEP",0,"Deficiencias que se presenten en procesos, particulares, afectan el alcance de los objetivos y metas institucionales, por la interrelación de los procesos en el alcance de los resultados.");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (11,"Articulación entre los procesos","AEP",0,"Falta de articulación entre los procesos afectan el alcance de objetivos y metas.");
+
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (12,"Gestión de la información","RG",15,"");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (12,"Gestión de la continuidad","RC",26,"");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (12,"Gestión de las comunicaciones","RA",7,"");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (12,"Centros de datos","RD",36,"");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (12,"Gestión de proveedores","RP",10,"");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (12,"Cumplimiento","RI",9,"");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (12,"Seguridad de la información","RS",15,"");
+
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (13,"Gestión de la contratación administrativa","GCA",0,"La contratación administrativa, repercute en toda la gestión municipal. El incumplimiento de la normativa que la rige implica responsabilidades administrativas, civiles y penales.");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (13,"Gestión tributaria","GTB",0,"Los ingresos de la Municipalidad están directamente asociados a los impuestos y tasas que se cobran.");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (13,"Proceso financiero - Presupuesto","PFP",0,"La adecuada asignación de los fondos, elaboración de documentos presupuestos, es fundamental para el alcance de los objetivos y metas. El incumplimiento de la normativa que la rige implica responsabilidades administrativas, civiles y penales.");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (13,"Proceso financiero – Tesorería","PFT",0,"La tesorería debe mantener rigurosos procedimientos que garanticen la recepción y gestión de los flujos de efectivo sin que se presenten pérdidas.");
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (13,"Proceso obras y servicios públicos","PSP",0,"Los proyectos de obra pública deben gestionarse para concluirse en tiempo, dentro los costos, calidad y alcance.");
+
+INSERT INTO `si_db`.`T_SFR_RiskTypes` (`PARENT`,`NAME`,`ID_NAME`,`ID_AMOUNT`,`CONSEQUENCE`) values (14,"Integridad","ITG",0,"Actos no autorizados, ilegales, fraudulentos, inoportunos, que produzcan pérdidas y afectan la gestión municipal.");
 
 
 -- RIESGOS
+-- -------------------------------------------------T_SFR_Risk---------------------------------------------------
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`)
+VALUES (
+1 , 
+'1',
+'CAMBIO DE GOBIERNO DE REPÚBLICA ', 
+'CADA CUATRO AÑOS SE DA UN CAMBIO DE GOBIERNO EN COSTA RICA', 
+'Externo', 
+'Político',
+'Cambios de gobierno de la República',
+'CAMBIOS DE GOBIERNO DE LA REPÚBLICA', 
+'0.9', 
+'30', 
+'27', 
+'PREVENIR CAMBIOS DE LEYES CON ANTICIPACIÓN ANTE UN CAMBIO DE GOBIERNO ESTABLECIDO CADA CUATRO AÑOS.',
+50,
+"Repercute en la forma de gestionar la corporación municipal, puede alterar la continuidad de las actividades y proyectos que se desarrollan."
+);
+
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`, `ID`,`Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`)
+VALUES (
+2 , 
+'2',
+'DESASTRES NATURALES', 
+'Desastres naturales como terremotos, ciclones, fuertes lluvias, etc., pueden, además de afectar a los habitantes, destruir importante infraestructura de administración municipal.\n\nExisten otros eventos de menor impacto (fuertes lluvias), que pueden afectar la infraestructura cantonal de administración municipal, por carencia o insuficiencia.\n', 
+'Externo', 
+'Eventos naturales',
+'Desastres naturales',
+'DESASTRES NATURALES', 
+'0.7', 
+'50', 
+'35', 
+'TOMAR EN CUENTA EL CASO DE QUE SURJAN TORMENTAS TROPICALES QUE SE PUEDAN ANTICIPAR Y DOCUMENTAR PARA PREVENIR POSIBLES ATRASOS EN LAS AGENDAS DE LOS PROYECTOS.',
+50,
+"Desastres naturales como terremotos, ciclones, fuertes lluvias, etc., pueden, además de afectar a los habitantes, destruir importante infraestructura de administración municipal."
+);
+
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`, `ID`,`Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`)
+VALUES (
+3 , 
+'3', 
+'RIESGO DE PRUEBA', 
+'ESTA ES OTRA DESCRIPCION DE PRUEBA', 
+'Externo', 
+'Económico',
+'Cambios en las condiciones económicas del país',
+'Cambios en las condiciones económicas del país.', 
+'0.7', 
+'30', 
+'21', 
+'ESTA ES OTRA MEDIDA DE MITIGACION',
+50,
+"Cambios económicos repercuten en la disponibilidad de fondos de las familias y su capacidad de pago de impuestos y tasas municipales."
+);
+
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`, `ID`,`Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`)
+VALUES (
+4 ,
+'4', 
+'CAMBIO CLIMATICO', 
+'El cambio climático puede traer efectos en la prestación de servicios básicos.', 
+'Externo', 
+'Ambiental', 
+'Cambio climático',
+'Cambio climático.', 
+'0.5', 
+'50', 
+'25', 
+'ESTA ES UNA MEDIDA DE MITIGACION',
+50,
+"El cambio climático puede traer efectos en la prestación de servicios básicos."
+);
 
 -- -------------------------------------------------RIESGO EN LA GESTION DE LA INFORMACION---------------------------------------------------
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`)
-VALUES (5, 'RG01','Abuso de derechos por parte de los usuarios del sistema', 'SIN INFORMACION', 'TIC', 'Gestión de la información', 'N/A', '0.9', '30', '27', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`)
+VALUES (5, 'RIT-RG01','Abuso de derechos por parte de los usuarios del sistema', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la información', 'N/A', '0.9', '30', '27', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (6 ,'RG02','Acceso no autorizado a aplicaciones por parte de los usuarios', 'SIN INFORMACION', 'TIC', 'Gestión de la información', 'N/A', '0.9', '30', '27', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (6 ,'RIT-RG02','Acceso no autorizado a aplicaciones por parte de los usuarios', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la información', 'N/A', '0.9', '30', '27', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (7, 'RG03','Conformación inadecuada de contraseñas (insegura, débiles)', 'SIN INFORMACION', 'TIC', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (7, 'RIT-RG03','Conformación inadecuada de contraseñas (insegura, débiles)', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (8, 'RG04','Uso compartido de contraseñas por parte de los usuarios', 'SIN INFORMACION', 'TIC', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (8, 'RIT-RG04','Uso compartido de contraseñas por parte de los usuarios', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (9, 'RG05','Robo o perdida de información por controles inadeacuados', 'SIN INFORMACION', 'TIC', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (9, 'RIT-RG05','Robo o perdida de información por controles inadeacuados', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (10, 'RG06','Capacitación inadecuada a los usuarios del sistema en la forma de administrar los recursoa asignados', 'SIN INFORMACION', 'TIC', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (10, 'RIT-RG06','Capacitación inadecuada a los usuarios del sistema en la forma de administrar los recursoa asignados', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (11, 'RG07','Confidencialidad de la información comprometida', 'SIN INFORMACION', 'TIC', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (11, 'RIT-RG07','Confidencialidad de la información comprometida', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (12, 'RG08','Privacidad de la información comprometida', 'SIN INFORMACION', 'TIC', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (12, 'RIT-RG08','Privacidad de la información comprometida', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (13, 'RG09','Problemas en el acceso a las aplicaciones', 'SIN INFORMACION', 'TIC', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (13, 'RIT-RG09','Problemas en el acceso a las aplicaciones', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (14, 'RG10','Integridad de la Información comprometida por usuarios internos', 'SIN INFORMACION', 'TIC', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (14, 'RIT-RG10','Integridad de la Información comprometida por usuarios internos', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (15, 'RG11','Integridad de la Información comprometida por accesos externos no autorizados', 'SIN INFORMACION', 'TIC', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (15, 'RIT-RG11','Integridad de la Información comprometida por accesos externos no autorizados', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (16, 'RG12','No hay disponibilidad de la información', 'SIN INFORMACION', 'TIC', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (16, 'RIT-RG12','No hay disponibilidad de la información', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (17, 'RG13','Clasificación inadecuada de la información', 'SIN INFORMACION', 'TIC', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (17, 'RIT-RG13','Clasificación inadecuada de la información', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (18, 'RG14','Etiquetado onadecuado de la in formación', 'SIN INFORMACION', 'TIC', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (18, 'RIT-RG14','Etiquetado onadecuado de la in formación', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (19, 'RG15','Robo o perdida de información por ataques de Hackers, Malware', 'SIN INFORMACION' , 'TIC', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (19, 'RIT-RG15','Robo o perdida de información por ataques de Hackers, Malware', 'SIN INFORMACION' , 'Interno', 'Tecnológicos y de información', 'Gestión de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
 
 -- -------------------------------------------------RIESGOS EN LA GESTION DE LA CONTINUIDAD---------------------------------------------------
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (20, 'RC01','Mala identificación de los respaldos de información', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (20, 'RIT-RC01','Mala identificación de los respaldos de información', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (21, 'RC02','Respaldos de información no verificados', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (21, 'RIT-RC02','Respaldos de información no verificados', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (22, 'RC03','Respaldos de información almacenados en forma incorrecta', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (22, 'RIT-RC03','Respaldos de información almacenados en forma incorrecta', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (23, 'RC04','Inadecuado traslado y custodia de los respaldos', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (23, 'RIT-RC04','Inadecuado traslado y custodia de los respaldos', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (24, 'RC05','Técnicas de recuperación/restauración de los archivos no estandarizada', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (24, 'RIT-RC05','Técnicas de recuperación/restauración de los archivos no estandarizada', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (25, 'RC06','Errores en el respaldo y recuperación de los datos', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (25, 'RIT-RC06','Errores en el respaldo y recuperación de los datos', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (26, 'RC07','Interrupción del servicio por falta de capacidad de almacenamiento o por fallas en los dispositivos de almacenamiento', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (26, 'RIT-RC07','Interrupción del servicio por falta de capacidad de almacenamiento o por fallas en los dispositivos de almacenamiento', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (27, 'RC08','Plan de continuidad o contingencia no documentado', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (27, 'RIT-RC08','Plan de continuidad o contingencia no documentado', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (28, 'RC09','Plan de continuidad o contingencia incompleto', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (28, 'RIT-RC09','Plan de continuidad o contingencia incompleto', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (29, 'RC10','Plan de continuidad o contingencia no probado', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (29, 'RIT-RC10','Plan de continuidad o contingencia no probado', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (30, 'RC11','Plan de continuidad o contingencia no aprobado por las altas autoridades', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (30, 'RIT-RC11','Plan de continuidad o contingencia no aprobado por las altas autoridades', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (31, 'RC12','Plan de continuidad o contingencia desactualizado', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (31, 'RIT-RC12','Plan de continuidad o contingencia desactualizado', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (32, 'RC13','Personal interno poco preparado para enfrentar una contingencia', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (32, 'RIT-RC13','Personal interno poco preparado para enfrentar una contingencia', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (33, 'RC14','No se cuenta con suficiente personal para enfrentar una contingencia', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (33, 'RIT-RC14','No se cuenta con suficiente personal para enfrentar una contingencia', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (34, 'RC15','Plan de continuidad o contingencia no comunicado a las partes interesadas', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (34, 'RIT-RC15','Plan de continuidad o contingencia no comunicado a las partes interesadas', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (35, 'RC16','Robo o pérdida  de medios de almacenamiento', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (35, 'RIT-RC16','Robo o pérdida  de medios de almacenamiento', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (36, 'RC17','Desastres naturales (terremotos, inundaciones, tornados, huracanes, etc.)', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (36, 'RIT-RC17','Desastres naturales (terremotos, inundaciones, tornados, huracanes, etc.)', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (37, 'RC18','Incendio', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (37, 'RIT-RC18','Incendio', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (38, 'RC19','Epidemia', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (38, 'RIT-RC19','Epidemia', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (39, 'RC20','Electromanetismo', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (39, 'RIT-RC20','Electromanetismo', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (40, 'RC21','Técnicas de recuperación/restauración de los archivos no estandarizada', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (40, 'RIT-RC21','Técnicas de recuperación/restauración de los archivos no estandarizada', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (41, 'RC22','Desorden civil', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (41, 'RIT-RC22','Desorden civil', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (42, 'RC23','Acciones emprendidas por empleados inescrupulosos que pueden causar daños tanto a las instalaciones', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (42, 'RIT-RC23','Acciones emprendidas por empleados inescrupulosos que pueden causar daños tanto a las instalaciones', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (43, 'RC24','Interrupciones prolongadas de los servicios básicos como la electricidad, el agua potable y las comunicaciones', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (43, 'RIT-RC24','Interrupciones prolongadas de los servicios básicos como la electricidad, el agua potable y las comunicaciones', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (44, 'RC25','Actos criminales, como vandalismo, terrorismo, etc', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (44, 'RIT-RC25','Actos criminales, como vandalismo, terrorismo, etc', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (45, 'RC26','Robo o pérdida  de medios de almacenamiento', 'SIN INFORMACION', 'TIC', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (45, 'RIT-RC26','Robo o pérdida  de medios de almacenamiento', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de la continuidad', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
 
 -- -------------------------------------------------RIESGOS EN LA GESTION DE LAS  COMUNICACIONES---------------------------------------------------
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (46, 'RA01','Fallas en la infraestructura tecnológica de los proveedores externos (ICE. RACSA, CNFL) que soporta la prestación de servicios, afectando la disponibilidad', 'SIN INFORMACION', 'TIC', 'Gestión de las comunicaciones', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (46, 'RIT-RA01','Fallas en la infraestructura tecnológica de los proveedores externos (ICE. RACSA, CNFL) que soporta la prestación de servicios, afectando la disponibilidad', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de las comunicaciones', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (47, 'RA02','Fallas en las comunicaciones debido problemas internos', 'SIN INFORMACION', 'TIC', 'Gestión de las comunicaciones', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (47, 'RIT-RA02','Fallas en las comunicaciones debido problemas internos', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de las comunicaciones', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (48, 'RA3','Fallas por eventos que afecten las lineas de transmision internas o externas', 'SIN INFORMACION', 'TIC', 'Gestión de las comunicaciones', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (48, 'RIT-RA3','Fallas por eventos que afecten las lineas de transmision internas o externas', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de las comunicaciones', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (49, 'RA04','Falta de disponibilidad en las lineas de comunicaciones', 'SIN INFORMACION', 'TIC', 'Gestión de las comunicaciones', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (49, 'RIT-RA04','Falta de disponibilidad en las lineas de comunicaciones', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de las comunicaciones', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (50, 'RA05','Fallas producidas por errores o problemas en la transmisión', 'SIN INFORMACION', 'TIC', 'Gestión de las comunicaciones', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (50, 'RIT-RA05','Fallas producidas por errores o problemas en la transmisión', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de las comunicaciones', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (51, 'RA06','Errores en la configuración de equipos de comunicaciones', 'SIN INFORMACION', 'TIC', 'Gestión de las comunicaciones', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (51, 'RIT-RA06','Errores en la configuración de equipos de comunicaciones', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de las comunicaciones', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (52, 'RA07','Monitoreo inadecuado de las comunicaciones', 'SIN INFORMACION', 'TIC', 'Gestión de las comunicaciones', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (52, 'RIT-RA07','Monitoreo inadecuado de las comunicaciones', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de las comunicaciones', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
 
 -- -------------------------------------------------RIESGOS EN CENTROS DE DATOS---------------------------------------------------
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (53, 'RD01','Falta de disponibilidad del personal técnico (SO, base de datos, comunicaciones, etc.)', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (53, 'RIT-RD01','Falta de disponibilidad del personal técnico (SO, base de datos, comunicaciones, etc.)', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (54, 'RD02','No existe de un plan formal, actulalizado y comunicado formalmente para la recuperación de las aplicaciones', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (54, 'RIT-RD02','No existe de un plan formal, actulalizado y comunicado formalmente para la recuperación de las aplicaciones', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (55, 'RD03','Fallas eléctricas en el centro de cómputo', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (55, 'RIT-RD03','Fallas eléctricas en el centro de cómputo', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (56, 'RD04','Daños que se presenten en los equipos  por vandalismo, uso inadecuado o fallas en la administración', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (56, 'RIT-RD04','Daños que se presenten en los equipos  por vandalismo, uso inadecuado o fallas en la administración', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (57, 'RD05','Datos se replican en forma incorrecta', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (57, 'RIT-RD05','Datos se replican en forma incorrecta', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (58, 'RD06','Fallas en el equipo de aire acondicionado, UPS o planta eléctrica','SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (58, 'RIT-RD06','Fallas en el equipo de aire acondicionado, UPS o planta eléctrica','SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (59, 'RD07','Controles inadecuados para el monitoreo, seguimiento y protocolos formales para atención y escalamiento de incidentes', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (59, 'RIT-RD07','Controles inadecuados para el monitoreo, seguimiento y protocolos formales para atención y escalamiento de incidentes', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (60, 'RD08','Aplicaciones anticuados que no soportan la carga de trabajo, el volumen, las funcionalidades','SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (60, 'RIT-RD08','Aplicaciones anTecnológicos y de informaciónuados que no soportan la carga de trabajo, el volumen, las funcionalidades','SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (61, 'RD09','Inadecuado mantenimiento de los sistemas', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (61, 'RIT-RD09','Inadecuado mantenimiento de los sistemas', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (62, 'RD10','Reprocesos en las pruebas y atrasos en la implementación por no contar con una infraestructura para la realización de las pruebas técnicas', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (62, 'RIT-RD10','Reprocesos en las pruebas y atrasos en la implementación por no contar con una infraestructura para la realización de las pruebas técnicas', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (63, 'RD11','Dependencia de los proveedores para el suministro de servicios, repuestos o de mantenimientos a los equipos donde corren los sistemas críticos', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (63, 'RIT-RD11','Dependencia de los proveedores para el suministro de servicios, repuestos o de mantenimientos a los equipos donde corren los sistemas críTecnológicos y de informaciónos', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (64, 'RD12','Utilización incorrecta de los equipos de cómputo', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (64, 'RIT-RD12','Utilización incorrecta de los equipos de cómputo', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (65, 'RD13','Mal funcionamiento de una base de datos', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (65, 'RIT-RD13','Mal funcionamiento de una base de datos', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (66, 'RD14','Daño en una base de datos o archivos críticos', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (66, 'RIT-RD14','Daño en una base de datos o archivos críTecnológicos y de informaciónos', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (67, 'RD15','Problemas de acceso a una base de datos', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (67, 'RIT-RD15','Problemas de acceso a una base de datos', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (68, 'RD16','Administración inadecuada de procesos de actualización', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (68, 'RIT-RD16','Administración inadecuada de procesos de actualización', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (69, 'RD17','Falta de capacitación o capacitación iadecuada de los encaragados de los procesos de actualización', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (69, 'RIT-RD17','Falta de capacitación o capacitación iadecuada de los encaragados de los procesos de actualización', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (70, 'RD18','Falta de procedimientos o procedimientos inadecuados para la ejecución de tareas críticas', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (70, 'RIT-RD18','Falta de procedimientos o procedimientos inadecuados para la ejecución de tareas críTecnológicos y de informaciónas', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (71, 'RD19','Controles deficientes en ambientes de pruebas', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (71, 'RIT-RD19','Controles deficientes en ambientes de pruebas', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (72, 'RD20','Controles deficientes en ambientes de producción', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (72, 'RIT-RD20','Controles deficientes en ambientes de producción', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (73, 'RD21','Falla en un servidor o varios a la vez', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (73, 'RIT-RD21','Falla en un servidor o varios a la vez', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (74, 'RD22','Pérdidas o suspensión temporal del servicio por una incorrecta configuración de parámetros en los sistemas', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (74, 'RIT-RD22','Pérdidas o suspensión temporal del servicio por una incorrecta configuración de parámetros en los sistemas', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (75, 'RD23','Errores en la configuración de equipos (servidores)', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (75, 'RIT-RD23','Errores en la configuración de equipos (servidores)', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (76, 'RD24','Mal diseño de las aplicaciones generando problemas de funcionamiento', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (76, 'RIT-RD24','Mal diseño de las aplicaciones generando problemas de funcionamiento', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (77, 'RD25','Problemas en la distribución del cableado eléctrico o de comunicaciones', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (77, 'RIT-RD25','Problemas en la distribución del cableado eléctrico o de comunicaciones', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (78, 'RD26','Insuficiente personal capacitado para realizar las tareas de operación, monitoreo y soporte de los servicios en producción', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (78, 'RIT-RD26','Insuficiente personal capacitado para realizar las tareas de operación, monitoreo y soporte de los servicios en producción', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (79, 'RD27','Afectación en la gestión y los  programas de trabajo porque  no se realizaron  las pruebas de aceptación dentro del tiempo planificado', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (79, 'RIT-RD27','Afectación en la gestión y los  programas de trabajo porque  no se realizaron  las pruebas de aceptación dentro del tiempo planificado', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (80, 'RD28','Inundación por daño de tuberías internas del edificio', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (80, 'RIT-RD28','Inundación por daño de tuberías internas del edificio', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (81, 'RD29','Fallas producidas por errores de programación que afectan la calidad del servicio', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (81, 'RIT-RD29','Fallas producidas por errores de programación que afectan la calidad del servicio', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (82, 'RD30','Afectación del servicio por generación de incidentes y problemas asociados a una mala implementación de cambios', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (82, 'RIT-RD30','Afectación del servicio por generación de incidentes y problemas asociados a una mala implementación de cambios', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (83, 'RD31','Afectación del servicio por no tramitar oportunamente un cambio requerido urgente', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (83, 'RIT-RD31','Afectación del servicio por no tramitar oportunamente un cambio requerido urgente', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (84, 'RD32','Reprocesos en las pruebas y atrasos en la implementación por integración de aplicaciones incompletas o erróneas', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (84, 'RIT-RD32','Reprocesos en las pruebas y atrasos en la implementación por integración de aplicaciones incompletas o erróneas', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (85, 'RD33','Pérdida de información producidas por fallas en los controles de seguridad', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (85, 'RIT-RD33','Pérdida de información producidas por fallas en los controles de seguridad', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (86, 'RD34','Pérdida de información por la inadecuada utilización de los equipos de cómputo', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (86, 'RIT-RD34','Pérdida de información por la inadecuada utilización de los equipos de cómputo', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (87, 'RD35','No contar con las condiciones ambientales recomendadas por el fabricante para la operación adecuada de los equipos', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (87, 'RIT-RD35','No contar con las condiciones ambientales recomendadas por el fabricante para la operación adecuada de los equipos', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (88, 'RD36','Pérdida de información por la inadecuada utilización de los sistemas en utilización en la Institución', 'SIN INFORMACION', 'TIC', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (88, 'RIT-RD36','Pérdida de información por la inadecuada utilización de los sistemas en utilización en la Institución', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Centros de datos', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
 
 -- -------------------------------------------------RIESGOS EN LA GESTION DE PROVEEDORES---------------------------------------------------
 
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (89, 'RP01','Incumplimiento de contratos por parte del proveedor', 'SIN INFORMACION', 'TIC', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (89, 'RIT-RP01','Incumplimiento de contratos por parte del proveedor', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (90, 'RP02','Incumplimiento de contratos por parte de la Institución', 'SIN INFORMACION', 'TIC', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (90, 'RIT-RP02','Incumplimiento de contratos por parte de la Institución', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (91, 'RP03','Deficiencias en los servicios de los proveedores', 'SIN INFORMACION', 'TIC', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (91, 'RIT-RP03','Deficiencias en los servicios de los proveedores', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (92, 'RP04','No contar con proveedores que estén preparados para ayudar a enfrentar una contingencia de tipo tecnológico', 'SIN INFORMACION', 'TIC', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (92, 'RIT-RP04','No contar con proveedores que estén preparados para ayudar a enfrentar una contingencia de tipo tecnológico', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (93, 'RP05','Alta dependencia de proveedores claves a nivel de tecnología para proporcionar los servicios', 'SIN INFORMACION', 'TIC', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (93, 'RIT-RP05','Alta dependencia de proveedores claves a nivel de tecnología para proporcionar los servicios', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (94, 'RP06','Contratos obsolectos', 'SIN INFORMACION', 'TIC', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (94, 'RIT-RP06','Contratos obsolectos', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (95, 'RP07','Fallas en la gestión de licenciamientos', 'SIN INFORMACION', 'TIC', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (95, 'RIT-RP07','Fallas en la gestión de licenciamientos', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (96, 'RP08','Fallas en el control de vencimiento de los contratos', 'SIN INFORMACION', 'TIC', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (96, 'RIT-RP08','Fallas en el control de vencimiento de los contratos', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (97, 'RP09','Inexistencia de contratos', 'SIN INFORMACION', 'TIC', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (97, 'RIT-RP09','Inexistencia de contratos', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (99, 'RP10','Contratos no alineados a niveles de servicio (SLA)', 'SIN INFORMACION', 'TIC', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (99, 'RIT-RP10','Contratos no alineados a niveles de servicio (SLA)', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Gestión de proveedores', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
 
 -- -------------------------------------------------RIESGOS  DE CUMPLIMIENTO---------------------------------------------------
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (100, 'RI01','Incumplimiento por entrega de información incompleta a entes reguladores', 'SIN INFORMACION', 'TIC', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (100, 'RIT-RI01','Incumplimiento por entrega de información incompleta a entes reguladores', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (101, 'RI02','Incumplimiento de la legislación vigente', 'SIN INFORMACION', 'TIC', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (101, 'RIT-RI02','Incumplimiento de la legislación vigente', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (102, 'RI03','Incumplimiento de normativas externas', 'SIN INFORMACION', 'TIC', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (102, 'RIT-RI03','Incumplimiento de normativas externas', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (103, 'RI04','Incumplimiento en las fechas de entrega de la información a entes reguladores', 'SIN INFORMACION', 'TIC', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (103, 'RIT-RI04','Incumplimiento en las fechas de entrega de la información a entes reguladores', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (104, 'RI05','No contar con el apoyo de las altas autoridades', 'SIN INFORMACION', 'TIC', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (104, 'RIT-RI05','No contar con el apoyo de las altas autoridades', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (105, 'RI06','Insuficientes recursos (humanos, equipos, espacio físico, etc.) para trabajar en la implementación', 'SIN INFORMACION', 'TIC', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (105, 'RIT-RI06','Insuficientes recursos (humanos, equipos, espacio físico, etc.) para trabajar en la implementación', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (106, 'RI07','No contar con una cultura de riesgos en la institución', 'SIN INFORMACION', 'TIC', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (106, 'RIT-RI07','No contar con una cultura de riesgos en la institución', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (107, 'RI08','Los responsables de TI no cuentan con el suficiente apoyo de las altas autoridades para realizar su gestión', 'SIN INFORMACION', 'TIC', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (107, 'RIT-RI08','Los responsables de TI no cuentan con el suficiente apoyo de las altas autoridades para realizar su gestión', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (108, 'RI09','No se cuenta con políticas institucionales para la gestión de TI', 'SIN INFORMACION', 'TIC', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (108, 'RIT-RI09','No se cuenta con políTecnológicos y de informaciónas institucionales para la gestión de TI', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Cumplimiento', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
 
 -- -------------------------------------------------RIESGOS EN SEGURIDAD DE LA INFORMACION---------------------------------------------------
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (109, 'RS01','Incumplimiento de políticas de seguridad', 'SIN INFORMACION', 'TIC', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (109, 'RIT-RS01','Incumplimiento de políTecnológicos y de informaciónas de seguridad', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (110, 'RS02','Falta de capacitación y concientizacion en seguridad de la información', 'SIN INFORMACION', 'TIC', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (110, 'RIT-RS02','Falta de capacitación y concientizacion en seguridad de la información', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (111, 'RS03','Políticas de seguridad no documentadas o estan desactualizadas', 'SIN INFORMACION', 'TIC', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (111, 'RIT-RS03','PolíTecnológicos y de informaciónas de seguridad no documentadas o estan desactualizadas', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (112, 'RS04','Normativas de seguridad no documentadas o estan desactualizadas', 'SIN INFORMACION', 'TIC', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (112, 'RIT-RS04','Normativas de seguridad no documentadas o estan desactualizadas', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (113, 'RS05','Controles de seguridad no documentadas o estan desactualizadas', 'SIN INFORMACION', 'TIC', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (113, 'RIT-RS05','Controles de seguridad no documentadas o estan desactualizadas', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (114, 'RS06','Procedimientos de seguridad no documentadas o estan desactualizadas', 'SIN INFORMACION', 'TIC', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (114, 'RIT-RS06','Procedimientos de seguridad no documentadas o estan desactualizadas', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (115, 'RS07','Procesos de seguridad no documentados o estan desactualizadas', 'SIN INFORMACION', 'TIC', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (115, 'RIT-RS07','Procesos de seguridad no documentados o estan desactualizadas', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (116, 'RS08','Ataques de denegación de servicios', 'SIN INFORMACION', 'TIC', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (116, 'RIT-RS08','Ataques de denegación de servicios', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (117, 'RS09','No se actualiza en forma adecuada la plataforma tecnológica que atiende los servicios de Internet', 'SIN INFORMACION', 'TIC', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (117, 'RIT-RS09','No se actualiza en forma adecuada la plataforma tecnológica que atiende los servicios de Internet', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (118, 'RS10','Plataforma de seguridad mal atendida, monitoreo inadecuado de incidentes de seguridad', 'SIN INFORMACION', 'TIC', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (118, 'RIT-RS10','Plataforma de seguridad mal atendida, monitoreo inadecuado de incidentes de seguridad', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (119, 'RS11','Capacitación inadecuada en ingeniería social', 'SIN INFORMACION', 'TIC', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (119, 'RIT-RS11','Capacitación inadecuada en ingeniería social', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (120, 'RS12','Perdida de equipos de cómputo (principalmente portátiles) sin la debida protección, con la consiguiente perdida de información confidencial)', 'SIN INFORMACION', 'TIC', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (120, 'RIT-RS12','Perdida de equipos de cómputo (principalmente portátiles) sin la debida protección, con la consiguiente perdida de información confidencial)', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (121, 'RS13','Perfiles de acceso no definidos o mal congigurados', 'SIN INFORMACION', 'TIC', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (121, 'RIT-RS13','Perfiles de acceso no definidos o mal congigurados', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (122, 'RS14','Red interna puede ser vulnerada por parte de cibercriminales', 'SIN INFORMACION', 'TIC', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (122, 'RIT-RS14','Red interna puede ser vulnerada por parte de cibercriminales', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
-INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
-VALUES (123, 'RS15','Gestión inadecuada en el parchado de aplicaciones o equipos', 'SIN INFORMACION', 'TIC', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
+INSERT INTO `si_db`.`T_SFR_Risk` (`PK_ID`,`ID`, `Name`, `Factors`, `GeneralType`, `AreaType`, `AreaSpecificType`, `Description`, `Probability`, `Impact`, `Magnitude`, `MitigationMeasures`, `Author`, `Consequences`) 
+VALUES (123, 'RIT-RS15','Gestión inadecuada en el parchado de aplicaciones o equipos', 'SIN INFORMACION', 'Interno', 'Tecnológicos y de información', 'Seguridad de la información', 'N/A', '0.1', '01', '01', 'SIN INFORMACION', 50, "N/A");
 
 -- -------------------------------------------------T_SFR_RiskPlan---------------------------------------------------
 INSERT INTO si_db.T_SFR_RiskPlan (FK_PLAN, FK_RISK) VALUES ( 1, 1);

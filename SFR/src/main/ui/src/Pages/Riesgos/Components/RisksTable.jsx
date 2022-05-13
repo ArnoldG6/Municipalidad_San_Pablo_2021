@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './RisksTable.css';
 import { Table, Accordion } from "react-bootstrap";
 import { Link } from 'react-router-dom';
+import ShowMoreText from "react-show-more-text";
 
 class RisksTable extends Component {
     render() {
@@ -16,7 +17,24 @@ class RisksTable extends Component {
                                     return (
                                         <Accordion.Item eventKey={risk.id}>
                                             <Accordion.Header >
-                                                {risk.name}
+
+                                            <ShowMoreText 
+                                                    /* Default options */
+                                                    lines={2}
+                                                    more={<p>Mostrar más</p>}
+                                                    less={<p>Mostrar menos</p>}
+                                                    className="content-css"
+                                                    anchorClass="accordion-header"
+                                                    onClick={this.executeOnClick}
+                                                    expanded={false}                                                  
+                                                    truncatedEndingComponent={"... "}
+                                                    keepNewLines={false}
+                                                    width={300}
+                                                >
+                                                    <div className="mobileRiskName">{risk.name}</div>
+                                                </ShowMoreText>
+
+                                                
                                             </Accordion.Header>
                                             <Accordion.Body>
                                                 <p>
@@ -57,7 +75,28 @@ class RisksTable extends Component {
                                         return (
                                             <tr key={risk.id}>
                                                 <td>{risk.id}</td>
-                                                <td className="nameSlot"><Link to={{ pathname: "/riesgo", search: `?id=${risk.id}` }}><p>{risk.name}</p></Link></td>
+                                                <td className="nameSlot">
+                                                    <Link to={{ pathname: "/riesgo", search: `?id=${risk.id}` }}>
+                                                        
+                                                    <ShowMoreText
+                                                            /* Default options */
+                                                            lines={1}
+                                                            more={<button className='seeMoreButton'><i className="bi bi-caret-down"></i></button>}
+                                                            less={<button className='seeMoreButton'><i className="bi bi-caret-up"></i></button>}
+                                                            className="content-css"
+                                                            anchorClass="my-anchor-css-class"
+                                                            onClick={this.executeOnClick}
+                                                            expanded={false}
+                                                            truncatedEndingComponent={" ... "}
+                                                            width={0}
+                                                        >
+
+                                                            <p className='nameText'>{risk.name}</p>
+                                                        </ShowMoreText>
+                                                        
+                                                        
+
+                                                    </Link></td>
                                                 <td>{risk.generalType}</td>
                                                 <td>{risk.areaType}</td>
                                                 <td>{risk.probability}</td>

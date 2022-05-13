@@ -50,8 +50,6 @@
     
 }
 
-.mobilePlanName{
-    width: 100vh !important;
+.mobilePlanName{  
     word-wrap: break-word;
-
 }

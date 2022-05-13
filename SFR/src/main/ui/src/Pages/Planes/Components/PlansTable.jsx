@@ -40,17 +40,18 @@ class PlansTable extends Component {
                                         <Accordion.Item eventKey={plan.id} key={plan.id}>
                                             <Accordion.Header >
 
-                                                <ShowMoreText
+                                                <ShowMoreText 
                                                     /* Default options */
                                                     lines={2}
                                                     more={<p>Mostrar más</p>}
-                                                    less="Mostrar menos"
+                                                    less={<p>Mostrar menos</p>}
                                                     className="content-css"
                                                     anchorClass="accordion-header"
                                                     onClick={this.executeOnClick}
-                                                    expanded={false}
+                                                    expanded={false}                                                  
                                                     truncatedEndingComponent={"... "}
-                                                    width={0}
+                                                    keepNewLines={false}
+                                                    width={300}
                                                 >
 
                                                     <div className="mobilePlanName">{plan.name}</div>

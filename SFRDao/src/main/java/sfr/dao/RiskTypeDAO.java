@@ -69,10 +69,20 @@ public class RiskTypeDAO extends GenericDAO {
                 if (d.getParent() != null) {
                     if (d.getParent().getId().equals(p.getId())) {
                         children.add(d);
+                        List<RiskType> grandchildren = new ArrayList<>();
+                        dataList.forEach(g -> {
+                            if (g.getParent() != null) {
+                                if (g.getParent().getId().equals(d.getId())) {
+                                    grandchildren.add(g);
+                                }
+                            }
+                        });
+                        data.put(d.getName(), grandchildren);
                     }
                 }
             });
             data.put(p.getName(), children);
+
         });
         return data;
     }

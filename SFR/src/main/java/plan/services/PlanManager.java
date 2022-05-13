@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import sfr.dao.PlanDAO;
 import sfr.dao.PlanTypeDAO;
 import sfr.dao.RiskDAO;
+import sfr.dao.Transaction;
 import sfr.model.Comment;
 import sfr.model.Incidence;
 import sfr.model.Plan;
@@ -67,30 +68,30 @@ public class PlanManager extends HttpServlet {
             response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
             switch (request.getServletPath()) {
                 case "/API/PlanManager/Insert":
-                    insertPlan(request, response);
+                    insertPlan(request, response); 
                     break;
                 case "/API/PlanManager/Edit":
-                    editPlan(request, response);
+                    editPlan(request, response); 
                     break;
-                case "/API/PlanManager/Delete":
+                case "/API/PlanManager/Delete":  
                     deletePlan(request, response);
                     break;
-                case "/API/PlanManager/Delete/Risk":
+                case "/API/PlanManager/Delete/Risk":   
                     deleteRiskFromPlan(request, response);
                     break;
-                case "/API/PlanManager/Delete/Incidence":
+                case "/API/PlanManager/Delete/Incidence":   
                     deleteIncidenceFromPlan(request, response);
                     break;
-                case "/API/PlanManager/Insert/Risk":
+                case "/API/PlanManager/Insert/Risk": 
                     associateRiskToPlan(request, response);
                     break;
-                case "/API/PlanManager/Insert/Incidence":
+                case "/API/PlanManager/Insert/Incidence": 
                     associateIncidenceToPlan(request, response);
                     break;
-                case "/API/PlanManager/Insert/Comment":
+                case "/API/PlanManager/Insert/Comment": 
                     associateCommentToPlan(request, response);
                     break;
-                case "/API/PlanManager/Delete/Comment":
+                case "/API/PlanManager/Delete/Comment": 
                     deleteCommentFromPlan(request, response);
                     break;
                 case "/API/PlanManager/Insert/Involved":
@@ -121,8 +122,9 @@ public class PlanManager extends HttpServlet {
      */
     private void insertPlan(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
+            Boolean errorOcurred = false;
             JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining())),
-            responseJSON = new JSONObject();
+                    responseJSON = new JSONObject();
             User user = UserDAO.getInstance().searchById(requestJSON.getInt("userID"));
             requestJSON.remove("userID");
             if (user == null) {
@@ -141,7 +143,13 @@ public class PlanManager extends HttpServlet {
             String newID = newPlan.getId() + "-" + year + month + day + "-" + id;
             newPlan.setId(newID);
 
-            PlanDAO.getInstance().add(newPlan);
+            try {
+                PlanDAO.getInstance().add(newPlan);
+                PlanDAO.getInstance().recordTransaction(user, Transaction.INSERT_PLAN, Boolean.TRUE, "PLAN_ID: " + newID);
+            } catch (Exception e) {
+                PlanDAO.getInstance().recordTransaction(user, Transaction.INSERT_PLAN, Boolean.FALSE, "PLAN_ID: " + newID);
+                throw e;
+            }
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             responseJSON.append("id", newPlan.getId());
@@ -177,14 +185,20 @@ public class PlanManager extends HttpServlet {
             if (PlanDAO.getInstance().searchById(editPlan.getPkId()) == null) {
                 throw new NullPointerException("No se encontró el plan que se desea editar.");
             }
-            
+
             Plan plan = PlanDAO.getInstance().searchById(editPlan.getPkId());
 
             if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
                 throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
             }
 
-            PlanDAO.getInstance().update(editPlan);
+            try {
+                PlanDAO.getInstance().update(editPlan);
+                PlanDAO.getInstance().recordTransaction(user, Transaction.EDIT_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId());
+            } catch (Exception e) {
+                PlanDAO.getInstance().recordTransaction(user, Transaction.EDIT_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId());
+                throw e;
+            }
 
         } catch (NullPointerException e) {
             response.sendError(400, e.getMessage());
@@ -218,8 +232,14 @@ public class PlanManager extends HttpServlet {
             if ((!user.hasRol("SUPER_ADMIN")) || toDelete.getStatus().equals("Completo")) {
                 throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
             }
+            try {
+                PlanDAO.getInstance().delete(toDelete);
+                PlanDAO.getInstance().recordTransaction(user, Transaction.DELETE_PLAN, Boolean.TRUE, "PLAN_ID: " + toDelete.getId());
+            } catch (Exception e) {
+                PlanDAO.getInstance().recordTransaction(user, Transaction.DELETE_PLAN, Boolean.FALSE, "PLAN_ID: " + toDelete.getId());
+                throw e;
+            }
 
-            PlanDAO.getInstance().delete(toDelete);
         } catch (NullPointerException e) {
             response.sendError(400, e.getMessage());
         } catch (IllegalAccessError e) {
@@ -262,9 +282,17 @@ public class PlanManager extends HttpServlet {
             if (riskList == null) {
                 throw new NullPointerException("El Plan no cuenta con riesgos por eliminar.");
             }
-            riskList.removeIf(r -> r.getPkId() == requestJSON.getInt("riskPkID"));
-            plan.setRiskList(riskList);
-            PlanDAO.getInstance().update(plan);
+            try {
+                riskList.removeIf(r -> r.getPkId() == requestJSON.getInt("riskPkID"));
+                plan.setRiskList(riskList);
+                PlanDAO.getInstance().update(plan);
+                PlanDAO.getInstance().recordTransaction(user, Transaction.DELETE_RISK_FROM_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId() + " RISK_ID:"
+                        + String.valueOf(requestJSON.getInt("riskPkID")));
+            } catch (Exception e) {
+                PlanDAO.getInstance().recordTransaction(user, Transaction.DELETE_RISK_FROM_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId() + " RISK_ID:"
+                        + String.valueOf(requestJSON.getInt("riskPkID")));
+                throw e;
+            }
 
         } catch (NullPointerException e) {
             response.sendError(400, e.getMessage());
@@ -300,12 +328,18 @@ public class PlanManager extends HttpServlet {
                 throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
             }
 
-            List<Incidence> l = plan.getIncidenceList();
-
-            l.removeIf(incidence -> incidence.getPkID() == requestJSON.getInt("incidencePkID"));
-
-            plan.setIncidenceList(l);
-            PlanDAO.getInstance().update(plan);
+            try {
+                List<Incidence> l = plan.getIncidenceList();
+                l.removeIf(incidence -> incidence.getPkID() == requestJSON.getInt("incidencePkID"));
+                plan.setIncidenceList(l);
+                PlanDAO.getInstance().update(plan);
+                PlanDAO.getInstance().recordTransaction(user, Transaction.DELETE_INCIDECE_FROM_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId() + " INCIDENCE_ID:"
+                        + String.valueOf(requestJSON.getInt("incidencePkID")));
+            } catch (Exception e) {
+                PlanDAO.getInstance().recordTransaction(user, Transaction.DELETE_INCIDECE_FROM_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId() + " INCIDENCE_ID:"
+                        + String.valueOf(requestJSON.getInt("incidencePkID")));
+                throw e;
+            }
 
         } catch (NullPointerException e) {
             response.sendError(400, e.getMessage());
@@ -348,11 +382,20 @@ public class PlanManager extends HttpServlet {
             if (riskIdJSONArray == null) {
                 throw new NullPointerException("No se enviaron riesgos por agregar a este plan.");
             }
-            List<Integer> riskIds = new ArrayList<>();
-            for (int i = 0; i < riskIdJSONArray.length(); i++) {
-                riskIds.add((Integer) riskIdJSONArray.get(i));
+
+            try {
+                List<Integer> riskIds = new ArrayList<>();
+                for (int i = 0; i < riskIdJSONArray.length(); i++) {
+                    riskIds.add((Integer) riskIdJSONArray.get(i));
+                }
+                PlanDAO.getInstance().associateRisksToPlan(requestJSON.getInt("planPKID"), riskIds);
+                PlanDAO.getInstance().recordTransaction(user, Transaction.ASSOCIATE_RISK_TO_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId() + " RISKS_ID:"
+                        + String.valueOf(riskIdJSONArray));
+            } catch (Exception e) {
+                PlanDAO.getInstance().recordTransaction(user, Transaction.ASSOCIATE_RISK_TO_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId() + " RISKS_ID:"
+                        + String.valueOf(riskIdJSONArray));
+                throw e;
             }
-            PlanDAO.getInstance().associateRisksToPlan(requestJSON.getInt("planPKID"), riskIds);
 
         } catch (NullPointerException e) {
             response.sendError(400, e.getMessage());
@@ -392,10 +435,17 @@ public class PlanManager extends HttpServlet {
             }
 
             Incidence newIncidence = new Incidence(requestJSON.getString("name"), requestJSON.getString("description"), d, requestJSON.getInt("affectation"), requestJSON.getString("cause"), risk);
-            newIncidence.setEntryDate(d);
-
-            plan.addIncidence(newIncidence);
-            PlanDAO.getInstance().update(plan);
+            try {
+                newIncidence.setEntryDate(d);
+                plan.addIncidence(newIncidence);
+                PlanDAO.getInstance().update(plan);
+                PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_INCIDENCE_TO_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId() + " INCIDENCE_ID:"
+                        + String.valueOf(newIncidence.getPkID()));
+            } catch (Exception e) {
+                PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_INCIDENCE_TO_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId() + " INCIDENCE_ID:"
+                        + String.valueOf(newIncidence.getPkID()));
+                throw e;
+            }
 
         } catch (NullPointerException e) {
             response.sendError(400, e.getMessage());
@@ -425,10 +475,17 @@ public class PlanManager extends HttpServlet {
             if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !plan.containsInvolved(user)) || plan.getStatus().equals("Completo")) {
                 throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
             }
-
             Comment c = new Comment(requestJSON.getString("comentario"), (user.getOfficial().getName() + " " + user.getOfficial().getSurname()), requestJSON.getString("url"), new Date());
-            plan.addComment(c);
-            PlanDAO.getInstance().update(plan);
+            try {
+                plan.addComment(c);
+                PlanDAO.getInstance().update(plan);
+                PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_COMMENT_TO_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId() + " COMMENT_ID:"
+                        + String.valueOf(c.getPkID()));
+            } catch (Exception e) {
+                PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_COMMENT_TO_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId() + " COMMENT_ID:"
+                        + String.valueOf(c.getPkID()));
+                throw e;
+            }
         } catch (NullPointerException e) {
             response.sendError(400, e.getMessage());
         } catch (IllegalAccessError e) {
@@ -459,13 +516,21 @@ public class PlanManager extends HttpServlet {
                 throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
             }
 
-            List<Comment> commentList = p.getCommentList();
-            if (commentList == null) {
-                throw new NullPointerException("Este Plan no cuenta con comentarios para ser eliminados.");
+            try {
+                List<Comment> commentList = p.getCommentList();
+                if (commentList == null) {
+                    throw new NullPointerException("Este Plan no cuenta con comentarios para ser eliminados.");
+                }
+                commentList.removeIf(comment -> comment.getPkID() == requestJSON.getInt("commentID"));
+                p.setCommentList(commentList);
+                PlanDAO.getInstance().update(p);
+                PlanDAO.getInstance().recordTransaction(user, Transaction.DELETE_COMMENT_FROM_PLAN, Boolean.TRUE, "PLAN_ID: " + p.getId() + " COMMENT_ID:"
+                        + String.valueOf(requestJSON.getInt("commentID")));
+            } catch (Exception e) {
+                PlanDAO.getInstance().recordTransaction(user, Transaction.DELETE_COMMENT_FROM_PLAN, Boolean.FALSE, "PLAN_ID: " + p.getId() + " COMMENT_ID:"
+                        + String.valueOf(requestJSON.getInt("commentID")));
+                throw e;
             }
-            commentList.removeIf(comment -> comment.getPkID() == requestJSON.getInt("commentID"));
-            p.setCommentList(commentList);
-            PlanDAO.getInstance().update(p);
         } catch (NullPointerException e) {
             response.sendError(400, e.getMessage());
         } catch (IllegalAccessError e) {
@@ -504,13 +569,21 @@ public class PlanManager extends HttpServlet {
             if (involvedIdJSONArray == null) {
                 throw new NullPointerException("No se recibieron involucrados por agregar a este plan.");
             }
-            for (int i = 0; i < involvedIdJSONArray.length(); i++) {
-                User u = UserDAO.getInstance().searchById((Integer) involvedIdJSONArray.get(i));
-                if (u != null) {
-                    plan.addInvolucrado(u);
+            try {
+                for (int i = 0; i < involvedIdJSONArray.length(); i++) {
+                    User u = UserDAO.getInstance().searchById((Integer) involvedIdJSONArray.get(i));
+                    if (u != null) {
+                        plan.addInvolucrado(u);
+                    }
                 }
+                PlanDAO.getInstance().update(plan);
+                PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_INVOLVED_TO_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId() + " INVOLVED_LIST:"
+                        + String.valueOf(involvedIdJSONArray));
+            } catch (Exception e) {
+                PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_INVOLVED_TO_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId() + " INVOLVED_LIST:"
+                        + String.valueOf(involvedIdJSONArray));
+                throw e;
             }
-            PlanDAO.getInstance().update(plan);
 
         } catch (NullPointerException e) {
             response.sendError(400, e.getMessage());
@@ -540,8 +613,16 @@ public class PlanManager extends HttpServlet {
                 throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
             }
 
-            plan.removeInvolucrado(involved);
-            PlanDAO.getInstance().update(plan);
+            try {
+                plan.removeInvolucrado(involved);
+                PlanDAO.getInstance().update(plan);
+                PlanDAO.getInstance().recordTransaction(user, Transaction.DELETE_INVOLVED_FROM_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId() + " INVOLVED_ID:"
+                        + String.valueOf(involved.getIdUser()));
+            } catch (Exception e) {
+                PlanDAO.getInstance().recordTransaction(user, Transaction.DELETE_INVOLVED_FROM_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId() + " INVOLVED_ID:"
+                        + String.valueOf(involved.getIdUser()));
+                throw e;
+            }
 
         } catch (NullPointerException e) {
             response.sendError(400, e.getMessage());

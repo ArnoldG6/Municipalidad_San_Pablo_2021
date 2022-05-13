@@ -105,11 +105,12 @@ export default class Login extends React.Component {
   render() {
     return (
       <div>
-        <NavigationBar/>
+        <NavigationBar />
         <Container className="w-auto text-center mx-auto p-3 mt-2 container">
+          <h1> Sistema de Identificación de la Municipalidad de San Pablo </h1>
           <Form className="centered-element" onSubmit={this.handleSubmit}>
             <Form.Group className="mb-3">
-              <Image src={logo} height={200} width={200} className=' hover-shadow' onClick={() => { console.log(cookies) }} />
+              <Image src={logo} height={200} width={200} className=' hover-shadow'/>
             </Form.Group>
             <Form.Group className="mb-3" >
               <Form.Label>Nombre de usuario o correo electrónico: </Form.Label>

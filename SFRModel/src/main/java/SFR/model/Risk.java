@@ -33,6 +33,8 @@ public class Risk implements Serializable {
     private String generalType;
     @Column(name = "AreaType")
     private String areaType;
+    @Column(name = "AreaSpecificType")
+    private String areaSpecificType;
     @Column(name = "Description")
     private String description;
     @Column(name = "Probability")
@@ -66,7 +68,7 @@ public class Risk implements Serializable {
         this.id = id;
     }
 
-    public Risk(String id, String name, String desc, String generalType, String areaType,
+    public Risk(String id, String name, String desc, String generalType, String areaType, String areaSpecificType,
             String description, Float probability, Integer impact, User author, String consequences) {
         this.id = id;
         this.name = name;
@@ -74,6 +76,7 @@ public class Risk implements Serializable {
         this.generalType = generalType;
         this.description = description;
         this.areaType = areaType;
+        this.areaSpecificType = areaSpecificType;
         this.probability = probability;
         this.impact = impact;
         this.magnitude = (probability * impact);
@@ -132,6 +135,14 @@ public class Risk implements Serializable {
 
     public void setAreaType(String areaType) {
         this.areaType = areaType;
+    }
+
+    public String getAreaSpecificType() {
+        return areaSpecificType;
+    }
+
+    public void setAreaSpecificType(String areaSpecificType) {
+        this.areaSpecificType = areaSpecificType;
     }
 
     public String getDescription() {

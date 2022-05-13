@@ -60,6 +60,8 @@ public class RiskDAO extends GenericDAO {
                 return "generalType";
             case "AREATYPE":
                 return "areaType";
+            case "AREASPECIFICTYPE":
+                return "areaSpecificType";
             case "DESCRIPTION":
                 return "description";
             case "PROBABILITY":

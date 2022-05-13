@@ -11,6 +11,7 @@ import GenericModal from '../../SharedComponents/GenericModal/GenericModal';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import JsFileDownloader from 'js-file-downloader';
 const cookies = new Cookies();
 
 class Plan extends Component {
@@ -44,6 +45,8 @@ class Plan extends Component {
         this.closeModalDelete = this.closeModalDelete.bind(this);
         this.permsCheck = this.permsCheck.bind(this);
         this.removeComment = this.removeComment.bind(this);
+        this.handleRiskTableButtonClick = this.handleRiskTableButtonClick.bind(this);
+        this.handleReportButtonClick = this.handleReportButtonClick.bind(this);
     }
 
     componentDidMount() {
@@ -203,6 +206,46 @@ class Plan extends Component {
                     autoClose: 5000
                 });
             });
+    }
+
+    handleRiskTableButtonClick() {
+        var url = process.env.REACT_APP_SFR_API_URL + "/PlanServlet/RiskTable?planID=" + this.state.plan.pkID + "&userID=" + cookies.get('username', { path: process.env.REACT_APP_AUTH })
+
+        var date = new Date();
+
+        var filename = "Matriz_de_riesgos_" + this.state.plan.id + "_" + date.toLocaleDateString("es-ES") + "_" + date.toLocaleTimeString() + ".pdf";
+
+        new JsFileDownloader({
+            url: url,
+            filename: filename
+        }).catch(error => {
+            toast.error("Error al obtener la matriz de riesgos", {
+                position: toast.POSITION.TOP_RIGHT,
+                pauseOnHover: true,
+                theme: 'colored',
+                autoClose: 5000
+            });
+        })
+    }
+
+    handleReportButtonClick() {
+        var url = process.env.REACT_APP_SFR_API_URL + "/PlanServlet/Report?planID=" + this.state.plan.pkID + "&userID=" + cookies.get('username', { path: process.env.REACT_APP_AUTH })
+
+        var date = new Date();
+
+        var filename = "Reporte_" + this.state.plan.id + "_" + date.toLocaleDateString("es-ES") + "_" + date.toLocaleTimeString() + ".pdf";
+
+        new JsFileDownloader({
+            url: url,
+            filename: filename
+        }).catch(error => {
+            toast.error("Error al obtener el reporte", {
+                position: toast.POSITION.TOP_RIGHT,
+                pauseOnHover: true,
+                theme: 'colored',
+                autoClose: 5000
+            });
+        })
     }
 
     tableHandler(table) {
@@ -658,6 +701,8 @@ class Plan extends Component {
                             status={(this.state.plan === null) ? "Cargando.." : this.state.plan.status}
                             permsCheck={this.permsCheck}
                             planID={(this.state.plan === null) ? null : this.state.plan.id}
+                            handleRiskTableButtonClick={this.handleRiskTableButtonClick}
+                            handleReportButtonClick={this.handleReportButtonClick}
                         />
                     </Row>
                     {/* Datos del Plan */}
@@ -714,7 +759,10 @@ class Plan extends Component {
                                         openModalDelete={this.openModalDelete}
                                         status={(this.state.plan === null) ? "Cargando.." : this.state.plan.status}
                                         permsCheck={this.permsCheck}
-                                        planID={(this.state.plan === null) ? null : this.state.plan.id} />
+                                        planID={(this.state.plan === null) ? null : this.state.plan.id}
+                                        handleRiskTableButtonClick={this.handleRiskTableButtonClick}
+                                        handleReportButtonClick={this.handleReportButtonClick}
+                                    />
                                 </Row>
                                 {/* Datos del Plan */}
                                 <Row className="mt-4">

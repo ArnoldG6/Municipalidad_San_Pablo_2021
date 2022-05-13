@@ -34,12 +34,13 @@ class EditRiskModal extends Component {
                 },
                 data: {
                     'pkID': this.props.risk.pkID,
-                    'id': event.target.ID.value,
+                    'id': this.props.risk.id,
                     'name': event.target.name.value,
                     'probability': parseFloat(event.target.probability.value),
                     'impact': parseInt(event.target.impact.value),
                     'generalType': this.props.risk.generalType,
                     'areaType': this.props.risk.areaType,
+                    'areaSpecificType': this.props.risk.areaSpecificType,
                     'description': event.target.description.value,
                     'magnitude': parseFloat(event.target.probability.value) * parseInt(event.target.impact.value),
                     'factors': event.target.factor.value,
@@ -107,10 +108,6 @@ class EditRiskModal extends Component {
                 <Modal.Body>
                     {(typeof risk === 'undefined' || risk === null) ? <h1>Error cargando el riesgo</h1> :
                         <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
-                            <div className="form-group">
-                                <label>ID: </label>
-                                <input name="ID" id="ID" type="text" placeholder="ID" className="form-control" disabled defaultValue={risk.id} required />
-                            </div>
                             <Form.Group>
                                 <div className="form-group">
                                     <Form.Label>Nombre: </Form.Label>
@@ -129,44 +126,46 @@ class EditRiskModal extends Component {
                                 </div>
                             </Form.Group>
                             <div className="form-group">
-                                <div className="number-input-container">
-                                    <Stack direction="horizontal" gap={3}>
-                                        <label>Probabilidad: </label>
-                                        <OverlayTrigger
-                                            delay={{ hide: 450, show: 300 }}
-                                            overlay={(props) => (
-                                                <Tooltip {...props}>
-                                                    {process.env.REACT_APP_RIESGOS_HELP_PROB}
-                                                </Tooltip>
-                                            )}
-                                            placement="bottom"
-                                        >
-                                            <h5 className='ms-auto mt-1'>
-                                                <i className="bi bi-info-circle"></i>
-                                            </h5>
-                                        </OverlayTrigger>
-                                    </Stack>
-                                    <input step=".01" min="0.01" max="1" name="probability" id="probability" type="number" placeholder="0,01" className="form-control number-input" defaultValue={risk.probability} required />
-                                </div>
-                                <div className="number-input-container">
-                                    <Stack direction="horizontal" gap={3}>
-                                        <label>Impacto:</label>
-                                        <OverlayTrigger
-                                            delay={{ hide: 450, show: 300 }}
-                                            overlay={(props) => (
-                                                <Tooltip {...props}>
-                                                    {process.env.REACT_APP_RIESGOS_HELP_IMPACTO}
-                                                </Tooltip>
-                                            )}
-                                            placement="bottom"
-                                        >
-                                            <h5 className='ms-auto mt-1'>
-                                                <i className="bi bi-info-circle"></i>
-                                            </h5>
-                                        </OverlayTrigger>
-                                    </Stack>
-                                    <input min="1" max="100" step="1" name="impact" id="impact" type="number" className="form-control number-input" placeholder="10%" defaultValue={risk.impact} required />
-                                </div>
+                                <Stack direction='horizontal'>
+                                    <div className="number-input-container">
+                                        <Stack direction="horizontal" gap={3}>
+                                            <label>Probabilidad: </label>
+                                            <OverlayTrigger
+                                                delay={{ hide: 450, show: 300 }}
+                                                overlay={(props) => (
+                                                    <Tooltip {...props}>
+                                                        {process.env.REACT_APP_RIESGOS_HELP_PROB}
+                                                    </Tooltip>
+                                                )}
+                                                placement="bottom"
+                                            >
+                                                <h5 className='ms-auto mt-1'>
+                                                    <i className="bi bi-info-circle"></i>
+                                                </h5>
+                                            </OverlayTrigger>
+                                        </Stack>
+                                        <input step=".01" min="0.01" max="1" name="probability" id="probability" type="number" placeholder="0,01" className="form-control number-input" defaultValue={risk.probability} required />
+                                    </div>
+                                    <div className="number-input-container">
+                                        <Stack direction="horizontal" gap={3}>
+                                            <label>Impacto:</label>
+                                            <OverlayTrigger
+                                                delay={{ hide: 450, show: 300 }}
+                                                overlay={(props) => (
+                                                    <Tooltip {...props}>
+                                                        {process.env.REACT_APP_RIESGOS_HELP_IMPACTO}
+                                                    </Tooltip>
+                                                )}
+                                                placement="bottom"
+                                            >
+                                                <h5 className='ms-auto mt-1'>
+                                                    <i className="bi bi-info-circle"></i>
+                                                </h5>
+                                            </OverlayTrigger>
+                                        </Stack>
+                                        <input min="1" max="100" step="1" name="impact" id="impact" type="number" className="form-control number-input" placeholder="10%" defaultValue={risk.impact} required />
+                                    </div>
+                                </Stack>
                             </div>
 
                             <FormGroup>
@@ -209,7 +208,6 @@ class EditRiskModal extends Component {
 
                             </FormGroup>
 
-
                             <div className="form-group">
                                 <Stack direction="horizontal" gap={3}>
                                     <label>Tipo por Área: </label>
@@ -237,6 +235,34 @@ class EditRiskModal extends Component {
                                     }
                                 </Form.Select>
                             </div>
+                            <div className="form-group">
+                                <Stack direction="horizontal" gap={3}>
+                                    <label>Tipo por Área Específico: </label>
+                                    <OverlayTrigger
+                                        delay={{ hide: 450, show: 300 }}
+                                        overlay={(props) => (
+                                            <Tooltip {...props}>
+                                                {process.env.REACT_APP_RIESGOS_HELP_TIPO}
+                                            </Tooltip>
+                                        )}
+                                        placement="bottom"
+                                    >
+                                        <h5 className='ms-auto mt-1'>
+                                            <i className="bi bi-info-circle"></i>
+                                        </h5>
+                                    </OverlayTrigger>
+                                </Stack>
+                                <Form.Select name="areaSpecifictype" id="areaSpecifictype" defaultValue={risk.areaSpecificType} disabled>
+                                    {
+                                        (this.props.typesMap === null || typeof this.props.typesMap === 'undefined' || typeof this.props.typesMap.get(risk.areaType) === 'undefined') ?
+                                            <option value={null} disabled>Error cargando Subtipos</option> :
+                                            this.props.typesMap.get(risk.areaType).map((tipos) => {
+                                                return <option value={tipos.name}>{tipos.name}</option>
+                                            })
+                                    }
+                                </Form.Select>
+                            </div>
+
                             <Form.Group>
                                 <div className="form-group">
                                     <Form.Label>Descripción de tipo específico:</Form.Label>

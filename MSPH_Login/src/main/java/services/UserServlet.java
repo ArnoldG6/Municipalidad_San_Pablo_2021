@@ -53,6 +53,7 @@ public class UserServlet extends HttpServlet {
                     editUser(request, response);
                     break;
                 case "/API/User/add":
+                    addUser(request, response);
                     break;
                 case "/API/Department":
                     getDepartments(request, response);

@@ -12,13 +12,16 @@ class AddRiskModal extends Component {
         super(props);
         this.state = {
             validated: false,
-            value: "Externo"
+            generalType: "Externo",
+            areaType: "Político"
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
         this.handleAreaType = this.handleAreaType.bind(this);
+        this.handleAreaSpecificType = this.handleAreaSpecificType.bind(this);
         this.setValidated = this.setValidated.bind(this);
         this.getID = this.getID.bind(this);
+        this.getConsequence = this.getConsequence.bind(this);
     }
 
     handleSubmit = (event) => {
@@ -29,7 +32,8 @@ class AddRiskModal extends Component {
         }
         else {
             event.preventDefault();
-            let id = this.getID(this.state.value, event.target.areatype.value);
+            let id = this.getID(this.state.generalType, this.state.areaType, event.target.areaSpecifictype.value);
+            let consequence = this.getConsequence(this.state.areaType, event.target.areaSpecifictype.value);
             let options = {
                 url: process.env.REACT_APP_SFR_API_URL + `/RiskManager/Insert`,
                 method: 'POST',
@@ -42,12 +46,13 @@ class AddRiskModal extends Component {
                     'name': event.target.name.value,
                     'probability': parseFloat(event.target.probability.value),
                     'impact': parseInt(event.target.impact.value),
-                    'generalType': this.state.value,
+                    'generalType': this.state.generalType,
                     'areaType': event.target.areatype.value,
+                    'areaSpecificType': event.target.areaSpecifictype.value,
                     'description': event.target.description.value,
                     'factors': event.target.factor.value,
                     'mitigationMeasures': event.target.mitigationMeasures.value,
-                    'consequences': event.target.consequences.value,
+                    'consequences': consequence,
                     'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
                 }
             }
@@ -101,31 +106,58 @@ class AddRiskModal extends Component {
         this.setState({ validated: value });
     }
 
-    getID(type, subtype) {
+    getID(generalType, areaType, areaSpecificType) {
         let id = "";
-        this.props.typesMap.get(type).map((tipo) => {
-            if (tipo.name === subtype) {
-                id = tipo.idName;
+        this.props.typesMap.get(generalType).map((tipo) => {
+            if (tipo.name === areaType) {
+                id += tipo.idName + "-";
             }
             return tipo.idName;
         })
+        this.props.typesMap.get(areaType).map((tipo) => {
+            if (tipo.name === areaSpecificType) {
+                id += tipo.idName;
+            }
+            return tipo.idName;
+        })        
+
         return id;
     }
 
+    getConsequence(areaType, areaSpecificType) {
+        let consequence = "";
+        this.props.typesMap.get(areaType).map((tipo) => {
+            if (tipo.name === areaSpecificType) {
+                consequence = tipo.consequence;
+            }
+            return tipo.consequence;
+        })
+        return consequence;
+    }
+
     onChange = e => {
-        this.setState({ value: e.target.value })
+        this.setState({
+            generalType: e.target.value,
+            areaType: e.target.value === "Externo" ? "Político" : "Estratégicos"
+        })
     }
 
     handleAreaType = e => {
-        this.setState({ area: e.target.value })
+        this.setState({ areaType: e.target.value })
+    }
+
+    handleAreaSpecificType = e => {
+        this.setState({})
+
     }
 
     render() {
+        console.log(this.props.typesMap)
         let render = this.props.show;
         let closeModal = this.props.closeModal;
 
         return (
-            <Modal show={render} onHide={() => { this.setState({ value: "Externo" }); closeModal() }} id="modalRisks" >
+            <Modal show={render} onHide={() => { this.setState({ validated: false, generalType: "Externo", areaType: "Político" }); closeModal() }} id="modalRisks" >
                 <Modal.Header closeButton>
                     Ingrese los datos para el nuevo Riesgo
                 </Modal.Header>
@@ -148,49 +180,51 @@ class AddRiskModal extends Component {
                             </div>
                         </Form.Group>
                         <div className="form-group">
-                            <div className="number-input-container">
-                                <Stack direction="horizontal" gap={3}>
-                                    <label>Probabilidad: </label>
-                                    <OverlayTrigger
-                                        delay={{ hide: 450, show: 300 }}
-                                        overlay={(props) => (
-                                            <Tooltip {...props}>
-                                                {process.env.REACT_APP_RIESGOS_HELP_PROB}
-                                            </Tooltip>
-                                        )}
-                                        placement="bottom"
-                                    >
-                                        <h5 className='ms-auto mt-1'>
-                                            <i className="bi bi-info-circle"></i>
-                                        </h5>
-                                    </OverlayTrigger>
-                                </Stack>
-                                <input step=".01" min="0.01" max="1" name="probability" id="probability" type="number" placeholder="0,01" className="form-control number-input" required />
-                            </div>
-                            <div className="number-input-container">
-                                <Stack direction="horizontal" gap={3}>
-                                    <label>Impacto:</label>
-                                    <OverlayTrigger
-                                        delay={{ hide: 450, show: 300 }}
-                                        overlay={(props) => (
-                                            <Tooltip {...props}>
-                                                {process.env.REACT_APP_RIESGOS_HELP_IMPACTO}
-                                            </Tooltip>
-                                        )}
-                                        placement="bottom"
-                                    >
-                                        <h5 className='ms-auto mt-1'>
-                                            <i className="bi bi-info-circle"></i>
-                                        </h5>
-                                    </OverlayTrigger>
-                                </Stack>
-                                <input min="1" max="100" step="1" name="impact" id="impact" type="number" className="form-control number-input" placeholder="1%" required />
-                            </div>
+                            <Stack direction='horizontal'>
+                                <div className="number-input-container">
+                                    <Stack direction="horizontal" gap={3}>
+                                        <label>Probabilidad: </label>
+                                        <OverlayTrigger
+                                            delay={{ hide: 450, show: 300 }}
+                                            overlay={(props) => (
+                                                <Tooltip {...props}>
+                                                    {process.env.REACT_APP_RIESGOS_HELP_PROB}
+                                                </Tooltip>
+                                            )}
+                                            placement="bottom"
+                                        >
+                                            <h5 className='ms-auto mt-1'>
+                                                <i className="bi bi-info-circle"></i>
+                                            </h5>
+                                        </OverlayTrigger>
+                                    </Stack>
+                                    <input step=".01" min="0.01" max="1" name="probability" id="probability" type="number" placeholder="0,01" className="form-control number-input" required />
+                                </div>
+                                <div className="number-input-container">
+                                    <Stack direction="horizontal" gap={3}>
+                                        <label>Impacto:</label>
+                                        <OverlayTrigger
+                                            delay={{ hide: 450, show: 300 }}
+                                            overlay={(props) => (
+                                                <Tooltip {...props}>
+                                                    {process.env.REACT_APP_RIESGOS_HELP_IMPACTO}
+                                                </Tooltip>
+                                            )}
+                                            placement="bottom"
+                                        >
+                                            <h5 className='ms-auto mt-1'>
+                                                <i className="bi bi-info-circle"></i>
+                                            </h5>
+                                        </OverlayTrigger>
+                                    </Stack>
+                                    <input min="1" max="100" step="1" name="impact" id="impact" type="number" className="form-control number-input" placeholder="1%" required />
+                                </div>
+                            </Stack>
                         </div>
 
                         <FormGroup>
                             <Stack direction="horizontal" gap={3}>
-                                <label>Tipo General:</label>
+                                <label>Tipo General del Riesgo:</label>
                                 <OverlayTrigger
                                     delay={{ hide: 450, show: 300 }}
                                     overlay={(props) => (
@@ -218,7 +252,7 @@ class AddRiskModal extends Component {
                                                         id={tipos.id}
                                                         type="radio"
                                                         value={tipos.name}
-                                                        checked={this.state.value === tipos.name}
+                                                        checked={this.state.generalType === tipos.name}
                                                         onChange={this.onChange}
                                                     />
                                                     <label htmlFor={tipos.id}>{tipos.name}</label>
@@ -230,10 +264,9 @@ class AddRiskModal extends Component {
 
                         </FormGroup>
 
-
                         <div className="form-group">
                             <Stack direction="horizontal" gap={3}>
-                                <label>Tipo por Área: </label>
+                                <label>Tipo por Área del Riesgo: </label>
                                 <OverlayTrigger
                                     delay={{ hide: 450, show: 300 }}
                                     overlay={(props) => (
@@ -251,9 +284,38 @@ class AddRiskModal extends Component {
 
                             <Form.Select name="areatype" id="areatype" onChange={this.handleAreaType}>
                                 {
-                                    (this.props.typesMap === null || typeof this.props.typesMap === 'undefined' || typeof this.props.typesMap.get(this.state.value) === 'undefined') ?
+                                    (this.props.typesMap === null || typeof this.props.typesMap === 'undefined' || typeof this.props.typesMap.get(this.state.generalType) === 'undefined') ?
                                         <option value={null} key="disabledSubtypeRisk" disabled>Error cargando Subtipos</option> :
-                                        this.props.typesMap.get(this.state.value).map((tipos) => {
+                                        this.props.typesMap.get(this.state.generalType).map((tipos) => {
+                                            return <option value={tipos.name} key={tipos.name}>{tipos.name}</option>
+                                        })
+                                }
+                            </Form.Select>
+                        </div>
+
+                        <div className="form-group">
+                            <Stack direction="horizontal" gap={3}>
+                                <label>Tipo por Área Específica del Riesgo: </label>
+                                <OverlayTrigger
+                                    delay={{ hide: 450, show: 300 }}
+                                    overlay={(props) => (
+                                        <Tooltip {...props}>
+                                            {process.env.REACT_APP_RIESGOS_HELP_TIPO}
+                                        </Tooltip>
+                                    )}
+                                    placement="bottom"
+                                >
+                                    <h5 className='ms-auto mt-1'>
+                                        <i className="bi bi-info-circle"></i>
+                                    </h5>
+                                </OverlayTrigger>
+                            </Stack>
+
+                            <Form.Select name="areaSpecifictype" id="areaSpecifictype" onChange={this.handleAreaSpecificType}>
+                                {
+                                    (this.props.typesMap === null || typeof this.props.typesMap === 'undefined' || typeof this.props.typesMap.get(this.state.areaType) === 'undefined') ?
+                                        <option value={null} key="disabledSubtypeRisk" disabled>Error cargando Subtipos</option> :
+                                        this.props.typesMap.get(this.state.areaType).map((tipos) => {
                                             return <option value={tipos.name} key={tipos.name}>{tipos.name}</option>
                                         })
                                 }
@@ -306,26 +368,6 @@ class AddRiskModal extends Component {
                             </Stack>
 
                             <textarea name="mitigationMeasures" id="mitigationMeasures" type="text" placeholder="Medidas necesarias para mitigar el riesgo." className="form-control" required />
-                        </div>
-                        <div className="form-group">
-                            <Stack direction="horizontal" gap={3}>
-                                <label>Consecuencias:</label>
-                                <OverlayTrigger
-                                    delay={{ hide: 450, show: 300 }}
-                                    overlay={(props) => (
-                                        <Tooltip {...props}>
-                                            {process.env.REACT_APP_RIESGOS_HELP_CONSECUENCIAS}
-                                        </Tooltip>
-                                    )}
-                                    placement="bottom"
-                                >
-                                    <h5 className='ms-auto mt-1'>
-                                        <i className="bi bi-info-circle"></i>
-                                    </h5>
-                                </OverlayTrigger>
-                            </Stack>
-
-                            <textarea name="consequences" id="consequences" type="text" placeholder="Consecuencias de este riesgo." className="form-control" required />
                         </div>
                         <div className='text-center'>
                             <Button className='btn-sfr' type="submit" >

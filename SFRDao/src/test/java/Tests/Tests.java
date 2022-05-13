@@ -25,8 +25,9 @@ public class Tests {
     @Test
     public void main() throws Exception {
         try {
-            //User user = UserDAO.getInstance().searchById(50);
-            //Plan plan = PlanDAO.getInstance().searchById(1);
+            User user = UserDAO.getInstance().searchById(50);
+            Plan plan = PlanDAO.getInstance().searchById(1);
+            new PdfFactory().createPlanReport(new FileOutputStream(new File("D:/reporte.pdf")), user, plan, "src/main/resources/images/MSPH_LOGO.png");
             //new PdfFactory().createRiskMatrix(new FileOutputStream(new File("D:/my.pdf")), user, plan, "src/main/resources/images/MSPH_LOGO.png");
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);

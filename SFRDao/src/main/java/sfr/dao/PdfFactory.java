@@ -6,12 +6,15 @@ package sfr.dao;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.ExceptionConverter;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.List;
+import com.itextpdf.text.ListItem;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
@@ -23,9 +26,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 import common.model.User;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
@@ -40,11 +41,12 @@ import sfr.model.Plan;
 public class PdfFactory {
 
     public Document createPlanReport(OutputStream out, User user, Plan plan, String imageFilePath) throws DocumentException, BadElementException, IOException {
-        HeaderFooter hf = new HeaderFooter(user.getOfficial().getName() + " " + user.getOfficial().getSurname(), plan.getName(), imageFilePath);
 
-        Document doc = new Document(PageSize.A4, 36, 36, 20 + hf.getHeaderHeight(), 36 + hf.getFooterHeight());
+        HeaderFooter hf = new HeaderFooter(user.getOfficial().getName() + " " + user.getOfficial().getSurname(), plan.getName(), imageFilePath, false);
 
-        PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream(new File("D:/reporte.pdf")));
+        Document doc = new Document(PageSize.A4, 36, 36, 36 + hf.getHeaderHeight(), 48 + hf.getFooterHeight());
+
+        PdfWriter writer = PdfWriter.getInstance(doc, out);
 
         writer.createXmpMetadata();
         writer.setTagged();
@@ -55,8 +57,202 @@ public class PdfFactory {
         genericFont.setSize(12);
         genericFont.setColor(BaseColor.BLACK);
 
+        Font titleFont = new Font();
+        titleFont.setSize(14);
+        titleFont.setStyle(Font.BOLD);
+        titleFont.setColor(BaseColor.BLACK);
+
+        Font subTitleFont = new Font();
+        subTitleFont.setSize(12);
+        subTitleFont.setStyle(Font.UNDERLINE);
+        subTitleFont.setColor(BaseColor.BLACK);
+
+        Font smallFont = new Font();
+        smallFont.setSize(10);
+        smallFont.setColor(BaseColor.BLACK);
+
         //Open
         doc.open();
+
+        //Plan title
+        Paragraph title = new Paragraph(plan.getName(), titleFont);
+        title.setAlignment(Element.ALIGN_JUSTIFIED);
+        title.setSpacingAfter(15);
+
+        doc.add(title);
+
+        //Plan ID
+        Paragraph id = new Paragraph();
+        id.add(new Phrase("Código de identificación", subTitleFont));
+        id.add(new Phrase(": ", genericFont));
+        id.add(new Phrase(plan.getId(), genericFont));
+        id.setAlignment(Element.ALIGN_JUSTIFIED);
+        id.setSpacingAfter(15);
+
+        doc.add(id);
+
+        //Plan Entry Date
+        SimpleDateFormat format = new SimpleDateFormat("d 'de' MMMM 'del' yyyy", new Locale("es", "MX"));
+        Paragraph entryDate = new Paragraph();
+        entryDate.add(new Phrase("Fecha de ingreso", subTitleFont));
+        entryDate.add(new Phrase(": ", genericFont));
+        entryDate.add(new Phrase(format.format(plan.getEntryDate()), genericFont));
+        entryDate.setAlignment(Element.ALIGN_JUSTIFIED);
+        entryDate.setSpacingAfter(15);
+
+        doc.add(entryDate);
+
+        //Plan Author
+        Paragraph author = new Paragraph();
+        author.add(new Phrase("Autor", subTitleFont));
+        author.add(new Phrase(": ", genericFont));
+        author.add(new Phrase(plan.getAuthorName(), genericFont));
+        author.setAlignment(Element.ALIGN_JUSTIFIED);
+        author.setSpacingAfter(15);
+
+        doc.add(author);
+
+        //Plan Tipo
+        Paragraph type = new Paragraph();
+        type.add(new Phrase("Tipo", subTitleFont));
+        type.add(new Phrase(": ", genericFont));
+        type.add(new Phrase(plan.getType(), genericFont));
+        type.setAlignment(Element.ALIGN_JUSTIFIED);
+        type.setSpacingAfter(15);
+
+        doc.add(type);
+
+        //Plan Subtipo
+        Paragraph subtype = new Paragraph();
+        subtype.add(new Phrase("Subtipo", subTitleFont));
+        subtype.add(new Phrase(": ", genericFont));
+        subtype.add(new Phrase(plan.getSubtype(), genericFont));
+        subtype.setAlignment(Element.ALIGN_JUSTIFIED);
+        subtype.setSpacingAfter(15);
+
+        doc.add(subtype);
+
+        //Plan Description
+        Paragraph descTitle = new Paragraph();
+        descTitle.add(new Phrase("Descripción", subTitleFont));
+        descTitle.add(new Phrase(": ", genericFont));
+        descTitle.setAlignment(Element.ALIGN_JUSTIFIED);
+        descTitle.setSpacingAfter(15);
+
+        doc.add(descTitle);
+
+        Paragraph desc = new Paragraph();
+        desc.add(new Phrase(plan.getDesc(), genericFont));
+        desc.setAlignment(Element.ALIGN_JUSTIFIED);
+        desc.setSpacingAfter(15);
+
+        doc.add(desc);
+
+        //Plan Risks
+        Paragraph riskTitle = new Paragraph();
+        riskTitle.add(new Phrase("Riesgos asociados", subTitleFont));
+        riskTitle.add(new Phrase(": ", genericFont));
+        riskTitle.setAlignment(Element.ALIGN_JUSTIFIED);
+        riskTitle.setSpacingAfter(15);
+
+        doc.add(riskTitle);
+
+        if (plan.getRiskList().isEmpty()) {
+            Paragraph riskData = new Paragraph();
+            riskData.add(new Phrase("No se han ingresado riesgos.", genericFont));
+            riskData.setAlignment(Element.ALIGN_JUSTIFIED);
+            riskData.setSpacingAfter(15);
+
+            doc.add(riskData);
+        } else {
+            List risks = new List(true, 20);
+            //risks.setListSymbol();
+            plan.getRiskList().forEach(risk -> {
+                Paragraph riskData = new Paragraph();
+                riskData.add(new Phrase(risk.getId() + " " + risk.getName(), genericFont));
+                riskData.setAlignment(Element.ALIGN_JUSTIFIED);
+                riskData.setSpacingAfter(15);
+
+                risks.add(new ListItem(riskData));
+            });
+            //risks.setAutoindent(true);
+            risks.setIndentationLeft(20);
+            Paragraph risksData = new Paragraph();
+            risksData.add(risks);
+            risksData.setAlignment(Element.ALIGN_JUSTIFIED);
+            risksData.setSpacingAfter(15);
+            doc.add(risksData);
+        }
+
+        //Plan Incidences
+        Paragraph incidenceTitle = new Paragraph();
+        incidenceTitle.add(new Phrase("Incidencias ocurridas", subTitleFont));
+        incidenceTitle.add(new Phrase(": ", genericFont));
+        incidenceTitle.setAlignment(Element.ALIGN_JUSTIFIED);
+        incidenceTitle.setSpacingAfter(15);
+
+        doc.add(incidenceTitle);
+
+        if (plan.getIncidenceList().isEmpty()) {
+            Paragraph incidenceData = new Paragraph();
+            incidenceData.add(new Phrase("No se han ingresado incidencias.", genericFont));
+            incidenceData.setAlignment(Element.ALIGN_JUSTIFIED);
+            incidenceData.setSpacingAfter(15);
+
+            doc.add(incidenceData);
+        } else {
+            List incidences = new List(true, 20);
+            //risks.setListSymbol();
+            plan.getIncidenceList().forEach(incidence -> {
+                Paragraph name = new Paragraph();
+                name.add(new Phrase(incidence.getName(), genericFont));
+                name.setAlignment(Element.ALIGN_JUSTIFIED);
+                name.setSpacingAfter(15);
+                ListItem item = new ListItem(name);
+
+                List subData = new List(20);
+                subData.setListSymbol(new Chunk("\u2022", titleFont));
+
+                Paragraph date = new Paragraph();
+                date.add(new Phrase("Fecha en la que se presentó", subTitleFont));
+                date.add(new Phrase(": ", genericFont));
+                date.add(new Phrase(format.format(incidence.getEntryDate()), genericFont));
+                date.setAlignment(Element.ALIGN_JUSTIFIED);
+                date.setSpacingAfter(15);
+                subData.add(new ListItem(date));
+
+                Paragraph affectation = new Paragraph();
+                affectation.add(new Phrase("Porcentaje de afectación", subTitleFont));
+                affectation.add(new Phrase(": ", genericFont));
+                affectation.add(new Phrase(incidence.getAffectation().toString(), genericFont));
+                affectation.add(new Phrase("%", genericFont));
+                affectation.setAlignment(Element.ALIGN_JUSTIFIED);
+                affectation.setSpacingAfter(15);
+
+                subData.add(new ListItem(affectation));
+                //subData.setIndentationLeft(20);
+
+                incidences.add(item);
+                incidences.add(subData);
+
+            });
+            //incidences.setAutoindent(true);
+            incidences.setIndentationLeft(20);
+            Paragraph incidencesData = new Paragraph();
+            incidencesData.add(incidences);
+            incidencesData.setAlignment(Element.ALIGN_JUSTIFIED);
+            incidencesData.setSpacingAfter(15);
+
+            doc.add(incidencesData);
+        }
+
+        //End of document
+        Paragraph end = new Paragraph();
+        end.add(new Phrase("- Fin del documento -", smallFont));
+        end.setAlignment(Element.ALIGN_JUSTIFIED);
+        end.setSpacingAfter(15);
+
+        doc.add(end);
 
         //Close
         doc.close();
@@ -66,9 +262,9 @@ public class PdfFactory {
 
     public Document createRiskMatrix(OutputStream out, User user, Plan plan, String imageFilePath) throws DocumentException, FileNotFoundException, BadElementException, IOException {
 
-        HeaderFooter hf = new HeaderFooter(user.getOfficial().getName() + " " + user.getOfficial().getSurname(), plan.getName(), imageFilePath);
+        HeaderFooter hf = new HeaderFooter(user.getOfficial().getName() + " " + user.getOfficial().getSurname(), plan.getName(), imageFilePath, true);
 
-        Document doc = new Document(PageSize.A4.rotate(), 36, 36, 20 + hf.getHeaderHeight(), 36 + hf.getFooterHeight());
+        Document doc = new Document(PageSize.A4.rotate(), 36, 36, 36 + hf.getHeaderHeight(), 36 + hf.getFooterHeight());
         //, 36, 36, 20 + hf.getHeaderHeight(), 20 + hf.getFooterHeight()
         //doc.setMargins(36, 36, 20 + hf.getHeaderHeight(), 20 + hf.getFooterHeight());
         //ByteArrayOutputStream bout = new ByteArrayOutputStream();
@@ -222,7 +418,7 @@ public class PdfFactory {
             noRisks.setColspan(7);
             noRisks.setHorizontalAlignment(Element.ALIGN_CENTER);
             noRisks.setVerticalAlignment(Element.ALIGN_CENTER);
-            
+
             matriz.addCell(noRisks);
 
         } else {
@@ -273,11 +469,13 @@ public class PdfFactory {
         protected Font smallFont;
         protected String creator;
         protected String planName;
+        protected Boolean landscape;
 
-        public HeaderFooter(String username, String planName, String imageFilePath) throws DocumentException, BadElementException, IOException {
+        public HeaderFooter(String username, String planName, String imageFilePath, Boolean landscape) throws DocumentException, BadElementException, IOException {
             this.logo = Image.getInstance(imageFilePath);
             this.creator = username;
             this.planName = planName;
+            this.landscape = landscape;
 
             //Fonts
             this.textFont = new Font();
@@ -299,9 +497,16 @@ public class PdfFactory {
         private void setHeader() throws DocumentException {
             this.header = new PdfPTable(2);
             this.headerHeight = 80;
-            this.header.setTotalWidth(600);
+
+            if (landscape) {
+                this.header.setTotalWidth(600);
+                this.header.setWidths(new float[]{1, 6});
+            } else {
+                this.header.setTotalWidth(523);
+                this.header.setWidths(new float[]{1, 5});
+            }
+
             this.header.setWidthPercentage(100);
-            this.header.setWidths(new float[]{1, 6});
             this.header.setLockedWidth(true);
 
             //Image Cell
@@ -330,9 +535,14 @@ public class PdfFactory {
         private void setFooter(int pageNumber) {
             this.footer = new PdfPTable(2);
             try {
-                this.footer.setWidths(new int[]{24, 24});
+                if (landscape) {
+                    this.footer.setWidths(new int[]{24, 24});
+                    this.footer.setTotalWidth(770);
+                } else {
+                    this.footer.setWidths(new int[]{24, 8});
+                    this.footer.setTotalWidth(523);
+                }
                 this.footerHeight = 20;
-                this.footer.setTotalWidth(770);
                 this.footer.getDefaultCell().setFixedHeight(footerHeight);
                 this.footer.getDefaultCell().setBorder(Rectangle.BOTTOM);
 

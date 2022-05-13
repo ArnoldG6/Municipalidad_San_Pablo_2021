@@ -34,7 +34,8 @@ import sfr.model.Plan;
     "/API/PlanServlet/Retrieve/Plan/RemainingUsers",
     "/API/PlanServlet/Retrieve/PlanTypes",
     "/API/PlanServlet/Search",
-    "/API/PlanServlet/RiskTable"
+    "/API/PlanServlet/RiskTable",
+    "/API/PlanServlet/Report"
 })
 public class PlanServlet extends HttpServlet {
 
@@ -84,6 +85,9 @@ public class PlanServlet extends HttpServlet {
                 case "/API/PlanServlet/RiskTable":
                     generateRiskTable(request, response);
                     break;
+                case "/API/PlanServlet/Report":
+                    generateReport(request, response);
+                    break;
 
             }
         } catch (Exception ex) {
@@ -91,46 +95,6 @@ public class PlanServlet extends HttpServlet {
             Logger.getLogger(PlanServlet.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
-    }
-
-    private void generateRiskTable(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
-        if (request.getParameter("planID") == null || request.getParameter("planID").isEmpty()) {
-            throw new IOException("Invalid PlanID parameter");
-        }
-        if (request.getParameter("userID") == null || request.getParameter("userID").isEmpty()) {
-            throw new IOException("Invalid UserID parameter");
-        }
-        Plan plan = PlanDAO.getInstance().searchById(Integer.parseInt(request.getParameter("planID")));
-        User user = UserDAO.getInstance().searchById(Integer.parseInt(request.getParameter("userID")));
-
-        if (plan == null) {
-            throw new NullPointerException("No se encontro el plan solicitado.");
-        }
-        if (user == null) {
-            throw new NullPointerException("No se encontro el usuario solicitado.");
-        }
-
-        String title = new StringBuilder()
-                .append("Matriz_de_riesgos_")
-                .append(plan.getId())
-                .append("_")
-                .append(Timestamp.from(Instant.now()))
-                .append(".pdf")
-                .toString()
-                .replace(":", "-")
-                .replace("/", "-");
-
-        response.setContentType("application/pdf");
-        response.addHeader("Content-Disposition", "attachment; filename=" + title);
-        response.addHeader("X-Suggested-Filename", title);
-        response.addHeader("Access-Control-Expose-Headers", "X-Suggested-Filename");
-
-        String filePath = getServletContext().getRealPath("/") + "static\\media\\logoHeader.dc9e7964.png";
-
-        //PlanDAO.getInstance().generateRiskTableXLSXFile(p).write(response.getOutputStream());
-        new PdfFactory().createRiskMatrix(response.getOutputStream(), user, plan, filePath);
-        response.getOutputStream().close();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Plan Management methods.">
@@ -338,6 +302,86 @@ public class PlanServlet extends HttpServlet {
         }
         response.getWriter().flush();
         response.getWriter().close();
+    }
+
+    private void generateRiskTable(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, Exception {
+        if (request.getParameter("planID") == null || request.getParameter("planID").isEmpty()) {
+            throw new IOException("Invalid PlanID parameter");
+        }
+        if (request.getParameter("userID") == null || request.getParameter("userID").isEmpty()) {
+            throw new IOException("Invalid UserID parameter");
+        }
+        Plan plan = PlanDAO.getInstance().searchById(Integer.parseInt(request.getParameter("planID")));
+        User user = UserDAO.getInstance().searchById(Integer.parseInt(request.getParameter("userID")));
+
+        if (plan == null) {
+            throw new NullPointerException("No se encontro el plan solicitado.");
+        }
+        if (user == null) {
+            throw new NullPointerException("No se encontro el usuario solicitado.");
+        }
+
+        String title = new StringBuilder()
+                .append("Matriz_de_riesgos_")
+                .append(plan.getId())
+                .append("_")
+                .append(Timestamp.from(Instant.now()))
+                .append(".pdf")
+                .toString()
+                .replace(":", "-")
+                .replace("/", "-");
+
+        response.setContentType("application/pdf");
+        response.addHeader("Content-Disposition", "attachment; filename=" + title);
+        response.addHeader("X-Suggested-Filename", title);
+        response.addHeader("Access-Control-Expose-Headers", "X-Suggested-Filename");
+
+        String filePath = getServletContext().getRealPath("/") + "static\\media\\logoHeader.dc9e7964.png";
+
+        //PlanDAO.getInstance().generateRiskTableXLSXFile(p).write(response.getOutputStream());
+        new PdfFactory().createRiskMatrix(response.getOutputStream(), user, plan, filePath);
+        response.getOutputStream().close();
+    }
+
+    private void generateReport(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, Exception {
+        if (request.getParameter("planID") == null || request.getParameter("planID").isEmpty()) {
+            throw new IOException("Invalid PlanID parameter");
+        }
+        if (request.getParameter("userID") == null || request.getParameter("userID").isEmpty()) {
+            throw new IOException("Invalid UserID parameter");
+        }
+        Plan plan = PlanDAO.getInstance().searchById(Integer.parseInt(request.getParameter("planID")));
+        User user = UserDAO.getInstance().searchById(Integer.parseInt(request.getParameter("userID")));
+
+        if (plan == null) {
+            throw new NullPointerException("No se encontro el plan solicitado.");
+        }
+        if (user == null) {
+            throw new NullPointerException("No se encontro el usuario solicitado.");
+        }
+
+        String title = new StringBuilder()
+                .append("Reporte_")
+                .append(plan.getId())
+                .append("_")
+                .append(Timestamp.from(Instant.now()))
+                .append(".pdf")
+                .toString()
+                .replace(":", "-")
+                .replace("/", "-");
+
+        response.setContentType("application/pdf");
+        response.addHeader("Content-Disposition", "attachment; filename=" + title);
+        response.addHeader("X-Suggested-Filename", title);
+        response.addHeader("Access-Control-Expose-Headers", "X-Suggested-Filename");
+
+        String filePath = getServletContext().getRealPath("/") + "static\\media\\logoHeader.dc9e7964.png";
+
+        //PlanDAO.getInstance().generateRiskTableXLSXFile(p).write(response.getOutputStream());
+        new PdfFactory().createPlanReport(response.getOutputStream(), user, plan, filePath);
+        response.getOutputStream().close();
     }
 
     // </editor-fold>

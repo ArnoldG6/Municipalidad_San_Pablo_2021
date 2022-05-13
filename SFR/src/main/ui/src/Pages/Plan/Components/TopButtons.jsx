@@ -65,7 +65,7 @@ class TopButtons extends Component {
                             delay={{ hide: 450, show: 300 }}
                             overlay={(props) => (
                                 <Tooltip {...props}>
-                                    Matriz de Identificación de Riesgos
+                                    Generar Matriz de Identificación de Riesgos
                                 </Tooltip>
                             )}
                             placement="bottom"
@@ -74,9 +74,21 @@ class TopButtons extends Component {
                                 <h2><i className="bi bi-clipboard-data"></i></h2>
                             </Button>
                         </OverlayTrigger>
-                        <Button variant="light">
-                            <h2><i className="bi bi-download"></i></h2>
-                        </Button>
+
+                        {/* Reporte */}
+                        <OverlayTrigger
+                            delay={{ hide: 450, show: 300 }}
+                            overlay={(props) => (
+                                <Tooltip {...props}>
+                                    Generar Reporte
+                                </Tooltip>
+                            )}
+                            placement="bottom"
+                        >
+                            <Button variant="light" onClick={this.props.handleReportButtonClick}>
+                                <h2><i className="bi bi-download"></i></h2>
+                            </Button>
+                        </OverlayTrigger>
                     </Stack>
                 </div>
                 {/* PC */}
@@ -126,7 +138,7 @@ class TopButtons extends Component {
                             delay={{ hide: 450, show: 300 }}
                             overlay={(props) => (
                                 <Tooltip {...props}>
-                                    Matriz de Identificación de Riesgos
+                                    Generar Matriz de Identificación de Riesgos
                                 </Tooltip>
                             )}
                             placement="bottom"
@@ -136,10 +148,21 @@ class TopButtons extends Component {
                             </Button>
                         </OverlayTrigger>
 
+                        {/* Reporte */}
+                        <OverlayTrigger
+                            delay={{ hide: 450, show: 300 }}
+                            overlay={(props) => (
+                                <Tooltip {...props}>
+                                    Generar Reporte
+                                </Tooltip>
+                            )}
+                            placement="bottom"
+                        >
+                            <Button className='ms-auto' variant="light" onClick={this.props.handleReportButtonClick}>
+                                <h2><i className="bi bi-download"></i></h2>
+                            </Button>
+                        </OverlayTrigger>
 
-                        <Button className="ms-auto" variant="light">
-                            <h2><i className="bi bi-download"></i></h2>
-                        </Button>{' '}
                         <div className="vr" />
                         <Button variant={statusClass}>{this.props.status}</Button>{' '}
                     </Stack>

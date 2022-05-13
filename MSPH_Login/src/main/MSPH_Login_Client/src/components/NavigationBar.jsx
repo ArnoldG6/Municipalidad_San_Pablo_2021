@@ -12,9 +12,9 @@ const cookies = new Cookies();
 export default class NavigationBar extends Component {
     render() {
         return (
-            <div className="Header  container-fluid">
+            <div className="Header container-fluid">
                 <Navbar collapseOnSelect expand="lg" variant="dark">
-                    <Navbar.Brand href="#/"><Image src={logoMuni} fluid height={25} width={50} /></Navbar.Brand>
+                    <Navbar.Brand href="#/menu"><Image src={logoMuni} fluid height={25} width={50} /></Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         {(typeof cookies.get('username', { path: process.env.REACT_APP_AUTH }) === 'undefined'

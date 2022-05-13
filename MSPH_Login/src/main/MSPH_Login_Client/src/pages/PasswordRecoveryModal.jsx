@@ -202,6 +202,7 @@ export default class PasswordRecoveryModal extends Component {
                     <Form noValidate validated={this.state.validateCode} onSubmit={this.handleCodeSubmit} hidden={this.state.hideCodeInput}>
                         <p>
                             Por favor ingrese el código enviado a su correo electrónico y su nueva contraseña.
+                            
                         </p>
                         <Form.Group>
                             <Form.Label>

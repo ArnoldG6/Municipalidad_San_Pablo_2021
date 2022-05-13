@@ -10,6 +10,7 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 export default class NavigationBar extends Component {
+    
     render() {
         return (
             <div className="Header container-fluid">

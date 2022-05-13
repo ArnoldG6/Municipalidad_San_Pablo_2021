@@ -1,3 +1,4 @@
+common\dao\OfficialDAO.class
 common\dao\EmailFactory$1.class
 common\dao\generic\GenericDAO.class
 common\dao\EmailFactory.class

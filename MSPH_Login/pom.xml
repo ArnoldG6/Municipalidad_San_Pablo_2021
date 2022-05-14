@@ -191,7 +191,7 @@
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <arguments>install react-bootstrap@5.1.1</arguments>
+                            <arguments>install react-bootstrap@5.1.0</arguments>
                         </configuration>
                     </execution>
 

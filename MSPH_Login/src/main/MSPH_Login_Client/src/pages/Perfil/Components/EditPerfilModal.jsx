@@ -33,7 +33,7 @@ class EditPerfilModal extends Component {
             },
             data: {
                 'emailOriginal': this.props.user.email,
-                'usuarioLogeado': this.state.username,
+                'usuarioLogeado': this.state.usuarioLogeado,
                 'name': event.target.name.value,
                 'surname': event.target.surname.value,
                 'department': event.target.department.value,
@@ -70,10 +70,8 @@ class EditPerfilModal extends Component {
         let roles;
         let name;
         let surname;
-        //let username;
 
         if (this.props.user !== null) {
-            //username = this.props.user.username;
             department = this.props.user.department;
             roles = this.props.user.roles;
             name = this.props.user.name;
@@ -114,7 +112,7 @@ class EditPerfilModal extends Component {
 
                         <div className="form-group">
                             <label>Rol: </label>
-                            <Form.Select name="roles" id="roles" defaultValue={roles} disabled={(!this.checkPermissions("SUPER_ADMIN"))}>
+                            <Form.Select name="roles" id="roles" defaultValue={roles} disabled = {(!this.checkPermissions("SUPER_ADMIN"))}>
                                 <option value="1" key="ADMIN">ADMIN</option>
                                 <option value="2" key="SUPER_ADMIN">SUPER_ADMIN</option>
                                 <option value="3" key="USER">USER</option>

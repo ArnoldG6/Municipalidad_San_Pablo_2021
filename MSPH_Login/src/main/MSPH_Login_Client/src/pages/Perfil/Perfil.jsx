@@ -74,7 +74,7 @@ export default class Plan extends React.Component {
                 this.setState({
                     departmentMap: response.data
                 }, () => {
-                    //console.log(this.state.departmentMap)
+                    
                 });
             }).catch(error => {
                 toast.error("Error recuperando los departamentos", {

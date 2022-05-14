@@ -1,13 +1,12 @@
 import React from 'react';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Row, Table, Card, Container, Col } from 'react-bootstrap';
+import { Button, Row, Table, Container, Col } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EditPerfilModal from './Components/EditPerfilModal';
 import './Perfil.css'
 import NavigationBar from '../../components/NavigationBar';
+import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 export default class Plan extends React.Component {
@@ -20,7 +19,9 @@ export default class Plan extends React.Component {
         this.refreshPage = this.refreshPage.bind(this);
         this.closeModalEdit = this.closeModalEdit.bind(this);
         this.openModalEdit = this.openModalEdit.bind(this);
-        this.refreshPage = this.refreshPage.bind(this);
+        this.checkPermissions = this.checkPermissions.bind(this);
+        this.checkOwner = this.checkOwner.bind(this);
+        this.retrieveDepartments = this.retrieveDepartments.bind(this);
     }
 
     componentDidMount() {
@@ -34,7 +35,6 @@ export default class Plan extends React.Component {
     }
 
     refreshPage() {
-        this.retrieveDepartments();
         let query = new URLSearchParams(this.props.location.search);
         let options = {
             url: process.env.REACT_APP_AUTH_API_PATH + '/User',
@@ -51,11 +51,38 @@ export default class Plan extends React.Component {
             .then(response => {
                 this.setState({
                     user: response.data
-                }
-                );
+                }, () => {
+                    this.retrieveDepartments();
+                });
             })
             .catch(error => {
                 this.props.history.push('/menu');
+            });
+    }
+
+    retrieveDepartments() {
+        let options = {
+            url: process.env.REACT_APP_AUTH_API_PATH + `/Department`,
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }
+        axios(options)
+            .then(response => {
+                this.setState({
+                    departmentMap: response.data
+                }, () => {
+                    //console.log(this.state.departmentMap)
+                });
+            }).catch(error => {
+                toast.error("Error recuperando los departamentos", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
             });
     }
 
@@ -91,48 +118,16 @@ export default class Plan extends React.Component {
         return perm;
     }
 
-    retrieveDepartments() {
-        let options = {
-            url: process.env.REACT_APP_AUTH_API_PATH + `/Department`,
-            method: 'POST',
-            header: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        }
-        axios(options)
-            .then(response => {
-                /*let map = new Map();
-                for (const [key, value] of Object.entries(response.data)) {
-                    map.set(key, value);
-                }
-                console.log(map)*/
-                this.setState({
-                    departmentMap: response.data
-                    //departmentMap: map
-                }, () => {
-                });
-            }).catch(error => {
-                toast.error("Error recuperando los departamentos", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    pauseOnHover: true,
-                    theme: 'colored',
-                    autoClose: 5000
-                });
-            });
-    }
-
     render() {
         return (
             <div className="Usuario-Container">
                 <NavigationBar />
+                {/* Mobile */}
                 <div className='d-lg-none container-fluid'>
-                    {/* Mobile */}
                     <Row className="mt-4">
                         {
                             (this.state.user === null || typeof this.state.user === 'undefined') ?
-                                <div><h1>Cargando Datos</h1>
-                                </div> :
+                                <div><h1>Cargando Datos</h1></div> :
                                 <Container fluid>
                                     <Row>
                                         <Col>
@@ -160,42 +155,35 @@ export default class Plan extends React.Component {
                 {/* PC */}
                 <div className="d-none d-lg-block">
                     <div className='container-fluid Data-container'>
-                        {
-                            (this.state.user === null || typeof this.state.user === 'undefined') ?
-                                <div><h1>Cargando Datos</h1>
-                                </div> :
-                                <div>
-                                    <Container>
-                                        <Row>
-                                            <Col>
-                                                <Card>
-                                                    <Card.Body>
-                                                        <Card.Title>
-                                                            <h2 id='titulo'>Perfil</h2>
-                                                        </Card.Title>
-                                                        <Table>
-                                                            <Table border="1" hover responsive="md">
-                                                                <tbody>
-                                                                    <tr><td><b>Usuario:</b></td><td>{this.state.user.username}</td></tr>
-                                                                    <tr><td><b>Email: </b></td><td>{this.state.user.email}</td></tr>
-                                                                    <tr><td><b>Nombre: </b></td><td>{this.state.user.name}</td></tr>
-                                                                    <tr><td><b>Apellido: </b></td><td>{this.state.user.surname}</td></tr>
-                                                                    <tr><td><b>Departamento: </b></td><td>{this.state.user.department}</td></tr>
-                                                                    <tr><td><b>Rol: </b></td><td>{this.state.user.roles}</td></tr>
-                                                                </tbody>
-                                                            </Table>
-                                                        </Table>
-                                                        <div class="col-md-12 text-center">
-                                                            <Button onClick={() => this.openModalEdit(this.state.user)}
-                                                                disabled={(this.checkPermissions("USER") && !this.checkOwner()) ? true : false} id='btnEdit' >Editar Perfil</Button>
-                                                        </div>
-                                                    </Card.Body>
-                                                </Card>
-                                            </Col>
-                                        </Row>
-                                    </Container>
-                                </div>
-                        }
+                        <Row>
+                            <Col md={{ span: 6, offset: 3 }}>
+                                {
+                                    (this.state.user === null || typeof this.state.user === 'undefined') ?
+                                        <h1>Cargando Datos</h1> :
+                                        <div>
+                                            <Table>
+                                                <br />
+                                                <h2 id='titulo'>Perfil</h2>
+                                                <Table hover responsive="md">
+                                                    <tbody>
+                                                        <tr><td><b>Usuario:</b></td><td>{this.state.user.username}</td></tr>
+                                                        <tr><td><b>Email: </b></td><td>{this.state.user.email}</td></tr>
+                                                        <tr><td><b>Nombre: </b></td><td>{this.state.user.name}</td></tr>
+                                                        <tr><td><b>Apellido: </b></td><td>{this.state.user.surname}</td></tr>
+                                                        <tr><td><b>Departamento: </b></td><td>{this.state.user.department}</td></tr>
+                                                        <tr><td><b>Rol: </b></td><td>{this.state.user.roles}</td></tr>
+                                                    </tbody>
+                                                </Table>
+                                            </Table>
+                                            <div className="col-md-12 text-center">
+                                                <Button onClick={() => this.openModalEdit(this.state.user)}
+                                                    disabled={(this.checkPermissions("USER") && !this.checkOwner()) ? true : false} id='btnEdit' >Editar Perfil</Button>
+                                            </div>
+                                        </div>
+                                }
+
+                            </Col>
+                        </Row>
                     </div>
                 </div>
                 <EditPerfilModal
@@ -207,6 +195,7 @@ export default class Plan extends React.Component {
                     refreshPage={this.refreshPage}
 
                 />
+                <ToastContainer />
             </div >
 
         );

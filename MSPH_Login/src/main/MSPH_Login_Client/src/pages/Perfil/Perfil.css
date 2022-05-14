@@ -36,14 +36,6 @@
     margin-left: 185px;
 
 }
-input:required:focus:valid {
-    background: no-repeat 95% 50% rgba(144, 238, 144, 0.466);
-    background-size: 25px;
-}
-input:focus:invalid {
-    background: no-repeat 95% 50% rgba(231, 128, 128, 0.514);
-    background-size: 25px;
-}
 
 #ModalUserEdit{
     max-width: 100% !important;

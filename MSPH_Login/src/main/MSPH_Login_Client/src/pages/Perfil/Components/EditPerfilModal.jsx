@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Cookies from 'universal-cookie';
 import axios from 'axios';
 import '../Perfil.css'
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, FormGroup } from "react-bootstrap";
+import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 class EditPerfilModal extends Component {
@@ -13,6 +13,7 @@ class EditPerfilModal extends Component {
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.checkPermissions = this.checkPermissions.bind(this);
     }
 
     onChange = e => {
@@ -68,22 +69,22 @@ class EditPerfilModal extends Component {
         let roles;
         let name;
         let surname;
-        let username;
+        //let username;
 
         if (this.props.user !== null) {
-            username = this.props.user.username;
+            //username = this.props.user.username;
             department = this.props.user.department;
             roles = this.props.user.roles;
             name = this.props.user.name;
             surname = this.props.user.surname;
         }
         return (
-            <Modal show={render} onHide={closeModal} >
+            <Modal show={render} onHide={closeModal} id="editPerfilModal">
                 <Modal.Header closeButton>
                     Editar Perfil
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={this.handleSubmit}>
+                    <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
                         <div className="form-group">
                             <label>Nombre:</label>
                             <input name="name" id="name" type="text" placeholder="Nombre" className="form-control" defaultValue={name} required />
@@ -94,20 +95,21 @@ class EditPerfilModal extends Component {
                             <input name="surname" id="surname" type="text" className="form-control" placeholder="Apellido" defaultValue={surname} required />
                         </div>
 
-                        <div className="form-group">
-                            <label>Departamento:</label>
-                            <Form.Select name="department" id="department" onChange={this.onChange} defaultValue={department}>
-                                {
-                                    (this.props.departmentMap === null || typeof this.props.departmentMap === 'undefined') ?
-                                        <option value={null} key="disabledDepartmentEditUser" disabled>Error cargando departamentos</option> :
+                        <FormGroup>
+                            <div className="form-group">
+                                <Form.Label>Departamento: </Form.Label>
+                                <Form.Select name="department" id="department" onChange={this.onChange} defaultValue={department}>
+                                    {
+                                        (this.props.departmentMap === null || typeof this.props.departmentMap === 'undefined') ?
+                                            <option value={null} key="disabledDepartmentEditUser" disabled>Error cargando departamentos</option> :
+                                            this.props.departmentMap.map((dep) => {
+                                                return <option value={dep.idDepartment} key={dep.description}>{dep.description}</option>
+                                            })
+                                    }
 
-                                        this.props.departmentMap.map((dep) => {
-                                            return <option value={dep.idDepartment} key={dep.description}>{dep.description}</option>
-                                        })
-                                }
-
-                            </Form.Select>
-                        </div>
+                                </Form.Select>
+                            </div>
+                        </FormGroup>
 
                         <div className="form-group">
                             <label>Rol: </label>

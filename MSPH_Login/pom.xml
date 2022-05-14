@@ -185,6 +185,17 @@
                     </execution>
 
                     <execution>
+                        <id>npm install react-bootstrap</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install react-bootstrap@5.1.1</arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
                         <id>npm install axios</id>
                         <goals>
                             <goal>npm</goal>

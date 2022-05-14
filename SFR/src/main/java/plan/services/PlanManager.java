@@ -6,6 +6,7 @@
 package plan.services;
 
 import com.google.gson.Gson;
+import common.dao.EmailFactory;
 import common.dao.UserDAO;
 import common.model.User;
 import java.io.IOException;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import sfr.dao.EmailFactoryNotification;
 import sfr.dao.PlanDAO;
 import sfr.dao.PlanTypeDAO;
 import sfr.dao.RiskDAO;
@@ -146,6 +148,7 @@ public class PlanManager extends HttpServlet {
             try {
                 PlanDAO.getInstance().add(newPlan);
                 PlanDAO.getInstance().recordTransaction(user, Transaction.INSERT_PLAN, Boolean.TRUE, "PLAN_ID: " + newID);
+                EmailFactoryNotification.getInstance().sendAddPlan(user,newPlan);
             } catch (Exception e) {
                 PlanDAO.getInstance().recordTransaction(user, Transaction.INSERT_PLAN, Boolean.FALSE, "PLAN_ID: " + newID);
                 throw e;

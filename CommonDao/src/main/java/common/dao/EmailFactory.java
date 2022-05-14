@@ -67,7 +67,7 @@ public class EmailFactory {
 
         String htmlCode
                 = "<h3>Estimado/a " + user.getOfficial().getName() + "<br/>"
-                + "Hemos recibido una solicitúd de cambio de contraseña para su cuenta en el Sistema de Identificación Municipal.<br/>"
+                + "Hemos recibido una solicitud de cambio de contraseña para su cuenta en el Sistema de Identificación Municipal.<br/>"
                 + "Por favor ingrese el siguiente código en el campo solicitado en el sistema:</h3>"
                 + "<h1>" + code + "</h1>"
                 + "<h3>Si usted no realizó esta solicitud, por favor ponerse en contacto con su correspondiente Administrador Tecnológico</h3>"

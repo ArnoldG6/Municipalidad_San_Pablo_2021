@@ -201,7 +201,6 @@ export default class Plan extends React.Component {
                 <EditPerfilModal
                     user={this.state.user}
                     show={this.state.showEdit}
-                    username={(typeof cookies.get('username', { path: process.env.REACT_APP_AUTH }))}
                     departmentMap={this.state.departmentMap}
                     closeModal={this.closeModalEdit}
                     refreshPage={this.refreshPage}

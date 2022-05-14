@@ -40,7 +40,7 @@ import org.json.JSONObject;
         }
 )
 public class UserServlet extends HttpServlet {
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
         try {
             response.addHeader("Access-Control-Allow-Origin", "*");
@@ -90,24 +90,24 @@ public class UserServlet extends HttpServlet {
             responseJSON.put("email", u.getEmail());
             responseJSON.put("department", u.getOfficial().getDepartment().getDescription());
             response.getWriter().write(responseJSON.toString());
-
+            
         } catch (Exception e) {
             response.sendError(500, e.getMessage());
         } finally {
             response.getWriter().flush();
             response.getWriter().close();
         }
-
+        
     }
-
+    
     private void editUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-
+        
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        User user = UserDAO.getInstance().searchById(requestJSON.getInt("username"));
-        //User editUser = new Gson().fromJson(requestJSON.toString(), User.class);
+        System.out.print(requestJSON.getInt("usuarioLogeado"));
+        User user = UserDAO.getInstance().searchById(requestJSON.getInt("usuarioLogeado"));
         User editUser = UserDAO.getInstance().searchByEmail(requestJSON.getString("emailOriginal"));
-        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN"))) {
+        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !(user.getIdUser() == editUser.getIdUser()))) {
             throw new IOException();
         }
         if (editUser != null) {
@@ -125,21 +125,21 @@ public class UserServlet extends HttpServlet {
             throw new IOException("El usuario no existe.");
         }
     }
-
+    
     private void addUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-
+        
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-
+        
         if (UserDAO.getInstance().searchById(requestJSON.getInt("userID")) != null) {
-
+            
             throw new IOException("El usuario ya existe.");
-
+            
         } else {
             User newUser = new Gson().fromJson(requestJSON.toString(), User.class);
             StringBuilder sb = new StringBuilder();
             try {
-
+                
                 sb.append("Username: ").append(newUser.getIdUser());
                 sb.append("Name: ").append(newUser.getOfficial().getName() + " " + newUser.getOfficial().getSurname());
                 sb.append("Email: ").append(newUser.getOfficial().getEmail());
@@ -154,11 +154,11 @@ public class UserServlet extends HttpServlet {
                 UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), common.dao.generic.Transaction.USER_CREATION, Boolean.FALSE, sb.toString());
                 throw e;
             }
-
+            
         }
-
+        
     }
-
+    
     private void getDepartments(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -189,7 +189,7 @@ public class UserServlet extends HttpServlet {
     public String getServletInfo() {
         return "User Servlet. Do not try to attack it. :)";
     }
-
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -199,7 +199,7 @@ public class UserServlet extends HttpServlet {
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -209,7 +209,7 @@ public class UserServlet extends HttpServlet {
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
@@ -217,9 +217,9 @@ public class UserServlet extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
-
+    
     @Override
     protected void doOptions(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

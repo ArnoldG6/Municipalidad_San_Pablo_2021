@@ -9,7 +9,8 @@ class EditPerfilModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: null
+            value: null,
+            usuarioLogeado: cookies.get('username', { path: process.env.REACT_APP_AUTH })
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -31,7 +32,7 @@ class EditPerfilModal extends Component {
             },
             data: {
                 'emailOriginal': this.props.user.email,
-                'username': this.props.username,
+                'usuarioLogeado': this.state.username,
                 'name': event.target.name.value,
                 'surname': event.target.surname.value,
                 'department': event.target.department.value,

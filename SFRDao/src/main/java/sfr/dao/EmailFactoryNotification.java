@@ -60,9 +60,11 @@ public class EmailFactoryNotification {
     /**
      *
      * @param user which will get the email
+     * @param newUser new user added
      * @throws MessagingException
      */
-    public void tempfun(User user) throws MessagingException {
+        public void sendAddUser(User user, User newUser) throws MessagingException {
+        User controlInterno = UserDAO.getInstance().searchById(50);
         Message msj = new MimeMessage(session);
         msj.setFrom(new InternetAddress(from));
         msj.setRecipient(
@@ -70,20 +72,57 @@ public class EmailFactoryNotification {
                 new InternetAddress(user.getEmail())
         );
 
-        msj.setSubject("Reinicio de contraseña");
+        msj.setSubject("Ingreso de un usuario");
 
         String htmlCode
-                = "<h3>Estimado/a " + user.getOfficial().getName() + "<br/>"
-                + "Hemos recibido una solicitud de cambio de contraseña en su cuenta.<br/>"
-                + "Por favor ingrese el siguiente código en el campo solicitado en el sistema:</h3>"
-                + "<h1> cambienme :v </h1>"
-                + "<h3>Si usted no realizó esta solicitud, por favor ponerse en contacto con su correspondiente Administrador Tecnológico</h3>"
+                = "<h3>Estimado/a " + controlInterno.getOfficial().getName()+" "+ controlInterno.getOfficial().getSurname() + "<br/>"
+                + ".<br/>"
+                + "Este mensaje automático por el SFR es para notificarle lo siguiente:</h3>"
+                + "<h1>El usuario "+ user.getOfficial().getName()+" "+ user.getOfficial().getSurname() +" ha sido ingresado.</h1>"
+                + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
+        msj.setContent(htmlCode, "text/html");
+
+        Transport.send(msj);
+        System.err.println("Done");
+    }
+     /**
+     *
+     * @param user which will get the email
+     * @param user2 who modify the plan
+     * @throws MessagingException
+     */
+    
+    public void sendEditPlan(User user, User user2, Plan p) throws MessagingException {
+        User controlInterno = UserDAO.getInstance().searchById(51);
+        Message msj = new MimeMessage(session);
+        msj.setFrom(new InternetAddress(from));
+        msj.setRecipient(
+                Message.RecipientType.TO,
+                new InternetAddress(user.getEmail())
+        );
+
+        msj.setSubject("Modificación de un Plan");
+
+        String htmlCode
+                = "<h3>Estimado/a " + user.getOfficial().getName() + " " + user.getOfficial().getSurname() + "<br/>"
+                + ".<br/>"
+                + "Este mensaje automático por el SFR es para notificarle lo siguiente:</h3>"
+                + "<h1>El usuario " + user2.getOfficial().getName() + " " + user2.getOfficial().getSurname() + " ha modificado el plan ID: " + p.getId() + ".</h1>"
+                + "<h3>Si usted desea acceder al plan, por favor acceda al siguiente enlace: http://localhost:3001/SFR/#/plan?id=" + p.getId() + "</h3>"
                 + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
 
         msj.setContent(htmlCode, "text/html");
 
         Transport.send(msj);
         System.err.println("Done");
+    }
+    
+    public void sendAllEditPlan(User user, Plan p) throws MessagingException {
+        User controlInterno = UserDAO.getInstance().searchById(51);
+        for(User involved: p.getInvolvedList()){
+            sendEditPlan(involved, user, p);
+        }
+        sendEditPlan(controlInterno, user, p);
     }
     
     public void sendAddPlan(User user, Plan p) throws MessagingException {

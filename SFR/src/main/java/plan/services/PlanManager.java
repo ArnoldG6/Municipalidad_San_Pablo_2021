@@ -184,7 +184,7 @@ public class PlanManager extends HttpServlet {
 
             requestJSON.remove("userID");
             Plan editPlan = new Gson().fromJson(requestJSON.toString(), Plan.class);
-
+            
             if (PlanDAO.getInstance().searchById(editPlan.getPkId()) == null) {
                 throw new NullPointerException("No se encontró el plan que se desea editar.");
             }
@@ -198,6 +198,7 @@ public class PlanManager extends HttpServlet {
             try {
                 PlanDAO.getInstance().update(editPlan);
                 PlanDAO.getInstance().recordTransaction(user, Transaction.EDIT_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId());
+                //EmailFactoryNotification.getInstance().sendAllEditPlan(user, editPlan);
             } catch (Exception e) {
                 PlanDAO.getInstance().recordTransaction(user, Transaction.EDIT_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId());
                 throw e;

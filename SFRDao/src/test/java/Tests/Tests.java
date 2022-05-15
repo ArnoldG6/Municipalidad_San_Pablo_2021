@@ -29,16 +29,16 @@ public class Tests {
     @Test
     public void main() throws Exception {
         try {
-            EmailFactory.getInstance().sendAddUser(UserDAO.getInstance().searchByEmail("ld.ramirezch14@gmail.com"));
-            /*
+            //EmailFactory.getInstance().sendAddUser(UserDAO.getInstance().searchByEmail("ld.ramirezch14@gmail.com"));
+            
             Rol rol = RolDAO.getInstance().searchById(1);
             List<Rol> roles = new ArrayList();
             roles.add(rol);
             Department department = DepartmentDAO.getInstance().searchById(102);
             Official official = new Official(402510401, "Jorsua", "Gonzalez", "Jorsua@gmail.com", department);
             OfficialDAO.getInstance().add(official);
-            User newUser = new User(402510401, official, "Jorsua@gmail.com", "admin", roles);
-            UserDAO.getInstance().add(newUser);
+            User newUser = new User(402510401, official, "Jorsua@gmail.com", "ADMIN", roles);
+            UserDAO.getInstance().update(newUser);
             System.out.print(UserDAO.getInstance().searchById(402510401));
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);

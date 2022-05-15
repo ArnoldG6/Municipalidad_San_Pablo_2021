@@ -27,7 +27,8 @@ public class User implements Serializable {
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private Integer idUser;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne
+    //@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "FK_official", referencedColumnName = "PK_OFFICIAL")
     private Official official;
     @OneToMany(fetch = FetchType.EAGER)

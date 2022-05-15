@@ -73,6 +73,33 @@ class Planes extends Component {
                 this.handlePlanesRender();
                 this.retrieveTypes();
             });
+        }).catch(error => {
+            var msj = ""
+            if (error.response) {
+                switch (error.response.status) {
+                    case 400:
+                        msj = "Hubo un problema encontrando la lista de planes.";
+                        break;
+                    case 500:
+                        msj = "El servidor ha encontrado un error desconocido.";
+                        break;
+                    default:
+                        msj = "El servidor ha encontrado un error desconocido.";
+                        break;
+                }
+            } else if (error.request) {
+                //Server did not respond
+                msj = "Hubo un error con la conexión al servidor."
+            } else {
+                //Something else went wrong
+                msj = "Error desconocido."
+            }
+            toast.error(msj, {
+                position: toast.POSITION.TOP_RIGHT,
+                pauseOnHover: true,
+                theme: 'colored',
+                autoClose: 5000
+            });
         });
     };
 
@@ -95,7 +122,27 @@ class Planes extends Component {
                     typesMap: map
                 });
             }).catch(error => {
-                toast.error("Error recuperando los tipos/subtipos de Planes", {
+                var msj = ""
+                if (error.response) {
+                    switch (error.response.status) {
+                        case 400:
+                            msj = "Hubo un problema cargando los planes.";
+                            break;
+                        case 500:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                        default:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                    }
+                } else if (error.request) {
+                    //Server did not respond
+                    msj = "Hubo un error con la conexión al servidor."
+                } else {
+                    //Something else went wrong
+                    msj = "Error desconocido."
+                }
+                toast.error(msj, {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',

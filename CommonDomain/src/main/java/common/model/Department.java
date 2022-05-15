@@ -11,12 +11,12 @@ import javax.persistence.Table;
 @Table(name = "SI_DEPARTMENTS")
 public class Department implements Serializable {
 
-    public Department(int idDepartment, String description) {
+    public Department(Integer idDepartment, String description) {
         this.idDepartment = idDepartment;
         this.description = description;
     }
 
-    public Department(int idDepartment) {
+    public Department(Integer idDepartment) {
         this.idDepartment = idDepartment;
     }
 
@@ -27,14 +27,14 @@ public class Department implements Serializable {
     /**
      * @return the idDepartment
      */
-    public int getIdDepartment() {
+    public Integer getIdDepartment() {
         return idDepartment;
     }
 
     /**
      * @param idDepartment the idDepartment to set
      */
-    public void setIdDepartment(int idDepartment) {
+    public void setIdDepartment(Integer idDepartment) {
         this.idDepartment = idDepartment;
     }
 

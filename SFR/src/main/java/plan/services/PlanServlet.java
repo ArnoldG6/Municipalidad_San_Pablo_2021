@@ -134,21 +134,27 @@ public class PlanServlet extends HttpServlet {
      */
     private void retrievePlans(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        String responseJSON;
-        JSONObject requestJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        responseJSON = new Gson().toJson(PlanDAO.getInstance().
-                listByColumn(requestJSON.getString("sortingValue"), requestJSON.getString("sortingWay")));
-        if (responseJSON == null) {
-            //Custom exception
-            response.getWriter().write(new PlansNotListedEx().jsonify());
-        } else {
-            response.getWriter().write(responseJSON);
+        try {
+            String responseJSON;
+            JSONObject requestJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            responseJSON = new Gson().toJson(PlanDAO.getInstance().
+                    listByColumn(requestJSON.getString("sortingValue"), requestJSON.getString("sortingWay")));
+            if (responseJSON == null) {
+                response.getWriter().write(new PlansNotListedEx().jsonify());
+                throw new NullPointerException("Error al cargar la lista de planes.");
+            } else {
+                response.getWriter().write(responseJSON);
+            }
+            response.getWriter().flush();
+            response.getWriter().close();
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        response.getWriter().flush();
-        response.getWriter().close();
     }
 
     /**
@@ -160,20 +166,26 @@ public class PlanServlet extends HttpServlet {
      */
     private void searchPlanByID(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        String responseJSON;
-        JSONObject requestJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        responseJSON = new Gson().toJson(PlanDAO.getInstance().searchByIdString(requestJSON.getString("planID")));
-        if (responseJSON == null) {
-            //Custom exception
-            response.getWriter().write(new PlansNotListedEx().jsonify());
-        } else {
-            response.getWriter().write(responseJSON);
+        try {
+            String responseJSON;
+            JSONObject requestJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            responseJSON = new Gson().toJson(PlanDAO.getInstance().searchByIdString(requestJSON.getString("planID")));
+            if (responseJSON == null) {
+                response.getWriter().write(new PlansNotListedEx().jsonify());
+                throw new NullPointerException("No se ha encontrado ningun plan con es ID.");
+            } else {
+                response.getWriter().write(responseJSON);
+            }
+            response.getWriter().flush();
+            response.getWriter().close();
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        response.getWriter().flush();
-        response.getWriter().close();
     }
 
     /**
@@ -186,20 +198,26 @@ public class PlanServlet extends HttpServlet {
      */
     private void retrievePlanRiskList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        String responseJSON;
-        JSONObject requestJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        responseJSON = new Gson().toJson(PlanDAO.getInstance().getRiskListByPlanNoRep(requestJSON.getString("planID")));
-        if (responseJSON == null) {
-            //Custom exception
-            response.getWriter().write(new EmptyRiskListEx().jsonify());
-        } else {
-            response.getWriter().write(responseJSON);
+        try {
+            String responseJSON;
+            JSONObject requestJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            responseJSON = new Gson().toJson(PlanDAO.getInstance().getRiskListByPlanNoRep(requestJSON.getString("planID")));
+            if (responseJSON == null) {
+                response.getWriter().write(new EmptyRiskListEx().jsonify());
+                throw new NullPointerException("No se encontró la lista de riesgos.");
+            } else {
+                response.getWriter().write(responseJSON);
+            }
+            response.getWriter().flush();
+            response.getWriter().close();
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        response.getWriter().flush();
-        response.getWriter().close();
     }
 
     /**
@@ -212,20 +230,26 @@ public class PlanServlet extends HttpServlet {
      */
     private void retrievePlanIncidenceList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        String responseJSON;
-        JSONObject requestJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        responseJSON = new Gson().toJson(PlanDAO.getInstance().getIncidenceListByPlanNoRep(requestJSON.getString("planID")));
-        if (responseJSON == null) {
-            //Custom exception
+        try {
+            String responseJSON;
+            JSONObject requestJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            responseJSON = new Gson().toJson(PlanDAO.getInstance().getIncidenceListByPlanNoRep(requestJSON.getString("planID")));
+            if (responseJSON == null) {
+                throw new NullPointerException("No se encontró la lista de incidencias.");
 //            response.getWriter().write(new EmptyIncidenceListEx().jsonify());
-        } else {
-            response.getWriter().write(responseJSON);
+            } else {
+                response.getWriter().write(responseJSON);
+            }
+            response.getWriter().flush();
+            response.getWriter().close();
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        response.getWriter().flush();
-        response.getWriter().close();
     }
 
     /**
@@ -238,20 +262,26 @@ public class PlanServlet extends HttpServlet {
      */
     private void retrievePlanUserList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        String responseJSON;
-        //JSONObject requestJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        responseJSON = new Gson().toJson(PlanDAO.getInstance().getUserListByPlanNoRep(requestJSON.getString("planID")));
-        if (responseJSON == null) {
-            //Custom exception
+        try {
+            String responseJSON;
+            //JSONObject requestJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            responseJSON = new Gson().toJson(PlanDAO.getInstance().getUserListByPlanNoRep(requestJSON.getString("planID")));
+            if (responseJSON == null) {
+                throw new NullPointerException("No se encontró la lista de usuarios relacionados al plan.");
 //            response.getWriter().write(new EmptyIncidenceListEx().jsonify());
-        } else {
-            response.getWriter().write(responseJSON);
+            } else {
+                response.getWriter().write(responseJSON);
+            }
+            response.getWriter().flush();
+            response.getWriter().close();
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        response.getWriter().flush();
-        response.getWriter().close();
     }
 
     /**
@@ -264,20 +294,26 @@ public class PlanServlet extends HttpServlet {
      */
     private void retrievePlanCommentList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        String responseJSON;
-        JSONObject requestJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        responseJSON = new Gson().toJson(PlanDAO.getInstance().getCommentListByPlanNoRep(requestJSON.getString("planID")));
-        if (responseJSON == null) {
-            //Custom exception
+        try {
+            String responseJSON;
+            JSONObject requestJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            responseJSON = new Gson().toJson(PlanDAO.getInstance().getCommentListByPlanNoRep(requestJSON.getString("planID")));
+            if (responseJSON == null) {
+                throw new NullPointerException("No se encontró la lista de comentarios del plan.");
 //            response.getWriter().write(new EmptyCommentListEx().jsonify());
-        } else {
-            response.getWriter().write(responseJSON);
+            } else {
+                response.getWriter().write(responseJSON);
+            }
+            response.getWriter().flush();
+            response.getWriter().close();
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        response.getWriter().flush();
-        response.getWriter().close();
     }
 
     /**
@@ -289,99 +325,117 @@ public class PlanServlet extends HttpServlet {
      */
     private void retrievePlanTypes(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        String responseJSON;
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        Gson g = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        responseJSON = g.toJson(PlanTypeDAO.getInstance().listAllPlanTypeHM());
-        if (responseJSON == null) {
-            //Custom exception
-            response.getWriter().write(new PlanTypesEx().jsonify());
-        } else {
-            response.getWriter().write(responseJSON);
+        try {
+            String responseJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            Gson g = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+            responseJSON = g.toJson(PlanTypeDAO.getInstance().listAllPlanTypeHM());
+            if (responseJSON == null) {
+                response.getWriter().write(new PlanTypesEx().jsonify());
+                throw new NullPointerException("No se pudo cargar la lista de tipos.");
+            } else {
+                response.getWriter().write(responseJSON);
+            }
+            response.getWriter().flush();
+            response.getWriter().close();
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        response.getWriter().flush();
-        response.getWriter().close();
     }
 
     private void generateRiskTable(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        if (request.getParameter("planID") == null || request.getParameter("planID").isEmpty()) {
-            throw new IOException("Invalid PlanID parameter");
+        try {
+            if (request.getParameter("planID") == null || request.getParameter("planID").isEmpty()) {
+                throw new IOException("Invalid PlanID parameter");
+            }
+            if (request.getParameter("userID") == null || request.getParameter("userID").isEmpty()) {
+                throw new IOException("Invalid UserID parameter");
+            }
+            Plan plan = PlanDAO.getInstance().searchById(Integer.parseInt(request.getParameter("planID")));
+            User user = UserDAO.getInstance().searchById(Integer.parseInt(request.getParameter("userID")));
+
+            if (plan == null) {
+                throw new NullPointerException("No se encontro el plan solicitado.");
+            }
+            if (user == null) {
+                throw new NullPointerException("No se encontro el usuario solicitado.");
+            }
+
+            String title = new StringBuilder()
+                    .append("Matriz_de_riesgos_")
+                    .append(plan.getId())
+                    .append("_")
+                    .append(Timestamp.from(Instant.now()))
+                    .append(".pdf")
+                    .toString()
+                    .replace(":", "-")
+                    .replace("/", "-");
+
+            response.setContentType("application/pdf");
+            response.addHeader("Content-Disposition", "attachment; filename=" + title);
+            response.addHeader("X-Suggested-Filename", title);
+            response.addHeader("Access-Control-Expose-Headers", "X-Suggested-Filename");
+
+            String filePath = getServletContext().getRealPath("/") + "static\\media\\logoHeader.dc9e7964.png";
+
+            //PlanDAO.getInstance().generateRiskTableXLSXFile(p).write(response.getOutputStream());
+            new PdfFactory().createRiskMatrix(response.getOutputStream(), user, plan, filePath);
+            response.getOutputStream().close();
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        if (request.getParameter("userID") == null || request.getParameter("userID").isEmpty()) {
-            throw new IOException("Invalid UserID parameter");
-        }
-        Plan plan = PlanDAO.getInstance().searchById(Integer.parseInt(request.getParameter("planID")));
-        User user = UserDAO.getInstance().searchById(Integer.parseInt(request.getParameter("userID")));
-
-        if (plan == null) {
-            throw new NullPointerException("No se encontro el plan solicitado.");
-        }
-        if (user == null) {
-            throw new NullPointerException("No se encontro el usuario solicitado.");
-        }
-
-        String title = new StringBuilder()
-                .append("Matriz_de_riesgos_")
-                .append(plan.getId())
-                .append("_")
-                .append(Timestamp.from(Instant.now()))
-                .append(".pdf")
-                .toString()
-                .replace(":", "-")
-                .replace("/", "-");
-
-        response.setContentType("application/pdf");
-        response.addHeader("Content-Disposition", "attachment; filename=" + title);
-        response.addHeader("X-Suggested-Filename", title);
-        response.addHeader("Access-Control-Expose-Headers", "X-Suggested-Filename");
-
-        String filePath = getServletContext().getRealPath("/") + "static\\media\\logoHeader.dc9e7964.png";
-
-        //PlanDAO.getInstance().generateRiskTableXLSXFile(p).write(response.getOutputStream());
-        new PdfFactory().createRiskMatrix(response.getOutputStream(), user, plan, filePath);
-        response.getOutputStream().close();
     }
 
     private void generateReport(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        if (request.getParameter("planID") == null || request.getParameter("planID").isEmpty()) {
-            throw new IOException("Invalid PlanID parameter");
+        try {
+            if (request.getParameter("planID") == null || request.getParameter("planID").isEmpty()) {
+                throw new IOException("Invalid PlanID parameter");
+            }
+            if (request.getParameter("userID") == null || request.getParameter("userID").isEmpty()) {
+                throw new IOException("Invalid UserID parameter");
+            }
+            Plan plan = PlanDAO.getInstance().searchById(Integer.parseInt(request.getParameter("planID")));
+            User user = UserDAO.getInstance().searchById(Integer.parseInt(request.getParameter("userID")));
+
+            if (plan == null) {
+                throw new NullPointerException("No se encontro el plan solicitado.");
+            }
+            if (user == null) {
+                throw new NullPointerException("No se encontro el usuario solicitado.");
+            }
+
+            String title = new StringBuilder()
+                    .append("Reporte_")
+                    .append(plan.getId())
+                    .append("_")
+                    .append(Timestamp.from(Instant.now()))
+                    .append(".pdf")
+                    .toString()
+                    .replace(":", "-")
+                    .replace("/", "-");
+
+            response.setContentType("application/pdf");
+            response.addHeader("Content-Disposition", "attachment; filename=" + title);
+            response.addHeader("X-Suggested-Filename", title);
+            response.addHeader("Access-Control-Expose-Headers", "X-Suggested-Filename");
+
+            String filePath = getServletContext().getRealPath("/") + "static\\media\\logoHeader.dc9e7964.png";
+
+            //PlanDAO.getInstance().generateRiskTableXLSXFile(p).write(response.getOutputStream());
+            new PdfFactory().createPlanReport(response.getOutputStream(), user, plan, filePath);
+            response.getOutputStream().close();
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-        if (request.getParameter("userID") == null || request.getParameter("userID").isEmpty()) {
-            throw new IOException("Invalid UserID parameter");
-        }
-        Plan plan = PlanDAO.getInstance().searchById(Integer.parseInt(request.getParameter("planID")));
-        User user = UserDAO.getInstance().searchById(Integer.parseInt(request.getParameter("userID")));
-
-        if (plan == null) {
-            throw new NullPointerException("No se encontro el plan solicitado.");
-        }
-        if (user == null) {
-            throw new NullPointerException("No se encontro el usuario solicitado.");
-        }
-
-        String title = new StringBuilder()
-                .append("Reporte_")
-                .append(plan.getId())
-                .append("_")
-                .append(Timestamp.from(Instant.now()))
-                .append(".pdf")
-                .toString()
-                .replace(":", "-")
-                .replace("/", "-");
-
-        response.setContentType("application/pdf");
-        response.addHeader("Content-Disposition", "attachment; filename=" + title);
-        response.addHeader("X-Suggested-Filename", title);
-        response.addHeader("Access-Control-Expose-Headers", "X-Suggested-Filename");
-
-        String filePath = getServletContext().getRealPath("/") + "static\\media\\logoHeader.dc9e7964.png";
-
-        //PlanDAO.getInstance().generateRiskTableXLSXFile(p).write(response.getOutputStream());
-        new PdfFactory().createPlanReport(response.getOutputStream(), user, plan, filePath);
-        response.getOutputStream().close();
     }
 
     // </editor-fold>

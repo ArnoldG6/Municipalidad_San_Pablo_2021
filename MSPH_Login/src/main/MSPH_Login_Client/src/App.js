@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Menu from './pages/Menu';
 import Perfil from './pages/Perfil/Perfil';
+import Usuarios from './pages/Usuarios/Usuarios';
 import Footer from './components/Footer';
 import './App.css';
 
@@ -19,6 +20,7 @@ class App extends Component {
                             <Route exact path="/logout" component={Logout} />
                             <Route path="/menu" component={Menu} />
                             <Route path="/profile" component={Perfil} />
+                            <Route path="/users" component={Usuarios} />
                             <Route path="/">
                                 <Redirect to="/auth" />
                             </Route>

@@ -1,0 +1,43 @@
+.Data-Container {
+    width: 80% !important;
+}
+.Usuario-Container {
+    height: 93%;
+}
+.mt-4 h1 {
+    margin: 0;
+    font-size: 30px;
+}
+.mt-4 h2 {
+    margin: 0;
+    font-size: 23px;
+}
+.mt-4 h4 {
+    margin: 0;
+    font-size: 20px;
+    color: darkgray;
+}
+.mt-4 p {
+    margin-top: 1vh;
+    font-size: 16px;
+    max-width: 75%;
+}
+#titulo{
+    text-align: center;
+}
+
+.card-body {
+    min-height: 100%;
+    height: 50vh;
+}
+
+#submit-button-new-item {
+    margin-top: 35px;
+    margin-left: 185px;
+
+}
+
+#ModalUserAdd{
+    max-width: 100% !important;
+    width: 70%;
+}

@@ -11,6 +11,7 @@ package services;
  */
 import com.google.gson.Gson;
 import common.dao.DepartmentDAO;
+import common.dao.EmailFactory;
 import common.dao.OfficialDAO;
 import common.dao.RolDAO;
 import common.dao.UserDAO;
@@ -188,6 +189,7 @@ public class UserServlet extends HttpServlet {
                 sb.append("]");
                 UserDAO.getInstance().add(newUser);
                 UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), common.dao.generic.Transaction.USER_CREATION, Boolean.TRUE, sb.toString());
+                EmailFactory.getInstance().sendAddUser(newUser);
             } catch (Exception e) {
                 UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), common.dao.generic.Transaction.USER_CREATION, Boolean.FALSE, sb.toString());
                 throw e;

@@ -19,6 +19,39 @@ export default class PasswordRecoveryModal extends Component {
         this.closeModal = this.closeModal.bind(this);
         this.handleEmailSubmit = this.handleEmailSubmit.bind(this);
         this.handleCodeSubmit = this.handleCodeSubmit.bind(this);
+        this.validatePassword = this.validatePassword.bind(this);
+    }
+
+    validatePassword(password) {
+        if (password.length < 8) {
+            toast.error("La constraseña debe ser de al menos 8 caracteres.", {
+                position: toast.POSITION.TOP_RIGHT,
+                pauseOnHover: true,
+                theme: 'colored',
+                autoClose: 5000
+            });
+            return false;
+        }
+        if (!/\d/.test(password)) {
+            toast.error("La constraseña debe tener al menos 1 número.", {
+                position: toast.POSITION.TOP_RIGHT,
+                pauseOnHover: true,
+                theme: 'colored',
+                autoClose: 5000
+            });
+            return false;
+        }
+        if (!/[A-Z]/.test(password)) {
+            toast.error("La constraseña debe tener al menos 1 letra mayúscula.", {
+                position: toast.POSITION.TOP_RIGHT,
+                pauseOnHover: true,
+                theme: 'colored',
+                autoClose: 5000
+            });
+            return false;
+        }
+        this.setState({ pwValid: true })
+        return true;
     }
 
     closeModal(success) {
@@ -105,7 +138,7 @@ export default class PasswordRecoveryModal extends Component {
 
     handleCodeSubmit = (event) => {
         const form = event.currentTarget;
-        if (form.checkValidity() === false) {
+        if (form.checkValidity() === false || this.validatePassword(event.target.password.value) === false) {
             event.preventDefault();
             event.stopPropagation();
         }
@@ -161,14 +194,14 @@ export default class PasswordRecoveryModal extends Component {
                     });
                 });
         }
-        this.setState({
-            validateEmail: true
-        })
+        //this.setState({
+        //    validateCode: true
+        //})
     }
 
     render() {
         return (
-            <Modal show={this.props.show} onHide={() => {this.closeModal(false)}} id="resetPasswordModal" >
+            <Modal show={this.props.show} onHide={() => { this.closeModal(false) }} id="resetPasswordModal" >
                 <Modal.Header>
                     Reinicio de contraseña
                 </Modal.Header>
@@ -202,7 +235,7 @@ export default class PasswordRecoveryModal extends Component {
                     <Form noValidate validated={this.state.validateCode} onSubmit={this.handleCodeSubmit} hidden={this.state.hideCodeInput}>
                         <p>
                             Por favor ingrese el código enviado a su correo electrónico y su nueva contraseña.
-                            
+                            La contraseña debe ser de al menos 8 caracteres y contener al menos un número y una letra mayúscula.
                         </p>
                         <Form.Group>
                             <Form.Label>

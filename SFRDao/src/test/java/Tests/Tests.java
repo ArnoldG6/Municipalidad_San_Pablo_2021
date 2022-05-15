@@ -6,6 +6,7 @@
 package Tests;
 
 import common.dao.DepartmentDAO;
+import common.dao.EmailFactory;
 import common.dao.OfficialDAO;
 import common.dao.RolDAO;
 import common.dao.UserDAO;
@@ -28,6 +29,8 @@ public class Tests {
     @Test
     public void main() throws Exception {
         try {
+            EmailFactory.getInstance().sendAddUser(UserDAO.getInstance().searchByEmail("ld.ramirezch14@gmail.com"));
+            /*
             Rol rol = RolDAO.getInstance().searchById(1);
             List<Rol> roles = new ArrayList();
             roles.add(rol);

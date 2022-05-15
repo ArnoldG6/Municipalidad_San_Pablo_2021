@@ -14,13 +14,14 @@ import common.dao.DepartmentDAO;
 import common.dao.OfficialDAO;
 import common.dao.RolDAO;
 import common.dao.UserDAO;
-import common.dao.generic.Transaction;
 import common.model.Department;
 import common.model.Official;
 import common.model.Rol;
 import common.model.User;
 import ex.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -36,11 +37,12 @@ import org.json.JSONObject;
             "/API/User",
             "/API/User/edit",
             "/API/User/add",
-            "/API/Department"
+            "/API/Department",
+            "/API/Users"
         }
 )
 public class UserServlet extends HttpServlet {
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
         try {
             response.addHeader("Access-Control-Allow-Origin", "*");
@@ -61,6 +63,9 @@ public class UserServlet extends HttpServlet {
                 case "/API/Department":
                     getDepartments(request, response);
                     break;
+                case "/API/Users":
+                    getUsers(request, response);
+                    break;
 
                 //case "/API/ExpireSession": expireSession(request,response); break;
             }
@@ -68,6 +73,25 @@ public class UserServlet extends HttpServlet {
             System.err.println(ex);
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
+        }
+    }
+
+    private void getUsers(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            String responseJSON;
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            responseJSON = new Gson().toJson(UserDAO.getInstance().listAll());
+            if (responseJSON == null) {
+                throw new NullPointerException("Hubo un error cargando los usuarios.");
+            }
+            response.getWriter().write(responseJSON);
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
+        } finally {
+            response.getWriter().flush();
+            response.getWriter().close();
         }
     }
 
@@ -90,19 +114,19 @@ public class UserServlet extends HttpServlet {
             responseJSON.put("email", u.getEmail());
             responseJSON.put("department", u.getOfficial().getDepartment().getDescription());
             response.getWriter().write(responseJSON.toString());
-            
+
         } catch (Exception e) {
             response.sendError(500, e.getMessage());
         } finally {
             response.getWriter().flush();
             response.getWriter().close();
         }
-        
+
     }
-    
+
     private void editUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        
+
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         System.out.print(requestJSON.getInt("usuarioLogeado"));
         User user = UserDAO.getInstance().searchById(requestJSON.getInt("usuarioLogeado"));
@@ -125,21 +149,35 @@ public class UserServlet extends HttpServlet {
             throw new IOException("El usuario no existe.");
         }
     }
-    
+
     private void addUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
-        
+
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        
-        if (UserDAO.getInstance().searchById(requestJSON.getInt("userID")) != null) {
-            
+        int username = requestJSON.getInt("username");
+
+        if (UserDAO.getInstance().searchById(username) != null) {
             throw new IOException("El usuario ya existe.");
-            
         } else {
-            User newUser = new Gson().fromJson(requestJSON.toString(), User.class);
+            String email = requestJSON.getString("email");
+            try {
+                if (UserDAO.getInstance().searchByEmail(email) != null) {
+                    throw new IOException("El email ya existe.");
+                }
+            } catch (Exception e) {
+            }
+            Department depa = DepartmentDAO.getInstance().searchById(requestJSON.getInt("department"));
+
+            Official newOffi = new Official(username, requestJSON.getString("name"), requestJSON.getString("surname"), email, depa);
+            OfficialDAO.getInstance().add(newOffi);
+            Rol rol = RolDAO.getInstance().searchById(requestJSON.getInt("role"));
+            List<Rol> roles = new ArrayList();
+            roles.add(rol);
+            User newUser = new User(username, newOffi, email, requestJSON.getString("password"), roles);
+            UserDAO.getInstance().add(newUser);
+            //User newUser = new Gson().fromJson(requestJSON.toString(), User.class);
             StringBuilder sb = new StringBuilder();
             try {
-                
                 sb.append("Username: ").append(newUser.getIdUser());
                 sb.append("Name: ").append(newUser.getOfficial().getName() + " " + newUser.getOfficial().getSurname());
                 sb.append("Email: ").append(newUser.getOfficial().getEmail());
@@ -154,15 +192,14 @@ public class UserServlet extends HttpServlet {
                 UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), common.dao.generic.Transaction.USER_CREATION, Boolean.FALSE, sb.toString());
                 throw e;
             }
-            
+
         }
-        
+
     }
-    
+
     private void getDepartments(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-//pedir usaruio y ver roles
             String responseJSON;
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
@@ -189,37 +226,40 @@ public class UserServlet extends HttpServlet {
     public String getServletInfo() {
         return "User Servlet. Do not try to attack it. :)";
     }
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserServlet.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserServlet.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserServlet.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     @Override
     protected void doOptions(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -230,7 +270,8 @@ public class UserServlet extends HttpServlet {
             response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
             //processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserServlet.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
     //</editor-fold>

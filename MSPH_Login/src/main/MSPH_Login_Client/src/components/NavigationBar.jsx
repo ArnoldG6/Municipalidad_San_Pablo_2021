@@ -10,8 +10,19 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 export default class NavigationBar extends Component {
-    
+
     render() {
+        let perm = false;
+        if (typeof cookies.get('roles', { path: process.env.REACT_APP_AUTH }) !== 'undefined') {
+            cookies.get('roles', { path: process.env.REACT_APP_AUTH }).map((rol) => {
+                if (rol.description === "SUPER_ADMIN") {
+                    perm = true;
+                    return true;
+                }
+                return false;
+            })
+        }
+
         return (
             <div className="Header container-fluid">
                 <Navbar collapseOnSelect expand="lg" variant="dark">
@@ -22,6 +33,11 @@ export default class NavigationBar extends Component {
                             || cookies.get('username', { path: process.env.REACT_APP_AUTH }) === null) ?
                             null :
                             <Nav>
+                                {
+                                    (perm) ?
+                                    <Nav.Link href="#/users">Agregar Usuario</Nav.Link>:
+                                    <div></div>
+                                }
                                 <Nav.Link href={"#/profile?id=" + cookies.get('username', { path: process.env.REACT_APP_AUTH })} >Perfil</Nav.Link>
                                 <Nav.Link href="#/logout">Cerrar sesión</Nav.Link>
                             </Nav>

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name = "SI_OFFICIALS")
 public class Official implements Serializable {
 
-    public Official(int idOfficial, String name, String surname, String email, Department department) {
+    public Official(Integer idOfficial, String name, String surname, String email, Department department) {
         this.idOfficial = idOfficial;
         this.name = name;
         this.surname = surname;
@@ -21,7 +21,7 @@ public class Official implements Serializable {
         this.department = department;
     }
 
-    public Official(int idOfficial) {
+    public Official(Integer idOfficial) {
         this.idOfficial = idOfficial;
     }
 
@@ -29,11 +29,11 @@ public class Official implements Serializable {
 
     }
 
-    public int getIdOfficial() {
+    public Integer getIdOfficial() {
         return idOfficial;
     }
 
-    public void setIdOfficial(int idOfficial) {
+    public void setIdOfficial(Integer idOfficial) {
         this.idOfficial = idOfficial;
     }
 
@@ -69,7 +69,7 @@ public class Official implements Serializable {
     }
     @Id
     @Column(name = "PK_OFFICIAL")
-    private int idOfficial;
+    private Integer idOfficial;
     
     @Column(name = "name")
     private String name;

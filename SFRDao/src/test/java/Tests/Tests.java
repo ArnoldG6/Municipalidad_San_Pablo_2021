@@ -32,12 +32,11 @@ public class Tests {
             List<Rol> roles = new ArrayList();
             roles.add(rol);
             Department department = DepartmentDAO.getInstance().searchById(102);
-            Official official = OfficialDAO.getInstance().searchById(123);
-            System.out.print(official);
-            official.setDepartment(department);
-            official.setName("no soy diego");
-            OfficialDAO.getInstance().update(official);
-            System.out.print(UserDAO.getInstance().searchById(123));
+            Official official = new Official(402510401, "Jorsua", "Gonzalez", "Jorsua@gmail.com", department);
+            OfficialDAO.getInstance().add(official);
+            User newUser = new User(402510401, official, "Jorsua@gmail.com", "admin", roles);
+            UserDAO.getInstance().add(newUser);
+            System.out.print(UserDAO.getInstance().searchById(402510401));
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
         }

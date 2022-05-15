@@ -3,22 +3,22 @@ import axios from 'axios';
 import { Button, Row, Table, Container, Col } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import EditPerfilModal from './Components/EditPerfilModal';
-import './Perfil.css'
+import AddUserModal from './Components/AddUserModal';
+import './Usuarios.css'
 import NavigationBar from '../../components/NavigationBar';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
-//Se cambio Plan y Pefil
-export default class Perfil extends React.Component {
+
+export default class Usuarios extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             user: null,
-            showEdit: false
+            AddUser: false
         };
         this.refreshPage = this.refreshPage.bind(this);
-        this.closeModalEdit = this.closeModalEdit.bind(this);
-        this.openModalEdit = this.openModalEdit.bind(this);
+        this.closeModalAdd = this.closeModalAdd.bind(this);
+        this.openModalAdd = this.openModalAdd.bind(this);
         this.checkPermissions = this.checkPermissions.bind(this);
         this.checkOwner = this.checkOwner.bind(this);
         this.retrieveDepartments = this.retrieveDepartments.bind(this);
@@ -35,22 +35,18 @@ export default class Perfil extends React.Component {
     }
 
     refreshPage() {
-        let query = new URLSearchParams(this.props.location.search);
         let options = {
-            url: process.env.REACT_APP_AUTH_API_PATH + '/User',
+            url: process.env.REACT_APP_AUTH_API_PATH + '/Users',
             method: "POST",
             header: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            },
-            data: {
-                'username': query.get('id')
             }
         }
         axios(options)
             .then(response => {
                 this.setState({
-                    user: response.data
+                    usuarios: response.data
                 }, () => {
                     this.retrieveDepartments();
                 });
@@ -86,12 +82,12 @@ export default class Perfil extends React.Component {
             });
     }
 
-    openModalEdit(usu) {
-        this.setState({ showEdit: true });
+    openModalAdd() {
+        this.setState({ AddUser: true });
     };
 
-    closeModalEdit() {
-        this.setState({ showEdit: false });
+    closeModalAdd() {
+        this.setState({ AddUser: false });
     };
 
     checkPermissions(toCheck) {
@@ -126,29 +122,30 @@ export default class Perfil extends React.Component {
                 <div className='d-lg-none container-fluid'>
                     <Row className="mt-4">
                         {
-                            (this.state.user === null || typeof this.state.user === 'undefined') ?
+                            (this.state.usuarios === null || typeof this.state.usuarios === 'undefined') ?
                                 <div><h1>Cargando Datos</h1></div> :
                                 <Container fluid>
                                     <Row>
                                         <Col>
-                                            <h1>Perfil</h1>
+                                            <h1>Lista de usuarios</h1>
+                                            <div className="col-md-12 text-center">
+                                                <Button onClick={() => this.openModalAdd(this.state.user)}
+                                                    disabled={(this.checkPermissions("SUPER_ADMIN"))? true : false} id='btnaAdd' >Agregar Nuevo Usuario</Button>
+                                            </div>
                                             <Table>
                                                 <Table border="1" hover responsive="md">
                                                     <tbody>
-                                                        <tr><td><b>Usuario:</b></td><td>{this.state.user.username}</td></tr>
-                                                        <tr><td><b>Email: </b></td><td>{this.state.user.email}</td></tr>
-                                                        <tr><td><b>Nombre: </b></td><td>{this.state.user.name}</td></tr>
-                                                        <tr><td><b>Apellido: </b></td><td>{this.state.user.surname}</td></tr>
-                                                        <tr><td><b>Departamento: </b></td><td>{this.state.user.department}</td></tr>
-                                                        <tr><td><b>Rol: </b></td><td>{this.state.user.roles}</td></tr>
-
+                                                        {
+                                                            (this.state.usuarios === null || typeof this.state.usuarios === 'undefined') ?
+                                                                <option value={null} key="disabledUsuarios" disabled>Error al cargar los usuarios</option> :
+                                                                this.state.usuarios.map((usu) => {
+                                                                    return <tr><td><b>Usuario:</b></td><td>{usu.idUser}</td></tr>
+                                                                })
+                                                        }
                                                     </tbody>
                                                 </Table>
                                             </Table>
-                                            <div className="col-md-12 text-center">
-                                                <Button onClick={() => this.openModalEdit(this.state.user)}
-                                                    disabled={(this.checkPermissions("USER") && this.checkPermissions("ADMIN") && !this.checkOwner()) ? true : false} id='btnEdit' >Editar Perfil</Button>
-                                            </div>
+
                                         </Col>
                                     </Row>
                                 </Container>
@@ -161,27 +158,29 @@ export default class Perfil extends React.Component {
                         <Row>
                             <Col md={{ span: 6, offset: 3 }}>
                                 {
-                                    (this.state.user === null || typeof this.state.user === 'undefined') ?
+                                    (this.state.usuarios === null || typeof this.state.usuarios === 'undefined') ?
                                         <h1>Cargando Datos</h1> :
                                         <div>
+
                                             <Table>
                                                 <br />
-                                                <h2 id='titulo'>Perfil</h2>
+                                                <h2 id='titulo'>Lista de Usuarios</h2>
+                                                <div className="col-md-12 text-center">
+                                                    <Button onClick={() => this.openModalAdd(this.state.user)}
+                                                        disabled={(this.checkPermissions("USER") && !this.checkOwner()) ? true : false} id='btnEdit' >Agregar nuevo Usuario</Button>
+                                                </div>
                                                 <Table hover responsive="md">
                                                     <tbody>
-                                                        <tr><td><b>Usuario:</b></td><td>{this.state.user.username}</td></tr>
-                                                        <tr><td><b>Email: </b></td><td>{this.state.user.email}</td></tr>
-                                                        <tr><td><b>Nombre: </b></td><td>{this.state.user.name}</td></tr>
-                                                        <tr><td><b>Apellido: </b></td><td>{this.state.user.surname}</td></tr>
-                                                        <tr><td><b>Departamento: </b></td><td>{this.state.user.department}</td></tr>
-                                                        <tr><td><b>Rol: </b></td><td>{this.state.user.roles}</td></tr>
+                                                        {
+                                                            (this.state.usuarios === null || typeof this.state.usuarios === 'undefined') ?
+                                                                <option value={null} key="disabledUsuarios" disabled>Error al cargar los usuarios</option> :
+                                                                this.state.usuarios.map((usu) => {
+                                                                    return <tr><td><b>Usuario:</b></td><td>{usu.idUser}</td></tr>
+                                                                })
+                                                        }
                                                     </tbody>
                                                 </Table>
                                             </Table>
-                                            <div className="col-md-12 text-center">
-                                                <Button onClick={() => this.openModalEdit(this.state.user)}
-                                                    disabled={(this.checkPermissions("USER") && this.checkPermissions("ADMIN") && !this.checkOwner()) ? true : false} id='btnEdit' >Editar Perfil</Button>
-                                            </div>
                                         </div>
                                 }
 
@@ -189,13 +188,11 @@ export default class Perfil extends React.Component {
                         </Row>
                     </div>
                 </div>
-                <EditPerfilModal
-                    user={this.state.user}
-                    show={this.state.showEdit}
+                <AddUserModal
+                    show={this.state.AddUser}
                     departmentMap={this.state.departmentMap}
-                    closeModal={this.closeModalEdit}
+                    closeModal={this.closeModalAdd}
                     refreshPage={this.refreshPage}
-
                 />
                 <ToastContainer />
             </div >

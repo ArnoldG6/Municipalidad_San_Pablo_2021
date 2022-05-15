@@ -14,7 +14,6 @@ import javax.persistence.Query;
  * @author jorsu
  */
 public class OfficialDAO extends GenericDAO {
-    
 
     private static OfficialDAO uniqueInstance;
 
@@ -60,9 +59,19 @@ public class OfficialDAO extends GenericDAO {
 
     }
 
-
-
-
-
+    public void add(Official offi) {
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            em.persist(offi);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
+    }
 
 }

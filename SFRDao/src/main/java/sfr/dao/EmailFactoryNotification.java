@@ -14,6 +14,8 @@ import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import java.util.*;
+import sfr.model.Comment;
+import sfr.model.Incidence;
 import sfr.model.Plan;
 
 /**
@@ -57,6 +59,7 @@ public class EmailFactoryNotification {
         return ef;
     }
 
+    
     /**
      *
      * @param user which will get the email
@@ -71,9 +74,7 @@ public class EmailFactoryNotification {
                 Message.RecipientType.TO,
                 new InternetAddress(user.getEmail())
         );
-
         msj.setSubject("Ingreso de un usuario");
-
         String htmlCode
                 = "<h3>Estimado/a " + controlInterno.getOfficial().getName()+" "+ controlInterno.getOfficial().getSurname() + "<br/>"
                 + ".<br/>"
@@ -81,7 +82,6 @@ public class EmailFactoryNotification {
                 + "<h1>El usuario "+ user.getOfficial().getName()+" "+ user.getOfficial().getSurname() +" ha sido ingresado.</h1>"
                 + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
         msj.setContent(htmlCode, "text/html");
-
         Transport.send(msj);
         System.err.println("Done");
     }
@@ -93,16 +93,13 @@ public class EmailFactoryNotification {
      */
     
     public void sendEditPlan(User user, User user2, Plan p) throws MessagingException {
-        User controlInterno = UserDAO.getInstance().searchById(51);
         Message msj = new MimeMessage(session);
         msj.setFrom(new InternetAddress(from));
         msj.setRecipient(
                 Message.RecipientType.TO,
                 new InternetAddress(user.getEmail())
         );
-
         msj.setSubject("Modificación de un Plan");
-
         String htmlCode
                 = "<h3>Estimado/a " + user.getOfficial().getName() + " " + user.getOfficial().getSurname() + "<br/>"
                 + ".<br/>"
@@ -110,9 +107,7 @@ public class EmailFactoryNotification {
                 + "<h1>El usuario " + user2.getOfficial().getName() + " " + user2.getOfficial().getSurname() + " ha modificado el plan ID: " + p.getId() + ".</h1>"
                 + "<h3>Si usted desea acceder al plan, por favor acceda al siguiente enlace: http://localhost:3001/SFR/#/plan?id=" + p.getId() + "</h3>"
                 + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
-
         msj.setContent(htmlCode, "text/html");
-
         Transport.send(msj);
         System.err.println("Done");
     }
@@ -131,11 +126,9 @@ public class EmailFactoryNotification {
         msj.setFrom(new InternetAddress(from));
         msj.setRecipient(
                 Message.RecipientType.TO,
-                new InternetAddress("mgonzalex236@gmail.com")
+                new InternetAddress(controlInterno.getEmail())
         );
-
         msj.setSubject("Ingreso de un Plan");
-
         String htmlCode
                 = "<h3>Estimado/a " + controlInterno.getOfficial().getName()+" "+ controlInterno.getOfficial().getSurname() + "<br/>"
                 + ".<br/>"
@@ -143,11 +136,75 @@ public class EmailFactoryNotification {
                 + "<h1>El usuario "+ user.getOfficial().getName()+" "+ user.getOfficial().getSurname() +" ha ingresado un nuevo plan ID: "+ p.getId() +".</h1>"
                 + "<h3>Si usted desea acceder al nuevo plan creado, por favor acceda al siguiente enlace: http://localhost:3001/SFR/#/plan?id="+p.getId()+"</h3>"
                 + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
+        msj.setContent(htmlCode, "text/html");
+        Transport.send(msj);
+        System.err.println("Done");
+    }
+    
+    public void sendAddInvolvedPlan(User user, Plan p) throws MessagingException {
+        User controlInterno = UserDAO.getInstance().searchById(51);
+        Message msj = new MimeMessage(session);
+        msj.setFrom(new InternetAddress(from));
+        msj.setRecipient(
+                Message.RecipientType.TO,
+                new InternetAddress(controlInterno.getEmail())
+        );
+
+        msj.setSubject("Ingreso de Nuevo Involucrado a un Plan");
+
+        String htmlCode
+                = "<h3>Estimado/a " + controlInterno.getOfficial().getName()+" "+ controlInterno.getOfficial().getSurname() + "<br/>"
+                + ".<br/>"
+                + "Este mensaje automático por el SFR es para notificarle lo siguiente:</h3>"
+                + "<h1>El usuario "+ user.getOfficial().getName()+" "+ user.getOfficial().getSurname() +" ha sido ingresado como involucrado en el plan ID: "+ p.getId() +".</h1>"
+                + "<h3>Si usted desea acceder al plan, por favor acceda al siguiente enlace: http://localhost:3001/SFR/#/plan?id="+p.getId()+"</h3>"
+                + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
 
         msj.setContent(htmlCode, "text/html");
 
         Transport.send(msj);
         System.err.println("Done");
     }
+    
+    public void sendAddCommentPlan(User user, Plan p, Comment c) throws MessagingException {
+        User controlInterno = UserDAO.getInstance().searchById(51);
+        Message msj = new MimeMessage(session);
+        msj.setFrom(new InternetAddress(from));
+        msj.setRecipient(
+                Message.RecipientType.TO,
+                new InternetAddress(controlInterno.getEmail())
+        );
+        msj.setSubject("Ingreso de Nuevo Comentario a un Plan");
+        String htmlCode
+                = "<h3>Estimado/a " + controlInterno.getOfficial().getName()+" "+ controlInterno.getOfficial().getSurname() + "<br/>"
+                + ".<br/>"
+                + "Este mensaje automático por el SFR es para notificarle lo siguiente:</h3>"
+                + "<h1>El usuario "+ user.getOfficial().getName()+" "+ user.getOfficial().getSurname() +" ha ingresado un comentario en el plan ID: "+ p.getId() +".</h1>"
+                + "<h3>El contenido del comentario es el siguiente: "+c.getComment()+"</h3>"
+                + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
+        msj.setContent(htmlCode, "text/html");
+        Transport.send(msj);
+        System.err.println("Done");
+    }
 
+    public void sendAddIncidencePlan(User user, Plan p, Incidence i) throws MessagingException {
+        User controlInterno = UserDAO.getInstance().searchById(51);
+        Message msj = new MimeMessage(session);
+        msj.setFrom(new InternetAddress(from));
+        msj.setRecipient(
+                Message.RecipientType.TO,
+                new InternetAddress(controlInterno.getEmail())
+        );
+        msj.setSubject("Ingreso de Nueva Incidencia a un Plan");
+        String htmlCode
+                = "<h3>Estimado/a " + controlInterno.getOfficial().getName()+" "+ controlInterno.getOfficial().getSurname() + "<br/>"
+                + ".<br/>"
+                + "Este mensaje automático por el SFR es para notificarle lo siguiente:</h3>"
+                + "<h1>El usuario "+ user.getOfficial().getName()+" "+ user.getOfficial().getSurname() +" ha ingresado una incidencia en el plan ID: "+ p.getId() +".</h1>"
+                + "<h3>El nombre de la incidencia es: "+i.getName()+"</h3>"
+                + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
+        msj.setContent(htmlCode, "text/html");
+        Transport.send(msj);
+        System.err.println("Done");
+    }
 }

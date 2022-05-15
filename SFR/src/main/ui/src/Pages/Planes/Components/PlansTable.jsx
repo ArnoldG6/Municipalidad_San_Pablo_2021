@@ -8,7 +8,7 @@ import ShowMoreText from "react-show-more-text";
 class PlansTable extends Component {
 
     executeOnClick(isExpanded) {
-        console.log(isExpanded);
+        //console.log(isExpanded);
     }
 
     render() {

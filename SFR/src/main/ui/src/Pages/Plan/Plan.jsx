@@ -68,8 +68,6 @@ class Plan extends Component {
             if (toCheck === "INVOLVED") {
                 var id = cookies.get('username', { path: process.env.REACT_APP_AUTH });
                 this.state.plan.involvedList.map((involved) => {
-                    console.log(id)
-                    console.log(involved.idUser)
                     if (involved.idUser.toString() === id) {
                         perm = true;
                         return true;
@@ -114,7 +112,6 @@ class Plan extends Component {
                     if (this.state.plan === null || typeof this.state.plan === 'undefined') {
                         this.props.history.push('/planes');
                     } else {
-                        console.log(this.state.plan)
                         this.retrieveRemainingRisks();
                     }
                 });

@@ -215,7 +215,7 @@ class EditRiskModal extends Component {
                                         delay={{ hide: 450, show: 300 }}
                                         overlay={(props) => (
                                             <Tooltip {...props}>
-                                                {process.env.REACT_APP_RIESGOS_HELP_TIPO}
+                                                {process.env.REACT_APP_RIESGOS_HELP_TIPO_AREA}
                                             </Tooltip>
                                         )}
                                         placement="bottom"
@@ -237,12 +237,12 @@ class EditRiskModal extends Component {
                             </div>
                             <div className="form-group">
                                 <Stack direction="horizontal" gap={3}>
-                                    <label>Tipo por Área Específico: </label>
+                                    <label>Tipo por Área Específica: </label>
                                     <OverlayTrigger
                                         delay={{ hide: 450, show: 300 }}
                                         overlay={(props) => (
                                             <Tooltip {...props}>
-                                                {process.env.REACT_APP_RIESGOS_HELP_TIPO}
+                                                {process.env.REACT_APP_RIESGOS_HELP_TIPO_AREA_ESPE}
                                             </Tooltip>
                                         )}
                                         placement="bottom"

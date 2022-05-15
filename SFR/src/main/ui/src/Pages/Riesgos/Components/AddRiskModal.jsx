@@ -13,7 +13,9 @@ class AddRiskModal extends Component {
         this.state = {
             validated: false,
             generalType: "Externo",
-            areaType: "Político"
+            areaType: "Político",
+            specificType: "Cambios de gobierno de la República",
+            defaultConsequence: ""
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -119,7 +121,7 @@ class AddRiskModal extends Component {
                 id += tipo.idName;
             }
             return tipo.idName;
-        })        
+        })
 
         return id;
     }
@@ -147,12 +149,10 @@ class AddRiskModal extends Component {
     }
 
     handleAreaSpecificType = e => {
-        this.setState({})
-
+        this.setState({ specificType: e.target.value })
     }
 
     render() {
-        console.log(this.props.typesMap)
         let render = this.props.show;
         let closeModal = this.props.closeModal;
 
@@ -271,7 +271,7 @@ class AddRiskModal extends Component {
                                     delay={{ hide: 450, show: 300 }}
                                     overlay={(props) => (
                                         <Tooltip {...props}>
-                                            {process.env.REACT_APP_RIESGOS_HELP_TIPO}
+                                            {process.env.REACT_APP_RIESGOS_HELP_TIPO_AREA}
                                         </Tooltip>
                                     )}
                                     placement="bottom"
@@ -300,7 +300,7 @@ class AddRiskModal extends Component {
                                     delay={{ hide: 450, show: 300 }}
                                     overlay={(props) => (
                                         <Tooltip {...props}>
-                                            {process.env.REACT_APP_RIESGOS_HELP_TIPO}
+                                            {process.env.REACT_APP_RIESGOS_HELP_TIPO_AREA_ESPE}
                                         </Tooltip>
                                     )}
                                     placement="bottom"
@@ -324,7 +324,7 @@ class AddRiskModal extends Component {
                         <Form.Group>
                             <div className="form-group">
                                 <Form.Label>Descripción del riesgo:</Form.Label>
-                                <textarea name="description" id="description" type="text" className="form-control" required />
+                                <textarea name="description" id="description" placeholder='Descripcion breve del riesgo.' type="text" className="form-control" required />
                                 <Form.Control.Feedback type="invalid">
                                     Por favor ingresar tipo específico.
                                 </Form.Control.Feedback>

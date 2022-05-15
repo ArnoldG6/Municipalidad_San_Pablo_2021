@@ -33,7 +33,7 @@ class Search extends Component {
             .then(response => {
                 this.props.updatePlanes(response.data);
             }).catch(error => {
-                console.log(error);
+                //console.log(error);
                 toast.error("Hubo un error realizando la busqueda", {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,

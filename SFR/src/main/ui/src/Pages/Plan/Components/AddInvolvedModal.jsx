@@ -23,14 +23,11 @@ class AddInvolvedModal extends Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.users !== prevProps.users) {
-            console.log("----- User")
-            console.log(this.props.users)
             this.handleUserRender();
         }
     }
 
     componentDidMount() {
-        console.log("mount user")
         this.handleUserRender();
     }
 

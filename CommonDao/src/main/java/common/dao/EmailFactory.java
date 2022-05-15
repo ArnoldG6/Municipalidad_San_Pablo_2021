@@ -73,10 +73,32 @@ public class EmailFactory {
                 + "<h3>Si usted no realizó esta solicitud, por favor ponerse en contacto con su correspondiente Administrador Tecnológico</h3>"
                 + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
 
-        msj.setContent(htmlCode, "text/html");
+        msj.setContent(htmlCode, "text/html; charset=UTF-8");
 
         Transport.send(msj);
-        System.err.println("Done");
+    }
+
+    /**
+     *
+     * @param user which will get the email
+     * @throws MessagingException
+     */
+    public void sendAddUser(User user) throws MessagingException {
+        Message msj = new MimeMessage(session);
+        msj.setFrom(new InternetAddress(from));
+        msj.setRecipient(
+                Message.RecipientType.TO,
+                new InternetAddress(user.getEmail())
+        );
+        msj.setSubject("Ingreso de un usuario");
+        String htmlCode
+                = "<h3>Estimado/a " + user.getOfficial().getName() + " " + user.getOfficial().getSurname() + ".<br/>"
+                + "Este mensaje automático por el Sistema de Identificación Municipal es para notificarle lo siguiente:</h3>"
+                + "<h4>Se ha creado su usuario exitosamente.</h4>"
+                + "<h4>Puede ingresar a las funcionalidades del sistema utilizando sus credenciales en el siguiente link: http://localhost:3001/SIMSP/</h4>"
+                + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
+        msj.setContent(htmlCode, "text/html; charset=UTF-8");
+        Transport.send(msj);
     }
 
 }

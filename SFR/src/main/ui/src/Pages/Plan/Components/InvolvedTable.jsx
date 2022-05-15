@@ -62,7 +62,7 @@ class InvolvedTable extends Component {
                                             <div className="ms-2 me-auto">
                                                 <div className="fw-bold">{user.official.name} {user.official.surname}</div>
                                                 {user.official.department.description} <br />
-                                                <Button variant="link" href={process.env.REACT_APP_PROFILE + "?id=" + user.idUser}>+ Perfil del Usuario</Button>
+                                                <Button variant="link" href={process.env.REACT_APP_SIMSP_PROFILE + "?id=" + user.idUser}>+ Perfil del Usuario</Button>
                                                 <Button className="d-lg-none"
                                                     variant={this.props.permsCheck("SUPER_ADMIN") || this.props.permsCheck("ADMIN") ? "outline-danger" : "outline-dark"}
                                                     disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") ? true : false}

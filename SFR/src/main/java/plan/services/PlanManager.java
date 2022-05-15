@@ -484,7 +484,7 @@ public class PlanManager extends HttpServlet {
             try {
                 plan.addComment(c);
                 PlanDAO.getInstance().update(plan);
-                //EmailFactoryNotification.getInstance().sendAddCommentPlan(user, plan, c);
+                //EmailFactoryNotification.getInstance().sendAllCommentPlan(user, plan, c);
                 PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_COMMENT_TO_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId() + " COMMENT_ID:"
                         + String.valueOf(c.getPkID()));
             } catch (Exception e) {

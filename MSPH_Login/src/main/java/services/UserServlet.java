@@ -174,7 +174,7 @@ public class UserServlet extends HttpServlet {
             Rol rol = RolDAO.getInstance().searchById(requestJSON.getInt("role"));
             List<Rol> roles = new ArrayList();
             roles.add(rol);
-            User newUser = new User(username, newOffi, email, requestJSON.getString("password"), roles);
+            User newUser = new User(username, newOffi, email, roles, requestJSON.getString("password"));
             UserDAO.getInstance().add(newUser);
             //User newUser = new Gson().fromJson(requestJSON.toString(), User.class);
             StringBuilder sb = new StringBuilder();

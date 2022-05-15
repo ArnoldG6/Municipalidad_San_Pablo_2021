@@ -37,7 +37,7 @@ public class Tests {
             Department department = DepartmentDAO.getInstance().searchById(102);
             Official official = new Official(402510401, "Jorsua", "Gonzalez", "Jorsua@gmail.com", department);
             OfficialDAO.getInstance().add(official);
-            User newUser = new User(402510401, official, "Jorsua@gmail.com", "ADMIN", roles);
+            User newUser = new User(402510401, official, "Jorsua@gmail.com", roles, "admin123");
             UserDAO.getInstance().update(newUser);
             System.out.print(UserDAO.getInstance().searchById(402510401));
         } catch (Exception ex) {

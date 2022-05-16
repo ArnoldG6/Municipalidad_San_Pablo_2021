@@ -1,0 +1,45 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 16 mar. 2022, 17:40:14
+    Author     : f_var
+*/
+
+#pdf1{
+    text-align: center;
+}
+
+#pdf{
+    text-align: center;
+    border-style: double;
+    width: 50%;
+    margin: 0px auto;
+    font-family: Verdana, sans-serif;
+}
+
+.boton{
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 8px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+.boton1{     
+    background-color: #FF0000; /* Red */
+    border: none;
+    color: white;
+    padding: 8px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 8px;
+}

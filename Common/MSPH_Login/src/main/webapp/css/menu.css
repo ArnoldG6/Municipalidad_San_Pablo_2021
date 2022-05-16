@@ -1,0 +1,18 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 23 mar. 2022, 17:24:01
+    Author     : f_var
+*/
+
+.nav-link dropdown-toggle a{
+    color: white;
+}
+
+.container-fluid{
+    background-color:#1F3140; 
+    color: white;
+}

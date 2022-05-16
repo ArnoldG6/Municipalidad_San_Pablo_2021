@@ -1,0 +1,76 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 31/10/2021, 07:13:54 PM
+    Author     : YENDRI
+*/
+
+body {
+
+}
+
+header h1 {
+    font-family: Verdana, sans-serif;;
+    font-size: 16pt;
+    margin: 25px 0px;
+}
+
+h1 {
+    font-family: Verdana, sans-serif;;
+    font-size: 16pt;
+    margin: 25px 0px;
+    text-align: center;
+}
+
+.form  {
+    border: 1px solid gray;
+    border-bottom: 1px solid darkslategray;
+    margin: 0 auto;
+    margin-bottom: 60px;
+    padding: 20px 34px;
+}
+
+.VAC {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form  td {
+    padding: 8px 16px;
+}
+
+.td {
+    padding: 8px 16px; 
+}
+
+.form .etiqueta {
+    text-align: right;
+}
+
+#wrapper {
+    font-family: Raleway;
+    font-size: 12pt;
+}
+
+.estilotextarea {
+    width:400px;
+    height:100px;
+    border: 1px solid gray;
+    resize: none;
+    pointer-events: none;
+}
+
+
+#num, #start_Date, #final_Date{
+    width: 280px;
+    min-width: 100px;
+    display: inline-block;
+}

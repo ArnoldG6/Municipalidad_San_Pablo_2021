@@ -1,0 +1,39 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 30/10/2021, 12:54:01 PM
+    Author     : Greivin
+*/
+
+body {
+    
+}
+
+.form  {
+    border: 1px solid gray;
+    border-bottom: 1px solid darkslategray;
+    margin-bottom: 16px;
+    padding: 20px 34px;
+    margin: 0 auto;
+}
+
+.form  td {
+    padding: 8px 24px;
+}
+
+.td {
+    padding: 8px 16px; 
+}
+
+.titulo{
+    text-align: center;
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    height: 35vh;
+}

@@ -125,7 +125,7 @@ public class UserServlet extends HttpServlet {
 
     }
 
-    private void editUser(HttpServletRequest request, HttpServletResponse response)
+        private void editUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
 
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
@@ -150,11 +150,21 @@ public class UserServlet extends HttpServlet {
                 Rol role = RolDAO.getInstance().searchById(requestJSON.getInt("role"));
                 editUser.getRoles().add(role);
             }
-            UserDAO.getInstance().update(editUser);
+            try {
+                UserDAO.getInstance().update(editUser);
+                UserDAO.getInstance().recordTransaction(user.getIdUser().toString(), common.dao.generic.Transaction.USER_EDITION, Boolean.TRUE, "User edited:"
+                        + String.valueOf(editUser.getIdUser()));
+            } catch (Exception e) {
+                UserDAO.getInstance().recordTransaction(user.getIdUser().toString(), common.dao.generic.Transaction.USER_EDITION, Boolean.FALSE, "User edited:"
+                        + String.valueOf(editUser.getIdUser()));
+                throw e;
+            }
+
         } else {
             throw new IOException("El usuario no existe.");
         }
     }
+
 
     private void addUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {

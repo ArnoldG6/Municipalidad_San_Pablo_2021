@@ -71,12 +71,18 @@ public class UserDAO extends GenericDAO {
         return users;
     }
 
-    public void add(User user) {
+    public void add(User user, String password) {
         try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            em.persist(user);
-            em.getTransaction().commit();
+            StoredProcedureQuery proc = getEntityManager().createStoredProcedureQuery("insertUser");
+            proc.registerStoredProcedureParameter("P_IN_PK_USER", Integer.class, ParameterMode.IN);
+            proc.registerStoredProcedureParameter("P_IN_FK_OFFICIAL", Integer.class, ParameterMode.IN);
+            proc.registerStoredProcedureParameter("P_IN_FK_EMAIL", String.class, ParameterMode.IN);
+            proc.registerStoredProcedureParameter("P_IN_PASSWORD", String.class, ParameterMode.IN);
+            proc.setParameter("P_IN_PK_USER", user.getIdUser());
+            proc.setParameter("P_IN_FK_OFFICIAL", user.getOfficial().getIdOfficial());
+            proc.setParameter("P_IN_FK_EMAIL", user.getEmail());
+            proc.setParameter("P_IN_PASSWORD", password);
+            proc.execute();
         } catch (Exception ex) {
             ex.printStackTrace(System.out);
             System.err.println(ex.getMessage());

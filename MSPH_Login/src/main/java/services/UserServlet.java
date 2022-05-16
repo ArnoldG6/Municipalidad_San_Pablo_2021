@@ -170,12 +170,15 @@ public class UserServlet extends HttpServlet {
             Department depa = DepartmentDAO.getInstance().searchById(requestJSON.getInt("department"));
 
             Official newOffi = new Official(username, requestJSON.getString("name"), requestJSON.getString("surname"), email, depa);
-            OfficialDAO.getInstance().add(newOffi);
+
             Rol rol = RolDAO.getInstance().searchById(requestJSON.getInt("role"));
             List<Rol> roles = new ArrayList();
             roles.add(rol);
-            User newUser = new User(username, newOffi, email, roles, requestJSON.getString("password"));
-            UserDAO.getInstance().add(newUser);
+
+            String password = requestJSON.getString("password");
+
+            User newUser = new User(username, newOffi, email, password, roles);
+
             //User newUser = new Gson().fromJson(requestJSON.toString(), User.class);
             StringBuilder sb = new StringBuilder();
             try {
@@ -187,7 +190,8 @@ public class UserServlet extends HttpServlet {
                     sb.append(r.getIdRol() + ",");
                 }
                 sb.append("]");
-                UserDAO.getInstance().add(newUser);
+                OfficialDAO.getInstance().add(newOffi);
+                UserDAO.getInstance().add(newUser, password);
                 UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), common.dao.generic.Transaction.USER_CREATION, Boolean.TRUE, sb.toString());
                 EmailFactory.getInstance().sendAddUser(newUser);
             } catch (Exception e) {

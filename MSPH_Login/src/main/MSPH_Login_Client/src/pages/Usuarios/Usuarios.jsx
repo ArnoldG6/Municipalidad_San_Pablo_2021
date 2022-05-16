@@ -7,6 +7,7 @@ import AddUserModal from './Components/AddUserModal';
 import './Usuarios.css'
 import NavigationBar from '../../components/NavigationBar';
 import Cookies from 'universal-cookie';
+import Pages from '../../components/Pages';
 const cookies = new Cookies();
 
 export default class Usuarios extends React.Component {
@@ -14,7 +15,11 @@ export default class Usuarios extends React.Component {
         super(props);
         this.state = {
             user: null,
-            AddUser: false
+            usuarios: [],
+            userView: [],
+            AddUser: false,
+            pageItemAmount: 10,
+            currentPage: 1
         };
         this.refreshPage = this.refreshPage.bind(this);
         this.closeModalAdd = this.closeModalAdd.bind(this);
@@ -22,6 +27,9 @@ export default class Usuarios extends React.Component {
         this.checkPermissions = this.checkPermissions.bind(this);
         this.checkOwner = this.checkOwner.bind(this);
         this.retrieveDepartments = this.retrieveDepartments.bind(this);
+        this.updatePage = this.updatePage.bind(this);
+        this.updatePageItems = this.updatePageItems.bind(this);
+        this.handleUserRender = this.handleUserRender.bind(this);
     }
 
     componentDidMount() {
@@ -70,7 +78,7 @@ export default class Usuarios extends React.Component {
                 this.setState({
                     departmentMap: response.data
                 }, () => {
-
+                    this.handleUserRender();
                 });
             }).catch(error => {
                 toast.error("Error recuperando los departamentos", {
@@ -114,6 +122,38 @@ export default class Usuarios extends React.Component {
         return perm;
     }
 
+    /* Pagination */
+    updatePage(pageNumber) {
+        this.setState({
+            currentPage: pageNumber
+        }, () => {
+            this.handleUserRender();
+        });
+    }
+
+    updatePageItems(amount) {
+        this.setState({
+            pageItemAmount: amount,
+            currentPage: 1
+        }, () => {
+            this.handleUserRender();
+        })
+    }
+
+    handleUserRender() {
+        let items = [];
+        let itemAmount = this.state.pageItemAmount;
+        let pos = (this.state.currentPage - 1) * itemAmount;
+        for (let i = 0; i < itemAmount; i++) {
+            let item = this.state.usuarios.at(pos);
+            if (typeof item !== 'undefined' && item !== null) {
+                items.push(item);
+            }
+            pos++;
+        }
+        this.setState({ userView: items });
+    }
+
     render() {
         return (
             <div className="Usuario-Container">
@@ -130,15 +170,15 @@ export default class Usuarios extends React.Component {
                                             <h1>Lista de usuarios</h1>
                                             <div className="col-md-12 text-center">
                                                 <Button onClick={() => this.openModalAdd(this.state.user)}
-                                                    disabled={(this.checkPermissions("SUPER_ADMIN"))? true : false} id='btnaAdd' >Agregar Nuevo Usuario</Button>
+                                                    disabled={(this.checkPermissions("SUPER_ADMIN")) ? true : false} id='btnaAdd' >Agregar Nuevo Usuario</Button>
                                             </div>
                                             <Table>
                                                 <Table border="1" hover responsive="md">
                                                     <tbody>
                                                         {
-                                                            (this.state.usuarios === null || typeof this.state.usuarios === 'undefined') ?
+                                                            (this.state.userView === null || typeof this.state.userView === 'undefined') ?
                                                                 <option value={null} key="disabledUsuarios" disabled>Error al cargar los usuarios</option> :
-                                                                this.state.usuarios.map((usu) => {
+                                                                this.state.userView.map((usu) => {
                                                                     return <tr><td><b>Usuario:</b></td><td>{usu.idUser}</td></tr>
                                                                 })
                                                         }
@@ -175,12 +215,29 @@ export default class Usuarios extends React.Component {
                                                             (this.state.usuarios === null || typeof this.state.usuarios === 'undefined') ?
                                                                 <option value={null} key="disabledUsuarios" disabled>Error al cargar los usuarios</option> :
                                                                 this.state.usuarios.map((usu) => {
-                                                                    return <tr><td><b>Usuario:</b></td><td>{usu.idUser}</td></tr>
+                                                                    return <tr>
+                                                                        <td>
+                                                                            <b>Usuario:</b>
+                                                                        </td>
+                                                                        <td>
+                                                                            {usu.official.name + " " + usu.official.surname}
+                                                                        </td>
+                                                                        <td>
+                                                                            <Button variant="link" href={"#/profile?id=" + usu.idUser}>+ Perfil del Usuario</Button>
+                                                                        </td>
+                                                                    </tr>
                                                                 })
                                                         }
                                                     </tbody>
                                                 </Table>
                                             </Table>
+                                            <Pages
+                                                listLength={this.state.usuarios.length}
+                                                itemAmount={this.state.pageItemAmount}
+                                                updatePage={this.updatePage}
+                                                currentPage={this.state.currentPage}
+                                                updatePageItems={this.updatePageItems} />
+
                                         </div>
                                 }
 

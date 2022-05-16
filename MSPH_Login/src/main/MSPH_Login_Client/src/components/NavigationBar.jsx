@@ -32,16 +32,24 @@ export default class NavigationBar extends Component {
                         {(typeof cookies.get('username', { path: process.env.REACT_APP_AUTH }) === 'undefined'
                             || cookies.get('username', { path: process.env.REACT_APP_AUTH }) === null) ?
                             null :
+                            <Nav className='me-auto'>
+                                <Nav.Link href="#/menu">Menú Principal</Nav.Link>
+                            </Nav>
+                        }
+                        {(typeof cookies.get('username', { path: process.env.REACT_APP_AUTH }) === 'undefined'
+                            || cookies.get('username', { path: process.env.REACT_APP_AUTH }) === null) ?
+                            null :
                             <Nav>
                                 {
                                     (perm) ?
-                                    <Nav.Link href="#/users">Agregar Usuario</Nav.Link>:
-                                    <div></div>
+                                        <Nav.Link href="#/users">Agregar Usuario</Nav.Link> :
+                                        <div></div>
                                 }
-                                <Nav.Link href={"#/profile?id=" + cookies.get('username', { path: process.env.REACT_APP_AUTH })} >Perfil</Nav.Link>
+                                <Nav.Link href={"#/profile?id=" + cookies.get('username', { path: process.env.REACT_APP_AUTH })} >Mi Perfil</Nav.Link>
                                 <Nav.Link href="#/logout">Cerrar sesión</Nav.Link>
                             </Nav>
                         }
+
                     </Navbar.Collapse>
                 </Navbar>
             </div>

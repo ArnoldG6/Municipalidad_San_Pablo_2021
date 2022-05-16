@@ -17,7 +17,7 @@ class NavBar extends Component {
                             <Nav.Link href="#/riesgos">Riesgos</Nav.Link>
                         </Nav>
                         <Nav>
-                            <Nav.Link href={process.env.REACT_APP_SIMSP_PROFILE + "?id=" + cookies.get('username', { path: process.env.REACT_APP_AUTH })}>Perfil</Nav.Link>
+                            <Nav.Link href={process.env.REACT_APP_SIMSP_PROFILE + "?id=" + cookies.get('username', { path: process.env.REACT_APP_AUTH })}>Mi Perfil</Nav.Link>
                             <Nav.Link href={process.env.REACT_APP_SIMSP_MENU}>Menú Principal</Nav.Link>
                             <Nav.Link href={process.env.REACT_APP_SIMSP_LOGOUT}>Cerrar sesión</Nav.Link>
                         </Nav>

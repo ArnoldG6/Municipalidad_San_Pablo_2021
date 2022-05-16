@@ -169,9 +169,9 @@ export default class Usuarios extends React.Component {
                                         <Col>
                                             <h1>Lista de usuarios</h1>
                                             <div className="col-md-12 text-center">
-                                                <Button onClick={() => this.openModalAdd(this.state.user)}
-                                                    disabled={(this.checkPermissions("SUPER_ADMIN")) ? true : false} id='btnaAdd' >Agregar Nuevo Usuario</Button>
-                                            </div>
+                                                    <Button onClick={() => this.openModalAdd(this.state.user)}
+                                                        disabled={(this.checkPermissions("USER") && !this.checkOwner()) ? true : false} id='btnEdit' >Agregar nuevo Usuario</Button>
+                                                </div>
                                             <Table>
                                                 <Table border="1" hover responsive="md">
                                                     <tbody>
@@ -179,7 +179,17 @@ export default class Usuarios extends React.Component {
                                                             (this.state.userView === null || typeof this.state.userView === 'undefined') ?
                                                                 <option value={null} key="disabledUsuarios" disabled>Error al cargar los usuarios</option> :
                                                                 this.state.userView.map((usu) => {
-                                                                    return <tr><td><b>Usuario:</b></td><td>{usu.idUser}</td></tr>
+                                                                    return <tr>
+                                                                    <td>
+                                                                        <b>Usuario:</b>
+                                                                    </td>
+                                                                    <td>
+                                                                        {usu.official.name + " " + usu.official.surname}
+                                                                    </td>
+                                                                    <td>
+                                                                        <Button variant="link" href={"#/profile?id=" + usu.idUser}>+ Perfil del Usuario</Button>
+                                                                    </td>
+                                                                </tr>
                                                                 })
                                                         }
                                                     </tbody>

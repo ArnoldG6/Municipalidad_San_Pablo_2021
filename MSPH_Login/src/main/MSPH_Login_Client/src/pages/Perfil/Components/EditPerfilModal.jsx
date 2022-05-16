@@ -15,6 +15,7 @@ class EditPerfilModal extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
         this.checkPermissions = this.checkPermissions.bind(this);
+        this.checkOwner = this.checkOwner.bind(this);
     }
 
     onChange = e => {
@@ -59,6 +60,16 @@ class EditPerfilModal extends Component {
                 }
                 return false;
             })
+        }
+        return perm;
+    }
+
+    checkOwner() {
+        let perm = false;
+        if ((typeof cookies.get('username', { path: process.env.REACT_APP_AUTH }) !== 'undefined') && (this.state.user.username !== null) && (typeof this.state.user.username !== 'undefined')) {
+            if (cookies.get('username', { path: process.env.REACT_APP_AUTH }) === this.state.user.username.toString()) {
+                perm = true;
+            }
         }
         return perm;
     }

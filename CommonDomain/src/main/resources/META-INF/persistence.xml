@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
-            http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-    
-    <persistence-unit name="HibernateJpaPU">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>common.model.Department</class>
-        <class>common.model.Rol</class>
-        <class>common.model.Official</class>
-        <class>common.model.User</class>
-        <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/si_db?useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true"/>
-            <property name="javax.persistence.jdbc.user" value="root"/>
-            <property name="javax.persistence.jdbc.password" value="root"/>
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="hibernate.show_sql" value="false"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-            <property name="hibernate.proc.param_null_passing" value="true"/>
-        </properties>
-    </persistence-unit>
-    
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence              http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="HibernateJpaPU">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>common.model.Department</class>
+    <class>common.model.Rol</class>
+    <class>common.model.Official</class>
+    <class>common.model.User</class>
+    <class>common.model.UserRoles</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/si_db?useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.password" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="hibernate.show_sql" value="false"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+      <property name="hibernate.proc.param_null_passing" value="true"/>
+    </properties>
+  </persistence-unit>
 </persistence>

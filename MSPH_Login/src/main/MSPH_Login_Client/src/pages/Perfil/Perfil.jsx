@@ -145,10 +145,13 @@ export default class Perfil extends React.Component {
                                                     </tbody>
                                                 </Table>
                                             </Table>
-                                            <div className="col-md-12 text-center">
-                                                <Button onClick={() => this.openModalEdit(this.state.user)}
-                                                    disabled={(this.checkPermissions("USER") && this.checkPermissions("ADMIN") && !this.checkOwner()) ? true : false} id='btnEdit' >Editar Perfil</Button>
-                                            </div>
+
+                                            {(this.checkOwner() || this.checkPermissions("SUPER_ADMIN")) ?
+                                                <div className="col-md-12 text-center">
+                                                    <Button onClick={() => this.openModalEdit(this.state.user)} id='btnEdit' >Editar Perfil</Button>
+                                                </div> :
+                                                <div></div>
+                                            }
                                         </Col>
                                     </Row>
                                 </Container>
@@ -178,10 +181,12 @@ export default class Perfil extends React.Component {
                                                     </tbody>
                                                 </Table>
                                             </Table>
-                                            <div className="col-md-12 text-center">
-                                                <Button onClick={() => this.openModalEdit(this.state.user)}
-                                                    disabled={(this.checkPermissions("USER") && this.checkPermissions("ADMIN") && !this.checkOwner()) ? true : false} id='btnEdit' >Editar Perfil</Button>
-                                            </div>
+                                            {(this.checkOwner() || this.checkPermissions("SUPER_ADMIN")) ?
+                                                <div className="col-md-12 text-center">
+                                                    <Button onClick={() => this.openModalEdit(this.state.user)} id='btnEdit' >Editar Perfil</Button>
+                                                </div> :
+                                                <div></div>
+                                            }
                                         </div>
                                 }
 

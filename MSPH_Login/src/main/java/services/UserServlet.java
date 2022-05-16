@@ -139,12 +139,17 @@ public class UserServlet extends HttpServlet {
             Official offi = editUser.getOfficial();
             offi.setName(requestJSON.getString("name"));
             offi.setSurname(requestJSON.getString("surname"));
-            Department depa = DepartmentDAO.getInstance().searchById(requestJSON.getInt("department"));
-            editUser.getOfficial().setDepartment(depa);
+            String rolLog = user.getRoles().get(0).getDescription();
+            if (rolLog.equals("SUPER_ADMIN")) {
+                Department depa = DepartmentDAO.getInstance().searchById(requestJSON.getInt("department"));
+                editUser.getOfficial().setDepartment(depa);
+            }
             OfficialDAO.getInstance().update(offi);
-            editUser.getRoles().clear();
-            Rol role = RolDAO.getInstance().searchById(requestJSON.getInt("role"));
-            editUser.getRoles().add(role);
+            if (rolLog.equals("SUPER_ADMIN")) {
+                editUser.getRoles().clear();
+                Rol role = RolDAO.getInstance().searchById(requestJSON.getInt("role"));
+                editUser.getRoles().add(role);
+            }
             UserDAO.getInstance().update(editUser);
         } else {
             throw new IOException("El usuario no existe.");
@@ -168,18 +173,17 @@ public class UserServlet extends HttpServlet {
             } catch (Exception e) {
             }
             Department depa = DepartmentDAO.getInstance().searchById(requestJSON.getInt("department"));
-
             Official newOffi = new Official(username, requestJSON.getString("name"), requestJSON.getString("surname"), email, depa);
+            OfficialDAO.getInstance().add(newOffi);
 
             Rol rol = RolDAO.getInstance().searchById(requestJSON.getInt("role"));
             List<Rol> roles = new ArrayList();
             roles.add(rol);
 
             String password = requestJSON.getString("password");
-
             User newUser = new User(username, newOffi, email, password, roles);
+            UserDAO.getInstance().add(newUser, password);
 
-            //User newUser = new Gson().fromJson(requestJSON.toString(), User.class);
             StringBuilder sb = new StringBuilder();
             try {
                 sb.append("Username: ").append(newUser.getIdUser());

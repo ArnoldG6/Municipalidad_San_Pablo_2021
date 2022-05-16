@@ -32,14 +32,13 @@ class AddUserModal extends Component {
                 'Content-Type': 'application/json'
             },
             data: {
-
-                "username": this.target.username.value,
-                "email": this.target.email.value,
-                "name": this.target.name.value,
-                "surname": this.target.surname.value,
-                "department": this.target.department.value,
-                "role": this.target.roles.value,
-                "password": this.target.password.value
+                "username": parseInt(event.target.username.value),
+                "email": event.target.email.value,
+                "name": event.target.name.value,
+                "surname": event.target.surname.value,
+                "department": event.target.department.value,
+                "role": event.target.roles.value,
+                "password": event.target.password.value
             }
         }
         axios(options)
@@ -76,8 +75,8 @@ class AddUserModal extends Component {
                 <Modal.Body>
                     <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
                         <div className="form-group">
-                            <label>Username:</label>
-                            <input name="username" id="username" type="number" placeholder="username" min="0" max="999999999" className="form-control" required />
+                            <label>Usuario:</label>
+                            <input name="username" id="username" type="number" placeholder="Usuario" min="0" max="999999999" step="1" className="form-control number-input" required />
                         </div>
 
 

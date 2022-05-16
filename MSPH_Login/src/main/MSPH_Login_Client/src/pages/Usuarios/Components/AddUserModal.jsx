@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../Usuarios.css'
 import { Modal, Button, Form, FormGroup } from "react-bootstrap";
 import Cookies from 'universal-cookie';
+import { sha256 } from 'js-sha256';
 const cookies = new Cookies();
 
 class AddUserModal extends Component {
@@ -38,7 +39,7 @@ class AddUserModal extends Component {
                 "surname": event.target.surname.value,
                 "department": event.target.department.value,
                 "role": event.target.roles.value,
-                "password": event.target.password.value
+                "password": sha256(event.target.password.value)
             }
         }
         axios(options)

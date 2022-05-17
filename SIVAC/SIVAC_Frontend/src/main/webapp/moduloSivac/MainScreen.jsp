@@ -15,7 +15,11 @@
     </head>
     <!--jsp:directive.include file="BossMain.jsp" /-->
     <!--%@include file="BossMain.jsp" %-->
+
     <%
+        common.model.User user = (common.model.User) request.getSession(true).getAttribute("user");
+        request.getSession(true).setAttribute("id", user.getIdUser());
+
         service.Service service = new service.Service();
         String menu;
         try {

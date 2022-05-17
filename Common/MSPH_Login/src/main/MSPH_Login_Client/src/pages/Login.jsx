@@ -61,6 +61,7 @@ export default class Login extends React.Component {
           cookies.set("username", response.data.username, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
           cookies.set("full_name", response.data.full_name, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
           cookies.set("roles", response.data.roles, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
+          //cookies.set("user", response.data.user, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
           this.setState({
             username: '',
             pwd: '',

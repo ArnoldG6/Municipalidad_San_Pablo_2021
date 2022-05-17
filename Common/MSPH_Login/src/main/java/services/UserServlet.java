@@ -152,7 +152,7 @@ public class UserServlet extends HttpServlet {
             }
             try {
                 UserDAO.getInstance().update(editUser);
-                UserDAO.getInstance().recordTransaction(user.getIdUser().toString() , common.dao.generic.Transaction.USER_EDITION, Boolean.TRUE, "User edited:"
+                UserDAO.getInstance().recordTransaction(user.getIdUser().toString(), common.dao.generic.Transaction.USER_EDITION, Boolean.TRUE, "User edited:"
                         + String.valueOf(editUser.getIdUser()));
             } catch (Exception e) {
                 UserDAO.getInstance().recordTransaction(user.getIdUser().toString(), common.dao.generic.Transaction.USER_EDITION, Boolean.FALSE, "User edited:"

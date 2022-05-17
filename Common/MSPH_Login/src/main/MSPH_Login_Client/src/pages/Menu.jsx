@@ -7,7 +7,7 @@ Contact me via: "arnoldgq612@gmail.com".
 import React, { Component } from 'react';
 import Cookies from 'universal-cookie';
 import { Container, Button, Row, Card } from 'react-bootstrap';
-
+import axios from 'axios';
 import '../css/Login.css';
 import NavigationBar from '../components/NavigationBar';
 const cookies = new Cookies();
@@ -17,13 +17,27 @@ export default class Menu extends Component {
     Menu class corresponds to the component that is shown to the user
     if the auth-request was accepted by the server.
     */
+    /*constructor(props){
+        super(props);
+        this.redirectToSIVAC = this.bind.redirectToSIVAC(this);
+    }
+    redirectToSIVAC(){
+        axios.get("http://localhost:8081/home/LoginService", {
+            params: {
+              userID: cookies.get('username', { path: process.env.REACT_APP_AUTH })
+            }
+          })
+          .then(function (response) {
+            ;
+          })
+    }
     componentDidMount() {
         if (!(cookies.get('username', { path: process.env.REACT_APP_AUTH })
             && cookies.get('roles', { path: process.env.REACT_APP_AUTH })
             && cookies.get('full_name', { path: process.env.REACT_APP_AUTH })))
             this.props.history.push('/auth');
     }
-
+*/
     render() {
         return (
             <div>
@@ -47,6 +61,24 @@ export default class Menu extends Component {
                             <Card.Header variant="top" className='vertical-center'><i class="bi bi-pencil menuIcon"></i> </Card.Header>
                             <Button className="btnSFR" >
                                 SIGCD
+                            </Button>
+                        </Card>
+
+                        <Card className='menuCard' onClick={() => { 
+                                    axios.get("http://localhost:8081/home/LoginService", {
+                                        params: {
+                                          userID: cookies.get('username', { path: process.env.REACT_APP_AUTH })
+                                        }
+                                      })
+                                      .then(function (response) {
+                                        ;
+                                      })
+
+                            }}>
+                            <Card.Title>Sistemas de Vacaciones Permisos e Incapacidades</Card.Title>
+                            <Card.Header variant="top" className='vertical-center'><i class="bi bi-pencil menuIcon"></i> </Card.Header>
+                            <Button className="btnSFR" >
+                                SIVAC
                             </Button>
                         </Card>
 

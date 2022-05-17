@@ -38,12 +38,7 @@ public class Model {
         try{
             //this.updateModel();
             //System.out.println(users);
-            Integer uname = Integer.parseInt(username);
-            u = UserDAO.getInstance().idValidation(uname, pwd);
-            if (u != null) return u;
-        }catch(NumberFormatException e){
-            u = UserDAO.getInstance().emailValidation(username, pwd);
-            if (u != null) return u;
+            u =  UserDAO.getInstance().userAuth(username, pwd);
         }catch(Exception e){
             throw e;
         }

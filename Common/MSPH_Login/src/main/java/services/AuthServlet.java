@@ -6,7 +6,6 @@
 package services;
 
 import common.dao.UserDAO;
-import common.dao.generic.Transaction;
 import common.model.User;
 import ex.*;
 import java.io.IOException;
@@ -21,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import jakarta.mail.MessagingException;
+import javax.servlet.http.Cookie;
 import org.json.JSONObject;
 
 @WebServlet(name = "AuthServlet",
@@ -76,6 +76,7 @@ public class AuthServlet extends HttpServlet {
                 responseJSON.put("username", String.valueOf(u.getIdUser()));
                 responseJSON.put("full_name", u.getOfficial().getName() + " " + u.getOfficial().getSurname());
                 responseJSON.put("roles", u.getRoles());
+               // responseJSON.put("user", u.toString());
                 response.getWriter().write(responseJSON.toString());
                 request.getSession(true).setAttribute("user", u);//For other dependencies
                 UserDAO.getInstance().recordTransaction(requestJSON.getString("username"), common.dao.generic.Transaction.AUTHENTICATE, Boolean.TRUE, null);

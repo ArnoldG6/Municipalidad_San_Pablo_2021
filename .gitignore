@@ -40,3 +40,5 @@ CommonDao/target/*
 /Common/CommonDomain/target/
 /Common/MSPH_Login/target/
 /SIVAC/Backend_Muni/target/
+/SIVAC/SIVAC_Frontend/target/
+/SIVAC/LoginMSP/target/

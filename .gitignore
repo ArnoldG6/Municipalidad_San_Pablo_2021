@@ -31,3 +31,14 @@ CommonDao/target/*
 
 *.bak
 /MSPH_Login/target/
+/SFR/SFR/target/
+/SFR/SFRDao/target/
+/SFR/SFRModel/target/
+/SIGCD/Servicio/target/
+/SIGCD/Web/target/
+/Common/CommonDao/target/
+/Common/CommonDomain/target/
+/Common/MSPH_Login/target/
+/SIVAC/Backend_Muni/target/
+/SIVAC/SIVAC_Frontend/target/
+/SIVAC/LoginMSP/target/

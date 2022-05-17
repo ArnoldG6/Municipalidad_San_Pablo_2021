@@ -43,9 +43,9 @@ public class Tests {
 //            UserDAO.getInstance().add(newUser, "admin123");
 //            System.out.print(UserDAO.getInstance().searchById(402510401));
 //            System.out.print(UserDAO.getInstance().searchById(402510401));
-//            User usu = UserDAO.getInstance().searchById(402510401);
+//            User usu = UserDAO.getInstance().searchById(123123123);
 //            Rol roles = RolDAO.getInstance().searchById(2);
-//            UserRoles aux = new UserRoles(10, usu, roles);
+//            UserRoles aux = new UserRoles(42, usu, roles);
 //            UserRolesDAO.getInstance().add(aux);
         } catch (Exception ex) {
             Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);

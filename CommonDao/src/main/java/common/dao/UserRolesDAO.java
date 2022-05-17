@@ -29,7 +29,7 @@ public class UserRolesDAO extends GenericDAO {
             StoredProcedureQuery proc = getEntityManager().createStoredProcedureQuery("insertUser_roles");
             proc.registerStoredProcedureParameter("P_IN_PK_USER_ROL", Integer.class, ParameterMode.IN);
             proc.registerStoredProcedureParameter("P_IN_FK_USER", Integer.class, ParameterMode.IN);
-            proc.registerStoredProcedureParameter("P_IN_FK_ROL", String.class, ParameterMode.IN);
+            proc.registerStoredProcedureParameter("P_IN_FK_ROL", Integer.class, ParameterMode.IN);
             proc.setParameter("P_IN_PK_USER_ROL", usurol.getId());
             proc.setParameter("P_IN_FK_USER", usurol.getUser().getIdUser());
             proc.setParameter("P_IN_FK_ROL", usurol.getRol().getIdRol());

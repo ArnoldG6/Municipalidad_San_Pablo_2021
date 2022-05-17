@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../Usuarios.css'
 import { Modal, Button, Form, FormGroup } from "react-bootstrap";
+import {toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
 import { sha256 } from 'js-sha256';
 const cookies = new Cookies();
@@ -47,8 +49,34 @@ class AddUserModal extends Component {
                 this.props.refreshPage();
                 this.props.closeModal();
             }).catch(error => {
-                console.log(error);
-            });
+                var msj = "";
+                if (error.response) {
+                    //Server responded with an error
+                    switch (error.response.status) {
+                        case 400:
+                            msj = "El nombre de usuario o el email ya se encuentran registrados en el sistema.";
+                            break;
+                        case 500:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                        default:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                    }
+                } else if (error.request) {
+                    //Server did not respond
+                    msj = "Hubo un error con la conexión al servidor."
+                } else {
+                    //Something else went wrong
+                    msj = "Error desconocido."
+                }
+                toast.error(msj, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
+            })
     }
 
     checkPermissions(toCheck) {

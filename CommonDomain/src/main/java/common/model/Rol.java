@@ -13,12 +13,12 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "SI_ROLES")
 public class Rol implements Serializable {
 
-    public Rol(int idRol, String description) {
+    public Rol(Integer idRol, String description) {
         this.idRol = idRol;
         this.description = description;
     }
 
-    public Rol(int idRol) {
+    public Rol(Integer idRol) {
         this.idRol = idRol;
     }
 
@@ -29,14 +29,14 @@ public class Rol implements Serializable {
     /**
      * @return the idRol
      */
-    public int getIdRol() {
+    public Integer getIdRol() {
         return idRol;
     }
 
     /**
      * @param idRol the idRol to set
      */
-    public void setIdRol(int idRol) {
+    public void setIdRol(Integer idRol) {
         this.idRol = idRol;
     }
 
@@ -58,7 +58,7 @@ public class Rol implements Serializable {
     @Column(name = "PK_ROL")
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    private int idRol;
+    private Integer idRol;
     @Column(name = "description")
     private String description;
     @Override

@@ -15,10 +15,12 @@ import common.dao.EmailFactory;
 import common.dao.OfficialDAO;
 import common.dao.RolDAO;
 import common.dao.UserDAO;
+import common.dao.UserRolesDAO;
 import common.model.Department;
 import common.model.Official;
 import common.model.Rol;
 import common.model.User;
+import common.model.UserRoles;
 import ex.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -106,7 +108,7 @@ public class UserServlet extends HttpServlet {
             JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
             User u = UserDAO.getInstance().searchById(requestJSON.getInt("username"));
             if (u == null) {
-                throw new AuthException();
+                throw new NullPointerException("El usuario no se encuentra registrado en la base de datos.");
             }
             responseJSON.put("username", String.valueOf(u.getIdUser()));
             responseJSON.put("name", u.getOfficial().getName());
@@ -116,6 +118,8 @@ public class UserServlet extends HttpServlet {
             responseJSON.put("department", u.getOfficial().getDepartment().getDescription());
             response.getWriter().write(responseJSON.toString());
 
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
         } catch (Exception e) {
             response.sendError(500, e.getMessage());
         } finally {
@@ -125,96 +129,108 @@ public class UserServlet extends HttpServlet {
 
     }
 
-        private void editUser(HttpServletRequest request, HttpServletResponse response)
+    private void editUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
+        try {
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            System.out.print(requestJSON.getInt("usuarioLogeado"));
+            User user = UserDAO.getInstance().searchById(requestJSON.getInt("usuarioLogeado"));
+            User editUser = UserDAO.getInstance().searchByEmail(requestJSON.getString("emailOriginal"));
+            if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !(user.getIdUser() == editUser.getIdUser()))) {
+                throw new IllegalAccessError("Este usuario no cuenta con los permisos para realizar esta acción.");
+            }
+            if (editUser != null) {
+                Official offi = editUser.getOfficial();
+                offi.setName(requestJSON.getString("name"));
+                offi.setSurname(requestJSON.getString("surname"));
+                String rolLog = user.getRoles().get(0).getDescription();
+                if (rolLog.equals("SUPER_ADMIN")) {
+                    Department depa = DepartmentDAO.getInstance().searchById(requestJSON.getInt("department"));
+                    editUser.getOfficial().setDepartment(depa);
+                }
+                OfficialDAO.getInstance().update(offi);
+                if (rolLog.equals("SUPER_ADMIN")) {
+                    editUser.getRoles().clear();
+                    Rol role = RolDAO.getInstance().searchById(requestJSON.getInt("role"));
+                    editUser.getRoles().add(role);
+                }
+                try {
+                    UserDAO.getInstance().update(editUser);
+                    UserDAO.getInstance().recordTransaction(user.getIdUser().toString(), common.dao.generic.Transaction.USER_EDITION, Boolean.TRUE, "User edited:"
+                            + String.valueOf(editUser.getIdUser()));
+                } catch (Exception e) {
+                    UserDAO.getInstance().recordTransaction(user.getIdUser().toString(), common.dao.generic.Transaction.USER_EDITION, Boolean.FALSE, "User edited:"
+                            + String.valueOf(editUser.getIdUser()));
+                    throw e;
+                }
 
-        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        System.out.print(requestJSON.getInt("usuarioLogeado"));
-        User user = UserDAO.getInstance().searchById(requestJSON.getInt("usuarioLogeado"));
-        User editUser = UserDAO.getInstance().searchByEmail(requestJSON.getString("emailOriginal"));
-        if ((!user.hasRol("SUPER_ADMIN") && !user.hasRol("ADMIN") && !(user.getIdUser() == editUser.getIdUser()))) {
-            throw new IOException();
-        }
-        if (editUser != null) {
-            Official offi = editUser.getOfficial();
-            offi.setName(requestJSON.getString("name"));
-            offi.setSurname(requestJSON.getString("surname"));
-            String rolLog = user.getRoles().get(0).getDescription();
-            if (rolLog.equals("SUPER_ADMIN")) {
-                Department depa = DepartmentDAO.getInstance().searchById(requestJSON.getInt("department"));
-                editUser.getOfficial().setDepartment(depa);
+            } else {
+                throw new IOException("El usuario no existe.");
             }
-            OfficialDAO.getInstance().update(offi);
-            if (rolLog.equals("SUPER_ADMIN")) {
-                editUser.getRoles().clear();
-                Rol role = RolDAO.getInstance().searchById(requestJSON.getInt("role"));
-                editUser.getRoles().add(role);
-            }
-            try {
-                UserDAO.getInstance().update(editUser);
-                UserDAO.getInstance().recordTransaction(user.getIdUser().toString(), common.dao.generic.Transaction.USER_EDITION, Boolean.TRUE, "User edited:"
-                        + String.valueOf(editUser.getIdUser()));
-            } catch (Exception e) {
-                UserDAO.getInstance().recordTransaction(user.getIdUser().toString(), common.dao.generic.Transaction.USER_EDITION, Boolean.FALSE, "User edited:"
-                        + String.valueOf(editUser.getIdUser()));
-                throw e;
-            }
-
-        } else {
-            throw new IOException("El usuario no existe.");
+        } catch (IllegalAccessError e) {
+            response.sendError(401, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
     }
 
-
     private void addUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
+        try {
 
-        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        int username = requestJSON.getInt("username");
+            JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+            int username = requestJSON.getInt("username");
 
-        if (UserDAO.getInstance().searchById(username) != null) {
-            throw new IOException("El usuario ya existe.");
-        } else {
-            String email = requestJSON.getString("email");
-            try {
-                if (UserDAO.getInstance().searchByEmail(email) != null) {
-                    throw new IOException("El email ya existe.");
+            if (UserDAO.getInstance().searchById(username) != null) {
+                throw new IOException("El usuario ya existe.");
+            } else {
+                String email = requestJSON.getString("email");
+                try {
+                    if (UserDAO.getInstance().searchByEmail(email) != null) {
+                        throw new IOException("El email ya existe.");
+                    }
+                } catch (Exception e) {
                 }
-            } catch (Exception e) {
-            }
-            Department depa = DepartmentDAO.getInstance().searchById(requestJSON.getInt("department"));
-            Official newOffi = new Official(username, requestJSON.getString("name"), requestJSON.getString("surname"), email, depa);
-            OfficialDAO.getInstance().add(newOffi);
-
-            Rol rol = RolDAO.getInstance().searchById(requestJSON.getInt("role"));
-            List<Rol> roles = new ArrayList();
-            roles.add(rol);
-
-            String password = requestJSON.getString("password");
-            User newUser = new User(username, newOffi, email, password, roles);
-            UserDAO.getInstance().add(newUser, password);
-
-            StringBuilder sb = new StringBuilder();
-            try {
-                sb.append("Username: ").append(newUser.getIdUser());
-                sb.append("Name: ").append(newUser.getOfficial().getName() + " " + newUser.getOfficial().getSurname());
-                sb.append("Email: ").append(newUser.getOfficial().getEmail());
-                sb.append("Roles: [");
-                for (Rol r : newUser.getRoles()) {
-                    sb.append(r.getIdRol() + ",");
-                }
-                sb.append("]");
+                Department depa = DepartmentDAO.getInstance().searchById(requestJSON.getInt("department"));
+                Official newOffi = new Official(username, requestJSON.getString("name"), requestJSON.getString("surname"), email, depa);
                 OfficialDAO.getInstance().add(newOffi);
+
+                Rol rol = RolDAO.getInstance().searchById(requestJSON.getInt("role"));
+                List<Rol> roles = new ArrayList();
+                roles.add(rol);
+
+                String password = requestJSON.getString("password");
+                User newUser = new User(username, newOffi, email, password, roles);
                 UserDAO.getInstance().add(newUser, password);
-                UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), common.dao.generic.Transaction.USER_CREATION, Boolean.TRUE, sb.toString());
-                EmailFactory.getInstance().sendAddUser(newUser);
-            } catch (Exception e) {
-                UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), common.dao.generic.Transaction.USER_CREATION, Boolean.FALSE, sb.toString());
-                throw e;
+                UserRoles usurol = new UserRoles(newUser.getIdUser(), newUser, rol);
+                UserRolesDAO.getInstance().add(usurol);
+
+                StringBuilder sb = new StringBuilder();
+                try {
+                    sb.append("Username: ").append(newUser.getIdUser());
+                    sb.append("Name: ").append(newUser.getOfficial().getName() + " " + newUser.getOfficial().getSurname());
+                    sb.append("Email: ").append(newUser.getOfficial().getEmail());
+                    sb.append("Roles: [");
+                    for (Rol r : newUser.getRoles()) {
+                        sb.append(r.getIdRol() + ",");
+                    }
+                    sb.append("]");
+                    OfficialDAO.getInstance().add(newOffi);
+                    UserDAO.getInstance().add(newUser, password);
+                    UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), common.dao.generic.Transaction.USER_CREATION, Boolean.TRUE, sb.toString());
+                    EmailFactory.getInstance().sendAddUser(newUser);
+                } catch (Exception e) {
+                    UserDAO.getInstance().recordTransaction(requestJSON.getString("userEmail"), common.dao.generic.Transaction.USER_CREATION, Boolean.FALSE, sb.toString());
+                    throw e;
+                }
+
             }
 
+        } catch (IOException e) {
+            response.sendError(400, e.getMessage());
+        } catch (Exception e) {
+            response.sendError(500, e.getMessage());
         }
-
     }
 
     private void getDepartments(HttpServletRequest request, HttpServletResponse response)
@@ -228,6 +244,8 @@ public class UserServlet extends HttpServlet {
                 throw new NullPointerException("Hubo un error cargando los departamentos.");
             }
             response.getWriter().write(responseJSON);
+        } catch (NullPointerException e) {
+            response.sendError(400, e.getMessage());
         } catch (Exception e) {
             response.sendError(500, e.getMessage());
         } finally {

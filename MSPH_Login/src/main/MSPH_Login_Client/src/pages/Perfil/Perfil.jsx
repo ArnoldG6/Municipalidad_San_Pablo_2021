@@ -74,10 +74,30 @@ export default class Perfil extends React.Component {
                 this.setState({
                     departmentMap: response.data
                 }, () => {
-
+                    this.handleUserRender();
                 });
             }).catch(error => {
-                toast.error("Error recuperando los departamentos", {
+                var msj = ""
+                if (error.response) {
+                    switch (error.response.status) {
+                        case 400:
+                            msj = "Hubo un problema cargando los departamentos.";
+                            break;
+                        case 500:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                        default:
+                            msj = "El servidor ha encontrado un error desconocido.";
+                            break;
+                    }
+                } else if (error.request) {
+                    //Server did not respond
+                    msj = "Hubo un error con la conexión al servidor."
+                } else {
+                    //Something else went wrong
+                    msj = "Error desconocido."
+                }
+                toast.error(msj, {
                     position: toast.POSITION.TOP_RIGHT,
                     pauseOnHover: true,
                     theme: 'colored',

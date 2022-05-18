@@ -242,7 +242,7 @@ export default class Usuarios extends React.Component {
                                                 <Table hover responsive="md">
                                                     <tbody>
                                                         {
-                                                            (this.state.usuarios === null || typeof this.state.usuarios === 'undefined') ?
+                                                            (this.state.userView === null || typeof this.state.usuarios === 'undefined') ?
                                                                 <option value={null} key="disabledUsuarios" disabled>Error al cargar los usuarios</option> :
                                                                 this.state.usuarios.map((usu) => {
                                                                     return <tr>

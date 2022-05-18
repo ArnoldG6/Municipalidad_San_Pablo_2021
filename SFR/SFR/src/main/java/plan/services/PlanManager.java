@@ -445,10 +445,10 @@ public class PlanManager extends HttpServlet {
                 PlanDAO.getInstance().update(plan);
                 //EmailFactoryNotification.getInstance().sendAddIncidencePlan(user, plan, newIncidence);
                 PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_INCIDENCE_TO_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId() + " INCIDENCE_ID:"
-                        + String.valueOf(newIncidence.getPkID()));
+                        + String.valueOf(newIncidence.getName()));
             } catch (Exception e) {
                 PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_INCIDENCE_TO_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId() + " INCIDENCE_ID:"
-                        + String.valueOf(newIncidence.getPkID()));
+                        + String.valueOf(newIncidence.getName()));
                 throw e;
             }
 

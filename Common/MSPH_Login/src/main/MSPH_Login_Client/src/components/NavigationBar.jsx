@@ -42,7 +42,7 @@ export default class NavigationBar extends Component {
                             <Nav>
                                 {
                                     (perm) ?
-                                        <Nav.Link href="#/users">Agregar Usuario</Nav.Link> :
+                                        <Nav.Link href="#/users">Manejar Usuarios</Nav.Link> :
                                         <div></div>
                                 }
                                 <Nav.Link href={"#/profile?id=" + cookies.get('username', { path: process.env.REACT_APP_AUTH })} >Mi Perfil</Nav.Link>

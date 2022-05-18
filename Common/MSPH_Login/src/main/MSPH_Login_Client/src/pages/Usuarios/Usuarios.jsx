@@ -237,7 +237,11 @@ export default class Usuarios extends React.Component {
                                                 <Table  responsive="sm">
                                                     <tbody>
                                                         {
+
                                                             (this.state.userView === null || typeof this.state.userView === 'undefined') ?
+
+                                                           
+
                                                                 <option value={null} key="disabledUsuarios" disabled>Error al cargar los usuarios</option> :
                                                                 this.state.userView.map((usu) => {
                                                                     return <tr>

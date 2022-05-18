@@ -219,7 +219,7 @@ public class UserServlet extends HttpServlet {
                     UserDAO.getInstance().add(newUser, password);
                     UserRolesDAO.getInstance().add(usurol);
                     UserDAO.getInstance().recordTransaction(requestJSON.getString("email"), common.dao.generic.Transaction.USER_CREATION, Boolean.TRUE, sb.toString());
-                    EmailFactory.getInstance().sendAddUser(newUser);
+                    //EmailFactory.getInstance().sendAddUser(newUser);
                 } catch (Exception e) {
                     UserDAO.getInstance().recordTransaction(requestJSON.getString("email"), common.dao.generic.Transaction.USER_CREATION, Boolean.FALSE, sb.toString());
                     throw e;

@@ -24,6 +24,19 @@ class AddRiskModal extends Component {
         this.setValidated = this.setValidated.bind(this);
         this.getID = this.getID.bind(this);
         this.getConsequence = this.getConsequence.bind(this);
+        this.onChangeConsequence = this.onChangeConsequence.bind(this);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.typesMap !== prevProps.typesMap) {
+            this.setState({ defaultConsequence: this.getConsequence(this.state.areaType, this.state.specificType) })
+        }
+        /*
+        if ((this.state.generalType !== prevState.generalType) || (this.state.areaType !== prevState.areaType) || (this.state.specificType !== prevState.specificType)) {
+            console.log("should change")
+            this.setState({ defaultConsequence: this.getConsequence(this.state.areaType, this.state.specificType) })
+        }
+        */
     }
 
     handleSubmit = (event) => {
@@ -35,7 +48,6 @@ class AddRiskModal extends Component {
         else {
             event.preventDefault();
             let id = this.getID(this.state.generalType, this.state.areaType, event.target.areaSpecifictype.value);
-            let consequence = this.getConsequence(this.state.areaType, event.target.areaSpecifictype.value);
             let options = {
                 url: process.env.REACT_APP_SFR_API_URL + `/RiskManager/Insert`,
                 method: 'POST',
@@ -54,7 +66,7 @@ class AddRiskModal extends Component {
                     'description': event.target.description.value,
                     'factors': event.target.factor.value,
                     'mitigationMeasures': event.target.mitigationMeasures.value,
-                    'consequences': consequence,
+                    'consequences': event.target.consequences.value,
                     'userID': cookies.get('username', { path: process.env.REACT_APP_AUTH })
                 }
             }
@@ -128,28 +140,44 @@ class AddRiskModal extends Component {
 
     getConsequence(areaType, areaSpecificType) {
         let consequence = "";
-        this.props.typesMap.get(areaType).map((tipo) => {
-            if (tipo.name === areaSpecificType) {
-                consequence = tipo.consequence;
-            }
-            return tipo.consequence;
-        })
+        if (this.props.typesMap !== null && typeof this.props.typesMap !== 'undefined' && typeof this.props.typesMap.get(areaType) !== 'undefined') {
+            this.props.typesMap.get(areaType).map((tipo) => {
+                if (tipo.name === areaSpecificType) {
+                    consequence = tipo.consequence;
+                }
+                return tipo.consequence;
+            })
+        }
         return consequence;
     }
 
     onChange = e => {
         this.setState({
             generalType: e.target.value,
-            areaType: e.target.value === "Externo" ? "Político" : "Estratégicos"
+            areaType: e.target.value === "Externo" ? "Político" : "Estratégicos",
+            specificType: e.target.value === "Externo" ? "Cambios de gobierno de la República" : "Planificación Estratégica de la Municipalidad"
+        }, () => {
+            this.setState({ defaultConsequence: this.getConsequence(this.state.areaType, this.state.specificType) })
         })
     }
 
     handleAreaType = e => {
-        this.setState({ areaType: e.target.value })
+        console.log(this.props.typesMap.get(e.target.value)[0])
+        this.setState({ areaType: e.target.value, specificType: this.props.typesMap.get(e.target.value)[0].name }, () => {
+            this.setState({ defaultConsequence: this.getConsequence(this.state.areaType, this.state.specificType) })
+        })
     }
 
     handleAreaSpecificType = e => {
-        this.setState({ specificType: e.target.value })
+        this.setState({ specificType: e.target.value }, () => {
+            this.setState({ defaultConsequence: this.getConsequence(this.state.areaType, this.state.specificType) })
+        })
+    }
+
+    onChangeConsequence(event) {
+        this.setState({
+            defaultConsequence: event.target.value
+        })
     }
 
     render() {
@@ -323,7 +351,22 @@ class AddRiskModal extends Component {
                         </div>
                         <Form.Group>
                             <div className="form-group">
-                                <Form.Label>Descripción del riesgo:</Form.Label>
+                                <Stack direction="horizontal" gap={3}>
+                                    <label>Descripción del riesgo: </label>
+                                    <OverlayTrigger
+                                        delay={{ hide: 450, show: 300 }}
+                                        overlay={(props) => (
+                                            <Tooltip {...props}>
+                                                {process.env.REACT_APP_RIESGOS_HELP_DESC}
+                                            </Tooltip>
+                                        )}
+                                        placement="bottom"
+                                    >
+                                        <h5 className='ms-auto mt-1'>
+                                            <i className="bi bi-info-circle"></i>
+                                        </h5>
+                                    </OverlayTrigger>
+                                </Stack>
                                 <textarea name="description" id="description" placeholder='Descripcion breve del riesgo.' type="text" className="form-control" required />
                                 <Form.Control.Feedback type="invalid">
                                     Por favor ingresar tipo específico.
@@ -369,6 +412,29 @@ class AddRiskModal extends Component {
 
                             <textarea name="mitigationMeasures" id="mitigationMeasures" type="text" placeholder="Medidas necesarias para mitigar el riesgo." className="form-control" required />
                         </div>
+
+                        <div className="form-group">
+                            <Stack direction="horizontal" gap={3}>
+                                <label>Consecuencias:</label>
+                                <OverlayTrigger
+                                    delay={{ hide: 450, show: 300 }}
+                                    overlay={(props) => (
+                                        <Tooltip {...props}>
+                                            {process.env.REACT_APP_RIESGOS_HELP_CONSECUENCIAS}
+                                        </Tooltip>
+                                    )}
+                                    placement="bottom"
+                                >
+                                    <h5 className='ms-auto mt-1'>
+                                        <i className="bi bi-info-circle"></i>
+                                    </h5>
+                                </OverlayTrigger>
+                            </Stack>
+                            <textarea name="consequences" id="consequences" type="text" placeholder="Consecuencias de este riesgo."
+                                onChange={(event) => this.onChangeConsequence(event)}
+                                value={this.state.defaultConsequence} className="form-control" />
+                        </div>
+
                         <div className='text-center'>
                             <Button className='btn-sfr' type="submit" >
                                 Guardar

@@ -265,7 +265,22 @@ class EditRiskModal extends Component {
 
                             <Form.Group>
                                 <div className="form-group">
-                                    <Form.Label>Descripción de tipo específico:</Form.Label>
+                                    <Stack direction="horizontal" gap={3}>
+                                        <label>Descripción del riesgo: </label>
+                                        <OverlayTrigger
+                                            delay={{ hide: 450, show: 300 }}
+                                            overlay={(props) => (
+                                                <Tooltip {...props}>
+                                                    {process.env.REACT_APP_RIESGOS_HELP_DESC}
+                                                </Tooltip>
+                                            )}
+                                            placement="bottom"
+                                        >
+                                            <h5 className='ms-auto mt-1'>
+                                                <i className="bi bi-info-circle"></i>
+                                            </h5>
+                                        </OverlayTrigger>
+                                    </Stack>
                                     <textarea name="description" id="description" type="text" defaultValue={risk.description} className="form-control" required />
                                     <Form.Control.Feedback type="invalid">
                                         Por favor ingresar tipo específico.

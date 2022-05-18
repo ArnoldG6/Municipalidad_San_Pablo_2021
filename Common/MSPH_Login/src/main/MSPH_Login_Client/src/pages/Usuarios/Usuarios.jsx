@@ -187,9 +187,9 @@ export default class Usuarios extends React.Component {
                                 <Container fluid>
                                     <Row>
                                         <Col>
-                                            <h1>Lista de usuarios</h1>
+                                            <h1 className='title'>Lista de usuarios</h1>
                                             <div className="col-md-12 text-center">
-                                                    <Button onClick={() => this.openModalAdd(this.state.user)}
+                                                    <Button className='btnSFR'  onClick={() => this.openModalAdd(this.state.user)}
                                                         disabled={(this.checkPermissions("USER") && !this.checkOwner()) ? true : false} id='btnEdit' >Agregar nuevo Usuario</Button>
                                                 </div>
                                             <Table>
@@ -200,14 +200,9 @@ export default class Usuarios extends React.Component {
                                                                 <option value={null} key="disabledUsuarios" disabled>Error al cargar los usuarios</option> :
                                                                 this.state.userView.map((usu) => {
                                                                     return <tr>
+                                                                  
                                                                     <td>
-                                                                        <b>Usuario:</b>
-                                                                    </td>
-                                                                    <td>
-                                                                        {usu.official.name + " " + usu.official.surname}
-                                                                    </td>
-                                                                    <td>
-                                                                        <Button variant="link" href={"#/profile?id=" + usu.idUser}>+ Perfil del Usuario</Button>
+                                                                        <Button variant="link" href={"#/profile?id=" + usu.idUser}> {usu.official.name + " " + usu.official.surname}</Button>
                                                                     </td>
                                                                 </tr>
                                                                 })
@@ -236,25 +231,23 @@ export default class Usuarios extends React.Component {
                                                 <br />
                                                 <h2 id='titulo'>Lista de Usuarios</h2>
                                                 <div className="col-md-12 text-center">
-                                                    <Button onClick={() => this.openModalAdd(this.state.user)}
+                                                    <Button className='btnSFR' onClick={() => this.openModalAdd(this.state.user)}
                                                         disabled={(this.checkPermissions("USER") && !this.checkOwner()) ? true : false} id='btnEdit' >Agregar nuevo Usuario</Button>
                                                 </div>
-                                                <Table hover responsive="md">
+                                                <Table  responsive="sm">
                                                     <tbody>
                                                         {
-                                                            (this.state.usuarios === null || typeof this.state.usuarios === 'undefined') ?
+                                                            (this.state.userView === null || typeof this.state.userView === 'undefined') ?
                                                                 <option value={null} key="disabledUsuarios" disabled>Error al cargar los usuarios</option> :
-                                                                this.state.usuarios.map((usu) => {
+                                                                this.state.userView.map((usu) => {
                                                                     return <tr>
-                                                                        <td>
-                                                                            <b>Usuario:</b>
-                                                                        </td>
-                                                                        <td>
-                                                                            {usu.official.name + " " + usu.official.surname}
-                                                                        </td>
-                                                                        <td>
-                                                                            <Button variant="link" href={"#/profile?id=" + usu.idUser}>+ Perfil del Usuario</Button>
-                                                                        </td>
+                                                                       <td>
+                                                                        <Button variant="link" href={"#/profile?id=" + usu.idUser}> {usu.official.name + " " + usu.official.surname}</Button>
+                                                                    </td>
+                                                                    <td>
+                                                                        {usu.idUser}
+
+                                                                    </td>
                                                                     </tr>
                                                                 })
                                                         }

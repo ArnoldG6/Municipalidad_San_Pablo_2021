@@ -74,7 +74,7 @@ export default class Perfil extends React.Component {
                 this.setState({
                     departmentMap: response.data
                 }, () => {
-                    this.handleUserRender();
+                    //this.handleUserRender();
                 });
             }).catch(error => {
                 var msj = ""

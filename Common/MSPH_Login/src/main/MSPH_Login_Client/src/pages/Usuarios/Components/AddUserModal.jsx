@@ -104,24 +104,24 @@ class AddUserModal extends Component {
                 <Modal.Body>
                     <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
                         <div className="form-group">
-                            <label>Usuario:</label>
-                            <input name="username" id="username" type="number" placeholder="Usuario" min="0" max="999999999" step="1" className="form-control number-input" required />
+                            <label>Cedula:</label>
+                            <input name="username" id="username" type="number" placeholder="Cedula del Usuario" min="0" max="999999999" step="1" className="form-control number-input" required />
                         </div>
 
 
                         <div className="form-group">
                             <label>Email:</label>
-                            <input name="email" id="email" type="text" placeholder="email" className="form-control" required />
+                            <input name="email" id="email" type="text" placeholder="Email del Usuario" className="form-control" required />
                         </div>
 
                         <div className="form-group">
                             <label>Nombre:</label>
-                            <input name="name" id="name" type="text" placeholder="name" className="form-control" required />
+                            <input name="name" id="name" type="text" placeholder="Nombre del Usuario" className="form-control" required />
                         </div>
 
                         <div className="form-group">
                             <label>Apellido:</label>
-                            <input name="surname" id="surname" type="text" className="form-control" placeholder="Apellido" required />
+                            <input name="surname" id="surname" type="text" className="form-control" placeholder="Apellido del Usuario" required />
                         </div>
 
                         <FormGroup>
@@ -150,7 +150,7 @@ class AddUserModal extends Component {
 
                         <div className="form-group">
                             <label>Contraseña:</label>
-                            <input name="password" id="password" type="text" placeholder="password" className="form-control" required />
+                            <input name="password" id="password" type="password" placeholder="Contraseña para el Usuario" className="form-control" required />
                         </div>
 
                         <Button className='btn-perfil' type="submit" id="submit-button-new-item">

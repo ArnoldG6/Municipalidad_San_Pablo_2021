@@ -198,7 +198,7 @@ public class PlanManager extends HttpServlet {
             try {
                 PlanDAO.getInstance().update(editPlan);
                 PlanDAO.getInstance().recordTransaction(user, Transaction.EDIT_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId());
-                //EmailFactoryNotification.getInstance().sendAllEditPlan(user, editPlan);
+                EmailFactoryNotification.getInstance().sendAllEditPlan(user, editPlan);
             } catch (Exception e) {
                 PlanDAO.getInstance().recordTransaction(user, Transaction.EDIT_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId());
                 throw e;
@@ -443,7 +443,7 @@ public class PlanManager extends HttpServlet {
                 newIncidence.setEntryDate(d);
                 plan.addIncidence(newIncidence);
                 PlanDAO.getInstance().update(plan);
-                //EmailFactoryNotification.getInstance().sendAddIncidencePlan(user, plan, newIncidence);
+                EmailFactoryNotification.getInstance().sendAddIncidencePlan(user, plan, newIncidence);
                 PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_INCIDENCE_TO_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId() + " INCIDENCE_ID:"
                         + String.valueOf(newIncidence.getPkID()));
             } catch (Exception e) {
@@ -484,7 +484,7 @@ public class PlanManager extends HttpServlet {
             try {
                 plan.addComment(c);
                 PlanDAO.getInstance().update(plan);
-                //EmailFactoryNotification.getInstance().sendAllCommentPlan(user, plan, c);
+                EmailFactoryNotification.getInstance().sendAllCommentPlan(user, plan, c);
                 PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_COMMENT_TO_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId() + " COMMENT_ID:"
                         + String.valueOf(c.getPkID()));
             } catch (Exception e) {
@@ -580,7 +580,7 @@ public class PlanManager extends HttpServlet {
                     User u = UserDAO.getInstance().searchById((Integer) involvedIdJSONArray.get(i));
                     if (u != null) {
                         plan.addInvolucrado(u);
-                        //EmailFactoryNotification.getInstance().sendAddInvolvedPlan(u, plan);
+                        EmailFactoryNotification.getInstance().sendAddInvolvedPlan(u, plan);
                     }
                 }
                 PlanDAO.getInstance().update(plan);

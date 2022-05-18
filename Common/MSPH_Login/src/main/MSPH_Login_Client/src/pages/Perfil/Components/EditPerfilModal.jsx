@@ -45,6 +45,12 @@ class EditPerfilModal extends Component {
         }
         axios(options)
             .then(response => {
+                toast.success("El usuario ha sido editado con exito.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
                 this.props.refreshPage();
                 this.props.closeModal();
             })

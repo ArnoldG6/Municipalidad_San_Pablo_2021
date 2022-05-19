@@ -120,13 +120,19 @@ and open the template in the editor.
                                     <div>
                                         <br>
                                         <label for="distrito">Distrito<b style="color: #dc3545;">*</b></label>
-                                        <input type="text" name="distrito" class="form-control" id="distritoInput" required>
+                                        <select class="form-select" id="options" required>
+                                            <option value="" disabled selected>Seleccione su distrito</option>
+                                            <option value="San Pablo">San Pablo</option>
+                                            <option value="Rincon Sabanilla">Rincon Sabanilla</option>
+                                        </select>
                                         <div class="invalid-feedback">Este campo es requerido</div>
                                     </div>
                                     <div>
                                         <br>
-                                        <label for="barrio">Barrio<b style="color: #dc3545;">*</b></label>
-                                        <input type="text" name="barrio" class="form-control" id="barrioInput" required>
+                                        <label for="barrio">Barrio<b style="color: #dc3545;">*</b></label>                                     
+                                        <select class="form-select" id="choices" required>
+                                            <option value="" disabled selected>Seleccione su barrio</option>
+                                        </select>
                                         <div class="invalid-feedback">Este campo es requerido</div>
                                     </div>
                                     <div>

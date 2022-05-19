@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "solicitud", urlPatterns = {
     "/API/solicitud/ayuda_temporal",
     "/API/solicitud/beca_academica",
+    "/API/solicitud/ayuda_temporal/actualizar",
+    "/API/solicitud/beca_academica/actualizar",
     "/API/solicitud/consultar-estado-solicitud",
     "/API/solicitud/consultar_cedula",
     "/API/solicitud/select_all_ayudas_temporales",
@@ -39,8 +41,8 @@ public class Servidor extends HttpServlet {
 
     /**
      * Processes requests for <code>GET</code>, <code>POST</code>
-     * ,<code>OPTIONS</code>, <code>PUT</code>, <code>DELETE</code> HTTP
-     * methods.
+     * ,<code>OPTIONS</code>, <code>PUT</code>, <code>DELETE</code>,
+     * <code>UPDATE</code> HTTP methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -53,13 +55,19 @@ public class Servidor extends HttpServlet {
             response.addHeader("Access-Control-Allow-Origin", "*");
             response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
             response.addHeader("Access-Control-Allow-Credentials", "true");
-            response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
+            response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD,UPDATE");
             switch (request.getServletPath()) {
                 case "/API/solicitud/ayuda_temporal":
                     crearSolicitudAyudaTemporal(request, response);
                     break;
                 case "/API/solicitud/beca_academica":
                     crearSolicitudBecaAcademica(request, response);
+                    break;
+                case "/API/solicitud/ayuda_temporal/actualizar":
+                    actualizarSolicitudAyudaTemporal(request, response);
+                    break;
+                case "/API/solicitud/beca_academica/actualizar":
+                    actualizarSolicitudBecaAcademica(request, response);
                     break;
                 case "/API/solicitud/consultar-estado-solicitud":
                     consultarEstadoSolicitud(request, response);
@@ -113,7 +121,6 @@ public class Servidor extends HttpServlet {
             Modelo.getInstancia().createSolicitante(s);
             at.getAyudaTemporal().setIdSolicitante(Modelo.getInstancia().getLastSolicitanteId());
         }
-        Modelo.getInstancia().createDireccion(at.getDireccion());
         at.getAyudaTemporal().setIdDireccion(Modelo.getInstancia().getLastDireccionId());
         Modelo.getInstancia().createAyudaTemporal(at.getAyudaTemporal());
         response.setContentType("application/json");
@@ -145,6 +152,30 @@ public class Servidor extends HttpServlet {
         }
         ba.getBecaAcademica().setIdDireccion(Modelo.getInstancia().getLastDireccionId());
         Modelo.getInstancia().createBecaAcademica(ba.getBecaAcademica());
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
+
+    private void actualizarSolicitudAyudaTemporal(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String requestJSON = request.getReader().lines().collect(Collectors.joining());
+        SolicitudAyudaTemporal at = new Gson().fromJson(requestJSON, SolicitudAyudaTemporal.class);
+        Modelo.getInstancia().updateDireccion(at.getDireccion());
+        Modelo.getInstancia().updateSolicitante(at.getSolicitante());
+        Modelo.getInstancia().updateAyudaTemporal(at.getAyudaTemporal());
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
+
+    private void actualizarSolicitudBecaAcademica(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String requestJSON = request.getReader().lines().collect(Collectors.joining());
+        SolicitudBecaAcademica ba = new Gson().fromJson(requestJSON, SolicitudBecaAcademica.class);
+        Modelo.getInstancia().updateDireccion(ba.getDireccion());
+        Modelo.getInstancia().updateSolicitante(ba.getSolicitante());
+        Modelo.getInstancia().updateEstudiante(ba.getEstudiante());
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().flush();

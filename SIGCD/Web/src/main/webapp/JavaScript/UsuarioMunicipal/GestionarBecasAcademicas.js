@@ -1,7 +1,22 @@
 var url = "http://localhost:8080/Web";
+var becasAcademicas = new Array();
 var solicitudesBecasAcademicas = new Array();
+var idPersonaAux, idDireccionAux, idAyudaTemporalAux, idEstudianteAux;
+var lookup = {
+    'San Pablo': ['Las Cruces', 'Las Joyas', 'María Auxiliadora', 'La Puebla', 'Las Quintanas', 'Uriche', 'La Amelia', 'Las Pastoras'],
+    'Rincon Sabanilla': ['Rincón de Ricardo', 'Miraflores', 'Calle Cordero', 'Rinconada']
+};
+
+$('#options').on('change', function () {
+    var selectValue = $(this).val();
+    $('#choices').empty();
+    for (i = 0; i < lookup[selectValue].length; i++) {
+        $('#choices').append("<option value='" + lookup[selectValue][i] + "'>" + lookup[selectValue][i] + "</option>");
+    }
+});
 
 var solicitante = {
+    idPersona: "",
     cedula: "",
     nombre: "",
     primerApellido: "",
@@ -14,6 +29,7 @@ var solicitante = {
 };
 
 var estudiante = {
+    idPersona: "",
     cedula: "",
     nombre: "",
     primerApellido: "",
@@ -24,12 +40,14 @@ var estudiante = {
 };
 
 var direccion = {
+    idDireccion: "",
     distrito: "",
     barrio: "",
     direccionExacta: ""
 };
 
 var becaAcademica = {
+    idFormulario: "",
     idSolicitante: "",
     fechaCreacion: "",
     claveRecuperacion: "",
@@ -41,8 +59,8 @@ var becaAcademica = {
 
 function crearDireccion() {
     var direccion = new Object();
-    direccion.distrito = document.getElementById("distritoInput").value;
-    direccion.barrio = document.getElementById("barrioInput").value;
+    direccion.distrito = document.getElementById("options").value;
+    direccion.barrio = document.getElementById("choices").value;
     direccion.direccionExacta = document.getElementById("direccionExactaInput").value;
     return direccion;
 }
@@ -173,6 +191,53 @@ function agregarSolicitud() {
             });
 }
 
+
+function actualizarSolicitud() {
+    var object = new Object();
+    object = crearSolicitudBA();
+    object.solicitante.idPersona = idPersonaAux;
+    object.direccion.idDireccion = idDireccionAux;
+    object.estudiante.idPersona = idEstudianteAux;
+    console.log(object);
+    swal({
+        title: "¿Desea actualizar la solicitud?",
+        text: "¡Le recomendamos revisar la información antes de enviarla!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+    })
+            .then((accepted) => {
+                if (accepted) {
+                    let request = new Request(
+                            url + '/API/solicitud/beca_academica/actualizar', {
+                                method: 'POST', headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify(object)
+                            }
+                    );
+                    (async () => {
+                        const response = await fetch(request);
+                        if (response.ok) {
+                            console.log(response);
+                            var clave = object.ayudaTemporal.claveRecuperacion;
+                            swal("¡La solicitud ha sido actualizada!", {
+                                icon: "success"}).then(function () {
+                                window.location = "GestionarAyudasTemporales.html";
+                            });
+                            ;
+                        }
+                        if (!response.ok) {
+                            console.log(response);
+                            console.log("Response incorrectly received");
+                            return;
+                        }
+                        limpiarObjetos();
+                    })();
+                } else {
+                    swal("Solicitud cancelada");
+                }
+            });
+}
+
 $('#consultarCedulaBtn').on('click', function () {
     consultarCedula();
 });
@@ -190,12 +255,26 @@ function consultarCedula() {
     })();
 }
 
-function rellenarInformacionPersonal(solicitante) {
-    document.getElementById("nombreInput").value = solicitante['value'].nombre;
-    document.getElementById("primerApellidoInput").value = solicitante['value'].primerApellido;
-    document.getElementById("segundoApellidoInput").value = solicitante['value'].segundoApellido;
-    document.getElementById("fechaNacimientoInput").value = solicitante['value'].fechaNacimiento;
-    document.getElementById("edadInput").value = solicitante['value'].edad;
+function rellenarFormulario(solicitante, direccion, estudiante) {
+    document.getElementById("cedulaInput").value = solicitante.cedula;
+    document.getElementById("nombreInput").value = solicitante.nombre;
+    document.getElementById("primerApellidoInput").value = solicitante.primerApellido;
+    document.getElementById("segundoApellidoInput").value = solicitante.segundoApellido;
+    document.getElementById("fechaNacimientoInput").value = solicitante.fechaNacimiento;
+    document.getElementById("edadInput").value = solicitante.edad;
+    document.getElementById("telefonoHabitacionInput").value = solicitante.telefonoHabitacion;
+    document.getElementById("telefonoCelularInput").value = solicitante.telefonoCelular;
+    document.getElementById("correoElectronicoInput").value = solicitante.correoElectronico;
+    document.getElementById("options").value = direccion.distrito;
+    document.getElementById("choices").value = direccion.barrio;
+    document.getElementById("direccionExactaInput").value = direccion.direccionExacta;
+    document.getElementById("cedulaEstInput").value = estudiante.cedula;
+    document.getElementById("nombreEstInput").value = estudiante.nombre;
+    document.getElementById("primerApellidoEstInput").value = estudiante.primerApellido;
+    document.getElementById("segundoApellidoEstInput").value = estudiante.segundoApellido;
+    document.getElementById("fechaNacimientoEstInput").value = estudiante.fechaNacimiento;
+    document.getElementById("edadEstInput").value = estudiante.edad;
+    document.getElementById("gradoAcademicoEstSelect").value = estudiante.gradoAcademico;
 }
 
 function fetchAndList() {
@@ -209,7 +288,7 @@ function fetchAndList() {
         var dataSet = solicitudesBecasAcademicas;
         console.log(dataSet);
         $(document).ready(function () {
-            $('#dataTable').DataTable({
+            var table = $('#dataTable').DataTable({
                 language: {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                 },
@@ -269,54 +348,77 @@ function fetchAndList() {
                     ,
                     {"data": 'becaAcademica.idEstado'}
                     ,
-                    {"defaultContent": '<button id="a">Modificar</button>'}
+                    {"defaultContent": '<input type="image" id="a" alt="Login" src="Imagenes/Edit.png">'}
                     ,
-                    {"defaultContent": '<button id="b">Historial</button>'
+                    {"defaultContent": '<input type="image" id="b" alt="Login" src="Imagenes/History.png">'
                     }
                 ]
             });
-//            $('#example tbody').on('click', '#a', function () {
-//                $('#add-modal-ayudas-temporales').modal('show');
-//                var data = table.row($(this).parents('tr')).data();
-//                console.log(data['idSolicitante']);
-//                consultarCedula(data['idSolicitante']);
-//            });
+            $('#dataTable tbody').on('click', '#a', function () {
+                var data = table.row(($(this).parents('tr'))).data();
+                rellenarFormulario(data['solicitante'], data['direccion'], data['estudiante']);
+                idPersonaAux = data['solicitante'].idPersona;
+                idDireccionAux = data['direccion'].idDireccion;
+                idEstudianteAux = data['estudiante'].idPersona;
+                console.log(idPersonaAux);
+                console.log(idDireccionAux);
+                console.log(idEstudianteAux);
+                $('#add-modal-becas-academicas').modal('show');
+            });
 
-//            $('#example tbody').on('click', '#b', function () {
-//                $('#add-modal-ayudas-temporales-por-usuario').modal('show');
-//                var data = table.row($(this).parents('tr')).data();
-//                console.log(data['idSolicitante']);
-//                consultarAyudasTemporalesPorUsuario(data['idSolicitante']);
-//            });
+            $('#dataTable tbody').on('click', '#b', function () {
+                var data = table.row(($(this).parents('tr'))).data();
+                consultarBecasAcademicasPorUsuario(data['becaAcademica'].idSolicitante, data['solicitante'].cedula);
+                $('#add-modal-becas-academicas-por-usuario').modal('show');
+            });
         });
     }
     )();
 }
 
-function list() {
-    $("#listaAyudasPorSolicitante").html("");
-    becasAcademicas.forEach((at) => {
-        row2($("#listaAyudasPorSolicitante"), at);
+function consultarBecasAcademicasPorUsuario(id, cedulaSolicitante) {
+    let request = new Request(url + '/API/solicitud/select_all_becasAcademicas_por_solicitante?id=' + id,
+            {method: 'GET', headers: {}});
+    (async () => {
+        const response = await fetch(request);
+        if (!response.ok) {
+            return;
+        }
+        becasAcademicas = await response.json();
+        console.log(becasAcademicas);
+        list(cedulaSolicitante);
+    })();
+}
+
+function list(cedulaSolicitante) {
+    $("#listaBecasPorSolicitante").html("");
+    becasAcademicas.forEach((ba) => {
+        row($("#listaBecasPorSolicitante"), ba, cedulaSolicitante);
     });
 }
 
-function row(listado, becaAcademica) {
+function row(listado, becaAcademica, cedulaSolicitante) {
     var tr = $("<tr />");
     tr.html(
             "<td>" + becaAcademica.idFormulario + "</td>" +
-            "<td>" + becaAcademica.idEstudiante + "</td>" +
+            "<td>" + becaAcademica.fechaCreacion + "</td>" +
             "<td>" + becaAcademica.idEstado + "</td>");
     listado.append(tr);
-    document.getElementById('nombreSolicitanteTitle').innerHTML = 'Historial de becas académicas del habitante ' + becaAcademica.idFormulario;
+    document.getElementById('nombreSolicitanteTitle').innerHTML = 'Historial de becas académicas del habitante ' + cedulaSolicitante;
 }
 
 function crear() {
     $(agregarSolicitud);
 }
 
+function actualizar() {
+    $(actualizarSolicitud);
+}
+
 function cargar() {
     fetchAndList();
     $("#crearFormularioBABtn").click(crear);
+    $("#actualizarFormularioBABtn").click(actualizar);
 }
 
 $(cargar);

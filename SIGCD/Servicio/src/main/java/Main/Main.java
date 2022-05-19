@@ -1,16 +1,17 @@
 package Main;
 
+import Logica.Data.AyudaTemporalDAO;
+import Logica.Data.DireccionDAO;
+import Logica.Data.EstudianteDAO;
 import Logica.Data.Modelo;
+import Logica.Data.SolicitanteDAO;
 import Logica.Formulario.AyudaTemporal;
-import Logica.Formulario.BecaAcademica;
 import Logica.Persona.Direccion;
 import Logica.Persona.Estudiante;
 import Logica.Persona.Solicitante;
-import Logica.Solicitud.SolicitudAyudaTemporal;
 import Logica.Solicitud.SolicitudBecaAcademica;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Optional;
 
 /**
  *
@@ -22,17 +23,29 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws Exception {
-//        Modelo model = Modelo.getInstancia();
+        Modelo model = Modelo.getInstancia();
 //        ArrayList<SolicitudBecaAcademica> list = model.selectAllSolicitudesBecasAcademicas();
 //        System.out.println(list.size());
 //        for (int i = 0; i < list.size(); i++) {
 //            System.out.println(list.get(i).getDireccion().toString() + " " + list.get(i).getSolicitante().getCedula() + " " + list.get(i).getEstudiante().getCedula() + " " + list.get(i).getBecaAcademica());
 //        }
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Solicitante solicitante = new Solicitante(1, "111", "oscar", "h", "c", "00/00/2222", 455, "dfadsf", "adfa", "ab.dfff");
+        AyudaTemporal ayudaTemporal = new AyudaTemporal(1, 5, timestamp, "AThoUsgo", "Necesito weed", 4, 1);
+        Estudiante estudiante = new Estudiante(8,"5", "David", "h", "z", "00/00/1995", 77, 4);
+        SolicitanteDAO d = new SolicitanteDAO();
+        DireccionDAO a = new DireccionDAO();
+        AyudaTemporalDAO t = new AyudaTemporalDAO();
+        Direccion direccion = new Direccion(28, "vvv", "2", "2");
+        EstudianteDAO e = new EstudianteDAO();
+        //e.update(estudiante);
+        
+        
+        //t.update(ayudaTemporal);
+        //d.update(solicitante);
+        //a.update(direccion);
 
-//        Solicitante solicitante = new Solicitante("1", "XXX", "XXXX", "XXXX", "00/00/0000", 40, "00000000", "33333333", "a@b.com");
-//        Direccion direccion = new Direccion("Cerbatana", "Cerbatana", "A lado de la escuela");
-//        Estudiante estudiante = new Estudiante("5", "XXX", "XXXX", "XXXX", "00/00/0000", 0, 1);
-//        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
 //
 //        AyudaTemporal ayudaTemporal = new AyudaTemporal("1", timestamp, "ATdfgsfwe1", "Soy pobretas", 1, 1);
 //        AyudaTemporal ayudaTemporal1 = new AyudaTemporal("1", timestamp, "ATdfgsfwe2", "Soy pobretas", 1, 2);
@@ -70,9 +83,9 @@ public class Main {
 //        System.out.println("3" + estudianteRec.toString());
 //        System.out.println("4" + becaAcademicaRec.toString());
 //        System.out.println("5" + ayudaTemporalRec.toString());
-//        ArrayList<BecaAcademica> at = model.getAllBecasAcademicasBySolicitanteId("ffff");
-//        for (int i = 0; i < at.size(); i++) {
-//            System.out.println(at.get(i).toString());
-//        }
+        ArrayList<SolicitudBecaAcademica> at = model.selectAllSolicitudesBecasAcademicas();
+        for (int i = 0; i < at.size(); i++) {
+            System.out.println(at.get(i).toString());
+        }
     }
 }

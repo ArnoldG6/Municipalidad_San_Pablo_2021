@@ -1,26 +1,17 @@
 var url = "http://localhost:8080/Web";
 
-var barriosDistritoSanPablo = ["Las Cruces", "Las Joyas", "María Auxiliadora", "La Puebla", "Las Quintanas", "Uriche", "La Amelia", "Las Pastoras"];
-var barriosDistritoRinconSabanilla = ["Rincón de Ricardo", "Miraflores", "Calle Cordero", "Rinconada"];
-var distritos = ["San Pablo", "Rincon Sabanilla"];
+var lookup = {
+    'San Pablo': ['Las Cruces', 'Las Joyas', 'María Auxiliadora', 'La Puebla', 'Las Quintanas', 'Uriche', 'La Amelia', 'Las Pastoras'],
+    'Rincon Sabanilla': ['Rincón de Ricardo', 'Miraflores', 'Calle Cordero', 'Rinconada'],
+};
 
-//Select de direccion
-function cargar_Distritos() {
-    var opciones = document.getElementById("distritoSelect");         //Id del select
-    var text = "";
-    distritos.forEach(d => {text += `<option>${d}</option>`;});
-    opciones.innerHTML = text;
-}
-
-function cargar_Barrios() {
-    var dis = document.getElementById("distritoSelect").value.replace(/ /g, "");
-    var barrios = document.getElementById("barrioSelect");              //Id del select
-    var text = "";
-    dis === 'SanPablo' ? 
-        barriosDistritoSanPablo.forEach(b => {text += `<option>${b}</option>`;}):
-        barriosDistritoRinconSabanilla.forEach(b => {text += `<option>${b}</option>`;});        
-    barrios.innerHTML = text;
-}
+$('#options').on('change', function () {
+    var selectValue = $(this).val();
+    $('#choices').empty();
+    for (i = 0; i < lookup[selectValue].length; i++) {
+        $('#choices').append("<option value='" + lookup[selectValue][i] + "'>" + lookup[selectValue][i] + "</option>");
+    }
+});
 
 var solicitante = {
     cedula: "",
@@ -51,8 +42,8 @@ var ayudaTemporal = {
 
 function crearDireccion() {
     var direccion = new Object();
-    direccion.distrito = document.getElementById("distritoInput").value;
-    direccion.barrio = document.getElementById("barrioInput").value;
+    direccion.distrito = document.getElementById("options").value;
+    direccion.barrio = document.getElementById("choices").value;
     direccion.direccionExacta = document.getElementById("direccionExactaInput").value;
     return direccion;
 }
@@ -73,7 +64,7 @@ function crearSolicitante() {
 
 function crearAyudaTemporal() {
     var ayudaTemporal = new Object();
-    ayudaTemporal.idSolicitante = document.getElementById("cedulaInput").value;
+    ayudaTemporal.idSolicitante = 0;
     ayudaTemporal.fechaCreacion = new Date();
     ayudaTemporal.claveRecuperacion = generarClaveRecuperacion();
     ayudaTemporal.motivoAyuda = document.getElementById("motivoAyudaInput").value;
@@ -134,6 +125,46 @@ function agregarSolicitud() {
                     let request = new Request(
                             url + '/API/solicitud/ayuda_temporal', {
                                 method: 'POST', headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify(object)
+                            }
+                    );
+                    (async () => {
+                        const response = await fetch(request);
+                        if (response.ok) {
+                            var clave = object.ayudaTemporal.claveRecuperacion;
+                            swal("¡Su solicitud ha sido enviada!", "Guarde el siguiente código de referencia: " + clave, {
+                                icon: "success"}).then(function () {
+                                window.location = "index.html";
+                            });
+                            ;
+                        }
+                        if (!response.ok) {
+                            console.log("Response incorrectly received");
+                            return;
+                        }
+                        limpiarObjetos();
+                    })();
+                } else {
+                    swal("Solicitud cancelada");
+                }
+            });
+}
+
+function modificarSolicitud() {
+    var object = new Object();
+    object = crearSolicitudAT();
+    swal({
+        title: "¿Desea enviar su solicitud?",
+        text: "¡Le recomendamos revisar la información antes de enviarla!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+    })
+            .then((accepted) => {
+                if (accepted) {
+                    let request = new Request(
+                            url + '/API/solicitud/ayuda_temporal', {
+                                method: 'UPDATE', headers: {'Content-Type': 'application/json'},
                                 body: JSON.stringify(object)
                             }
                     );
@@ -300,7 +331,7 @@ $(function () {
         minYear: 1901,
         maxYear: (parseInt(moment().format('YYYY'), 10) + 1),
         "locale": {
-            "format": "MM/DD/YYYY",
+            "format": "DD/MM/YYYY",
             "separator": " - ",
             "applyLabel": "Aplicar",
             "cancelLabel": "Cancelar",
@@ -338,3 +369,20 @@ $(function () {
         }
     });
 });
+
+const intro = introJS();
+
+intro.setOptions({
+
+    steps: [
+        {
+            intro: 'Bienvenidos'
+        },
+        {
+            element: '#consultarCedulaBtn',
+            intro: 'Presioname'
+        }
+    ]
+});
+
+intro.start();

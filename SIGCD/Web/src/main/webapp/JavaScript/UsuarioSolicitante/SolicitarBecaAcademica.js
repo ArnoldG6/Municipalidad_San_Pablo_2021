@@ -1,5 +1,18 @@
 var url = "http://localhost:8080/Web";
 
+var lookup = {
+    'San Pablo': ['Las Cruces', 'Las Joyas', 'María Auxiliadora', 'La Puebla', 'Las Quintanas', 'Uriche', 'La Amelia', 'Las Pastoras'],
+    'Rincon Sabanilla': ['Rincón de Ricardo', 'Miraflores', 'Calle Cordero', 'Rinconada'],
+};
+
+$('#options').on('change', function () {
+    var selectValue = $(this).val();
+    $('#choices').empty();
+    for (i = 0; i < lookup[selectValue].length; i++) {
+        $('#choices').append("<option value='" + lookup[selectValue][i] + "'>" + lookup[selectValue][i] + "</option>");
+    }
+});
+
 var solicitante = {
     cedula: "",
     nombre: "",
@@ -40,8 +53,8 @@ var becaAcademica = {
 
 function crearDireccion() {
     var direccion = new Object();
-    direccion.distrito = document.getElementById("distritoInput").value;
-    direccion.barrio = document.getElementById("barrioInput").value;
+    direccion.distrito = document.getElementById("options").value;
+    direccion.barrio = document.getElementById("choices").value;
     direccion.direccionExacta = document.getElementById("direccionExactaInput").value;
     return direccion;
 }
@@ -74,10 +87,10 @@ function crearEstudiante() {
 
 function crearBecaAcademica() {
     var becaAcademica = new Object();
-    becaAcademica.idSolicitante = document.getElementById("cedulaEstInput").value;
+    becaAcademica.idSolicitante = 0;
     becaAcademica.fechaCreacion = new Date();
     becaAcademica.claveRecuperacion = generarClaveRecuperacion();
-    becaAcademica.idEstudiante = document.getElementById("cedulaEstInput").value;
+    becaAcademica.idEstudiante = 0;
     becaAcademica.idDireccion = 0;
     becaAcademica.idEstado = 1;
     return becaAcademica;
@@ -152,6 +165,7 @@ function agregarSolicitud() {
                     );
                     (async () => {
                         const response = await fetch(request);
+                        console.log(response);
                         if (response.ok) {
                             var clave = object.becaAcademica.claveRecuperacion;
                             swal("¡Su solicitud ha sido enviada!", "Guarde el siguiente código de referencia: " + clave, {

@@ -26,10 +26,33 @@ public class SolicitanteDAO {
                 stm.setString(8, solicitante.getTelefonoCelular());
                 stm.setString(9, solicitante.getCorreoElectronico());
                 return Database.instance().executeUpdate(stm) > 0;
+            } else {
+                return false;
             }
-            else return false;
         } catch (SQLException e) {
             System.out.printf("No se pudo agregar solicitante\n" + e.getMessage() + "\n");
+            return false;
+        }
+    }
+
+    public boolean update(Solicitante solicitante) throws SQLException {
+        try {
+            String sql = "UPDATE solicitante SET cedula = ?, nombre = ?, primerapellido = ?, segundoapellido = ?, fechanacimiento = ?, edad = ?, telefonohabitacion = ?, telefonocelular = ?, correoelectronico= ? WHERE id = ?";
+            PreparedStatement stm = Database.instance().prepareStatement(sql);
+            stm.setString(1, solicitante.getCedula());
+            stm.setString(2, solicitante.getNombre());
+            stm.setString(3, solicitante.getPrimerApellido());
+            stm.setString(4, solicitante.getSegundoApellido());
+            stm.setString(5, solicitante.getFechaNacimiento());
+            stm.setInt(6, solicitante.getEdad());
+            stm.setString(7, solicitante.getTelefonoHabitacion());
+            stm.setString(8, solicitante.getTelefonoCelular());
+            stm.setString(9, solicitante.getCorreoElectronico());
+            stm.setInt(10, solicitante.getIdPersona());
+            System.out.println(sql);
+            return Database.instance().executeUpdate(stm) > 0;
+        } catch (SQLException e) {
+            System.out.printf("No se pudo actualizar solicitante\n" + e.getMessage() + "\n");
             return false;
         }
     }
@@ -47,7 +70,7 @@ public class SolicitanteDAO {
                 solicitanteAux.setCedula(rs.getString("cedula"));
                 solicitanteAux.setNombre(rs.getString("nombre"));
                 solicitanteAux.setPrimerApellido(rs.getString("primerApellido"));
-                solicitanteAux.setSegundoApellido(rs.getString("primerApellido"));
+                solicitanteAux.setSegundoApellido(rs.getString("segundoApellido"));
                 solicitanteAux.setFechaNacimiento(rs.getString("fechaNacimiento"));
                 solicitanteAux.setEdad(rs.getInt("edad"));
                 solicitanteAux.setTelefonoHabitacion(rs.getString("telefonoHabitacion"));

@@ -23,7 +23,7 @@ public final class Database {
     private final String port = "3306";
     private final String user = "root";
     private final String password = "root";
-    private final String name = "si_db";
+    private final String name = "sigcd";
 
     public Database() {
         conexion = this.getConnection();

@@ -30,6 +30,20 @@ public class AyudaTemporalDAO {
         }
     }
 
+    public boolean update(AyudaTemporal ayudaTemporal) throws SQLException {
+        try {
+            String sql = "update ayudatemporal set motivoayuda = ? WHERE id = ?";
+            PreparedStatement stm = Database.instance().prepareStatement(sql);
+            stm.setString(1, ayudaTemporal.getMotivoAyuda());
+            stm.setInt(2, ayudaTemporal.getIdFormulario());
+            System.out.println(sql);
+            return Database.instance().executeUpdate(stm) > 0;
+        } catch (SQLException e) {
+            System.out.printf("No se pudo actualizar el motivo de ayuda\n" + e.getMessage() + "\n");
+            return false;
+        }
+    }
+
     public Optional<AyudaTemporal> select(int identificador) throws Exception {
         Optional<AyudaTemporal> ayudaTemporal = Optional.ofNullable(null);
         try {
@@ -157,4 +171,5 @@ public class AyudaTemporalDAO {
             return null;
         }
     }
+
 }

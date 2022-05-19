@@ -55,7 +55,7 @@ public class Solicitante extends Persona implements Serializable {
 
     @Override
     public String toString() {
-        return "Solicitante{"+ super.toString() + "telefonoHabitacion=" + telefonoHabitacion + ", telefonoCelular=" + telefonoCelular + '}';
+        return "Solicitante{" + super.toString() + "telefonoHabitacion=" + telefonoHabitacion + ", telefonoCelular=" + telefonoCelular + '}';
     }
 
     @Override

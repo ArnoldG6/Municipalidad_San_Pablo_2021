@@ -56,6 +56,11 @@ public class SolicitudBecaAcademica {
         this.becaAcademica = becaAcademica;
     }
 
+    @Override
+    public String toString() {
+        return "SolicitudBecaAcademica{" + "direccion=" + direccion.toString() + ", solicitante=" + solicitante.toString() + ", estudiante=" + estudiante.toString() + ", becaAcademica=" + becaAcademica.toString() + '}';
+    }
+
     public String toGson() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(this);

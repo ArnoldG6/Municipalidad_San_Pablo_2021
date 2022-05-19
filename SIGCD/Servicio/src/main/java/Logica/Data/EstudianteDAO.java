@@ -31,6 +31,26 @@ public class EstudianteDAO {
         }
     }
 
+    public boolean update(Estudiante estudiante) throws SQLException {
+        try {
+            String sql = "UPDATE estudiante SET cedula = ?, nombre = ?, primerapellido = ?, segundoapellido = ?, fechanacimiento = ?, edad = ?, gradoacademico = ? WHERE id = ?";
+            PreparedStatement stm = Database.instance().prepareStatement(sql);
+            stm.setString(1, estudiante.getCedula());
+            stm.setString(2, estudiante.getNombre());
+            stm.setString(3, estudiante.getPrimerApellido());
+            stm.setString(4, estudiante.getSegundoApellido());
+            stm.setString(5, estudiante.getFechaNacimiento());
+            stm.setInt(6, estudiante.getEdad());
+            stm.setInt(7, estudiante.getGradoAcademico());
+            stm.setInt(8, estudiante.getIdPersona());
+            System.out.println(sql);
+            return Database.instance().executeUpdate(stm) > 0;
+        } catch (SQLException e) {
+            System.out.printf("No se pudo actualizar solicitante\n" + e.getMessage() + "\n");
+            return false;
+        }
+    }
+
     public Optional<Estudiante> select(String identificador) throws SQLException {
         Optional<Estudiante> estudiante = Optional.ofNullable(null);
         try {

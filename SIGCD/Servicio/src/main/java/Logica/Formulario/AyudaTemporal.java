@@ -32,7 +32,7 @@ public class AyudaTemporal extends Formulario implements Serializable {
 
     @Override
     public String toString() {
-        return "AyudaTemporal{"+ super.toString() + "motivoAyuda=" + motivoAyuda +'}';
+        return "AyudaTemporal{" + super.toString() + "motivoAyuda=" + motivoAyuda + '}';
     }
 
     @Override

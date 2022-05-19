@@ -47,6 +47,15 @@ public class Modelo {
         }
     }
 
+    public boolean updateAyudaTemporal(AyudaTemporal ayudaTemporal) {
+        try {
+            return ayudaTemporalDAO.update(ayudaTemporal);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
     public Optional<Optional<AyudaTemporal>> getAyudaTemporalById(int identificador) {
         try {
             return Optional.ofNullable(ayudaTemporalDAO.select(identificador));
@@ -103,6 +112,15 @@ public class Modelo {
         }
     }
 
+    public boolean updateDireccion(Direccion direccion) {
+        try {
+            return direccionDAO.update(direccion);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
     public Optional<Optional<Direccion>> getDireccionById(int identificador) {
         try {
             return Optional.ofNullable(direccionDAO.select(identificador));
@@ -121,6 +139,15 @@ public class Modelo {
     public boolean createEstudiante(Estudiante estudiante) {
         try {
             return estudianteDAO.insert(estudiante);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+    
+        public boolean updateEstudiante(Estudiante estudiante) {
+        try {
+            return estudianteDAO.update(estudiante);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             return false;
@@ -145,6 +172,15 @@ public class Modelo {
     public boolean createSolicitante(Solicitante solicitante) {
         try {
             return solicitanteDAO.insert(solicitante);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateSolicitante(Solicitante solicitante) {
+        try {
+            return solicitanteDAO.update(solicitante);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             return false;
@@ -199,7 +235,7 @@ public class Modelo {
 
     //---------------------------------------------------------------------------------------------------------------------------------------------
     //Solicitudes becas academicas
-        public ArrayList<SolicitudBecaAcademica> selectAllSolicitudesBecasAcademicas() throws Exception {
+    public ArrayList<SolicitudBecaAcademica> selectAllSolicitudesBecasAcademicas() throws Exception {
         return becaAcademicaDAO.selectAllSolicitudesBecasAcademicas();
     }
 }

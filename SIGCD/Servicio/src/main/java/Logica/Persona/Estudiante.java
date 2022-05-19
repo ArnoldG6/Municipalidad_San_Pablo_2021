@@ -31,7 +31,7 @@ public class Estudiante extends Persona implements Serializable {
 
     @Override
     public String toString() {
-        return "Estudiante{"+ super.toString() + "gradoAcademico=" + gradoAcademico + '}';
+        return "Estudiante{" + super.toString() + "gradoAcademico=" + gradoAcademico + '}';
     }
 
     @Override

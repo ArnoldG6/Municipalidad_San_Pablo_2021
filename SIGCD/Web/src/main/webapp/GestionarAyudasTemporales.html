@@ -29,11 +29,9 @@ and open the template in the editor.
     <body>
         <div class="container" style="width:100%">
             <div class="card bg-light">     
-                <h4 class="card-title mt-3 text-center">Histórico de ayudas temporales</h4> 
+                <br>
+                <h4 class="card-title mt-3 text-center">Gestor de ayudas temporales</h4> 
                 <div class="card-body">  
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-modal-ayudas-temporales" style="background-color: #02315f">
-                        Agregar solicitud
-                    </button>
                     <br>
                     <div class="container py-5">
                         <div class="row">
@@ -171,13 +169,19 @@ and open the template in the editor.
                                                         <div>
                                                             <br>
                                                             <label for="distrito">Distrito<b style="color: #dc3545;">*</b></label>
-                                                            <input type="text" name="distrito" class="form-control" id="distritoInput" required>
+                                                            <select class="form-select" id="options" required>
+                                                                <option value="" disabled selected>Seleccione su distrito</option>
+                                                                <option value="San Pablo">San Pablo</option>
+                                                                <option value="Rincon Sabanilla">Rincon Sabanilla</option>
+                                                            </select>
                                                             <div class="invalid-feedback">Este campo es requerido</div>
                                                         </div>
                                                         <div>
                                                             <br>
-                                                            <label for="barrio">Barrio<b style="color: #dc3545;">*</b></label>
-                                                            <input type="text" name="barrio" class="form-control" id="barrioInput" required>
+                                                            <label for="barrio">Barrio<b style="color: #dc3545;">*</b></label>                                     
+                                                            <select class="form-select" id="choices" required>
+                                                                <option value="" disabled selected>Seleccione su barrio</option>
+                                                            </select>
                                                             <div class="invalid-feedback">Este campo es requerido</div>
                                                         </div>
                                                         <div>
@@ -203,7 +207,7 @@ and open the template in the editor.
                                                 <div class="card-footer">
                                                     <button class="action back btn btn-sm btn-warning btn-lg" style="display: none">Atrás</button>
                                                     <button class="action next btn btn-sm btn btn-primary btn-lg float-end" disabled="" style="background-color: #02315f">Siguiente</button>
-                                                    <button id="crearFormularioATBtn" class="action submit btn btn-sm btn-success float-end" style="display: none">Enviar</button>
+                                                    <button id="actualizarFormularioATBtn" class="action submit btn btn-sm btn-success float-end" style="display: none">Enviar</button>
                                                 </div>
                                             </div>
                                         </div>

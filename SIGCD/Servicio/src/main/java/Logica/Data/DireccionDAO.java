@@ -23,6 +23,22 @@ public class DireccionDAO {
         }
     }
 
+    public boolean update(Direccion direccion) throws SQLException {
+        try {
+            String sql = "UPDATE direccion SET distrito = ?, barrio = ?, direccionexacta = ? WHERE id = ?";
+            PreparedStatement stm = Database.instance().prepareStatement(sql);
+            stm.setString(1, direccion.getDistrito());
+            stm.setString(2, direccion.getBarrio());
+            stm.setString(3, direccion.getDireccionExacta());
+            stm.setInt(4, direccion.getIdDireccion());
+            System.out.println(sql);
+            return Database.instance().executeUpdate(stm) > 0;
+        } catch (SQLException e) {
+            System.out.printf("No se pudo actualizar la direccion\n" + e.getMessage() + "\n");
+            return false;
+        }
+    }
+
     public Optional<Direccion> select(int identificador) throws SQLException {
         Optional<Direccion> direccion = Optional.ofNullable(null);
         try {

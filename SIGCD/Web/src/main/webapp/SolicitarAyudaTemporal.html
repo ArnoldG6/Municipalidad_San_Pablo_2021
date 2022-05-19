@@ -8,6 +8,7 @@ and open the template in the editor.
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/intro.js@5.1.0/minified/intro.min.js'>
         <link href="CSS/Formularios.css" rel="stylesheet" type="text/css"/>
         <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css'>
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css'>
@@ -117,13 +118,19 @@ and open the template in the editor.
                                     <div>
                                         <br>
                                         <label for="distrito">Distrito<b style="color: #dc3545;">*</b></label>
-                                        <input type="text" name="distrito" class="form-control" id="distritoInput" required>
+                                        <select class="form-select" id="options" required>
+                                            <option value="" disabled selected>Seleccione su distrito</option>
+                                            <option value="San Pablo">San Pablo</option>
+                                            <option value="Rincon Sabanilla">Rincon Sabanilla</option>
+                                        </select>
                                         <div class="invalid-feedback">Este campo es requerido</div>
                                     </div>
                                     <div>
                                         <br>
-                                        <label for="barrio">Barrio<b style="color: #dc3545;">*</b></label>
-                                        <input type="text" name="barrio" class="form-control" id="barrioInput" required>
+                                        <label for="barrio">Barrio<b style="color: #dc3545;">*</b></label>                                     
+                                        <select class="form-select" id="choices" required>
+                                            <option value="" disabled selected>Seleccione su barrio</option>
+                                        </select>
                                         <div class="invalid-feedback">Este campo es requerido</div>
                                     </div>
                                     <div>
@@ -157,6 +164,7 @@ and open the template in the editor.
             </article>
         </main>
         <footer class="credit">Municipalidad de San Pablo, Heredia</footer>
+        <script src="https://cdn.jsdelivr.net/npm/intro.js@5.1.0/minified/intro.min.js"></script>
         <script src="JavaScript/UsuarioSolicitante/SolicitarAyudaTemporal.js"></script>
     </body>
 </html>

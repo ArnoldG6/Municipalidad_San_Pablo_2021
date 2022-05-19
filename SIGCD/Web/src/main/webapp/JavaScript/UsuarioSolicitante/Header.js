@@ -1,6 +1,6 @@
 var barraNavegacion =
         `
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #02315f;">
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #02315f;">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -34,15 +34,7 @@ var barraNavegacion =
                 </li>
                 <a class="nav-link active" aria-current="page"></a>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="prueba.html">Prueba</a>
-                </li>
-                <a class="nav-link active" aria-current="page"></a>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="GestionarAyudasTemporales.html">ATUsuarioExperto</a>
-                </li>
-                <a class="nav-link active" aria-current="page"></a>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="GestionarBecasAcademicas.html">BAUsuarioExperto</a>
+                    <a class="nav-link active" aria-current="page" href="MenuPrincipal.html">Vista usuario experto</a>
                 </li>
             </ul>
         </div>

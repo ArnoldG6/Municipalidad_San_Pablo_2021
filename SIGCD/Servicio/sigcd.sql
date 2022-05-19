@@ -4,13 +4,13 @@
 -- -----------------------------------------------------
 
 CREATE SCHEMA IF NOT EXISTS `sigcd` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
-USE si_db ;
+USE `sigcd` ;
 
 -- -----------------------------------------------------
--- Table `Solicitante`
+-- Table `sigcd`.`Solicitante`
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `Solicitante` (
+CREATE TABLE IF NOT EXISTS `sigcd`.`Solicitante` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `cedula` VARCHAR(45) NOT NULL,
     `nombre` VARCHAR(45) NOT NULL,
@@ -25,9 +25,9 @@ CREATE TABLE IF NOT EXISTS `Solicitante` (
 )  ENGINE=INNODB DEFAULT CHARACTER SET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 -- -----------------------------------------------------
--- Table `Direccion`
+-- Table `sigcd`.`Direccion`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Direccion` (
+CREATE TABLE IF NOT EXISTS `sigcd`.`Direccion` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `distrito` VARCHAR(45) NOT NULL,
     `barrio` VARCHAR(45) NOT NULL,
@@ -36,10 +36,10 @@ CREATE TABLE IF NOT EXISTS `Direccion` (
 )  ENGINE=INNODB DEFAULT CHARACTER SET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 -- -----------------------------------------------------
--- Table `Estudiante`
+-- Table `sigcd`.`Estudiante`
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `Estudiante` (
+CREATE TABLE IF NOT EXISTS `sigcd`.`Estudiante` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `cedula` VARCHAR(45) NOT NULL,
     `nombre` VARCHAR(45) NOT NULL,
@@ -52,30 +52,30 @@ CREATE TABLE IF NOT EXISTS `Estudiante` (
 )  ENGINE=INNODB DEFAULT CHARACTER SET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 -- -----------------------------------------------------
--- Table `GradoAcademico`
+-- Table `sigcd`.`GradoAcademico`
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `GradoAcademico` (
+CREATE TABLE IF NOT EXISTS `sigcd`.`GradoAcademico` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `nivel` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`id`)
 )  ENGINE=INNODB DEFAULT CHARACTER SET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 -- -----------------------------------------------------
--- Table `Estado`
+-- Table `sigcd`.`Estado`
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `Estado` (
+CREATE TABLE IF NOT EXISTS `sigcd`.`Estado` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `estado` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`id`)
 )  ENGINE=INNODB DEFAULT CHARACTER SET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 -- -----------------------------------------------------
--- Table `AyudaTemporal`
+-- Table `sigcd`.`AyudaTemporal`
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `AyudaTemporal` (
+CREATE TABLE IF NOT EXISTS `sigcd`.`AyudaTemporal` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `idSolicitante` INT NOT NULL,
     `fechaCreacion` TIMESTAMP NOT NULL,
@@ -85,18 +85,18 @@ CREATE TABLE IF NOT EXISTS `AyudaTemporal` (
     `idEstado` INT NOT NULL,
     PRIMARY KEY (`id`),
     CONSTRAINT `solicitanteAtFk` FOREIGN KEY (`idSolicitante`)
-        REFERENCES `solicitante` (`id`),
+        REFERENCES `sigcd`.`solicitante` (`id`),
     CONSTRAINT `direccion_fk` FOREIGN KEY (`idDireccion`)
-        REFERENCES `direccion` (`id`),
+        REFERENCES `sigcd`.`direccion` (`id`),
     CONSTRAINT `estadoAtFk` FOREIGN KEY (`idEstado`)
-        REFERENCES `estado` (`id`)
+        REFERENCES `sigcd`.`estado` (`id`)
 )  ENGINE=INNODB DEFAULT CHARACTER SET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
 
 -- -----------------------------------------------------
--- Table `BecaAcademica`
+-- Table `sigcd`.`BecaAcademica`
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `BecaAcademica` (
+CREATE TABLE IF NOT EXISTS `sigcd`.`BecaAcademica` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `idSolicitante` INT NOT NULL,
     `fechaCreacion` TIMESTAMP NOT NULL,
@@ -106,14 +106,27 @@ CREATE TABLE IF NOT EXISTS `BecaAcademica` (
     `idEstado` INT NOT NULL,
     PRIMARY KEY (`id`),
     CONSTRAINT `solicitanteBaFk` FOREIGN KEY (`idSolicitante`)
-        REFERENCES `solicitante` (`id`),
+        REFERENCES `sigcd`.`solicitante` (`id`),
     CONSTRAINT `estudianteFk` FOREIGN KEY (`idEstudiante`)
-        REFERENCES `estudiante` (`id`),
+        REFERENCES `sigcd`.`estudiante` (`id`),
     CONSTRAINT `direccionfk` FOREIGN KEY (`idDireccion`)
-        REFERENCES `direccion` (`id`),
+        REFERENCES `sigcd`.`direccion` (`id`),
     CONSTRAINT `estadoBaFk` FOREIGN KEY (`idEstado`)
-        REFERENCES `estado` (`id`)
+        REFERENCES `sigcd`.`estado` (`id`)
 )  ENGINE=INNODB DEFAULT CHARACTER SET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+
+-- -----------------------------------------------------
+-- Table `sigcd`.`Requisito`
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `sigcd`.`Requisito` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `Descripcion` VARCHAR(500) NOT NULL,
+    PRIMARY KEY (`id`)
+)  ENGINE=INNODB DEFAULT CHARACTER SET=UTF8MB4 COLLATE = UTF8MB4_0900_AI_CI;
+
+INSERT INTO requisito VALUES(1,"Ser habitante");
+INSERT INTO requisito VALUES(2,"Ser estudiante");
 
 INSERT INTO estado VALUES(1,"En proceso");
 INSERT INTO estado VALUES(2,"Aceptada");

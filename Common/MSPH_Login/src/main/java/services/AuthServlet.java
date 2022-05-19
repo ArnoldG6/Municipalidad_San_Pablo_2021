@@ -76,7 +76,7 @@ public class AuthServlet extends HttpServlet {
                 responseJSON.put("username", String.valueOf(u.getIdUser()));
                 responseJSON.put("full_name", u.getOfficial().getName() + " " + u.getOfficial().getSurname());
                 responseJSON.put("roles", u.getRoles());
-               // responseJSON.put("user", u.toString());
+                // responseJSON.put("user", u.toString());
                 response.getWriter().write(responseJSON.toString());
                 request.getSession(true).setAttribute("user", u);//For other dependencies
                 UserDAO.getInstance().recordTransaction(requestJSON.getString("username"), common.dao.generic.Transaction.AUTHENTICATE, Boolean.TRUE, null);
@@ -85,7 +85,10 @@ public class AuthServlet extends HttpServlet {
                 throw e;
             }
         } catch (AuthException e) {
-            response.getWriter().write(e.jsonify());
+            
+            response.sendError(401, e.getMessage());
+            
+            //response.getWriter().write(e.jsonify());
         } finally {
             response.getWriter().flush();
             response.getWriter().close();

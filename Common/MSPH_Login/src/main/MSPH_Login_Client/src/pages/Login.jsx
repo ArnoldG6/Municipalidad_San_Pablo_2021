@@ -57,25 +57,54 @@ export default class Login extends React.Component {
         }
       }
       axios(options).then(response => {
-        if (response.data.authStatus) {
-          cookies.set("username", response.data.username, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
-          cookies.set("full_name", response.data.full_name, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
-          cookies.set("roles", response.data.roles, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
-          //cookies.set("user", response.data.user, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
-          this.setState({
-            username: '',
-            pwd: '',
-            disabled: true,
-            showPassResetModal: false
-          });
-          this.props.history.push('/menu');
-        } else
-          toast.error("Usuario o contraseña inválidos.", {
-            position: toast.POSITION.TOP_RIGHT,
-            pauseOnHover: true,
-            theme: 'colored',
-            autoClose: 5000
-          });
+        cookies.set("username", response.data.username, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
+        cookies.set("full_name", response.data.full_name, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
+        cookies.set("roles", response.data.roles, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
+        //cookies.set("user", response.data.user, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
+        this.setState({
+          username: '',
+          pwd: '',
+          disabled: true,
+          showPassResetModal: false
+        });
+        toast.success("Bienvenido! :D", {
+          position: toast.POSITION.TOP_RIGHT,
+          pauseOnHover: true,
+          theme: 'colored',
+          autoClose: 5000
+      });
+        this.props.history.push('/menu');
+
+        
+
+
+      }).catch(error => {
+        var msj = ""
+        if (error.response) {
+          switch (error.response.status) {
+            case 401:
+              msj = "Datos incorrectos, por favor vuelva a intentarlo.";
+              break;
+            case 500:
+              msj = "El servidor ha encontrado un error desconocido.";
+              break;
+            default:
+              msj = "El servidor ha encontrado un error desconocido.";
+              break;
+          }
+        } else if (error.request) {
+          //Server did not respond
+          msj = "Hubo un error con la conexión al servidor."
+        } else {
+          //Something else went wrong
+          msj = "Error desconocido."
+        }
+        toast.error(msj, {
+          position: toast.POSITION.TOP_RIGHT,
+          pauseOnHover: true,
+          theme: 'colored',
+          autoClose: 5000
+        });
       })
     });
   }
@@ -111,7 +140,7 @@ export default class Login extends React.Component {
           <h1> Sistema de Identificación de la Municipalidad de San Pablo </h1>
           <Form className="centered-element" onSubmit={this.handleSubmit}>
             <Form.Group className="mb-3">
-              <Image src={logo} height={200} width={200} className=' hover-shadow'/>
+              <Image src={logo} height={200} width={200} className=' hover-shadow' />
             </Form.Group>
             <Form.Group className="mb-3" >
               <Form.Label>Nombre de usuario o correo electrónico: </Form.Label>

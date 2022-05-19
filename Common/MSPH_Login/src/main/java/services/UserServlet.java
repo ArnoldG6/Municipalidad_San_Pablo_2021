@@ -203,7 +203,6 @@ public class UserServlet extends HttpServlet {
                 User newUser = new User(username, newOffi, email, password, roles);
                 //UserDAO.getInstance().add(newUser, password);
                 UserRoles usurol = new UserRoles(newUser.getIdUser(), newUser, rol);
-                
 
                 StringBuilder sb = new StringBuilder();
                 try {

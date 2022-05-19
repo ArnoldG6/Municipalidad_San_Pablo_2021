@@ -60,6 +60,12 @@ class AddIncidentModal extends Component {
 
             axios(options)
                 .then(response => {
+                    toast.success("Se registró la Incidencia exitosamente!", {
+                        position: toast.POSITION.TOP_RIGHT,
+                        pauseOnHover: true,
+                        theme: 'colored',
+                        autoClose: 5000
+                    });
                     this.setState({
                         validated: false
                     })

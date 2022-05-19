@@ -59,6 +59,12 @@ class EditPlanModal extends Component {
 
         axios(options)
             .then(response => {
+                toast.success("El Plan fue modificado exitosamente!", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    pauseOnHover: true,
+                    theme: 'colored',
+                    autoClose: 5000
+                });
                 this.props.refreshPage();
                 this.props.closeModal();
             })
@@ -134,7 +140,23 @@ class EditPlanModal extends Component {
                             <input name="authorName" id="authorName" type="text" placeholder="Autor" className="form-control" defaultValue={authorName} disabled />
                         </div>
                         <div className="form-group">
-                            <label>Estado:</label>
+                            <Stack direction="horizontal" gap={3}>
+                                <label>Estado:</label>
+                                <OverlayTrigger
+
+                                    delay={{ hide: 450, show: 300 }}
+                                    overlay={(props) => (
+                                        <Tooltip {...props}>
+                                            {process.env.REACT_APP_PLANES_HELP_STATE}
+                                        </Tooltip>
+                                    )}
+                                    placement="bottom"
+                                >
+                                    <h5 className='ms-auto mt-1'>
+                                        <i className="bi bi-info-circle"></i>
+                                    </h5>
+                                </OverlayTrigger>
+                            </Stack>
                             <Form.Select name="status" id="status" defaultValue={status}>
 
                                 <option value="Activo">Activo</option>
@@ -143,7 +165,23 @@ class EditPlanModal extends Component {
                             </Form.Select>
                         </div>
                         <div className="form-group">
-                            <label>Tipo:</label>
+                            <Stack direction="horizontal" gap={3}>
+                                <label>Tipo:</label>
+                                <OverlayTrigger
+
+                                    delay={{ hide: 450, show: 300 }}
+                                    overlay={(props) => (
+                                        <Tooltip {...props}>
+                                            {process.env.REACT_APP_PLANES_HELP_TYPE}
+                                        </Tooltip>
+                                    )}
+                                    placement="bottom"
+                                >
+                                    <h5 className='ms-auto mt-1'>
+                                        <i className="bi bi-info-circle"></i>
+                                    </h5>
+                                </OverlayTrigger>
+                            </Stack>
                             <Form.Select name="type" id="type" onChange={this.onChange} defaultValue={type} disabled>
                                 {
                                     (this.props.typesMap === null || typeof this.props.typesMap === 'undefined') ?
@@ -155,7 +193,23 @@ class EditPlanModal extends Component {
                             </Form.Select>
                         </div>
                         <div className="form-group">
-                            <label>Subtipo:</label>
+                            <Stack direction="horizontal" gap={3}>
+                                <label>Subtipo:</label>
+                                <OverlayTrigger
+
+                                    delay={{ hide: 450, show: 300 }}
+                                    overlay={(props) => (
+                                        <Tooltip {...props}>
+                                            {process.env.REACT_APP_PLANES_HELP_SUBTYPE}
+                                        </Tooltip>
+                                    )}
+                                    placement="bottom"
+                                >
+                                    <h5 className='ms-auto mt-1'>
+                                        <i className="bi bi-info-circle"></i>
+                                    </h5>
+                                </OverlayTrigger>
+                            </Stack>
                             <Form.Select name="subtype" id="subtype" defaultValue={subtype} disabled>
                                 {
                                     (this.props.typesMap === null || typeof this.props.typesMap === 'undefined' || typeof this.props.typesMap.get(this.state.value) === 'undefined') ?

@@ -48,6 +48,12 @@ export default class AddCommentModal extends Component {
 
             axios(options)
                 .then(response => {
+                    toast.success("El comentario fue añadido correctamente!", {
+                        position: toast.POSITION.TOP_RIGHT,
+                        pauseOnHover: true,
+                        theme: 'colored',
+                        autoClose: 5000
+                    });
                     this.setState({
                         validated: false
                     })

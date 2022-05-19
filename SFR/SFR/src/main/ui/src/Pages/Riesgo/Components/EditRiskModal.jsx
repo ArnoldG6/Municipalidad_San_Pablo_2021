@@ -53,6 +53,12 @@ class EditRiskModal extends Component {
 
             axios(options)
                 .then(response => {
+                    toast.success("El Riesgo fue modificado exitosamente!", {
+                        position: toast.POSITION.TOP_RIGHT,
+                        pauseOnHover: true,
+                        theme: 'colored',
+                        autoClose: 5000
+                    });
                     this.props.refreshPage();
                     this.props.closeModalEdit();
                 })
@@ -128,7 +134,7 @@ class EditRiskModal extends Component {
                             <div className="form-group">
                                 <Stack direction='horizontal'>
                                     <div className="number-input-container">
-                                        <Stack direction="horizontal" gap={3}>
+                                        <Stack direction="horizontal" gap={2}>
                                             <label>Probabilidad: </label>
                                             <OverlayTrigger
                                                 delay={{ hide: 450, show: 300 }}
@@ -147,7 +153,7 @@ class EditRiskModal extends Component {
                                         <input step=".01" min="0.01" max="1" name="probability" id="probability" type="number" placeholder="0,01" className="form-control number-input" defaultValue={risk.probability} required />
                                     </div>
                                     <div className="number-input-container">
-                                        <Stack direction="horizontal" gap={3}>
+                                        <Stack direction="horizontal" gap={2}>
                                             <label>Impacto:</label>
                                             <OverlayTrigger
                                                 delay={{ hide: 450, show: 300 }}

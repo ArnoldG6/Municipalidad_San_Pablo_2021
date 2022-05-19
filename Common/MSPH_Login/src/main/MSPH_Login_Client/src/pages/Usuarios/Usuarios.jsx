@@ -25,7 +25,6 @@ export default class Usuarios extends React.Component {
         this.closeModalAdd = this.closeModalAdd.bind(this);
         this.openModalAdd = this.openModalAdd.bind(this);
         this.checkPermissions = this.checkPermissions.bind(this);
-        this.checkOwner = this.checkOwner.bind(this);
         this.retrieveDepartments = this.retrieveDepartments.bind(this);
         this.updatePage = this.updatePage.bind(this);
         this.updatePageItems = this.updatePageItems.bind(this);
@@ -39,6 +38,11 @@ export default class Usuarios extends React.Component {
             typeof cookies.get('full_name', { path: process.env.REACT_APP_AUTH }) === 'undefined') {
             document.location = process.env.REACT_APP_LOGOUT;
         }
+
+        if (!this.checkPermissions("SUPER_ADMIN")) {
+            document.location = process.env.REACT_APP_AUTH;
+        }
+
         this.refreshPage();
     }
 
@@ -132,16 +136,6 @@ export default class Usuarios extends React.Component {
         return perm;
     }
 
-    checkOwner() {
-        let perm = false;
-        if ((typeof cookies.get('username', { path: process.env.REACT_APP_AUTH }) !== 'undefined') && (this.state.user.username !== null) && (typeof this.state.user.username !== 'undefined')) {
-            if (cookies.get('username', { path: process.env.REACT_APP_AUTH }) === this.state.user.username.toString()) {
-                perm = true;
-            }
-        }
-        return perm;
-    }
-
     /* Pagination */
     updatePage(pageNumber) {
         this.setState({
@@ -187,10 +181,10 @@ export default class Usuarios extends React.Component {
                                 <Container fluid>
                                     <Row>
                                         <Col>
-                                            <h1 className='title'>Lista de usuarios</h1>
+                                            <h1 className='title'>Manejo de usuarios</h1>
                                             <div className="col-md-12 text-center">
                                                 <Button className='btnSFR' onClick={() => this.openModalAdd(this.state.user)}
-                                                    disabled={(this.checkPermissions("USER") && !this.checkOwner()) ? true : false} id='btnEdit' >Agregar nuevo Usuario</Button>
+                                                    id='btnEdit' >Agregar nuevo Usuario</Button>
                                             </div>
                                             <Table>
                                                 <Table border="1" hover responsive="md">
@@ -235,10 +229,10 @@ export default class Usuarios extends React.Component {
 
                                             <Table>
                                                 <br />
-                                                <h2 id='titulo'>Lista de Usuarios</h2>
+                                                <h2 id='titulo'>Manejo de Usuarios</h2>
                                                 <div className="col-md-12 text-center">
                                                     <Button className='btnSFR' onClick={() => this.openModalAdd(this.state.user)}
-                                                        disabled={(this.checkPermissions("USER") && !this.checkOwner()) ? true : false} id='btnEdit' >Agregar nuevo Usuario</Button>
+                                                        id='btnEdit' >Agregar nuevo Usuario</Button>
                                                 </div>
                                                 <Table responsive="sm">
                                                     <tbody>

@@ -143,15 +143,46 @@ export default class AddPlanModal extends Component {
                             <input name="authorName" id="authorName" type="text" className="form-control" disabled defaultValue={cookies.get('full_name', { path: process.env.REACT_APP_AUTH })} />
                         </div>
                         <div className="form-group">
-                            <label>Estado:</label>
+                            <Stack direction="horizontal" gap={3}>
+                                <label>Estado:</label>
+                                <OverlayTrigger
+
+                                    delay={{ hide: 450, show: 300 }}
+                                    overlay={(props) => (
+                                        <Tooltip {...props}>
+                                            {process.env.REACT_APP_PLANES_HELP_STATE}
+                                        </Tooltip>
+                                    )}
+                                    placement="bottom"
+                                >
+                                    <h5 className='ms-auto mt-1'>
+                                        <i className="bi bi-info-circle"></i>
+                                    </h5>
+                                </OverlayTrigger>
+                            </Stack>
                             <Form.Select name="status" id="status">
                                 <option value="Activo">Activo</option>
                                 <option value="Inactivo">Inactivo</option>
-                                <option value="Completo">Completo</option>
                             </Form.Select>
                         </div>
                         <div className="form-group">
-                            <label>Tipo:</label>
+                            <Stack direction="horizontal" gap={3}>
+                                <label>Tipo:</label>
+                                <OverlayTrigger
+
+                                    delay={{ hide: 450, show: 300 }}
+                                    overlay={(props) => (
+                                        <Tooltip {...props}>
+                                            {process.env.REACT_APP_PLANES_HELP_TYPE}
+                                        </Tooltip>
+                                    )}
+                                    placement="bottom"
+                                >
+                                    <h5 className='ms-auto mt-1'>
+                                        <i className="bi bi-info-circle"></i>
+                                    </h5>
+                                </OverlayTrigger>
+                            </Stack>
                             <Form.Select name="type" id="type" onChange={this.onChange}>
                                 {
                                     (this.props.typesMap === null || typeof this.props.typesMap === 'undefined') ?
@@ -163,7 +194,23 @@ export default class AddPlanModal extends Component {
                             </Form.Select>
                         </div>
                         <div className="form-group">
-                            <label>Subtipo:</label>
+                            <Stack direction="horizontal" gap={3}>
+                                <label>Subtipo:</label>
+                                <OverlayTrigger
+
+                                    delay={{ hide: 450, show: 300 }}
+                                    overlay={(props) => (
+                                        <Tooltip {...props}>
+                                            {process.env.REACT_APP_PLANES_HELP_SUBTYPE}
+                                        </Tooltip>
+                                    )}
+                                    placement="bottom"
+                                >
+                                    <h5 className='ms-auto mt-1'>
+                                        <i className="bi bi-info-circle"></i>
+                                    </h5>
+                                </OverlayTrigger>
+                            </Stack>
                             <Form.Select name="subtype" id="subtype">
                                 {
                                     (this.props.typesMap === null || typeof this.props.typesMap === 'undefined' || typeof this.props.typesMap.get(this.state.value) === 'undefined') ?

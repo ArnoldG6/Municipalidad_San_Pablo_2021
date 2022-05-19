@@ -17,10 +17,31 @@ export default class Menu extends Component {
     Menu class corresponds to the component that is shown to the user
     if the auth-request was accepted by the server.
     */
-    /*constructor(props){
+    constructor(props) {
         super(props);
-        this.redirectToSIVAC = this.bind.redirectToSIVAC(this);
+        this.redirectToSIGCD = this.redirectToSIGCD.bind(this);
     }
+    redirectToSIGCD() {
+        var options = {
+            url: "http://localhost:8080/Web/API/solicitud/redireccion",
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+            },
+            data: {
+                'username': parseInt(cookies.get('username', { path: process.env.REACT_APP_AUTH }))
+            }
+        }
+        axios(options).then(response => {
+            //document.location = process.env.REACT_APP_SIGCD_PATH;
+            document.location = "http://localhost:8080/Web";
+        }).catch(function (error){
+            alert("Error al intentar redirigir al SIGCD");
+        });
+    }
+    /*
     redirectToSIVAC(){
         axios.get("http://localhost:8081/home/LoginService", {
             params: {
@@ -31,13 +52,14 @@ export default class Menu extends Component {
             ;
           })
     }
+
+*/
     componentDidMount() {
         if (!(cookies.get('username', { path: process.env.REACT_APP_AUTH })
             && cookies.get('roles', { path: process.env.REACT_APP_AUTH })
             && cookies.get('full_name', { path: process.env.REACT_APP_AUTH })))
             this.props.history.push('/auth');
     }
-*/
     render() {
         return (
             <div>
@@ -48,7 +70,7 @@ export default class Menu extends Component {
                     </Row>
                     <Row className='vertical-center'>
 
-                        <Card className='menuCard' onClick={() => { document.location = process.env.REACT_APP_SFR_CLIENT_PATH; }}>
+                        <Card className='menuCard' onClick={() => { document.location = process.env.REACT_APP_SFR_PATH; }}>
                             <Card.Title>Sistema de Factibilidad de Riesgos</Card.Title>
                             <Card.Header variant="top" className='vertical-center'><i class="bi bi-table menuIcon"></i></Card.Header>
                             <Button className="btnSFR"  >
@@ -56,7 +78,7 @@ export default class Menu extends Component {
                             </Button>
                         </Card>
 
-                        <Card className='menuCard' onClick={() => { document.location = process.env.REACT_APP_SIGCD_PATH; }}>
+                        <Card className='menuCard' onClick={this.redirectToSIGCD()}>
                             <Card.Title>Sistema de Gestión y Control de Donaciones</Card.Title>
                             <Card.Header variant="top" className='vertical-center'><i class="bi bi-pencil menuIcon"></i> </Card.Header>
                             <Button className="btnSFR" >
@@ -64,17 +86,17 @@ export default class Menu extends Component {
                             </Button>
                         </Card>
 
-                        <Card className='menuCard' onClick={() => { 
-                                    axios.get("http://localhost:8081/home/LoginService", {
-                                        params: {
-                                          userID: cookies.get('username', { path: process.env.REACT_APP_AUTH })
-                                        }
-                                      })
-                                      .then(function (response) {
-                                        ;
-                                      })
+                        <Card className='menuCard' onClick={() => {
+                            axios.get("http://localhost:8081/home/LoginService", {
+                                params: {
+                                    userID: cookies.get('username', { path: process.env.REACT_APP_AUTH })
+                                }
+                            })
+                                .then(function (response) {
+                                    ;
+                                })
 
-                            }}>
+                        }}>
                             <Card.Title>Sistemas de Vacaciones Permisos e Incapacidades</Card.Title>
                             <Card.Header variant="top" className='vertical-center'><i class="bi bi-pencil menuIcon"></i> </Card.Header>
                             <Button className="btnSFR" >

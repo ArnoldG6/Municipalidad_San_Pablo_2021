@@ -23,7 +23,7 @@ export default class Menu extends Component {
     }
     redirectToSIGCD() {
         var options = {
-            url: "http://localhost:8080/Web/API/solicitud/redireccion",
+            url: process.env.REACT_APP_SIGCD_REDIRECTION_PATH,
             method: 'POST',
             header: {
                 'Accept': 'application/json',
@@ -35,10 +35,9 @@ export default class Menu extends Component {
             }
         }
         axios(options).then(response => {
-            //document.location = process.env.REACT_APP_SIGCD_PATH;
-            document.location = "http://localhost:8080/Web";
+            document.location = process.env.REACT_APP_SIGCD_PATH;
         }).catch(function (error){
-            alert("Error al intentar redirigir al SIGCD");
+            console.log("Error al intentar redirigir al SIGCD");
         });
     }
     /*
@@ -78,7 +77,7 @@ export default class Menu extends Component {
                             </Button>
                         </Card>
 
-                        <Card className='menuCard' onClick={this.redirectToSIGCD()}>
+                        <Card className='menuCard' onClick={()=>{this.redirectToSIGCD();}}>
                             <Card.Title>Sistema de Gestión y Control de Donaciones</Card.Title>
                             <Card.Header variant="top" className='vertical-center'><i class="bi bi-pencil menuIcon"></i> </Card.Header>
                             <Button className="btnSFR" >

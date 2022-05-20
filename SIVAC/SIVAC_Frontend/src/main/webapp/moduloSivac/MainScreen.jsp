@@ -19,16 +19,19 @@
     <%
         Integer username = (Integer) request.getSession(true).getAttribute("username");
         request.getSession(true).setAttribute("id", username);
-
+        
         service.Service service = new service.Service();
         String menu;
         try {
-            menu = service.userAccess(Integer.parseInt(request.getSession(true).getAttribute("id").toString()));
+            menu = service.userAccess(username);
         } catch (NullPointerException | NumberFormatException ex) {
             menu = "../error";
         } catch (ProcessingException e) {
             menu = "../errorServidor";
-        };
+        } catch(Exception e){
+            menu = "../error";
+        }
+        ;
     %>
 
     <jsp:include page='<%= "includes/" + menu + ".jsp"%>' />

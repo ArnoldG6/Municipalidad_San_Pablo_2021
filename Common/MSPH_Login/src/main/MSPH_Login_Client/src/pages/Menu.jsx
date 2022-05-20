@@ -55,7 +55,8 @@ export default class Menu extends Component {
             }
         }
         axios(options).then(response => {
-            ;//document.location = process.env.REACT_APP_SIGCD_PATH;
+            //document.location = process.env.REACT_APP_SIGCD_PATH;
+            document.location = "http://localhost:8081/home/moduloSivac/MainScreen.jsp";
         }).catch(function (error) {
             console.log("Error al intentar redirigir al SIVAC");
         });

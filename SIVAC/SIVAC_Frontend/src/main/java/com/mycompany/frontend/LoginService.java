@@ -32,20 +32,16 @@ public class LoginService extends HttpServlet {
 
     }
 
-    private void handleFriendlyRedict(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void handleFriendlyRedict(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        User u = UserDAO.getInstance().searchById(requestJSON.getInt("username"));
-        System.out.println(requestJSON.getInt("username"));
-        if (u == null) {
-            throw new IOException("User not found");
-        }
-        request.getSession().setAttribute("user", u);
-        response.sendRedirect("moduloSivac/MainScreen.jsp");
-        System.out.println(request.getAttribute("userID"));
-        System.out.println(u.toString());
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().flush();
-        response.getWriter().close();
+        //User u = UserDAO.getInstance().searchById(requestJSON.getInt("username"));
+        //if (u == null) {
+        //     throw new IOException("User not found");
+        //}
+        //request.getSession().setAttribute("user", u);
+        request.getSession().setAttribute("username", requestJSON.getInt("username"));
+        request.getSession().setAttribute("redireccionamiento", 0);
+        request.getRequestDispatcher("moduloSivac/MainScreen.jsp").forward(request, response);
     }
 
     @Override

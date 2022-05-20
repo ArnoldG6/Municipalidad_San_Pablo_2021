@@ -56,10 +56,12 @@ export default class Menu extends Component {
         }
         axios(options).then(response => {
             ;//document.location = process.env.REACT_APP_SIGCD_PATH;
-            document.location = "http://localhost:8081/home/moduloSivac/MainScreen.jsp";
         }).catch(function (error) {
             console.log("Error al intentar redirigir al SIVAC");
         });
+        
+       // document.location = "http://localhost:8081/home/moduloSivac/MainScreen.jsp"+
+        //"?username="+cookies.get('username', { path: process.env.REACT_APP_AUTH });
     }
 
     componentDidMount() {
@@ -80,7 +82,7 @@ export default class Menu extends Component {
 
                         <Card className='menuCard' onClick={() => { document.location = process.env.REACT_APP_SFR_PATH; }}>
                             <Card.Title>Sistema de Factibilidad de Riesgos</Card.Title>
-                            <Card.Header variant="top" className='vertical-center'><i class="bi bi-table menuIcon"></i></Card.Header>
+                            <Card.Header variant="top" className='vertical-center'><i className="bi bi-table menuIcon"></i></Card.Header>
                             <Button className="btnSFR"  >
                                 SFR
                             </Button>
@@ -88,7 +90,7 @@ export default class Menu extends Component {
 
                         <Card className='menuCard' onClick={() => { this.redirectToSIGCD(); }}>
                             <Card.Title>Sistema de Gestión y Control de Donaciones</Card.Title>
-                            <Card.Header variant="top" className='vertical-center'><i class="bi bi-pencil menuIcon"></i> </Card.Header>
+                            <Card.Header variant="top" className='vertical-center'><i className="bi bi-pencil menuIcon"></i> </Card.Header>
                             <Button className="btnSFR" >
                                 SIGCD
                             </Button>
@@ -96,7 +98,7 @@ export default class Menu extends Component {
 
                         <Card className='menuCard' onClick={() => { this.redirectToSIVAC();}}>
                             <Card.Title>Sistemas de Vacaciones Permisos e Incapacidades</Card.Title>
-                            <Card.Header variant="top" className='vertical-center'><i class="bi bi-pencil menuIcon"></i> </Card.Header>
+                            <Card.Header variant="top" className='vertical-center'><i className="bi bi-pencil menuIcon"></i> </Card.Header>
                             <Button className="btnSFR" >
                                 SIVAC
                             </Button>

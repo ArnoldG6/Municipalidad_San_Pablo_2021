@@ -17,8 +17,8 @@
     <!--%@include file="BossMain.jsp" %-->
 
     <%
-        common.model.User user = (common.model.User) request.getSession(true).getAttribute("user");
-        request.getSession(true).setAttribute("id", user.getIdUser());
+        Integer username = (Integer) request.getSession(true).getAttribute("username");
+        request.getSession(true).setAttribute("id", username);
 
         service.Service service = new service.Service();
         String menu;

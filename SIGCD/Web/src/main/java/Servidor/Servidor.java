@@ -11,18 +11,21 @@ import Logica.Persona.Solicitante;
 import Logica.Solicitud.SolicitudAyudaTemporal;
 import Logica.Solicitud.SolicitudBecaAcademica;
 import com.google.gson.Gson;
-import common.dao.UserDAO;
-import common.model.User;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONObject;
+import javax.servlet.http.Part;
 
 @WebServlet(name = "solicitud", urlPatterns = {
     "/API/solicitud/ayuda_temporal",
@@ -38,8 +41,10 @@ import org.json.JSONObject;
     "/API/solicitud/get_solicitud_ayuda_temporal",
     "/API/solicitud/all-solicitudes-ayudas-temporales",
     "/API/solicitud/all-solicitudes-becas-academicas",
-    "/API/solicitud/redireccion"
+    "/API/upload"
 })
+
+@MultipartConfig
 
 public class Servidor extends HttpServlet {
 
@@ -56,10 +61,10 @@ public class Servidor extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
         try {
             request.setCharacterEncoding("UTF-8");
-            response.setHeader("Access-Control-Allow-Origin", "*");
-            response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-            response.setHeader("Access-Control-Allow-Credentials", "true");
-            response.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD,UPDATE");
+            response.addHeader("Access-Control-Allow-Origin", "*");
+            response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+            response.addHeader("Access-Control-Allow-Credentials", "true");
+            response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD,UPDATE");
             switch (request.getServletPath()) {
                 case "/API/solicitud/ayuda_temporal":
                     crearSolicitudAyudaTemporal(request, response);
@@ -97,8 +102,8 @@ public class Servidor extends HttpServlet {
                 case "/API/solicitud/all-solicitudes-becas-academicas":
                     selectAllSolicitudesBecasAcademicas(request, response);
                     break;
-                case "/API/solicitud/redireccion":
-                    handleFriendlyRedict(request, response);
+                case "/API/upload":
+                    //upload(request, response);
                     break;
             }
         } catch (IOException ex) {
@@ -106,17 +111,6 @@ public class Servidor extends HttpServlet {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
-    }
-
-    private void handleFriendlyRedict(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        User u = UserDAO.getInstance().searchById(requestJSON.getInt("username"));
-        request.getSession().setAttribute("user", u);
-        //response.setContentType("application/json");
-        System.out.println(u.toString());
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().flush();
-        response.getWriter().close();
     }
 
     /**
@@ -127,6 +121,8 @@ public class Servidor extends HttpServlet {
      * a JSON formatted 'Risk' object that matches with the search data sent by
      * the client with any of the 'Risk' class attributes..
      */
+
+
     private void crearSolicitudAyudaTemporal(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String requestJSON = request.getReader().lines().collect(Collectors.joining());
         SolicitudAyudaTemporal at = new Gson().fromJson(requestJSON, SolicitudAyudaTemporal.class);
@@ -326,7 +322,8 @@ public class Servidor extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Servidor.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -336,7 +333,8 @@ public class Servidor extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Servidor.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

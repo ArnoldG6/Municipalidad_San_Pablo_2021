@@ -12,27 +12,36 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.util.stream.Collectors;
+import org.json.JSONObject;
+
 public class LoginService extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            response.addHeader("Access-Control-Allow-Origin", "*");
-            response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-            response.addHeader("Access-Control-Allow-Credentials", "true");
-            response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
-            System.out.println(request.getAttribute("userID"));
-            User user = UserDAO.getInstance().searchById(Integer.parseInt(request.getParameter("userID")));
-            if(user == null) 
-                throw new IOException("User not found");
-            HttpSession session = request.getSession(true);
-            session.setAttribute("user", user);
-            response.sendRedirect("moduloSivac/MainScreen.jsp");
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+            response.setHeader("Access-Control-Allow-Credentials", "true");
+            response.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
+            handleFriendlyRedict(request, response);
+
         } catch (Exception ex) {
             System.err.printf("%s\n", ex.getMessage());
         }
 
+    }
+
+    private void handleFriendlyRedict(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        //User u = UserDAO.getInstance().searchById(requestJSON.getInt("username"));
+        //if (u == null) {
+        //     throw new IOException("User not found");
+        //}
+        //request.getSession().setAttribute("user", u);
+        request.getSession().setAttribute("username", requestJSON.getInt("username"));
+        request.getSession().setAttribute("redireccionamiento", 0);
+        request.getRequestDispatcher("moduloSivac/MainScreen.jsp").forward(request, response);
     }
 
     @Override

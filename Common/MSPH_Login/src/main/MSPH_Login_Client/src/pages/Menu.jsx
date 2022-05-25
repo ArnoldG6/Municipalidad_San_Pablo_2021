@@ -20,6 +20,7 @@ export default class Menu extends Component {
     constructor(props) {
         super(props);
         this.redirectToSIGCD = this.redirectToSIGCD.bind(this);
+        this.redirectToSIVAC = this.redirectToSIVAC.bind(this);
     }
     redirectToSIGCD() {
         var options = {
@@ -36,23 +37,34 @@ export default class Menu extends Component {
         }
         axios(options).then(response => {
             document.location = process.env.REACT_APP_SIGCD_PATH;
-        }).catch(function (error){
+        }).catch(function (error) {
             console.log("Error al intentar redirigir al SIGCD");
         });
     }
-    /*
-    redirectToSIVAC(){
-        axios.get("http://localhost:8081/home/LoginService", {
-            params: {
-              userID: cookies.get('username', { path: process.env.REACT_APP_AUTH })
+    redirectToSIVAC() {
+        var options = {
+            url: process.env.REACT_APP_SIVAC_REDIRECTION_PATH,
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+            },
+            data: {
+                'username': parseInt(cookies.get('username', { path: process.env.REACT_APP_AUTH }))
             }
-          })
-          .then(function (response) {
-            ;
-          })
+        }
+        axios(options).then(response => {
+            //document.location = process.env.REACT_APP_SIGCD_PATH;
+            document.location = "http://localhost:8081/home/moduloSivac/MainScreen.jsp";
+        }).catch(function (error) {
+            console.log("Error al intentar redirigir al SIVAC");
+        });
+        
+       // document.location = "http://localhost:8081/home/moduloSivac/MainScreen.jsp"+
+        //"?username="+cookies.get('username', { path: process.env.REACT_APP_AUTH });
     }
 
-*/
     componentDidMount() {
         if (!(cookies.get('username', { path: process.env.REACT_APP_AUTH })
             && cookies.get('roles', { path: process.env.REACT_APP_AUTH })
@@ -71,33 +83,23 @@ export default class Menu extends Component {
 
                         <Card className='menuCard' onClick={() => { document.location = process.env.REACT_APP_SFR_PATH; }}>
                             <Card.Title>Sistema de Factibilidad de Riesgos</Card.Title>
-                            <Card.Header variant="top" className='vertical-center'><i class="bi bi-table menuIcon"></i></Card.Header>
+                            <Card.Header variant="top" className='vertical-center'><i className="bi bi-table menuIcon"></i></Card.Header>
                             <Button className="btnSFR"  >
                                 SFR
                             </Button>
                         </Card>
 
-                        <Card className='menuCard' onClick={()=>{this.redirectToSIGCD();}}>
+                        <Card className='menuCard' onClick={() => { this.redirectToSIGCD(); }}>
                             <Card.Title>Sistema de Gestión y Control de Donaciones</Card.Title>
-                            <Card.Header variant="top" className='vertical-center'><i class="bi bi-pencil menuIcon"></i> </Card.Header>
+                            <Card.Header variant="top" className='vertical-center'><i className="bi bi-pencil menuIcon"></i> </Card.Header>
                             <Button className="btnSFR" >
                                 SIGCD
                             </Button>
                         </Card>
 
-                        <Card className='menuCard' onClick={() => {
-                            axios.get("http://localhost:8081/home/LoginService", {
-                                params: {
-                                    userID: cookies.get('username', { path: process.env.REACT_APP_AUTH })
-                                }
-                            })
-                                .then(function (response) {
-                                    ;
-                                })
-
-                        }}>
+                        <Card className='menuCard' onClick={() => { this.redirectToSIVAC();}}>
                             <Card.Title>Sistemas de Vacaciones Permisos e Incapacidades</Card.Title>
-                            <Card.Header variant="top" className='vertical-center'><i class="bi bi-pencil menuIcon"></i> </Card.Header>
+                            <Card.Header variant="top" className='vertical-center'><i className="bi bi-pencil menuIcon"></i> </Card.Header>
                             <Button className="btnSFR" >
                                 SIVAC
                             </Button>

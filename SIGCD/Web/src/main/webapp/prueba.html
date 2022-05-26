@@ -1,146 +1,40 @@
-<!-- LOGIN -->
-<div class="modal fade modal-fade-centered" id="loginDialog" tabindex="-1" role="dialog" style="min-width:720px!important">
-    <div class="modal-dialog" style="min-width:720px!important">
-        <div class="modal-content" style="min-width:720px!important;   justify-content: center;">
-            <main>
-                <article>
-                    <div class="container justify-content-center">
-                        <div class="col-12 col-offset">
-                            <div class="progress mt-3" style="height: 30px;">
-                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="font-weight:bold; font-size:15px; background-color: #42AA25" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="card mt-3">
-                                <div class="card-header font-weight-bold">Formulario ayuda temporal</div>
-                                <div class="card-body p-4 step">
-                                    <div id="datosPersonales" class="form-group row">
-                                        <div class="col-6">
-                                            <label for="cedula">Cedula<b style="color: #dc3545;">*</b></label>
-                                            <input type="text" name="cedula" class="form-control" id="cedulaInput" required>
-                                            <div class="invalid-feedback">Este campo es requerido</div>  
-                                        </div>
-                                        <div class="col-6">
-                                            <br>
-                                            <button id="consultarCedulaBtn" type="button" class="btn btn-primary" style="background-color: #02315f">Consultar</button>
-                                        </div>
-                                        <div class="col-4">
-                                            <br>
-                                            <label for="nombre">Nombre<b style="color: #dc3545;">*</b></label>
-                                            <input type="text" name="nombre" class="form-control" id="nombreInput" required>
-                                            <div class="invalid-feedback">Este campo es requerido</div>
-                                        </div>
-                                        <div class="col-4">
-                                            <br>
-                                            <label for="primerApellido">Primer apellido<b style="color: #dc3545;">*</b></label>
-                                            <input type="text" name="primerApellido" class="form-control" id="primerApellidoInput" required>
-                                            <div class="invalid-feedback">Este campo es requerido</div>
-                                        </div>
-                                        <div class="col-4">
-                                            <br>
-                                            <label for="segundoApellido">Segundo apellido<b style="color: #dc3545;">*</b></label>
-                                            <input type="text" name="segundoApellido" class="form-control" id="segundoApellidoInput" required>
-                                            <div class="invalid-feedback">Este campo es requerido</div>
-                                        </div>
-                                        <div class="col-6">
-                                            <br>
-                                            <label for="fechaNacimiento">Fecha nacimiento<b style="color: #dc3545;">*</b></label>
-                                            <div class="row form-group">
-                                                <div class="input-group date" id="datepicker">
-                                                    <input type="text" name="fechaNacimientoInput" class="form-control" id="fechaNacimientoInput" required>
-                                                    <span class="input-group-append">
-                                                        <span class="input-group-text bg-white d-block">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </span>
-                                                    </span>
-                                                </div>                  
-                                            </div>
-                                            <div class="invalid-feedback">Este campo es requerido</div>
-                                        </div>
-                                        <div class="col-6">
-                                            <br>
-                                            <label for="edad">Edad<b style="color: #dc3545;">*</b></label>
-                                            <input type="number" name="edad" class="form-control" id="edadInput" min="18" max="120" required>
-                                            <div class="invalid-feedback">Este campo es requerido</div>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="text-center text-muted"><b style="color: #dc3545;">*</b>Campos requeridos</div>
-                                </div>
-                                <div class="card-body p-4 step" style="display: none"> 
-                                    <div id="datosContacto" class="form-group row">
-                                        <div class="form-group row">
-                                            <div class="col-6">
-                                                <br>
-                                                <label for="telefonoHabitacion">Teléfono habitación<b style="color: #dc3545;">*</b></label>
-                                                <input type="text" name="telefonoHabitacion" class="form-control" id="telefonoHabitacionInput" required>
-                                                <div class="invalid-feedback">Este campo es requerido</div>
-                                            </div>
-                                            <div class="col-6">
-                                                <br>
-                                                <label for="telefonoCelular">Teléfono celular<b style="color: #dc3545;">*</b></label>
-                                                <input type="text" name="telefonoCelular" class="form-control" id="telefonoCelularInput" required>
-                                                <div class="invalid-feedback">Este campo es requerido</div>
-                                            </div>
-                                            <div>
-                                                <br>
-                                                <label for="correoElectronico">Correo electrónico<b style="color: #dc3545;">*</b></label>
-                                                <input type="text" name="correoElectronico" class="form-control" id="correoElectronicoInput" required>
-                                                <div class="invalid-feedback">Este campo es requerido</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="text-center text-muted"><b style="color: #dc3545;">*</b>Campos requeridos</div>
-                                </div>
-                                <div class="card-body p-4 step" style="display: none">
-                                    <div id="datosDireccion" class="form-group row">
-                                        <div>
-                                            <br>
-                                            <label for="distrito">Distrito<b style="color: #dc3545;">*</b></label>
-                                            <select class="form-select" id="options" required>
-                                                <option value="" disabled selected>Seleccione su distrito</option>
-                                                <option value="San Pablo">San Pablo</option>
-                                                <option value="Rincon Sabanilla">Rincon Sabanilla</option>
-                                            </select>
-                                            <div class="invalid-feedback">Este campo es requerido</div>
-                                        </div>
-                                        <div>
-                                            <br>
-                                            <label for="barrio">Barrio<b style="color: #dc3545;">*</b></label>                                     
-                                            <select class="form-select" id="choices" required>
-                                                <option value="" disabled selected>Seleccione su barrio</option>
-                                            </select>
-                                            <div class="invalid-feedback">Este campo es requerido</div>
-                                        </div>
-                                        <div>
-                                            <br>
-                                            <label for="direccionExacta">Dirección exacta<b style="color: #dc3545;">*</b></label>
-                                            <input type="text" name="direccionExacta" class="form-control" id="direccionExactaInput" required>
-                                            <div class="invalid-feedback">Este campo es requerido</div>
-                                        </div>
-                                    </div> 
-                                    <br>
-                                    <div class="text-center text-muted"><b style="color: #dc3545;">*</b>Campos requeridos</div>
-                                </div>
-                                <div class="card-body p-4 step" style="display: none">
-                                    <br>                                
-                                    <div id="datosMotivo" class="form-group row">
-                                        <label for="motivoAyuda">Motivo de la ayuda<b style="color: #dc3545;">*</b></label>
-                                        <textarea name="motivoAyuda" class="form-control" id="motivoAyudaInput" rows="10" required></textarea>
-                                        <div class="invalid-feedback">Este campo es requerido</div>
-                                    </div> 
-                                    <br>
-                                    <div class="text-center text-muted"><b style="color: #dc3545;">*</b>Campos requeridos</div>
-                                </div>
-                                <div class="card-footer">
-                                    <button class="action back btn btn-sm btn-warning btn-lg" style="display: none">Atrás</button>
-                                    <button class="action next btn btn-sm btn btn-primary btn-lg float-end" disabled="" style="background-color: #02315f">Siguiente</button>
-                                    <button id="crearFormularioATBtn" class="action submit btn btn-sm btn-success float-end" style="display: none">Enviar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            </main>
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>File Upload</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .main{
+                width: 300px;
+                height: 200px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                border: 2px solid;
+            }
+            form{
+                width: 100%;
+                position: relative;
+                display: block;
+                margin: 20px auto;
+            }
+            input{
+                margin: 10px 0;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <div class="main">
+            <form method="POST" action="UploadServlet" enctype="multipart/form-data" >
+                <input type="file" name="file" multiple/>
+                <input type="submit" value="Upload"/>
+            </form>
         </div>
-    </div>              
-</div>
+    </body>
+</html>

@@ -36,6 +36,10 @@ var barraNavegacion =
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="MenuPrincipal.html">Vista usuario experto</a>
                 </li>
+                <a class="nav-link active" aria-current="page"></a>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="prueba.html">Prueba</a>
+                </li>
             </ul>
         </div>
     </div>

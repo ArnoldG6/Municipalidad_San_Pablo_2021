@@ -112,9 +112,13 @@ public class Servidor extends HttpServlet {
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         User u = UserDAO.getInstance().searchById(requestJSON.getInt("username"));
         request.getSession().setAttribute("user", u);
+        String department = u.getOfficial().getDepartment().getDescription();
         //response.setContentType("application/json");
         System.out.println(u.toString());
         response.setCharacterEncoding("UTF-8");
+        if(!"Donaciones".equals(department)){
+            response.sendError(5);
+        }
         response.getWriter().flush();
         response.getWriter().close();
     }

@@ -38,10 +38,13 @@ export default class Menu extends Component {
         axios(options).then(response => {
             document.location = process.env.REACT_APP_SIGCD_PATH;
         }).catch(function (error) {
-            if(error === 5)
-                alert("Acceso denegado");
-            else 
-            alert("Error al intentar redirigir al SIGCD");
+            if(error.response){
+                if(error.response.status === 403)
+                    alert("Acceso denegado");
+                else 
+                    alert("Error al intentar redirigir al SIGCD");
+            }else 
+                alert("Error al intentar redirigir al SIGCD");
         });
     }
     redirectToSIVAC() {

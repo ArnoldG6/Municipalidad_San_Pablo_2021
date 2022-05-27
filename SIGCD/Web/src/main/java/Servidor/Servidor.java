@@ -120,12 +120,9 @@ public class Servidor extends HttpServlet {
         User u = UserDAO.getInstance().searchById(requestJSON.getInt("username"));
         request.getSession().setAttribute("user", u);
         String department = u.getOfficial().getDepartment().getDescription().toUpperCase();
-        //response.setContentType("application/json");
-        System.out.println(u.toString());
         response.setCharacterEncoding("UTF-8");
-        if(!"DONACIONES".equals(department)){
-            response.sendError(5);
-        }
+        if((!"DONACIONES".equals(department)) && (!u.hasRol("SUPER_ADMIN")))
+            response.sendError(403);
         response.getWriter().flush();
         response.getWriter().close();
     }

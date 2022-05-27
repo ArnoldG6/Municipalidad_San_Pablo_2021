@@ -50,7 +50,6 @@ public class AuthServlet extends HttpServlet {
                     validateCode(request, response);
                     break;
 
-                //case "/API/ExpireSession": expireSession(request,response); break;
             }
         } catch (IOException | ServletException ex) {
             System.err.println(ex);
@@ -69,14 +68,13 @@ public class AuthServlet extends HttpServlet {
             JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
             try {
                 User u = UserDAO.getInstance().userAuth(requestJSON.getString("username"), requestJSON.getString("pwd"));
-                if (u == null) {
+                if (u == null) 
                     throw new AuthException();
-                }
                 responseJSON.put("authStatus", true);
                 responseJSON.put("username", String.valueOf(u.getIdUser()));
                 responseJSON.put("full_name", u.getOfficial().getName() + " " + u.getOfficial().getSurname());
                 responseJSON.put("roles", u.getRoles());
-                // responseJSON.put("user", u.toString());
+                responseJSON.put("department", u.getOfficial().getDepartment().getDescription());
                 response.getWriter().write(responseJSON.toString());
                 request.getSession(true).setAttribute("user", u);//For other dependencies
                 UserDAO.getInstance().recordTransaction(requestJSON.getString("username"), common.dao.generic.Transaction.AUTHENTICATE, Boolean.TRUE, null);
@@ -85,10 +83,7 @@ public class AuthServlet extends HttpServlet {
                 throw e;
             }
         } catch (AuthException e) {
-            
             response.sendError(401, e.getMessage());
-            
-            //response.getWriter().write(e.jsonify());
         } finally {
             response.getWriter().flush();
             response.getWriter().close();

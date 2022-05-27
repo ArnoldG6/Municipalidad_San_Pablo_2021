@@ -39,9 +39,9 @@ export default class Menu extends Component {
             document.location = process.env.REACT_APP_SIGCD_PATH;
         }).catch(function (error) {
             if(error === 5)
-                console.log("Acceso denegado");
+                alert("Acceso denegado");
             else 
-            console.log("Error al intentar redirigir al SIGCD");
+            alert("Error al intentar redirigir al SIGCD");
         });
     }
     redirectToSIVAC() {
@@ -61,7 +61,7 @@ export default class Menu extends Component {
             //document.location = process.env.REACT_APP_SIGCD_PATH;
             document.location = "http://localhost:8081/home/moduloSivac/MainScreen.jsp";
         }).catch(function (error) {
-            console.log("Error al intentar redirigir al SIVAC");
+            alert("Error al intentar redirigir al SIVAC");
         });
         
        // document.location = "http://localhost:8081/home/moduloSivac/MainScreen.jsp"+

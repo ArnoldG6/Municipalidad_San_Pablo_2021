@@ -10,14 +10,12 @@ import '../css/Login.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import { Container, Form, Image, Button } from 'react-bootstrap';
-import logo from "../components/images/MSPH_LOGO.png";
+import { Container, Form, Button, Row, Image} from 'react-bootstrap';
 import PasswordRecoveryModal from './PasswordRecoveryModal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import NavigationBar from '../components/NavigationBar';
-const cookies = new Cookies();
-
+import logo from "../components/images/MSPH_LOGO.png";
 export default class Login extends React.Component {
   /*
   Login class controls the request-response communication
@@ -31,6 +29,7 @@ export default class Login extends React.Component {
       disabled: true,
       showPassResetModal: false
     };
+    this.cookies = new Cookies();
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.showPasswordReset = this.showPasswordReset.bind(this);
@@ -57,9 +56,9 @@ export default class Login extends React.Component {
         }
       }
       axios(options).then(response => {
-        cookies.set("username", response.data.username, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
-        cookies.set("full_name", response.data.full_name, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
-        cookies.set("roles", response.data.roles, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
+        this.cookies.set("username", response.data.username, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
+        this.cookies.set("full_name", response.data.full_name, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
+        this.cookies.set("roles", response.data.roles, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
         //cookies.set("user", response.data.user, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
         this.setState({
           username: '',
@@ -72,10 +71,10 @@ export default class Login extends React.Component {
           pauseOnHover: true,
           theme: 'colored',
           autoClose: 5000
-      });
+        });
         this.props.history.push('/menu');
 
-        
+
 
 
       }).catch(error => {
@@ -110,9 +109,10 @@ export default class Login extends React.Component {
   }
 
   componentDidMount() {
-    if (cookies.get('username', { path: process.env.REACT_APP_AUTH })
-      && cookies.get('roles', { path: process.env.REACT_APP_AUTH })
-      && cookies.get('full_name', { path: process.env.REACT_APP_AUTH }))
+    if (this.cookies.get('username', { path: process.env.REACT_APP_AUTH })
+      && this.cookies.get('roles', { path: process.env.REACT_APP_AUTH })
+      && this.cookies.get('full_name', { path: process.env.REACT_APP_AUTH })
+    )
       this.props.history.push('/menu');
   }
   async handleInputChange(e) {
@@ -139,8 +139,21 @@ export default class Login extends React.Component {
         <Container className="w-auto text-center mx-auto p-3 mt-2 container">
           <h1> Sistema de Identificación de la Municipalidad de San Pablo </h1>
           <Form className="centered-element" onSubmit={this.handleSubmit}>
-            <Form.Group className="mb-3">
-              <Image src={logo} height={200} width={200} className=' hover-shadow' />
+            <Form.Group >
+              <Row className='mt-2 d-lg-none'>
+                <Image
+                  src={logo} 
+                  height={120}
+                  width={80}
+                />
+              </Row>
+              <Row className="mt-2 d-none d-lg-block">
+                <Image
+                  src={logo} 
+                  height={150}
+                  width={150}
+                />
+              </Row>
             </Form.Group>
             <Form.Group className="mb-3" >
               <Form.Label>Nombre de usuario o correo electrónico: </Form.Label>

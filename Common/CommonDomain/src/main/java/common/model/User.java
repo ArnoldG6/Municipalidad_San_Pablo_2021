@@ -2,6 +2,7 @@ package common.model;
 
 import com.google.gson.Gson;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,11 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -30,14 +29,14 @@ public class User implements Serializable {
     //@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "FK_official", referencedColumnName = "PK_OFFICIAL")
     private Official official;
-    @OneToMany(fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT)
+    @ManyToMany(
+            fetch = FetchType.EAGER)
     @JoinTable(
             name = "SI_USER_ROLES",
             joinColumns = @JoinColumn(name = "FK_user"),
             inverseJoinColumns = @JoinColumn(name = "FK_rol")
     )
-    private List<Rol> roles;
+    private List<Rol> roles = new ArrayList<>();
     @Column(name = "FK_email")
     private String email;
 

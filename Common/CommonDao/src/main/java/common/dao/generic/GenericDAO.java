@@ -11,7 +11,7 @@ import javax.persistence.StoredProcedureQuery;
 public class GenericDAO {
 
     protected static EntityManager em;
-    private static EntityManagerFactory emf;
+    protected static EntityManagerFactory emf;
     private static final String PU = "HibernateJpaPU";
 
     public GenericDAO() {

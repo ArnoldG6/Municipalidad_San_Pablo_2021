@@ -1,0 +1,13 @@
+sigep\dao\BudgetLockDAO.class
+sigep\dao\BudgetDAO.class
+sigep\dao\BudgetBalanceCertificateRequestDAO.class
+sigep\dao\PurchaseOrderDAO.class
+sigep\dao\BudgetModificationRequestDAO.class
+sigep\dao\InitialBiddingActRequestDAO.class
+sigep\dao\BudgetModificationResolutionDAO.class
+sigep\dao\BiddingActDAO.class
+sigep\dao\BudgetCodeCertificateRequestsDAO.class
+sigep\dao\BudgetLogDAO.class
+sigep\dao\SelectedBudgetDAO.class
+sigep\dao\BudgetBalanceCertificateDAO.class
+sigep\dao\BudgetCodeCertificateDAO.class

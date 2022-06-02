@@ -1,0 +1,100 @@
+#sideb{
+    background-color: #1f3140;
+    
+}
+
+
+#sideb a, .lb{
+    color:white;
+    
+}
+.lb:hover{
+    color:rgba(7, 226, 242, 0.865);
+}
+.btnIcon{
+    font-size: 20pt;
+}
+
+.dlt:hover{
+ color:red;
+}
+
+.add:hover{
+    color:rgba(7, 226, 242, 0.865);
+}
+
+.title{
+    text-align: center;
+    border-bottom: 2px solid black;
+}
+.subtitle{
+    text-align: end;
+    padding-top: 50px;
+}
+.subtitle textarea{
+    min-width: 300px;
+    border: none;
+    resize: none;
+    cursor: pointer;
+    text-align: end;
+    font-weight: 500;
+}
+
+.st:focus{
+ color: red;
+}
+
+.hide{
+    display: none;
+}
+
+.subtitle1{
+    text-align: start;
+}
+.subtitle1 textarea{
+    min-width: 100%;
+    min-height: 350px;
+    border: none;
+    cursor: pointer;
+}
+.subtitle2{
+    text-align: start;
+}
+.subtitle2 textarea{
+    min-width: 100%;
+    min-height: 120px;
+    border: none;
+    cursor: pointer;
+}
+.subtitle3{
+    text-align: start;
+}
+.subtitle3 textarea{
+    min-width: 100%;
+    min-height: 140px;
+    border: none;
+    cursor: pointer;
+    text-align: start;
+}
+.subtitle4{
+    text-align: start;
+}
+.subtitle4 textarea{
+    min-width: 100%;
+    min-height: 180px;
+    border: none;
+    cursor: pointer;
+}
+.subtitle5{
+    text-align: center;
+}
+.subtitle5 textarea{
+    min-width: 350px;
+    min-height: 160px;
+    margin-top: 30px;
+    border: none;
+    cursor: pointer;
+}
+ul li input{
+    display: none;
+}

@@ -6,7 +6,9 @@ package common.dao;
 
 import common.dao.generic.GenericDAO;
 import common.model.Rol;
-import javax.management.relation.Role;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,5 +28,27 @@ public class RolDAO extends GenericDAO {
     public Rol searchById(int id) {
         em = getEntityManager();
         return (Rol) em.find(Rol.class, id);
+    }
+    
+        public List<Rol> listAll() {
+
+        String cmd = "SELECT r FROM Rol r";
+
+        EntityManager manager = emf.createEntityManager();
+
+        Query query = manager.createQuery(cmd);
+        List<Rol> roles = query.getResultList();
+
+        manager.close();
+
+        return roles;
+
+    }
+    
+     public Rol searchById(Rol rol) {
+        EntityManager manager = emf.createEntityManager();
+        Rol rolSearched = (Rol) manager.find(Rol.class, rol.getIdRol());
+        manager.close();
+        return rolSearched;
     }
 }

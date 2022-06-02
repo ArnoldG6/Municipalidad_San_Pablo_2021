@@ -3,6 +3,7 @@ package common.model;
 import com.google.gson.Gson;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -112,6 +113,36 @@ public class User implements Serializable {
             return true;
         }
         return false;
+    }
+    
+        public static boolean validateSuperAdminRol(User user) {
+        return user.getRoles().stream().anyMatch(r -> (r.getIdRol() == 2));
+    }
+
+    public static boolean validateBudgetAdminRol(User user) {
+        return user.getRoles().stream().anyMatch(rol -> (rol.getIdRol() == 4));
+    }
+
+    public static boolean validateTenderAdminRol(User user) {
+        return user.getRoles().stream().anyMatch(rol -> (rol.getIdRol() == 5));
+    }
+
+    public static boolean validateUserRol(User user) {
+        return user.getRoles().stream().anyMatch(rol -> (rol.getIdRol() == 3));
+    }
+
+    public static boolean validateRol(User user, Rol rol) {
+        return user.getRoles().stream().anyMatch(r -> (r.getIdRol() == rol.getIdRol()));
+    }
+
+    public static void removeRol(User user, Rol rol) {
+        Iterator<Rol> itr = user.getRoles().iterator();
+        while (itr.hasNext()) {
+            Rol r = itr.next();
+            if (r.getIdRol() == rol.getIdRol()) {
+                itr.remove();
+            }
+        }
     }
 
 }

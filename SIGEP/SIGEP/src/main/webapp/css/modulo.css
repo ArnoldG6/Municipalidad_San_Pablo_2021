@@ -1,0 +1,125 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+header {
+     background-color: #2607a0;
+}
+
+body {
+    background-image: url("image/muni2.jpg");
+    background-repeat: no-repeat;
+    background-size: 50% 119%;
+    background-position: center;
+    background-position-y: 33px;
+    /*background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)) ,url("image/muni2.jpg");*/
+    /*background-color: #2607a0;*/
+}
+
+body background-image:url {
+    opacity: 0.4;
+}
+
+/*header nav {
+    margin: 4px;
+    margin-top: 16px;
+}
+
+header nav ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+
+}*/
+
+/*header nav li { 
+    border-radius: 4px;
+    float: right;
+    margin: 0px 4px 0px 4px; 
+    padding: 8px 4px 8px 4px;
+    
+}*/
+
+header nav li a {
+    
+    
+    text-decoration: none;
+    /*width: 180px;*/
+    color: white;
+}
+
+/*header nav li:visited,
+header nav li a:visited {
+    text-decoration: none;
+    color:  white;
+}*/
+
+#cerrarSesion {
+    margin: 0px -500px 0px 0px;
+    position: fixed;
+    padding: 0px;
+    right: auto;
+}
+
+#rebelde {
+    margin: 0px -500px 0px 0px;
+    float: right;
+}
+
+#section1 {
+    width: 80%;
+    margin: 80px 0px 0px 40px;
+}
+
+h3 {
+    color: #ffffff
+}
+
+h2 {
+    width: 13%;
+    border: 1px;
+    font-style:  italic;
+    margin: 20px 0px 0px -12px;
+    font-size: 40px;
+    text-align: center;
+}
+
+footer {
+    margin: 2px;
+    padding: 4px 16px 4px 16px;
+    background-color: #2607a0;
+    text-align: center;
+    min-height: 10vh;
+    position: fixed;
+    bottom: 0;
+    width: 96%;
+    
+}
+
+
+
+
+
+
+
+/*input {
+  color: white;
+  padding: 5px 8px;
+  margin: 8px 0;
+  width: 8%;
+  right: 150px 
+}*/
+
+button {
+  background-color: blue;/*#4CAF50*/
+  color: white;
+  padding: 5px 8px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 8%;
+  right: 20px
+}
+

@@ -50,9 +50,9 @@ export default class Menu extends Component {
     }
     redirectToSIGEP() {
         console.log("Redirigiendo a SIGEP");
-        /*
+        
         var options = {
-            url: ,
+            url: process.env.REACT_APP_SIGEP_REDIRECTION_PATH ,
             method: 'POST',
             header: {
                 'Accept': 'application/json',
@@ -64,7 +64,7 @@ export default class Menu extends Component {
             }
         }
         axios(options).then(response => {
-            document.location = ;
+            document.location = process.env.REACT_APP_SIGEP_PATH;
         }).catch(function (error) {
             if (error.response) {
                 if (error.response.status === 403)
@@ -74,7 +74,7 @@ export default class Menu extends Component {
             } else
                 alert("Error al intentar redirigir al SIGCD");
         });
-        */
+        
     }
     redirectToSIVAC() {
         var options = {

@@ -628,11 +628,11 @@ public class PlanDAO extends GenericDAO {
     public List<User> searchInUserListNonRep(String planID, String value) throws Exception {
         try {
             Plan pl = PlanDAO.getInstance().searchByIdString(planID);
-            List<User> pInvilvedList = this.getUserListByPlanNoRep(planID); //risks of an specific Plan.
-            ArrayList<User> result = new ArrayList<>();
             if (pl == null) {
                 throw new IOException("Invalid PlanID exception");
             }
+            List<User> pInvilvedList = this.getUserListByPlanNoRep(planID); //user of an specific Plan.
+            ArrayList<User> result = new ArrayList<>();
             if (pInvilvedList == null) {
                 throw new IOException("Empty riskList exception");
             }

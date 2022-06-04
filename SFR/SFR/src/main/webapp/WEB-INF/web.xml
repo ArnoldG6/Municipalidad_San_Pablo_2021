@@ -26,6 +26,8 @@
         <url-pattern>/API/PlanServlet/Search</url-pattern>
         <url-pattern>/API/PlanServlet/RiskTable</url-pattern>
         <url-pattern>/API/PlanServlet/Report</url-pattern>
+        <url-pattern>/API/PlanServlet/SearchRiskInPlan</url-pattern>
+        <url-pattern>/API/PlanServlet/SearchUserInPlan</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PlanManager</servlet-name>

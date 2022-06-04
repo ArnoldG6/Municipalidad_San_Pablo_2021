@@ -1,0 +1,8 @@
+Compilar:
+	./Common/CommonDomain
+	./Common/CommonDao
+	./Common/MSPH_Login
+	Compilar el sistema respectivo.
+Ejecutar:
+	./Common/MSPH_Login
+	Sistemas respectivos.

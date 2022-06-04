@@ -21,6 +21,7 @@ export default class Menu extends Component {
         super(props);
         this.redirectToSIGCD = this.redirectToSIGCD.bind(this);
         this.redirectToSIVAC = this.redirectToSIVAC.bind(this);
+        this.redirectToSIGEP = this.redirectToSIGEP.bind(this);
     }
     redirectToSIGCD() {
         var options = {
@@ -38,14 +39,42 @@ export default class Menu extends Component {
         axios(options).then(response => {
             document.location = process.env.REACT_APP_SIGCD_PATH;
         }).catch(function (error) {
-            if(error.response){
-                if(error.response.status === 403)
+            if (error.response) {
+                if (error.response.status === 403)
                     alert("Acceso denegado");
-                else 
+                else
                     alert("Error al intentar redirigir al SIGCD");
-            }else 
+            } else
                 alert("Error al intentar redirigir al SIGCD");
         });
+    }
+    redirectToSIGEP() {
+        console.log("Redirigiendo a SIGEP");
+        /*
+        var options = {
+            url: ,
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+            },
+            data: {
+                'username': parseInt(cookies.get('username', { path: process.env.REACT_APP_AUTH }))
+            }
+        }
+        axios(options).then(response => {
+            document.location = ;
+        }).catch(function (error) {
+            if (error.response) {
+                if (error.response.status === 403)
+                    alert("Acceso denegado");
+                else
+                    alert("Error al intentar redirigir al SIGCD");
+            } else
+                alert("Error al intentar redirigir al SIGCD");
+        });
+        */
     }
     redirectToSIVAC() {
         var options = {
@@ -66,8 +95,8 @@ export default class Menu extends Component {
         }).catch(function (error) {
             alert("Error al intentar redirigir al SIVAC");
         });
-        
-       // document.location = "http://localhost:8081/home/moduloSivac/MainScreen.jsp"+
+
+        // document.location = "http://localhost:8081/home/moduloSivac/MainScreen.jsp"+
         //"?username="+cookies.get('username', { path: process.env.REACT_APP_AUTH });
     }
 
@@ -103,11 +132,20 @@ export default class Menu extends Component {
                             </Button>
                         </Card>
 
-                        <Card className='menuCard' onClick={() => { this.redirectToSIVAC();}}>
+                        <Card className='menuCard' onClick={() => { this.redirectToSIVAC(); }}>
                             <Card.Title>Sistemas de Vacaciones Permisos e Incapacidades</Card.Title>
                             <Card.Header variant="top" className='vertical-center'><i className="bi bi-pencil menuIcon"></i> </Card.Header>
                             <Button className="btnSFR" >
                                 SIVAC
+                            </Button>
+                        </Card>
+
+
+                        <Card className='menuCard' onClick={() => { this.redirectToSIGEP(); }}>
+                            <Card.Title>Sistemas de Vacaciones Permisos e Incapacidades</Card.Title>
+                            <Card.Header variant="top" className='vertical-center'><i className="bi bi-pencil menuIcon"></i> </Card.Header>
+                            <Button className="btnSFR" >
+                                SIGEP
                             </Button>
                         </Card>
 

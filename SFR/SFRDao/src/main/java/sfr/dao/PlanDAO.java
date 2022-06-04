@@ -448,7 +448,7 @@ public class PlanDAO extends GenericDAO {
     public List<User> getUserListByPlanNoRep(String planID) throws Exception {
         try {
             Plan p = PlanDAO.getInstance().searchByIdString(planID);
-            List<User> pUserList = p.getInvolvedList(); //risks of an specific Plan.
+            List<User> pUserList = p.getInvolvedList(); //users of an specific Plan.
             List<User> userList = UserDAO.getInstance().listAll();
             if (pUserList == null || userList == null) {
                 throw new IOException("Empty userList exception");
@@ -591,7 +591,7 @@ public class PlanDAO extends GenericDAO {
     public List<Risk> searchInRiskListNonRep(String planID, String value) throws Exception {
         try {
             Plan pl = PlanDAO.getInstance().searchByIdString(planID);
-            List<Risk> pRiskList = pl.getRiskList(); //risks of an specific Plan.
+            List<Risk> pRiskList = this.getRiskListByPlanNoRep(planID); //risks of an specific Plan.
             ArrayList<Risk> result = new ArrayList<>();
             if (pl == null) {
                 throw new IOException("Invalid PlanID exception");
@@ -625,4 +625,34 @@ public class PlanDAO extends GenericDAO {
         }
     }
 
+    public List<User> searchInUserListNonRep(String planID, String value) throws Exception {
+        try {
+            Plan pl = PlanDAO.getInstance().searchByIdString(planID);
+            if (pl == null) {
+                throw new IOException("Invalid PlanID exception");
+            }
+            List<User> pInvilvedList = this.getUserListByPlanNoRep(planID); //user of an specific Plan.
+            ArrayList<User> result = new ArrayList<>();
+            if (pInvilvedList == null) {
+                throw new IOException("Empty riskList exception");
+            }
+            Pattern p = Pattern.compile(value, Pattern.CASE_INSENSITIVE);
+            for (User r : pInvilvedList) {
+                if (p.matcher(String.valueOf(r.getOfficial().getIdOfficial())).find()
+                        || p.matcher(r.getOfficial().getName()).find()
+                        || p.matcher(r.getOfficial().getSurname()).find()
+                        || p.matcher(r.getOfficial().getEmail()).find()
+                        || p.matcher(String.valueOf(r.getOfficial().getDepartment().getIdDepartment())).find()) {
+                    result.add(r);
+                }
+            }
+            return result;
+        } catch (Exception ex) {
+            ex.printStackTrace(System.out);
+            System.err.println(ex.getMessage());
+            throw ex;
+        } finally {
+            closeEntityManager();
+        }
+    }
 }

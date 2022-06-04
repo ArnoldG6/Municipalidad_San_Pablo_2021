@@ -56,9 +56,9 @@ export default class Login extends React.Component {
         }
       }
       axios(options).then(response => {
-        this.cookies.set("username", response.data.username, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
-        this.cookies.set("full_name", response.data.full_name, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
-        this.cookies.set("roles", response.data.roles, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
+        this.cookies.set("username", response.data.username, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax' });
+        this.cookies.set("full_name", response.data.full_name, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax' });
+        this.cookies.set("roles", response.data.roles, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax' });
         //cookies.set("user", response.data.user, { path: process.env.REACT_APP_AUTH, sameSite: 'Lax', secure: true });
         this.setState({
           username: '',

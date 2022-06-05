@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import common.dao.EmailFactory;
 import common.dao.UserDAO;
 import common.model.User;
+import jakarta.mail.MessagingException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -70,30 +71,30 @@ public class PlanManager extends HttpServlet {
             response.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
             switch (request.getServletPath()) {
                 case "/API/PlanManager/Insert":
-                    insertPlan(request, response); 
+                    insertPlan(request, response);
                     break;
                 case "/API/PlanManager/Edit":
-                    editPlan(request, response); 
+                    editPlan(request, response);
                     break;
-                case "/API/PlanManager/Delete":  
+                case "/API/PlanManager/Delete":
                     deletePlan(request, response);
                     break;
-                case "/API/PlanManager/Delete/Risk":   
+                case "/API/PlanManager/Delete/Risk":
                     deleteRiskFromPlan(request, response);
                     break;
-                case "/API/PlanManager/Delete/Incidence":   
+                case "/API/PlanManager/Delete/Incidence":
                     deleteIncidenceFromPlan(request, response);
                     break;
-                case "/API/PlanManager/Insert/Risk": 
+                case "/API/PlanManager/Insert/Risk":
                     associateRiskToPlan(request, response);
                     break;
-                case "/API/PlanManager/Insert/Incidence": 
+                case "/API/PlanManager/Insert/Incidence":
                     associateIncidenceToPlan(request, response);
                     break;
-                case "/API/PlanManager/Insert/Comment": 
+                case "/API/PlanManager/Insert/Comment":
                     associateCommentToPlan(request, response);
                     break;
-                case "/API/PlanManager/Delete/Comment": 
+                case "/API/PlanManager/Delete/Comment":
                     deleteCommentFromPlan(request, response);
                     break;
                 case "/API/PlanManager/Insert/Involved":
@@ -148,7 +149,17 @@ public class PlanManager extends HttpServlet {
             try {
                 PlanDAO.getInstance().add(newPlan);
                 PlanDAO.getInstance().recordTransaction(user, Transaction.INSERT_PLAN, Boolean.TRUE, "PLAN_ID: " + newID);
-                //EmailFactoryNotification.getInstance().sendAddPlan(user,newPlan);
+
+                /*
+                Thread t = new Thread(() -> {
+                    try {
+                        EmailFactoryNotification.getInstance().sendAddPlan(user, newPlan);
+                    } catch (MessagingException ex) {
+                        Logger.getLogger(PlanManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+                t.start();
+                 */
             } catch (Exception e) {
                 PlanDAO.getInstance().recordTransaction(user, Transaction.INSERT_PLAN, Boolean.FALSE, "PLAN_ID: " + newID);
                 throw e;
@@ -184,7 +195,7 @@ public class PlanManager extends HttpServlet {
 
             requestJSON.remove("userID");
             Plan editPlan = new Gson().fromJson(requestJSON.toString(), Plan.class);
-            
+
             if (PlanDAO.getInstance().searchById(editPlan.getPkId()) == null) {
                 throw new NullPointerException("No se encontró el plan que se desea editar.");
             }
@@ -198,7 +209,16 @@ public class PlanManager extends HttpServlet {
             try {
                 PlanDAO.getInstance().update(editPlan);
                 PlanDAO.getInstance().recordTransaction(user, Transaction.EDIT_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId());
-                //EmailFactoryNotification.getInstance().sendAllEditPlan(user, editPlan);
+                /*
+                Thread t = new Thread(() -> {
+                    try {
+                        EmailFactoryNotification.getInstance().sendAllEditPlan(user, editPlan);
+                    } catch (MessagingException ex) {
+                        Logger.getLogger(PlanManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+                t.start();
+                 */
             } catch (Exception e) {
                 PlanDAO.getInstance().recordTransaction(user, Transaction.EDIT_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId());
                 throw e;
@@ -443,9 +463,18 @@ public class PlanManager extends HttpServlet {
                 newIncidence.setEntryDate(d);
                 plan.addIncidence(newIncidence);
                 PlanDAO.getInstance().update(plan);
-                //EmailFactoryNotification.getInstance().sendAddIncidencePlan(user, plan, newIncidence);
                 PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_INCIDENCE_TO_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId() + " INCIDENCE_ID:"
                         + String.valueOf(newIncidence.getName()));
+                /*
+                Thread t = new Thread(() -> {
+                    try {
+                        EmailFactoryNotification.getInstance().sendAddIncidencePlan(user, plan, newIncidence);
+                    } catch (MessagingException ex) {
+                        Logger.getLogger(PlanManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+                t.start();
+                 */
             } catch (Exception e) {
                 PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_INCIDENCE_TO_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId() + " INCIDENCE_ID:"
                         + String.valueOf(newIncidence.getName()));
@@ -484,9 +513,18 @@ public class PlanManager extends HttpServlet {
             try {
                 plan.addComment(c);
                 PlanDAO.getInstance().update(plan);
-                //EmailFactoryNotification.getInstance().sendAllCommentPlan(user, plan, c);
                 PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_COMMENT_TO_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId() + " COMMENT_ID:"
                         + String.valueOf(c.getPkID()));
+                /*
+                Thread t = new Thread(() -> {
+                    try {
+                        EmailFactoryNotification.getInstance().sendAllCommentPlan(user, plan, c);
+                    } catch (MessagingException ex) {
+                        Logger.getLogger(PlanManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+                t.start();
+                 */
             } catch (Exception e) {
                 PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_COMMENT_TO_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId() + " COMMENT_ID:"
                         + String.valueOf(c.getPkID()));
@@ -580,7 +618,16 @@ public class PlanManager extends HttpServlet {
                     User u = UserDAO.getInstance().searchById((Integer) involvedIdJSONArray.get(i));
                     if (u != null) {
                         plan.addInvolucrado(u);
-                        //EmailFactoryNotification.getInstance().sendAddInvolvedPlan(u, plan);
+                        /*
+                        Thread t = new Thread(() -> {
+                            try {
+                                EmailFactoryNotification.getInstance().sendAddInvolvedPlan(u, plan);
+                            } catch (MessagingException ex) {
+                                Logger.getLogger(PlanManager.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        });
+                        t.start();
+                         */
                     }
                 }
                 PlanDAO.getInstance().update(plan);

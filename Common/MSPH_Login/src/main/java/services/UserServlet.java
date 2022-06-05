@@ -22,6 +22,7 @@ import common.model.Rol;
 import common.model.User;
 import common.model.UserRoles;
 import ex.*;
+import jakarta.mail.MessagingException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -218,7 +219,17 @@ public class UserServlet extends HttpServlet {
                     UserDAO.getInstance().add(newUser, password);
                     UserRolesDAO.getInstance().add(usurol);
                     UserDAO.getInstance().recordTransaction(requestJSON.getString("email"), common.dao.generic.Transaction.USER_CREATION, Boolean.TRUE, sb.toString());
-                    //EmailFactory.getInstance().sendAddUser(newUser);
+                    
+                    /*
+                    Thread t = new Thread (() -> {
+                        try {
+                            EmailFactory.getInstance().sendAddUser(newUser);
+                        } catch (MessagingException ex) {
+                            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                    t.start();
+                    */
                 } catch (Exception e) {
                     UserDAO.getInstance().recordTransaction(requestJSON.getString("email"), common.dao.generic.Transaction.USER_CREATION, Boolean.FALSE, sb.toString());
                     throw e;

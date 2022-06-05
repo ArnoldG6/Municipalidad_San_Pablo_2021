@@ -18,7 +18,7 @@ class PlansTable extends Component {
                 {/* Mobile */}
                 <div className='d-lg-none'>
                     {(typeof this.props.planes === 'undefined' || this.props.planes === null) ? <h1>No se han agregado planes</h1> :
-                        this.props.planes.length === 0 ? <h1>No se han agregado planes</h1> :
+                        this.props.planes.length === 0 ? <h1>No se han encontrado planes</h1> :
                             <Accordion>
                                 {this.props.planes.map((plan) => {
                                     let statusClass = "";
@@ -84,7 +84,7 @@ class PlansTable extends Component {
                 <div className='d-none d-lg-block'>
 
                     {(typeof this.props.planes === 'undefined' || this.props.planes === null) ? <h1>No se han agregado planes</h1> :
-                        this.props.planes.length === 0 ? <h1>No se han agregado planes</h1> :
+                        this.props.planes.length === 0 ? <h1>No se han encontrado planes</h1> :
                             <Table hover>
                                 <thead>
                                     <tr>

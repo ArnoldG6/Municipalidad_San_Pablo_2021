@@ -35,7 +35,9 @@ import sfr.model.Plan;
     "/API/PlanServlet/Retrieve/PlanTypes",
     "/API/PlanServlet/Search",
     "/API/PlanServlet/RiskTable",
-    "/API/PlanServlet/Report"
+    "/API/PlanServlet/Report",
+    "/API/PlanServlet/SearchRiskInPlan",
+    "API/PlanServlet/SearchUserInPlan"
 })
 public class PlanServlet extends HttpServlet {
 

@@ -89,6 +89,9 @@ class TopButtons extends Component {
                                 <h2><i className="bi bi-download"></i></h2>
                             </Button>
                         </OverlayTrigger>
+                        <Button className='mt-2' variant="link" href="#/planes">
+                            <h5><i className="bi bi-chevron-left"></i> Volver</h5>
+                        </Button>
                     </Stack>
                 </div>
                 {/* PC */}

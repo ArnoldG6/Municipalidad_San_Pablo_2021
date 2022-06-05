@@ -74,6 +74,9 @@ class TopButtons extends Component {
                                 <h2><i className="bi bi-trash"></i></h2>
                             </Button>
                         </OverlayTrigger>
+                        <Button variant="link" href="#/riesgos">
+                            <h5><i className="bi bi-chevron-left"></i> Volver</h5>
+                        </Button>
                     </Stack>
                 </div>
                 {/* PC */}

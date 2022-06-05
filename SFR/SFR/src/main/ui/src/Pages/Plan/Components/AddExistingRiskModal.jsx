@@ -3,6 +3,7 @@ import '../Plan.css';
 import { Modal, Button, Table, Form, Accordion } from "react-bootstrap";
 import 'react-toastify/dist/ReactToastify.css';
 import Pages from '../../../SharedComponents/Pagination/Pages';
+import RiskSearch from '../Components/RiskSearch';
 
 class AddExistingRiskModal extends Component {
     constructor(props) {
@@ -85,14 +86,15 @@ class AddExistingRiskModal extends Component {
         return (
             <div>
                 {/* Mobile */}
-                <Modal className='d-lg-none' show={show} onHide={() => { this.setState({ riskIDs: [] }); closeModal(); }}>
+                <Modal className='d-lg-none' show={show} onHide={() => { this.setState({ riskIDs: [] }); this.props.handleRiskSearch([], true); closeModal(); }}>
                     <Modal.Header closeButton>
-                        Seleccione los Riesgos que desea agregar al Plan
+                        Seleccione los Riesgos que desea vincular al Plan
                     </Modal.Header>
                     <Modal.Body >
                         {(typeof this.props.risks === 'undefined' || this.props.risks === null) ? <h1>No se han agregado riesgos</h1> :
                             this.props.risks.length === 0 ? <h1>No hay riesgos disponibles</h1> :
                                 <div>
+                                    <RiskSearch handleRiskSearch={this.props.handleRiskSearch} planID={this.props.planID} />
                                     <Table>
                                         <thead>
                                             <tr>
@@ -156,14 +158,15 @@ class AddExistingRiskModal extends Component {
                     </Modal.Body>
                 </Modal>
                 {/* PC */}
-                <Modal className="d-none d-lg-block" id="ModalAddRisk" show={show} onHide={() => { this.setState({ riskIDs: [] }); closeModal(); }}>
+                <Modal className="d-none d-lg-block" id="ModalAddRisk" show={show} onHide={() => { this.setState({ riskIDs: [] }); this.props.handleRiskSearch([], true); closeModal(); }}>
                     <Modal.Header closeButton>
-                        Seleccione los Riesgos que desea agregar al Plan
+                        Seleccione los Riesgos que desea vincular al Plan
                     </Modal.Header>
                     <Modal.Body>
                         {(typeof this.props.risks === 'undefined' || this.props.risks === null) ? <h1>No se han agregado riesgos</h1> :
                             (this.props.risks.length === 0) ? <h1>No hay riesgos disponibles</h1> :
                                 <div>
+                                    <RiskSearch handleRiskSearch={this.props.handleRiskSearch} planID={this.props.planID} />
                                     <Table>
                                         <thead>
                                             <tr>

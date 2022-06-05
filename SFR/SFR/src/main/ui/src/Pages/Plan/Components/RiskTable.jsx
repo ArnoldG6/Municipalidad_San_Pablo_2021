@@ -52,7 +52,7 @@ class RiskTable extends Component {
                         disabled={!this.props.permsCheck("SUPER_ADMIN") && !this.props.permsCheck("ADMIN") && !this.props.permsCheck("INVOLVED") ? true : false}
                         key="AddRiskButtonMobile">
                         <i className="bi bi-plus-square"></i> {' '}
-                        Agregar Riesgo
+                        Vincular Riesgo
                     </Button>
                     {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado riesgos</h1> :
                         this.props.riesgos.length === 0 ? <h1>No se han agregado riesgos</h1> :
@@ -93,7 +93,9 @@ class RiskTable extends Component {
                     risks={this.props.availableRisks}
                     addRisk={this.props.addRisk}
                     show={this.state.showRiskModal}
-                    closeModal={this.closeModalAddRisk} />
+                    closeModal={this.closeModalAddRisk}
+                    planID={this.props.planID}
+                    handleRiskSearch={this.props.handleRiskSearch} />
                 <GenericModal
                     show={this.state.showDel}
                     close={this.closeModalDelRisk}

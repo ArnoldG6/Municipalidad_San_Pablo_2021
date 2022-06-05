@@ -12,13 +12,13 @@ class RisksTable extends Component {
                 <div className='d-lg-none'>
                     <Accordion>
                         {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado riesgos</h1> :
-                            this.props.riesgos.length === 0 ? <h1>No se han agregado riesgos</h1> :
+                            this.props.riesgos.length === 0 ? <h1>No se han encontrado riesgos</h1> :
                                 this.props.riesgos.map((risk) => {
                                     return (
                                         <Accordion.Item eventKey={risk.id}>
                                             <Accordion.Header >
 
-                                            <ShowMoreText 
+                                                <ShowMoreText
                                                     /* Default options */
                                                     lines={2}
                                                     more={<p>Mostrar más</p>}
@@ -26,7 +26,7 @@ class RisksTable extends Component {
                                                     className="content-css"
                                                     anchorClass="accordion-header"
                                                     onClick={this.executeOnClick}
-                                                    expanded={false}                                                  
+                                                    expanded={false}
                                                     truncatedEndingComponent={"... "}
                                                     keepNewLines={false}
                                                     width={300}
@@ -34,7 +34,7 @@ class RisksTable extends Component {
                                                     <div className="mobileRiskName">{risk.name}</div>
                                                 </ShowMoreText>
 
-                                                
+
                                             </Accordion.Header>
                                             <Accordion.Body>
                                                 <p>
@@ -55,21 +55,22 @@ class RisksTable extends Component {
                 </div>
                 {/* PC */}
                 <div className='d-none d-lg-block'>
-                    <Table hover>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Tipo General</th>
-                                <th>Tipo por Área</th>
-                                <th>Probabilidad</th>
-                                <th>Impacto</th>
-                                <th>Magnitud</th>
-                            </tr>
-                        </thead>
 
-                        {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado riesgos</h1> :
-                            this.props.riesgos.length === 0 ? <h1>No se han agregado riesgos</h1> :
+
+                    {(typeof this.props.riesgos === 'undefined' || this.props.riesgos === null) ? <h1>No se han agregado riesgos</h1> :
+                        this.props.riesgos.length === 0 ? <h1>No se han encontrado riesgos</h1> :
+                            <Table hover>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Tipo General</th>
+                                        <th>Tipo por Área</th>
+                                        <th>Probabilidad</th>
+                                        <th>Impacto</th>
+                                        <th>Magnitud</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     {this.props.riesgos.map((risk) => {
                                         return (
@@ -77,8 +78,8 @@ class RisksTable extends Component {
                                                 <td>{risk.id}</td>
                                                 <td className="nameSlot">
                                                     <Link to={{ pathname: "/riesgo", search: `?id=${risk.id}` }}>
-                                                        
-                                                    <ShowMoreText
+
+                                                        <ShowMoreText
                                                             /* Default options */
                                                             lines={1}
                                                             more={<button className='seeMoreButton'><i className="bi bi-caret-down"></i></button>}
@@ -93,8 +94,8 @@ class RisksTable extends Component {
 
                                                             <p className='nameText'>{risk.name}</p>
                                                         </ShowMoreText>
-                                                        
-                                                        
+
+
 
                                                     </Link></td>
                                                 <td>{risk.generalType}</td>
@@ -106,8 +107,9 @@ class RisksTable extends Component {
                                         )
                                     })}
                                 </tbody>
-                        }
-                    </Table >
+                            </Table >
+                    }
+
                 </div>
             </div>
         );

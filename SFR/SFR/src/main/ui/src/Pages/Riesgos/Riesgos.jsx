@@ -302,7 +302,7 @@ class Riesgos extends Component {
                 {/* PC */}
                 <Row className="mt-2 d-none d-lg-block">
                     <Stack direction="horizontal" gap={3}>
-                        <h1 className='mt-2'>Gestor de Riesgos</h1>
+                        <h5 className='mt-2'>Gestor de Riesgos</h5>
                         {/* Agregar Riesgo */}
                         <OverlayTrigger
                             delay={{ hide: 450, show: 300 }}

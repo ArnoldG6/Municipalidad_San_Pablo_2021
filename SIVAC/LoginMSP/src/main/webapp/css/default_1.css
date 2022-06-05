@@ -1,0 +1,79 @@
+/* 
+    Created on : 30/09/2021
+    Author     : Gabriela Gutierrez Lopez
+*/
+
+.form .botones {
+    border-top: 1px solid gray;
+    padding: 16px;
+    text-align: center;
+    float:none;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form .boton[type="submit"]{
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 8px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 8px;
+    float:none;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form .boton1[type="reset"]{     
+    background-color: #FF0000; /* Red */
+    border: none;
+    color: white;
+    padding: 8px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 8px;
+    float:none;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form .boton2[type="submit"]{     
+    background-color: white;
+    padding: 6px 4px 6px 4px;
+    color: #1F3140;
+    border: 2px solid #1F3140;
+    float:none;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+footer {
+    margin: 0px 0px -25px 0px;
+    padding: 12px 16px 4px 16px;
+    background-color: #1F3140;
+    text-align: center;
+    min-height: 10vh;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+#footerMain {
+    margin: 10px 0px 0px 0px;
+    padding: 12px 16px 4px 16px;
+    background-color: #1F3140;
+    text-align: center;
+    min-height: 8vh;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}

@@ -13,7 +13,6 @@ public class BasicApplication {
         SpringApplication app = new SpringApplication(BasicApplication.class);
         app.setDefaultProperties(Collections
                 .singletonMap("server.port", "8083"));
-        //.singletonMap("server.port", "8083"));
         app.run(args);
         /*manFact = Persistence.createEntityManagerFactory("Persistencia");
         manager = manFact.createEntityManager();

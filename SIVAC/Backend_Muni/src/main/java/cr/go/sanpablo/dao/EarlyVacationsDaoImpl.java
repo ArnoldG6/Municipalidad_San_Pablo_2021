@@ -9,6 +9,7 @@ import cr.go.sanpablo.excepciones.DaoExceptions;
 import cr.go.sanpablo.excepciones.ServiceExceptions;
 import cr.go.sanpablo.model.EarlyVacations;
 import java.sql.SQLException;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
@@ -32,6 +33,13 @@ public class EarlyVacationsDaoImpl implements EarlyVacationsDao{
         query.setParameter(3, early.getFile().getID());
         query.executeUpdate();
         et.commit();
+        return early;
+    }
+    
+    @Override
+    public List<EarlyVacations> AllEarly() throws DaoExceptions, SQLException, ServiceExceptions{
+        List<EarlyVacations> early = (List<EarlyVacations>) manage.createQuery("From early").getResultList();
+        manage.close();
         return early;
     }
     

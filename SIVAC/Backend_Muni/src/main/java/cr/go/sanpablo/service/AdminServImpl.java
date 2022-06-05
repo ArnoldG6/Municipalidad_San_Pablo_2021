@@ -66,4 +66,12 @@ public class AdminServImpl implements AdminService {
         updated = this.dao.updateHolidays(admin);
         return updated;
     }
+    
+    @Override
+    public AdminFile updateEarlyVacations(AdminFile admin) throws DaoExceptions, SQLException, ServiceExceptions{
+        AdminFile updated;
+        this.dao = new AdminDaoImpl();
+        updated = this.dao.updateEarlyVacations(admin);
+        return updated;
+    }
 }

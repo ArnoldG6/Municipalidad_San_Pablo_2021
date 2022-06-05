@@ -37,4 +37,11 @@ public class MessageServiceImpl implements MessageService{
         return messages;
     }
     
+    @Override
+    public Message updateMessage(Message message) throws DaoExceptions, SQLException, ServiceExceptions{
+        Message updated = null;
+        this.dao = new MessageDaoImpl();
+        updated = this.dao.updateMessage(message);
+        return updated;
+    }
 }

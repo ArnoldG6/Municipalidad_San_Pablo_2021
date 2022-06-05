@@ -18,4 +18,5 @@ import java.util.List;
 public interface MessageDao {
     Message insertMessage(Message message) throws DaoExceptions, SQLException, ServiceExceptions;
     List<Message> listAll() throws DaoExceptions, SQLException, ServiceExceptions;
+    Message updateMessage(Message message) throws DaoExceptions, SQLException, ServiceExceptions;
 }

@@ -1,6 +1,6 @@
 {
     "name": "ui",
-    "homepage": "http://localhost:3001/SFR/",
+    "homepage": "http://sfr.eastus.cloudapp.azure.com/SFR/",
     "version": "0.1.0",
     "private": true,
     "dependencies": {

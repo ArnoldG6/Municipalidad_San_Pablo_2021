@@ -73,8 +73,11 @@ export default class PasswordRecoveryModal extends Component {
             });
         }
         this.setState({
+            email: "",
             hideWritePassword: false,
-            validateEmail: false
+            validateEmail: false,
+            hideCodeInput: true,
+            validateCode: false
         }, () => {
             this.props.closeModal();
         });

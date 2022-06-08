@@ -28,7 +28,7 @@ public class EmailFactoryNotification {
 
     private final String from = "pruebasinge071@gmail.com";
     private final String username = "pruebasinge071@gmail.com";
-    private final String password = "pruebasSFR";
+    private final String password = "ghvmdhhdizpwykpk";
     private final String host = "imap.gmail.com";
 
     private Properties props;

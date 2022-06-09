@@ -1,6 +1,6 @@
 {
     "name": "MSPH_Login_Client",
-    "homepage": "http://sfr.eastus.cloudapp.azure.com/SIMSP/",
+    "homepage": "http://localhost:3000/SIMSP/",
     "version": "0.1.0",
     "private": true,
     "dependencies": {

@@ -144,8 +144,8 @@ export default class Menu extends Component {
 
 
                         <Card className='menuCard' onClick={() => { this.redirectToSIGEP(); }}>
-                            <Card.Title>Sistemas de Vacaciones Permisos e Incapacidades</Card.Title>
-                            <Card.Header variant="top" className='vertical-center'><i className="bi bi-pencil menuIcon"></i> </Card.Header>
+                            <Card.Title>Sistemas de Gestion de Egresos y Presupuesto</Card.Title>
+                            <Card.Header variant="top" className='vertical-center'><i className="bi bi-coin menuIcon"></i> </Card.Header>
                             <Button className="btnSFR" >
                                 SIGEP
                             </Button>

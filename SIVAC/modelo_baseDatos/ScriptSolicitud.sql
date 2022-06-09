@@ -18,9 +18,11 @@ USE `db_Message` ;
 -- Table `db_Message`.`T_Message`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `db_Message`.`T_Message` (
-  `id` VARCHAR(15) NOT NULL DEFAULT 'No lo dio',
-  `Message` VARCHAR(200) NULL,
-  PRIMARY KEY (`id`))
+  `id_message` INT NOT NULL AUTO_INCREMENT,
+  `id_user` VARCHAR(15) NOT NULL,
+  `Message` VARCHAR(200) NOT NULL,
+  `status` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`id_message`))
 ENGINE = InnoDB;
 
 

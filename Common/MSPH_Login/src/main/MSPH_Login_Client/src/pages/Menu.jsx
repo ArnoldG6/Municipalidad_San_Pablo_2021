@@ -23,6 +23,7 @@ export default class Menu extends Component {
         this.redirectToSIVAC = this.redirectToSIVAC.bind(this);
         this.redirectToSIGEP = this.redirectToSIGEP.bind(this);
     }
+
     redirectToSIGCD() {
         var options = {
             url: process.env.REACT_APP_SIGCD_REDIRECTION_PATH,
@@ -48,6 +49,7 @@ export default class Menu extends Component {
                 alert("Error al intentar redirigir al SIGCD");
         });
     }
+
     redirectToSIGEP() {
         console.log("Redirigiendo a SIGEP");
         
@@ -76,6 +78,7 @@ export default class Menu extends Component {
         });
         
     }
+
     redirectToSIVAC() {
         var options = {
             url: process.env.REACT_APP_SIVAC_REDIRECTION_PATH,
@@ -90,8 +93,7 @@ export default class Menu extends Component {
             }
         }
         axios(options).then(response => {
-            //document.location = process.env.REACT_APP_SIGCD_PATH;
-            document.location = "http://localhost:8081/home/moduloSivac/MainScreen.jsp";
+            document.location = process.env.REACT_APP_SIVAC_PATH;
         }).catch(function (error) {
             alert("Error al intentar redirigir al SIVAC");
         });

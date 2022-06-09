@@ -35,7 +35,9 @@ import sfr.model.Plan;
     "/API/PlanServlet/Retrieve/PlanTypes",
     "/API/PlanServlet/Search",
     "/API/PlanServlet/RiskTable",
-    "/API/PlanServlet/Report"
+    "/API/PlanServlet/Report",
+    "/API/PlanServlet/SearchRiskInPlan",
+    "API/PlanServlet/SearchUserInPlan"
 })
 public class PlanServlet extends HttpServlet {
 
@@ -88,6 +90,12 @@ public class PlanServlet extends HttpServlet {
                 case "/API/PlanServlet/Report":
                     generateReport(request, response);
                     break;
+                case "/API/PlanServlet/SearchRiskInPlan":
+                    searchRiskInPlan(request, response);
+                    break;
+                case "API/PlanServlet/SearchUserInPlan":
+                    searchUserInPlan(request, response);
+                    break;
 
             }
         } catch (Exception ex) {
@@ -123,7 +131,44 @@ public class PlanServlet extends HttpServlet {
         response.getWriter().flush();
         response.getWriter().close();
     }
+    
+    
+    private void searchRiskInPlan(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException, Exception{
+        String responseJSON;
+        JSONObject requestJSON;
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        responseJSON = new Gson().toJson(PlanDAO.getInstance().searchInRiskListNonRep(requestJSON.getString("planID"), requestJSON.getString("searchRiskInPlan")));
+                if (responseJSON == null) {
+            //Custom exception
+            response.getWriter().write(new InvalidPlanListIDEx().jsonify());
+        } else {
+            response.getWriter().write(responseJSON);
+        }
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
 
+        private void searchUserInPlan(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException, Exception{
+        String responseJSON;
+        JSONObject requestJSON;
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        responseJSON = new Gson().toJson(PlanDAO.getInstance().searchInUserListNonRep(requestJSON.getString("planID"), requestJSON.getString("searchUserInPlan")));
+                if (responseJSON == null) {
+            //Custom exception
+            response.getWriter().write(new InvalidPlanListIDEx().jsonify());
+        } else {
+            response.getWriter().write(responseJSON);
+        }
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
+    
     /**
      * @param request contains the JSON data that is sent by the client and
      * other useful information from the client request.

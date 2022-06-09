@@ -68,8 +68,9 @@ public class AuthServlet extends HttpServlet {
             JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
             try {
                 User u = UserDAO.getInstance().userAuth(requestJSON.getString("username"), requestJSON.getString("pwd"));
-                if (u == null) 
+                if (u == null) {
                     throw new AuthException();
+                }
                 responseJSON.put("authStatus", true);
                 responseJSON.put("username", String.valueOf(u.getIdUser()));
                 responseJSON.put("full_name", u.getOfficial().getName() + " " + u.getOfficial().getSurname());
@@ -106,16 +107,22 @@ public class AuthServlet extends HttpServlet {
             int min = 100000000;
 
             Integer code = rnd.nextInt(max - min + 1) + min;
-            try {
-                UserDAO.getInstance().handlePasswordReset(user, code);
-                UserDAO.getInstance().recordTransaction(email, common.dao.generic.Transaction.PASSWORD_RESET, Boolean.TRUE, null);
-            } catch (Exception e) {
-                UserDAO.getInstance().recordTransaction(email, common.dao.generic.Transaction.PASSWORD_RESET, Boolean.FALSE, null);
-                throw e;
-            }
+            Thread t = new Thread(() -> {
+                try {
+                    UserDAO.getInstance().handlePasswordReset(user, code);
+                    UserDAO.getInstance().recordTransaction(email, common.dao.generic.Transaction.PASSWORD_RESET, Boolean.TRUE, null);
+                } catch (Exception e) {
+                    try {
+                        UserDAO.getInstance().recordTransaction(email, common.dao.generic.Transaction.PASSWORD_RESET, Boolean.FALSE, null);
+                        response.sendError(404, "Hubo un error enviando el correo solicitado.");
+                        throw e;
+                    } catch (Exception ex) {
+                        Logger.getLogger(AuthServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
+            t.start();
 
-        } catch (MessagingException e) {
-            response.sendError(404, "Hubo un error enviando el correo solicitado.");
         } catch (NoSuchElementException e) {
             response.sendError(400, "No se encontró un usuario con el correo indicado.");
         } catch (Exception e) {

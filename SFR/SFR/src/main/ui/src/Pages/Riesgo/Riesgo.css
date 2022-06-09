@@ -1,54 +1,13 @@
-.Data-Container {
-    width: 80% !important;
+.tdRisk{
+    padding-left: 0px !important; 
 }
-.Risk-Container {
-    height: 93%;
+.redBG:hover{
+    background-color: rgba(170, 65, 65, 0.676) !important;
 }
-.mt-4 h1 {
-    margin: 0;
-    font-size: 30px;
-}
-.mt-4 h2 {
-    margin: 0;
-    font-size: 23px;
-}
-.mt-4 h4 {
-    margin: 0;
-    font-size: 20px;
-    color: darkgray;
-}
-.mt-4 p {
-    margin-top: 1vh;
-    font-size: 16px;
-    max-width: 75%;
-}
-.card-body {
-    min-height: 100%;
-    height: 70vh;
+.yellowBG{
+    background-color: rgba(198, 193, 65, 0.676) !important;
 }
 
-.page-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  .content-wrap {
-    flex: 1;
-  }
-  .App {
-    text-align: center;
-  }
-
-  .text_center {
-      display: flex;
-      width: 100%;
-      max-width: 60%;
-      margin: 0 auto;
-      justify-content: center;
-  }
-  .Footer {
-      background-color: #1F3140;
-      color: white;
-      height: 6%;
-      overflow-y: hidden;
-  }
+.greenBG{
+    background-color: rgba(65, 170, 100, 0.676) !important;
+}

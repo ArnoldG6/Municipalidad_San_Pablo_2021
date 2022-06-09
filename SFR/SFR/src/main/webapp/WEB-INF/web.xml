@@ -8,6 +8,14 @@
         <servlet-name>PlanManager</servlet-name>
         <servlet-class>plan.services.PlanManager</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RiskManager</servlet-name>
+        <servlet-class>risk.services.RiskManager</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RiskServlet</servlet-name>
+        <servlet-class>risk.services.RiskServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PlanServlet</servlet-name>
         <url-pattern>/API/PlanServlet/Retrieve/Planes</url-pattern>
@@ -18,6 +26,8 @@
         <url-pattern>/API/PlanServlet/Search</url-pattern>
         <url-pattern>/API/PlanServlet/RiskTable</url-pattern>
         <url-pattern>/API/PlanServlet/Report</url-pattern>
+        <url-pattern>/API/PlanServlet/SearchRiskInPlan</url-pattern>
+        <url-pattern>/API/PlanServlet/SearchUserInPlan</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PlanManager</servlet-name>
@@ -34,6 +44,21 @@
         <url-pattern>/API/PlanManager/Delete/Comment</url-pattern>
     </servlet-mapping>
     
+    <servlet-mapping>
+        <servlet-name>RiskManager</servlet-name>
+        <url-pattern>/API/RiskManager/Insert</url-pattern>
+        <url-pattern>/API/RiskManager/Delete</url-pattern>
+        <url-pattern>/API/RiskManager/Edit</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>RiskServlet</servlet-name>
+        <url-pattern>/API/RiskServlet/Retrieve/Riesgos</url-pattern>
+        <url-pattern>/API/RiskServlet/Retrieve/Riesgo</url-pattern>
+        <url-pattern>/API/RiskServlet/Retrieve/RiskType</url-pattern>
+        <url-pattern>/API/RiskServlet/Search</url-pattern>
+    </servlet-mapping>
+
     <session-config>
         <session-timeout>
             30

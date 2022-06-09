@@ -131,5 +131,16 @@ public class AdminDaoImpl implements AdminDao {
         et.commit();
         return file;
     }
+    
+    @Override
+    public AdminFile updateEarlyVacations(AdminFile file) throws DaoExceptions, SQLException, ServiceExceptions{
+        EntityTransaction et = manage.getTransaction();
+        et.begin();
+        Query query = manage.createQuery("UPDATE file set early_vacations="+
+                file.getDaysEarlyVacations()+ ", total_early_vacations=" + file.getTotalEarlyVacations() + " where id=" + file.getID());
+        query.executeUpdate();
+        et.commit();
+        return file;
+    }
 
 }

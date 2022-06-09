@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, Row, Table, Container, Col } from 'react-bootstrap';
+import { Button, Row, Table, Container, Col, Stack } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EditPerfilModal from './Components/EditPerfilModal';
@@ -151,8 +151,22 @@ export default class Perfil extends React.Component {
                                 <Container fluid>
                                     <Row>
                                         <Col>
-                                            <h1>Perfil</h1>
-                                            <Table>
+                                            <h1>Perfil de Usuario</h1>
+                                            <Stack className='mt-3' gap={3} direction="vertical">
+                                                <Button variant="link" 
+                                                href={this.checkPermissions("SUPER_ADMIN") ? "#/users" : "#/menu"}>
+                                                    <h5>
+                                                        <i className="bi bi-chevron-left"></i>
+                                                        {this.checkPermissions("SUPER_ADMIN") ? "Volver al Manejo de Usuarios" : "Volver al Menú Principal"}
+                                                    </h5>
+                                                </Button>
+                                                {(this.checkOwner() || this.checkPermissions("SUPER_ADMIN")) ?
+                                                    <Button onClick={() => this.openModalEdit(this.state.user)} id='btnEdit' >Editar Perfil</Button>
+                                                    : <div></div>
+                                                }
+                                            </Stack>
+
+                                            <Table className='mt-4'>
                                                 <Table border="1" hover responsive="md">
                                                     <tbody>
                                                         <tr><td><b>Usuario:</b></td><td>{this.state.user.username}</td></tr>
@@ -165,13 +179,6 @@ export default class Perfil extends React.Component {
                                                     </tbody>
                                                 </Table>
                                             </Table>
-
-                                            {(this.checkOwner() || this.checkPermissions("SUPER_ADMIN")) ?
-                                                <div className="col-md-12 text-center">
-                                                    <Button onClick={() => this.openModalEdit(this.state.user)} id='btnEdit' >Editar Perfil</Button>
-                                                </div> :
-                                                <div></div>
-                                            }
                                         </Col>
                                     </Row>
                                 </Container>
@@ -187,9 +194,22 @@ export default class Perfil extends React.Component {
                                     (this.state.user === null || typeof this.state.user === 'undefined') ?
                                         <h1>Cargando Datos</h1> :
                                         <div>
-                                            <Table>
-                                                <br />
-                                                <h2 id='titulo'>Perfil</h2>
+                                            <h2 id='titulo' className='mt-4'>Perfil de Usuario</h2>
+
+                                            <Stack className='mt-3' gap={3} direction="horizontal">
+                                                <Button variant="link" 
+                                                href={this.checkPermissions("SUPER_ADMIN") ? "#/users" : "#/menu"}>
+                                                    <h5>
+                                                        <i className="bi bi-chevron-left"></i>
+                                                        {this.checkPermissions("SUPER_ADMIN") ? "Volver al Manejo de Usuarios" : "Volver al Menú Principal"}
+                                                    </h5>
+                                                </Button>
+                                                {(this.checkOwner() || this.checkPermissions("SUPER_ADMIN")) ?
+                                                    <Button onClick={() => this.openModalEdit(this.state.user)} id='btnEdit' className='btnSFR' >Editar Perfil</Button>
+                                                    : <div></div>
+                                                }
+                                            </Stack>
+                                            <Table className='mt-2'>
                                                 <Table hover responsive="md">
                                                     <tbody>
                                                         <tr><td><b>Usuario:</b></td><td>{this.state.user.username}</td></tr>
@@ -201,12 +221,6 @@ export default class Perfil extends React.Component {
                                                     </tbody>
                                                 </Table>
                                             </Table>
-                                            {(this.checkOwner() || this.checkPermissions("SUPER_ADMIN")) ?
-                                                <div className="col-md-12 text-center">
-                                                    <Button onClick={() => this.openModalEdit(this.state.user)} id='btnEdit' >Editar Perfil</Button>
-                                                </div> :
-                                                <div></div>
-                                            }
                                         </div>
                                 }
 

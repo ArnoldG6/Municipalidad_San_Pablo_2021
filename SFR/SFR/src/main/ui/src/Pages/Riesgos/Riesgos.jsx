@@ -190,7 +190,7 @@ class Riesgos extends Component {
 
     updateRiesgos(type) {
         if (type === "add-success") {
-            toast.success("El Riesgo ha sido agregado satisfactoriamente!", {
+            toast.success("El Riesgo ha sido agregado satisfactoriamente! Redireccionando a la página del Riesgo...", {
                 position: toast.POSITION.TOP_RIGHT,
                 pauseOnHover: true,
                 theme: 'colored',
@@ -251,6 +251,8 @@ class Riesgos extends Component {
             <div className="Riesgos-Container container-fluid">
 
                 {/* Mobile */}
+
+                <h1 className='mt-2 d-lg-none'>Gestor de Riesgos</h1>
                 <Row className='mt-2 d-lg-none'>
                     <Search updateRiesgos={this.updateRiesgosBySearch} />
                 </Row>
@@ -300,6 +302,7 @@ class Riesgos extends Component {
                 {/* PC */}
                 <Row className="mt-2 d-none d-lg-block">
                     <Stack direction="horizontal" gap={3}>
+                        <h5 className='mt-2'>Gestor de Riesgos</h5>
                         {/* Agregar Riesgo */}
                         <OverlayTrigger
                             delay={{ hide: 450, show: 300 }}

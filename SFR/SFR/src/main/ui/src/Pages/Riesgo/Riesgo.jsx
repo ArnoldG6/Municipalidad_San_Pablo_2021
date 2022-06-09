@@ -7,6 +7,7 @@ import TopButtons from './Components/TopButtons';
 import EditRiskModal from './Components/EditRiskModal';
 import GenericModal from '../../SharedComponents/GenericModal/GenericModal';
 import Cookies from 'universal-cookie';
+import './Riesgo.css'
 const cookies = new Cookies();
 
 export default class Plan extends Component {
@@ -19,6 +20,7 @@ export default class Plan extends Component {
             showEdit: false,
             planCount: 0
         };
+        
         this.refreshPage = this.refreshPage.bind(this);
         this.openModalDelete = this.openModalDelete.bind(this);
         this.closeModalDelete = this.closeModalDelete.bind(this);
@@ -38,6 +40,8 @@ export default class Plan extends Component {
 
         this.refreshPage();
     }
+
+   
 
     refreshPage() {
         let query = new URLSearchParams(this.props.location.search);
@@ -232,7 +236,7 @@ export default class Plan extends Component {
                                                 <h2>Información Estadística</h2>
                                                 <Table border="1" hover responsive="md">
                                                     <tbody>
-                                                        <tr><td><b>Cantidad de Planes en Donde Este Riesgo Está Presente</b></td><td>{this.state.risk.planCount}</td></tr>
+                                                        <tr><td>Cantidad de Planes en Donde Este Riesgo Está Presente</td><td>{this.state.risk.planCount}</td></tr>
                                                         <tr><td><b>Cantidad de Veces que se ha Presentado Este Riesgo</b></td><td>{this.state.risk.incidenceCount}</td></tr>
                                                         <tr><td><b>Factor de Ocurrencia</b></td><td>{this.state.risk.occurrenceFactor}</td></tr>
                                                     </tbody>
@@ -270,73 +274,70 @@ export default class Plan extends Component {
                                 risk={this.state.risk} />
                         </Row>
                         {/* Datos del Riesgo */}
-
                         <Row className="mt-4">
                             {
                                 (this.state.risk === null || typeof this.state.risk === 'undefined') ?
                                     <h1>Cargando Datos</h1> :
                                     <div>
-                                        <Container>
+                                        
+
+                                            <h1>{this.state.risk.name}</h1>
+                                            <h2>ID: {this.state.risk.id}</h2>
+                                            <h4>Autor: {this.state.risk.author.official.name} {this.state.risk.author.official.surname}</h4>
+
                                             <Row>
                                                 <Col>
-                                                    <Card>
-                                                        <Card.Body>
-                                                            <Card.Title>
-                                                                <h1>{this.state.risk.name}</h1>
-                                                                <h2>ID: {this.state.risk.id}</h2>
-                                                                <h4>Autor: {this.state.risk.author.official.name} {this.state.risk.author.official.surname}</h4>
-                                                            </Card.Title>
-                                                            <Table>
-                                                                <h2>Información General</h2>
-                                                                <Table border="1" hover responsive="md">
-                                                                    <tbody>
-                                                                        <tr><td><b>Tipo General</b></td><td>{this.state.risk.generalType}</td></tr>
-                                                                        <tr><td><b>Tipo Por Área</b></td><td>{this.state.risk.areaType}</td></tr>
-                                                                        <tr><td><b>Tipo Por Área Específico</b></td><td>{this.state.risk.areaSpecificType}</td></tr>
-                                                                        <tr><td><b>Probabilidad</b></td><td>{this.state.risk.probability}</td></tr>
-                                                                        <tr><td><b>Impacto</b></td><td>{this.state.risk.impact}</td></tr>
-                                                                        <tr><td><b>Magnitud</b></td><td>{this.state.risk.magnitude}</td></tr>
-                                                                        <tr><td><b>Factores</b></td><td>{this.state.risk.factors}</td></tr>
-                                                                        <tr><td><b>Descripción</b></td><td>{this.state.risk.description}</td></tr>
-                                                                    </tbody>
-                                                                </Table>
-                                                            </Table>
-                                                        </Card.Body>
-                                                    </Card>
+
+
+                                                    <Table borderless="true">
+                                                        <h2>Información General</h2>
+                                                        <Table   hover responsive="md" >
+                                                            <tbody>
+                                                                <tr><td className='tdRisk'><b>Tipo General</b></td><td>{this.state.risk.generalType}</td></tr>
+                                                                <tr><td className='tdRisk'><b>Tipo Por Área</b></td><td>{this.state.risk.areaType}</td></tr>
+                                                                <tr><td className='tdRisk'><b>Tipo Por Área Específico</b></td><td>{this.state.risk.areaSpecificType}</td></tr>
+                                                                <tr><td className='tdRisk'><b>Probabilidad</b></td><td>{this.state.risk.probability}</td></tr>
+                                                                <tr><td className='tdRisk'><b>Impacto</b></td><td>{this.state.risk.impact}</td></tr>
+                                                                <tr><td className='tdRisk'><b>Magnitud</b></td><td>{this.state.risk.magnitude}</td></tr>
+                                                                <tr><td className='tdRisk'><b>Factores</b></td><td>{this.state.risk.factors}</td></tr>
+                                                                <tr><td className='tdRisk'><b>Descripción</b></td><td>{this.state.risk.description}</td></tr>
+                                                            </tbody>
+                                                        </Table>
+                                                    </Table>
+
+
                                                 </Col>
                                                 <Col>
-                                                    <Card>
-                                                        <Card.Body>
-                                                            <Table>
-                                                                <h2>Información Estadística</h2>
-                                                                <Table border="1" hover responsive="md">
-                                                                    <tbody>
-                                                                        <tr><td><b>Cantidad de Planes en Donde Este Riesgo Está Presente</b></td><td>{this.state.risk.planCount}</td></tr>
-                                                                        <tr><td><b>Cantidad de Veces que se ha Presentado Este Riesgo</b></td><td>{this.state.risk.incidenceCount}</td></tr>
-                                                                        <tr><td><b>Factor de Ocurrencia</b></td><td>{this.state.risk.occurrenceFactor}</td></tr>
-                                                                    </tbody>
-                                                                </Table>
-                                                                <div>&nbsp;</div>
-                                                                <h2>Medidas de Mitigación</h2>
-                                                                <Table border="1" hover responsive="md">
-                                                                    <tbody>
-                                                                        <tr><td>{this.state.risk.mitigationMeasures}</td></tr>
-                                                                    </tbody>
-                                                                </Table>
-                                                                <div>&nbsp;</div>
-                                                                <h2>Consecuencias</h2>
-                                                                <Table border="1" hover responsive="md">
-                                                                    <tbody>
-                                                                        <tr><td>{this.state.risk.consequences}</td></tr>
-                                                                    </tbody>
-                                                                </Table>
 
-                                                            </Table>
-                                                        </Card.Body>
-                                                    </Card>
+                                                    <Table borderless="true">
+                                                        <h2>Información Estadística</h2>
+                                                        <Table  hover responsive="md">
+                                                            <tbody>
+                                                                <tr><td className='tdRisk'><b>Cantidad de Planes en Donde Este Riesgo Está Presente</b></td><td>{this.state.risk.planCount}</td></tr>
+                                                                <tr><td className='tdRisk'><b>Cantidad de Veces que se ha Presentado Este Riesgo</b></td><td>{this.state.risk.incidenceCount}</td></tr>
+                                                                <tr><td className='tdRisk'><b>Factor de Ocurrencia</b></td><td>{this.state.risk.occurrenceFactor}</td></tr>
+                                                            </tbody>
+                                                        </Table>
+                                                        <div>&nbsp;</div>
+                                                        <h2>Medidas de Mitigación</h2>
+                                                        <Table  hover responsive="md">
+                                                            <tbody>
+                                                                <tr><td className='tdRisk'>{this.state.risk.mitigationMeasures}</td></tr>
+                                                            </tbody>
+                                                        </Table>
+                                                        <div>&nbsp;</div>
+                                                        <h2>Consecuencias</h2>
+                                                        <Table hover responsive="md">
+                                                            <tbody>
+                                                                <tr><td className='tdRisk'>{this.state.risk.consequences}</td></tr>
+                                                            </tbody>
+                                                        </Table>
+
+                                                    </Table>
+
                                                 </Col>
                                             </Row>
-                                        </Container>
+                                        
                                     </div>
                             }
                         </Row>

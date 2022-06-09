@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, Row, Table, Container, Col } from 'react-bootstrap';
+import { Button, Row, Table, Container, Col, Stack } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddUserModal from './Components/AddUserModal';
@@ -182,11 +182,14 @@ export default class Usuarios extends React.Component {
                                     <Row>
                                         <Col>
                                             <h1 className='title'>Manejo de usuarios</h1>
-                                            <div className="col-md-12 text-center">
+                                            <Stack className='mt-3' gap={3} direction="vertical">
+                                                <Button variant="link" href="#/menu">
+                                                    <h5><i className="bi bi-chevron-left"></i> Volver al Menú Principal</h5>
+                                                </Button>
                                                 <Button className='btnSFR' onClick={() => this.openModalAdd(this.state.user)}
                                                     id='btnEdit' >Agregar nuevo Usuario</Button>
-                                            </div>
-                                            <Table>
+                                            </Stack>
+                                            <Table className='mt-2'>
                                                 <Table border="1" hover responsive="md">
                                                     <tbody>
                                                         {
@@ -230,10 +233,13 @@ export default class Usuarios extends React.Component {
                                             <Table>
                                                 <br />
                                                 <h2 id='titulo'>Manejo de Usuarios</h2>
-                                                <div className="col-md-12 text-center">
+                                                <Stack className='mt-3' gap={3} direction="horizontal">
+                                                    <Button variant="link" href="#/menu">
+                                                        <h5><i className="bi bi-chevron-left"></i> Volver al Menú Principal</h5>
+                                                    </Button>
                                                     <Button className='btnSFR' onClick={() => this.openModalAdd(this.state.user)}
                                                         id='btnEdit' >Agregar nuevo Usuario</Button>
-                                                </div>
+                                                </Stack>
                                                 <Table responsive="sm">
                                                     <tbody>
                                                         {

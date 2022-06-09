@@ -24,7 +24,7 @@ public class EmailFactory {
 
     private final String from = "pruebasinge071@gmail.com";
     private final String username = "pruebasinge071@gmail.com";
-    private final String password = "pruebasSFR";
+    private final String password = "ghvmdhhdizpwykpk";
     private final String host = "imap.gmail.com";
 
     private Properties props;
@@ -63,7 +63,7 @@ public class EmailFactory {
                 new InternetAddress(user.getEmail())
         );
 
-        msj.setSubject("Reinicio de contraseña");
+        msj.setSubject("Reinicio de clave");
 
         String htmlCode
                 = "<h3>Estimado/a " + user.getOfficial().getName() + "<br/>"

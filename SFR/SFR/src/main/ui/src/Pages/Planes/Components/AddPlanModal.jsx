@@ -60,7 +60,7 @@ export default class AddPlanModal extends Component {
                     this.props.updatePlanes("add-success");
                     this.props.closeModal();
                     if (response.data.id)
-                        document.location = process.env.REACT_APP_SFR + "#/plan?id=" + response.data.id
+                        setTimeout(() => { document.location = process.env.REACT_APP_SFR + "#/plan?id=" + response.data.id }, 3000);
                     else
                         throw new Error('Error al cargar página específica del plan ');
                 })

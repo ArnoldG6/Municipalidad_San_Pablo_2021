@@ -9,6 +9,7 @@ import cr.go.sanpablo.dao.EarlyVacationsDao;
 import cr.go.sanpablo.dao.EarlyVacationsDaoImpl;
 import cr.go.sanpablo.excepciones.DaoExceptions;
 import cr.go.sanpablo.excepciones.ServiceExceptions;
+import cr.go.sanpablo.model.AdminFile;
 import cr.go.sanpablo.model.EarlyVacations;
 import cr.go.sanpablo.model.Holidays;
 import java.sql.SQLException;
@@ -24,13 +25,33 @@ import java.util.List;
 public class EarlyVacationsServiceImpl implements EarlyVacationsService{
     private EarlyVacationsDao dao;    
     HolidayService holiday;
+    AdminService admin;
 
     @Override
     public EarlyVacations insertVacations(EarlyVacations early) throws DaoExceptions, SQLException, ServiceExceptions {
         EarlyVacations saved = null;
         this.dao = new EarlyVacationsDaoImpl();
-        saved = this.dao.insertVacations(verifyNextYear(early));
+        this.admin = new AdminServImpl();
+        AdminFile result = admin.searchByID(early.getFile().getID());
+        if(result != null){
+            int days = getDaysInsert(early);
+            if(days != 0){
+                int totalDays = days + result.getTotalEarlyVacations();
+                result.setDaysEarlyVacations(totalDays * -1);
+                result.setTotalEarlyVacations(totalDays);
+                saved = this.dao.insertVacations(verifyNextYear(early));
+                admin.updateEarlyVacations(result);
+            }
+        }
         return saved;
+    }
+    
+    @Override
+    public List<EarlyVacations> AllEarly() throws DaoExceptions, SQLException, ServiceExceptions{
+        List early = null;
+        dao = new EarlyVacationsDaoImpl();
+        early = dao.AllEarly();
+        return early;
     }
     
     private EarlyVacations verifyNextYear(EarlyVacations early) {

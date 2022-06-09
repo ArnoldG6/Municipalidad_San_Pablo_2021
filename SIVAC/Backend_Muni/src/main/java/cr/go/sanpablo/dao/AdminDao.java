@@ -22,4 +22,5 @@ public interface AdminDao {
     AdminFile searchByID(int id) throws DaoExceptions, SQLException, ServiceExceptions;
     AdminFile updateFile(AdminFile admin) throws DaoExceptions, SQLException, ServiceExceptions;
     AdminFile updateHolidays(AdminFile admin) throws DaoExceptions, SQLException, ServiceExceptions;
+    AdminFile updateEarlyVacations(AdminFile admin) throws DaoExceptions, SQLException, ServiceExceptions;
 }

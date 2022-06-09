@@ -38,4 +38,13 @@ public class MessageDaoImpl implements MessageDao{
         return messages;
     }
     
+    @Override
+    public Message updateMessage(Message message) throws DaoExceptions, SQLException, ServiceExceptions{
+        manage.getTransaction().begin();
+        manage.merge(message);
+        manage.getTransaction().commit();
+        manage.close();
+        return message;
+    }
+    
 }

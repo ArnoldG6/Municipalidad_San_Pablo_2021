@@ -9,6 +9,7 @@ import cr.go.sanpablo.excepciones.DaoExceptions;
 import cr.go.sanpablo.excepciones.ServiceExceptions;
 import cr.go.sanpablo.model.EarlyVacations;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -16,4 +17,5 @@ import java.sql.SQLException;
  */
 public interface EarlyVacationsService {
     EarlyVacations insertVacations(EarlyVacations early) throws DaoExceptions, SQLException, ServiceExceptions;
+    List<EarlyVacations> AllEarly() throws DaoExceptions, SQLException, ServiceExceptions;
 }

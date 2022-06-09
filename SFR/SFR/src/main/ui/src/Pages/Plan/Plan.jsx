@@ -47,6 +47,7 @@ class Plan extends Component {
         this.removeComment = this.removeComment.bind(this);
         this.handleRiskTableButtonClick = this.handleRiskTableButtonClick.bind(this);
         this.handleReportButtonClick = this.handleReportButtonClick.bind(this);
+        this.handleRiskSearch = this.handleRiskSearch.bind(this);
     }
 
     componentDidMount() {
@@ -254,7 +255,7 @@ class Plan extends Component {
         if (this.state.plan !== null) {
             switch (this.state.table) {
                 case "risks":
-                    return <RiskTable permsCheck={this.permsCheck} riesgos={this.state.plan.riskList} removeRisks={this.removeRisks} addRisk={this.addRisk} availableRisks={this.state.availableRisks} />;
+                    return <RiskTable permsCheck={this.permsCheck} riesgos={this.state.plan.riskList} removeRisks={this.removeRisks} addRisk={this.addRisk} availableRisks={this.state.availableRisks} handleRiskSearch={this.handleRiskSearch} planID={this.state.plan.id} />;
                 case "incidents":
                     return <IncidentTable permsCheck={this.permsCheck} refreshPage={this.refreshPage} planID={this.state.plan.pkID} incidentes={this.state.plan.incidenceList} removeIncidences={this.removeIncidences} riesgos={this.state.plan.riskList} />;
                 case "involved":
@@ -668,6 +669,15 @@ class Plan extends Component {
             })
     }
 
+    handleRiskSearch(newRisks, reset) {
+        if (reset) {
+            this.retrieveRemainingRisks();
+        } else {
+            this.setState({
+                availableRisks: newRisks
+            })
+        }
+    }
 
     openModalEdit = () => {
         this.setState({ showEdit: true });

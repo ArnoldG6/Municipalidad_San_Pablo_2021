@@ -25,7 +25,16 @@ class AddUserModal extends Component {
         this.setState({ value: e.target.value })
     }
 
-    validatePassword(password) {
+    validatePassword(password, verify) {
+        if (password !== verify) {
+            toast.error("La contraseña ingresada no coincide con la verificación ingresada.", {
+                position: toast.POSITION.TOP_RIGHT,
+                pauseOnHover: true,
+                theme: 'colored',
+                autoClose: 5000
+            });
+            return false;
+        }
         if (password.length < 8) {
             toast.error("La constraseña debe ser de al menos 8 caracteres.", {
                 position: toast.POSITION.TOP_RIGHT,
@@ -60,7 +69,7 @@ class AddUserModal extends Component {
     handleSubmit = (event) => {
         const form = event.currentTarget;
         console.log(form)
-        if (form.checkValidity() === false || this.validatePassword(event.target.password.value) === false) {
+        if (form.checkValidity() === false || this.validatePassword(event.target.password.value, event.target.passwordVerify.value) === false) {
             event.preventDefault();
             event.stopPropagation();
             console.log(form)
@@ -202,6 +211,8 @@ class AddUserModal extends Component {
                         <div className="form-group">
                             <label>Contraseña:</label>
                             <input name="password" id="password" type="password" placeholder="Contraseña para el Usuario" className="form-control" required />
+                            <label>Verificar contraseña:</label>
+                            <input name="passwordVerify" id="passwordVerify" type="password" placeholder="Verificar contraseña para el Usuario" className="form-control" required />
                             <p>
                                 La contraseña debe ser de al menos 8 caracteres y contener al menos un número y una letra mayúscula.
                             </p>

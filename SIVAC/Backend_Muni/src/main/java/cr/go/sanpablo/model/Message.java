@@ -22,20 +22,31 @@ import javax.persistence.Table;
 @Table(name = "T_Message")
 public class Message implements Serializable{
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "id_message")
     private int ID;
+    
+    @Column(name = "id_user")
+    private String cedula;
     
     @Column(name = "Message")
     private String message;
+    
+    @Column(name = "status")
+    private String status;
 
-    public Message(int ID, String message) {
+    public Message(int ID, String cedula, String message, String status) {
         this.ID = ID;
+        this.cedula = cedula;
         this.message = message;
+        this.status = status;
     }
 
     public Message() {
         this.ID = 0;
+        this.cedula = "";
         this.message = "";
+        this.status = "";
     }
 
     public int getID() {
@@ -54,8 +65,25 @@ public class Message implements Serializable{
         this.message = message;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+
     @Override
     public String toString() {
-        return "Message{" + "ID=" + ID + ", message=" + message + '}';
+        return "Message{" + "ID=" + ID + ", cedula=" + cedula + ", message=" + message + ", status=" + status + '}';
     }
+
 }

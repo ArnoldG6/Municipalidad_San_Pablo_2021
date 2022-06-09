@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -52,6 +53,18 @@ public class MessageControl {
             return messages;
         } catch (DaoExceptions | SQLException | ServiceExceptions ex) {
             Logger.getLogger(LaboralControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    @PutMapping(consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public Message updateMessage(@RequestBody Message message) {
+        try {
+            Message updated = service.updateMessage(message);
+            return updated;
+        } catch (DaoExceptions | SQLException | ServiceExceptions ex) {
+            Logger.getLogger(AdminControl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

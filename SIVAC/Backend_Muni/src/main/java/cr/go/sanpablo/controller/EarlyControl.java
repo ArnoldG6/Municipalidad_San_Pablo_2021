@@ -11,9 +11,11 @@ import cr.go.sanpablo.model.EarlyVacations;
 import cr.go.sanpablo.service.EarlyVacationsService;
 import cr.go.sanpablo.service.EarlyVacationsServiceImpl;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +40,18 @@ public class EarlyControl {
             return saved;
         } catch (DaoExceptions | SQLException | ServiceExceptions | NullPointerException ex) {
             Logger.getLogger(VacationsControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    @GetMapping()
+    @ResponseBody
+    public List<EarlyVacations> AllEarly() throws DaoExceptions, SQLException, ServiceExceptions {    
+    try {
+            List early = service.AllEarly();
+            return early;
+        } catch (DaoExceptions | SQLException | ServiceExceptions ex) {
+            Logger.getLogger(AdminControl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

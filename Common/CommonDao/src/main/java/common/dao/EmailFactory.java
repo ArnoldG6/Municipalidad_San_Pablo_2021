@@ -63,7 +63,7 @@ public class EmailFactory {
                 new InternetAddress(user.getEmail())
         );
 
-        msj.setSubject("Reinicio de contraseña");
+        msj.setSubject("Reinicio de clave");
 
         String htmlCode
                 = "<h3>Estimado/a " + user.getOfficial().getName() + "<br/>"

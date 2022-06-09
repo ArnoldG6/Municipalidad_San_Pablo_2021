@@ -30,7 +30,7 @@ function retrieveUserData() {
         type: 'GET',
         data: {},
         dataType: 'json',
-        url: 'http://localhost:8086/home/CurrentUserDataService',
+        url: 'http://localhost:8080/home/CurrentUserDataService',
         success: successUserDataHandler,
         error: function () {}
     });
@@ -47,7 +47,7 @@ function retrieveBudgetDataBySearchParameter() {
         type: 'GET',
         data: {},
         dataType: 'json',
-        url: 'http://localhost:8086/home/BudgetListService',
+        url: 'http://localhost:8080/home/BudgetListService',
         success: successBudgetHandler,
         error: function () { }
     });

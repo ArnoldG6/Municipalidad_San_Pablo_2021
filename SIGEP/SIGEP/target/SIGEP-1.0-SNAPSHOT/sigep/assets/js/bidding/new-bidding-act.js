@@ -3,7 +3,7 @@ $(document).ready(function () {
         type: 'GET',
         data: {},
         dataType: 'json',
-        url: 'http://localhost:8086/home/InitialBiddingActRequestListService',
+        url: 'http://localhost:8080/home/InitialBiddingActRequestListService',
         success: successInitialBiddingActHandler,
         error: function (xhr, status, error) {
             Swal.fire({

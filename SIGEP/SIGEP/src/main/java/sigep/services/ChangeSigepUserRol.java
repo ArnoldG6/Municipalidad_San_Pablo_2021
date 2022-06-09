@@ -34,7 +34,7 @@ public class ChangeSigepUserRol extends HttpServlet {
 
                     if (!Objects.isNull(idUser) && !Objects.isNull(idRol)) {
 
-                        User user = UserDAO.getInstance().searchById(new User(Integer.parseInt(idUser)).getIdUser());
+                        User user = UserDAO.getInstance().searchById(Integer.parseInt(idUser));
                         Rol rol = RolDAO.getInstance().searchById(new Rol(Integer.parseInt(idRol)));
                         if (!Objects.isNull(rol)) {
                             if (User.validateRol(user, rol)) {

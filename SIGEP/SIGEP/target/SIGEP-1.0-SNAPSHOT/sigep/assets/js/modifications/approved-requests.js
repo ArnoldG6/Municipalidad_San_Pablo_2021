@@ -4,7 +4,7 @@ function retrieveRequestsData() {
         type: 'GET',
         data: {},
         dataType: 'json',
-        url: `http://localhost:8086/home/BudgetModificationApprovedRequestListService`,
+        url: `http://localhost:8080/home/BudgetModificationApprovedRequestListService`,
         success: loadTableData,
         error: function (xhr, status, error) {
             Swal.fire({
@@ -43,11 +43,6 @@ function loadTableData(data) {
                     },
                     {title: "Departamento", data: "applicant.department.description"},
                     {title: "Estado", data: "status.description"},
-                    {title: "Certificado", "render": function (data, type, row, meta) {
-                            var r = row.documentPath;
-                            return "<button type='button' id='blank' class='btn btn-outline-warning btn-sm ' value=" + r + " onclick=pdfWindowMCMOD(event)>Descargar <i class='fa fa-solid fa-file-arrow-down'></i></button>";
-                        }
-                    },
                     {title: "", "render": createMovementsButton},
                     {title: "Documento", "render": function () {
                             return "<button class='responder btn btn-outline-primary btn-sm' data-bs-toggle='modal' data-bs-target='#contenedor-modal'>Responder</button>";
@@ -82,9 +77,6 @@ function showing(tbody, table) {
         const btnBuildCertificate = document.querySelector("#buildCertificateButton");
         const btnDenegateCertificate = document.querySelector("#denegateButton");
 
-        const saldo = document.querySelector("#saldo");
-        saldo.value = data.documentPath;
-
         const nombre = document.querySelector("#nombre");
         nombre.value = data.applicant.name + " " + data.applicant.surname;
 
@@ -114,16 +106,8 @@ function buildCertificate() {
     document.getElementById("requestConsecutive").value = $("#consecutivo").val();
     document.getElementById("description").value = $("#descripcion").val();
 
+    //window.localStorage.setItem('modificationRequestIdItem', element.id);
     window.location.href = '/home/sigep/modifications/mc-document.jsp';
-}
-
-function pdfWindowCSP(event) {
-    let path = event.target.value;
-
-    const result = path.split(".")[0].split("\\").slice(-1);
-
-    document.getElementById("nombre-csp").value = result;
-    document.getElementById("form-csp").submit();
 }
 
 function pdfWindowMCMOD(event) {

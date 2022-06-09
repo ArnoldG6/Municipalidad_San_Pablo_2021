@@ -46,4 +46,5 @@ sigep\services\ModificationMovementsListService.class
 sigep\services\SelectSCSPBudgetItem.class
 services\UserListService.class
 sigep\services\SelectSCCPBudgetItem.class
+services\LoginService.class
 sigep\services\BudgetItemInformationService.class

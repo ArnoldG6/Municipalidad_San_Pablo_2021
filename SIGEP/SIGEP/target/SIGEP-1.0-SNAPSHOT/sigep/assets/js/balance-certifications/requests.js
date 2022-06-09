@@ -3,7 +3,7 @@ function retrieveAsAdmin() {
         type: 'GET',
         data: {},
         dataType: 'json',
-        url: 'http://localhost:8086/home/BudgetBalanceCertificateRequestListService',
+        url: 'http://localhost:8080/home/BudgetBalanceCertificateRequestListService',
         success: loadTableDataAsAdmin,
         error: function (xhr, status, error) {
             Swal.fire({
@@ -23,7 +23,7 @@ function retrieveAsUser() {
         type: 'GET',
         data: {},
         dataType: 'json',
-        url: 'http://localhost:8086/home/BudgetBalanceCertificateRequestListService',
+        url: 'http://localhost:8080/home/BudgetBalanceCertificateRequestListService',
         success: loadTableDataAsUser,
         error: function (xhr, status, error) {
             Swal.fire({

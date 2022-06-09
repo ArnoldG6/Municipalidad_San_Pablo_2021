@@ -14,7 +14,7 @@ $(document).ready(function () {
         type: 'GET',
         data: {},
         dataType: 'json',
-        url: 'http://localhost:8086/home/BudgetBalanceCertificateListService',
+        url: 'http://localhost:8080/home/BudgetBalanceCertificateListService',
         success: successBudgetHandler,
         error: function (xhr, status, error) {
             Swal.fire({

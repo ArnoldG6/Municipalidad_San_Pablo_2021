@@ -42,7 +42,6 @@
                             <th>Solicitante</th>
                             <th>Departamento</th>
                             <th>Estado</th>
-                            <th>Certificado</th>
                             <th></th>
                             <th id="last-column">Solicitud</th>
                         </tr>
@@ -93,10 +92,6 @@
                         </div>
                         <div class="input-group flex-nowrap">
                             <input disabled id="accion" type="hidden" class="form-control" aria-label="accion" aria-describedby="addon-wrapping" name="accion" >
-                        </div>
-                        <div class="input-group flex-nowrap">
-                            <span class="input-group-text" style="width: 30%;">Certificado</span>
-                            <input disabled id="saldo" type="text" class="form-control" aria-label="saldo" aria-describedby="addon-wrapping">
                         </div>
 
                     </div>

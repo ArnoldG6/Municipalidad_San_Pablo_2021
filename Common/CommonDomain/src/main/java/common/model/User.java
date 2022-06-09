@@ -56,6 +56,10 @@ public class User implements Serializable {
 
     }
 
+    public User(int i) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public Integer getIdUser() {
         return idUser;
     }

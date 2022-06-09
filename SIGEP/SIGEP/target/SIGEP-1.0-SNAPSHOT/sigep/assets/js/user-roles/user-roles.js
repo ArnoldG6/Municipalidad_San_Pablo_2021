@@ -3,7 +3,7 @@ function retrieveUserRoles() {
         type: 'GET',
         data: {},
         dataType: 'json',
-        url: 'http://localhost:8086/home/UserListService',
+        url: 'http://localhost:8080/home/UserListService',
         success: loadTableData,
         error: function (xhr, status, error) {
             Swal.fire({

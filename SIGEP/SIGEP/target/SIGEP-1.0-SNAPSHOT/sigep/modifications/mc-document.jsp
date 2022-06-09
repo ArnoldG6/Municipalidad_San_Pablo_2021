@@ -19,9 +19,12 @@
         <link href="../assets/vendor/bootstrap-icons-1.8.1/bootstrap-icons.css" rel="stylesheet" type="text/css">
         <link href="../assets/css/document.css" rel="stylesheet" type="text/css"/>
 
-        <title>Certificado</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css" rel="stylesheet" type="text/css"/>
+        <link href="https://cdn.datatables.net/1.11.3/css/dataTables.semanticui.min.css" rel="stylesheet" type="text/css"/>
+
+        <title>Resolución</title>
     </head>
-    <body>
+    <body onload="retrieveMovementsData();">
         <div class="container-fluid">
             <div class="row">
                 <div id="sideb" class="col-sm-auto sticky-top">
@@ -32,12 +35,13 @@
                             </a>
                             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
                                 <li><a class="dropdown-item text-dark" href="../modifications/approved-requests.jsp">Regresar a la página anterior</a></li>
-                                <li><button class="dropdown-item" onclick="logout()">Cerrar Sesión...</button></li>
+                                <li><a class="dropdown-item" onclick="logout()">Cerrar Sesión...</a></li>
 
                             </ul>
                         </div>
                         <ul class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center align-items-center">
-                            <li class="nav-item">
+                            
+<!--                            <li class="nav-item">
                                 <label for="doc1" class="nav-link py-2 px-2 lb" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Agregar imagen(es) del resumen ">
                                     <i class="add btnIcon bi bi-plus-circle"></i>
                                 </label>
@@ -59,7 +63,7 @@
                                 <a href="#" class="nav-link py-2 px-2" title="" onclick="deleteDetails()" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Eliminar imagen(es) detalles ">
                                     <i class="dlt btnIcon bi bi-trash3"></i>
                                 </a>
-                            </li>
+                            </li> -->
 
                             <li>
                                 <label for="doc4" class="nav-link py-2 px-3 lb" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Agregar anexos">
@@ -154,11 +158,23 @@ cincuenta y nueve con  80/100) colones, conforme el siguiente detalle:
                             </form>
                         </div>
                     </div>
-
                     <div class="mb-3 ms-5 fbtn" >
+                        <table id="movements-list" class="table table-bordered table-hover compact" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Código</th>
+                                    <th scope="col">Partida decreciente</th>
+                                    <th scope="col">Partida creciente</th>
+                                    <th scope="col">Monto</th>
+                                </tr>
+                            </thead>
+                        </table>
                         <div id="imgDiv">
 
                         </div>
+                    </div>
+                    <div>
+
                     </div>
 
                     <div class="container-fluid">
@@ -168,12 +184,13 @@ cincuenta y nueve con  80/100) colones, conforme el siguiente detalle:
                                 <textarea name="ta3" class="st t-area">
 2.  DETALLE DE LA MODIFICACION POR PROGRAMA
 (click aquí para modificar el texto)
+
                                 </textarea>
                             </form>
                         </div>
                     </div>
 
-                    <div class="mb-3 ms-5 fbtn" >
+                    <div class="mb-3 ms-5 fbtn" >         
                         <div id="imgDiv2">
                         </div>
                     </div>
@@ -224,12 +241,15 @@ ANEXOS
             </div>
         </div>
 
-
         <script src="../assets/vendor/jquery-3.6.0/js/jquery-3.6.0.min.js"></script>
         <script src="../assets/vendor/bootstrap-5.1.3/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.0/html2pdf.bundle.min.js"></script>
+
+        <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.3/js/dataTables.semanticui.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
 
         <script src="../assets/js/logout.js" type="text/javascript"></script>
         <script src="../assets/js/modifications/mc-document.js" type="text/javascript"></script>

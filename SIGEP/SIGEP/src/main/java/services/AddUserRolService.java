@@ -41,7 +41,7 @@ public class AddUserRolService extends HttpServlet {
                 RolDAO rolDAO = RolDAO.getInstance();
 
                 int id = Integer.parseInt(idUser);
-                User user = userDAO.searchById(new User(Integer.parseInt(idUser)).getIdUser());
+                User user = userDAO.searchById(Integer.parseInt(idUser));
                 user.getRoles().add(rolDAO.searchById(new Rol(Integer.parseInt(idRol))));
 
                 userDAO.update(user);

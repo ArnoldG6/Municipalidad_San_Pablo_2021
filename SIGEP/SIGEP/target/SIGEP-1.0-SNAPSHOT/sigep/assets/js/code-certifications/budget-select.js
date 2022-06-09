@@ -4,7 +4,7 @@ function retrieveBudgetData() {
         type: 'GET',
         data: {},
         dataType: 'json',
-        url: 'http://localhost:8086/home/BudgetListService',
+        url: 'http://localhost:8080/home/BudgetListService',
         success: loadTableData,
         error: function (xhr, status, error) {
             Swal.fire({

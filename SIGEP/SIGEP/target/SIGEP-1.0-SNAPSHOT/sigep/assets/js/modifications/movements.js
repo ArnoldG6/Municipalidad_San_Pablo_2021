@@ -4,7 +4,7 @@ function retrieveMovementsData() {
         type: 'GET',
         data: {},
         dataType: 'json',
-        url: `http://localhost:8086/home/ModificationMovementsListService?idModification=${idModification}`,
+        url: `http://localhost:8080/home/ModificationMovementsListService?idModification=${idModification}`,
         success: loadTableData,
         error: function () {}
     });

@@ -63,7 +63,7 @@ function onchangeInput(element) {
             type: 'GET',
             data: {},
             dataType: 'json',
-            url: `http://localhost:8086/home/BudgetItemInformationService?budget=${budget}`,
+            url: `http://localhost:8080/home/BudgetItemInformationService?budget=${budget}`,
             success: function (data) {
                 if (data != null) {
                     var parent = element.parentElement;

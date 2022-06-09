@@ -3,7 +3,7 @@ function retrieveUserData() {
         type: 'GET',
         data: {},
         dataType: 'json',
-        url: 'http://localhost:8086/home/CurrentUserDataService',
+        url: 'http://localhost:8080/home/CurrentUserDataService',
         success: successUserDataHandler,
         error: function (xhr, status, error) {
             Swal.fire({
@@ -27,7 +27,7 @@ function retrieveBudgetDataBySearchParameter() {
         type: 'GET',
         data: {},
         dataType: 'json',
-        url: 'http://localhost:8086/home/BudgetListStaticService',
+        url: 'http://localhost:8080/home/BudgetListStaticService',
         success: successBudgetHandler,
         error: function (xhr, status, error) {
             Swal.fire({

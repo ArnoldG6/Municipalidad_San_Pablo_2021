@@ -41,7 +41,6 @@
                             <th>Solicitante</th>
                             <th>Departamento</th>
                             <th>Estado</th>
-                            <th>Certificado</th>
                             <th></th>
                             <th id="last-column">Documento</th>
                         </tr>
@@ -92,10 +91,6 @@ if(User.validateSuperAdminRol(user) || User.validateBudgetAdminRol(user)) {
                             <!--                            <input id="descripcion" type="text" class="form-control" aria-label="descripcion" aria-describedby="addon-wrapping" placeholder="Ingrese una descripcion">-->
                             <textarea id="descripcion" class="form-control" maxlength="100" aria-label="With textarea" placeholder="Ingrese una descripcion"> </textarea>
                         </div>
-                        <div class="input-group flex-nowrap">
-                            <span class="input-group-text" style="width: 30%;">Certificado</span>
-                            <input disabled id="saldo" type="text" class="form-control" aria-label="saldo" aria-describedby="addon-wrapping">
-                        </div>
 
                     </div>
                     <div class="modal-footer">
@@ -120,7 +115,7 @@ if(User.validateSuperAdminRol(user) || User.validateBudgetAdminRol(user)) {
         <script src="https://cdn.datatables.net/1.11.3/js/dataTables.semanticui.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script><!-- comment -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="../assets/js/logout.js" type="text/javascript"></script>
 
         <script src="../assets/js/modifications/approved-requests.js" type="text/javascript"></script>

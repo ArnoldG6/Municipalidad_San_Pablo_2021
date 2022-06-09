@@ -20,14 +20,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-import sigep.dao.BudgetBalanceCertificateDAO;
 import sigep.dao.BudgetDAO;
 import sigep.dao.BudgetModificationRequestDAO;
 import sigep.dao.SelectedBudgetDAO;
 import sigep.model.Budget;
-import sigep.model.BudgetBalanceCertificate;
-import sigep.model.BudgetBalanceCertificateId;
 import sigep.model.BudgetModificationRequest;
 import sigep.model.BudgetModificationRequestId;
 import sigep.model.RequestStatus;
@@ -73,11 +69,19 @@ public class NewBudgetModificationRequestService extends HttpServlet {
                         String[] parts = decreaseBudgetId.split("-");
                         decreaseBudgetId = parts[1];
                         decreaseBudget = BudgetDAO.getInstance().searchById(new Budget(decreaseBudgetId));
+                    } else {
+                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                        out.print("Debe ingresar la partida a disminuir.");
+                        out.flush();
                     }
                     if (!Objects.isNull(increaseBudgetId) && increaseBudgetId.length() > 0) {
                         String[] parts = increaseBudgetId.split("-");
                         increaseBudgetId = parts[1];
                         increaseBudget = BudgetDAO.getInstance().searchById(new Budget(increaseBudgetId));
+                    } else {
+                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                        out.print("Debe ingresar la partida a aumentar.");
+                        out.flush();
                     }
 
                     String amount = request.getParameter("amount" + i);
@@ -86,7 +90,7 @@ public class NewBudgetModificationRequestService extends HttpServlet {
                     if (!Objects.isNull(amountParsed) || (!Objects.isNull(decreaseBudgetId)
                             && decreaseBudgetId.length() > 0) || (!Objects.isNull(increaseBudgetId)
                             && increaseBudgetId.length() > 0)) {
-                        
+
                         if (decreaseBudget.getAvailableAmount() < amountParsed) {
                             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                             out.print("La partida no tiene los suficientes fondos disponibles");

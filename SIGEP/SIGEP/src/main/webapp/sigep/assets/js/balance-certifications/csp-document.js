@@ -147,7 +147,7 @@ function sendPDF() {
     var form = $('#formCsp')[0];
     $.ajax({
         type: "POST",
-        url: 'http://localhost:8086/home/NewCSPCertificate',
+        url: 'http://localhost:8080/home/NewCSPCertificate',
         data: new FormData(form),
         processData: false,
         dataType: 'text',

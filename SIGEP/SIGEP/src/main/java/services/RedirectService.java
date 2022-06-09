@@ -21,6 +21,7 @@ public class RedirectService extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.getWriter().flush();
         response.getWriter().close();
+        response.sendRedirect("sigep/common/home.jsp");
     }
 
 }

@@ -3,7 +3,7 @@ function retrieveAsAdmin() {
         type: 'GET',
         data: {},
         dataType: 'json',
-        url: 'http://localhost:8086/home/PurchaseOrderRequestListService',
+        url: 'http://localhost:8080/home/PurchaseOrderRequestListService',
         success: loadTableDataAsAdmin,
         error: function (xhr, status, error) {
             Swal.fire({
@@ -21,7 +21,7 @@ function retrieveAsUser() {
         type: 'GET',
         data: {},
         dataType: 'json',
-        url: 'http://localhost:8086/home/PurchaseOrderRequestListService',
+        url: 'http://localhost:8080/home/PurchaseOrderRequestListService',
         success: loadTableDataAsUser,
         error: function (xhr, status, error) {
             Swal.fire({

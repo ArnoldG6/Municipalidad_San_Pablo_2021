@@ -3,7 +3,7 @@ function retrieveBudgetLogData() {
         type: 'GET',
         data: {},
         dataType: 'json',
-        url: `http://localhost:8086/home/BudgetLogListService`,
+        url: `http://localhost:8080/home/BudgetLogListService`,
         success: loadTableData,
         error: function (xhr, status, error) {
             Swal.fire({

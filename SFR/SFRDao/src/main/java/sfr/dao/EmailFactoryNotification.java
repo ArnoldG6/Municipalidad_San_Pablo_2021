@@ -26,10 +26,10 @@ public class EmailFactoryNotification {
 
     private static EmailFactoryNotification ef;
 
-    private final String from = "pruebasinge071@gmail.com";
-    private final String username = "pruebasinge071@gmail.com";
-    private final String password = "ghvmdhhdizpwykpk";
-    private final String host = "imap.gmail.com";
+    private final String from = "webmaster@sanpablo.go.cr";
+    private final String username = "webmaster@sanpablo.go.cr";
+    private final String password = "Cristal87";
+    private final String host = "smtp.office365.com";
 
     private Properties props;
     private final Session session;
@@ -40,7 +40,8 @@ public class EmailFactoryNotification {
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.setProperty("mail.imap.ssl.enable", "true");
+        //props.setProperty("mail.transport.protocol", "smtp");
+        //props.setProperty("mail.debug", "false");
 
         session = Session.getInstance(props,
                 new jakarta.mail.Authenticator() {

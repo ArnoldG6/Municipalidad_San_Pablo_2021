@@ -162,6 +162,8 @@ class EditPerfilModal extends Component {
                                 <option value="1" key="ADMIN">ADMIN</option>
                                 <option value="2" key="SUPER_ADMIN">SUPER_ADMIN</option>
                                 <option value="3" key="USER">USER</option>
+                                <option value="4" key="BUDGET_ADMIN">BUDGET_ADMIN</option>
+                                <option value="5" key="TENDER_ADMIN">TENDER_ADMIN</option>
                             </Form.Select>
                         </div>
 

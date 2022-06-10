@@ -120,7 +120,7 @@ export default class Menu extends Component {
 
                         <Card className='menuCard' onClick={() => { document.location = process.env.REACT_APP_SFR_PATH; }}>
                             <Card.Title>Sistema de Factibilidad de Riesgos</Card.Title>
-                            <Card.Header variant="top" className='vertical-center'><i className="bi bi-table menuIcon"></i></Card.Header>
+                            <Card.Header variant="top" className='vertical-center'><i className="bi bi-clipboard-data menuIcon"></i></Card.Header>
                             <Button className="btnSFR"  >
                                 SFR
                             </Button>
@@ -128,7 +128,7 @@ export default class Menu extends Component {
 
                         <Card className='menuCard' onClick={() => { this.redirectToSIGCD(); }}>
                             <Card.Title>Sistema de Gestión y Control de Donaciones</Card.Title>
-                            <Card.Header variant="top" className='vertical-center'><i className="bi bi-pencil menuIcon"></i> </Card.Header>
+                            <Card.Header variant="top" className='vertical-center'><i className="bi bi-piggy-bank menuIcon"></i> </Card.Header>
                             <Button className="btnSFR" >
                                 SIGCD
                             </Button>
@@ -136,7 +136,7 @@ export default class Menu extends Component {
 
                         <Card className='menuCard' onClick={() => { this.redirectToSIVAC(); }}>
                             <Card.Title>Sistemas de Vacaciones Permisos e Incapacidades</Card.Title>
-                            <Card.Header variant="top" className='vertical-center'><i className="bi bi-pencil menuIcon"></i> </Card.Header>
+                            <Card.Header variant="top" className='vertical-center'><i className="bi bi-hourglass-split menuIcon"></i> </Card.Header>
                             <Button className="btnSFR" >
                                 SIVAC
                             </Button>

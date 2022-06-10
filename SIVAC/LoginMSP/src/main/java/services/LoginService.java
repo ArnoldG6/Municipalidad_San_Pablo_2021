@@ -33,6 +33,7 @@ public class LoginService extends HttpServlet {
     private void handleFriendlyRedict(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
         //User u = UserDAO.getInstance().searchById(requestJSON.getInt("username"));
+        System.out.println(requestJSON.getInt("username"));
         request.getSession().setAttribute("id", requestJSON.getInt("username"));
         request.getRequestDispatcher("moduloSivac/MainScreen.jsp").forward(request, response);
     }

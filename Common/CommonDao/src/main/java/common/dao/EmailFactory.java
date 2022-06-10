@@ -22,10 +22,10 @@ public class EmailFactory {
 
     private static EmailFactory ef;
 
-    private final String from = "pruebasinge071@gmail.com";
-    private final String username = "pruebasinge071@gmail.com";
-    private final String password = "ghvmdhhdizpwykpk";
-    private final String host = "imap.gmail.com";
+    private final String from = "webmaster@sanpablo.go.cr";
+    private final String username = "webmaster@sanpablo.go.cr";
+    private final String password = "Cristal87";
+    private final String host = "smtp.office365.com";
 
     private Properties props;
     private final Session session;
@@ -36,7 +36,8 @@ public class EmailFactory {
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.setProperty("mail.imap.ssl.enable", "true");
+        //props.setProperty("mail.transport.protocol", "smtp");
+        //props.setProperty("mail.debug", "false");
 
         session = Session.getInstance(props,
                 new jakarta.mail.Authenticator() {
@@ -70,7 +71,7 @@ public class EmailFactory {
                 + "Hemos recibido una solicitud de cambio de contraseña para su cuenta en el Sistema de Identificación Municipal.<br/>"
                 + "Por favor ingrese el siguiente código en el campo solicitado en el sistema:</h3>"
                 + "<h1>" + code + "</h1>"
-                + "<h3>Si usted no realizó esta solicitud, por favor ponerse en contacto con su correspondiente Administrador Tecnológico</h3>"
+                + "<h3>Si usted no realizó esta solicitud, por favor pongase en contacto con su correspondiente Administrador Tecnológico.</h3>"
                 + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
 
         msj.setContent(htmlCode, "text/html; charset=UTF-8");

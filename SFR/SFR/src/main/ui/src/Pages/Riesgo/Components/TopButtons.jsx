@@ -54,7 +54,7 @@ class TopButtons extends Component {
                         >
                             <Button
                                 variant={(this.checkPermissions("SUPER_ADMIN") || (this.checkPermissions("ADMIN")) || this.checkOwner()) ? "outline-primary" : "outline-dark"}
-                                disabled={(this.checkPermissions("USER") && !this.checkOwner()) ? true : false}
+                                disabled={(!this.checkPermissions("SUPER_ADMIN") && !this.checkPermissions("ADMIN") && !this.checkOwner()) ? true : false}
                                 onClick={this.props.openModalEdit} >
                                 <h2><i className="bi bi-pencil-square"></i></h2>
                             </Button>
@@ -97,7 +97,7 @@ class TopButtons extends Component {
                         >
                             <Button
                                 variant={(this.checkPermissions("SUPER_ADMIN") || (this.checkPermissions("ADMIN")) || this.checkOwner()) ? "outline-primary" : "outline-dark"}
-                                disabled={(this.checkPermissions("USER") && !this.checkOwner()) ? true : false}
+                                disabled={(!this.checkPermissions("SUPER_ADMIN") && !this.checkPermissions("ADMIN") && !this.checkOwner()) ? true : false}
                                 onClick={this.props.openModalEdit} >
                                 <h2><i className="bi bi-pencil-square"></i></h2>
                             </Button>

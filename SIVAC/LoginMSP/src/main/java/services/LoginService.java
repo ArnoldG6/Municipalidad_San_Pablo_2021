@@ -5,6 +5,8 @@
  */
 package services;
 
+import common.dao.UserDAO;
+import common.model.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,8 +34,9 @@ public class LoginService extends HttpServlet {
 
     private void handleFriendlyRedict(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         JSONObject requestJSON = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
-        //User u = UserDAO.getInstance().searchById(requestJSON.getInt("username"));
-        System.out.println(requestJSON.getInt("username"));
+        User u = UserDAO.getInstance().searchById(requestJSON.getInt("username"));
+        request.getSession(true).setAttribute("user", u);
+        //System.out.println(requestJSON.getInt("username"));       
         request.getSession().setAttribute("id", requestJSON.getInt("username"));
         request.getRequestDispatcher("moduloSivac/MainScreen.jsp").forward(request, response);
     }

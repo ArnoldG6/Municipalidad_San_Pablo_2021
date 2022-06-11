@@ -94,7 +94,7 @@
                             out.println(request.getSession(true).getAttribute("id").toString());
                                %>" size="10" style="text-align:center; background-color: transparent;outline: none; color: white;
                                border: none;"/>
-                        <a style="text-decoration:none; color: white;" href="../Pagina1.jsp";">Salir</a>
+                        <a style="text-decoration:none; color: white;" href="http://localhost:8080/SIMSP/#/menu";">Salir</a>
                     </a>
                 </div>
             </div>

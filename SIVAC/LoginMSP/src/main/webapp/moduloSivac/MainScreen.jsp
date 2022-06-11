@@ -4,6 +4,7 @@
     Author     : jegon
 --%>
 
+<%@page import="common.model.User"%>
 <%@page import="javax.ws.rs.ProcessingException"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -17,9 +18,10 @@
     <!--%@include file="BossMain.jsp" %-->
     <%
         service.Service service = new service.Service();
+        User u = (User)request.getSession(true).getAttribute("user");
         String menu;
         try {
-            menu = service.userAccess(Integer.parseInt(request.getSession(true).getAttribute("id").toString()));
+            menu = service.userAccess(u.getIdUser());
         } catch (NullPointerException | NumberFormatException ex) {
             menu = "../ErrorUsuario";
         } 

@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.7.7.v20200504-rNA", date="2022-06-06T08:57:55")
+@Generated(value="EclipseLink-2.7.7.v20200504-rNA", date="2022-06-11T14:36:10")
 @StaticMetamodel(LicenseCGS.class)
 public class LicenseCGS_ { 
 

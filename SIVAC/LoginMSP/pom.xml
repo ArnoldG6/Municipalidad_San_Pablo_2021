@@ -24,6 +24,11 @@
             <version>8.0.0</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/jakarta.platform/jakarta.jakartaee-web-api -->
         <dependency>
             <groupId>jakarta.platform</groupId>
@@ -64,11 +69,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>CommonDomain</artifactId>
-            <version>${project.version}</version>
         </dependency>
         
         <!--Esto lo incluí yo-->
@@ -140,6 +140,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>CommonDao</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>CommonDomain</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

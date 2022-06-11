@@ -43,4 +43,17 @@ public class EarlyVacationsDaoImpl implements EarlyVacationsDao{
         return early;
     }
     
+    @Override
+    public boolean deleteEarlyVacation(int id) throws DaoExceptions, SQLException, ServiceExceptions{
+        manage.getTransaction().begin();
+        Query query = manage.createQuery(
+                "DELETE FROM early WHERE T_Administrative_File_id =" + id);
+        int deletedCount = query.executeUpdate();
+        manage.getTransaction().commit();
+        if (deletedCount != -1) {
+            return true;
+        }
+        return false;
+    }
+    
 }

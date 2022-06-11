@@ -6,13 +6,13 @@
 package com.mycompany.frontend;
 
 import contants.Constants;
-import javax.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.MultipartConfig;
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
@@ -50,7 +50,7 @@ public class disabilityProof extends HttpServlet {
             String id = request.getParameter("ced");
             file.setID(Integer.parseInt(id));
             proof.setFile(file);
-            
+
             Part part = request.getPart("fileBrowser");
             String campo = part.getName();
             System.out.printf("Nombre del campo (formulario): '%s'%n", campo);
@@ -63,28 +63,29 @@ public class disabilityProof extends HttpServlet {
                 request.getSession(true).setAttribute("redireccionamiento",
                         "disabilityProof.jsp");
                 response.sendRedirect("moduloSivac/error.jsp");
-            }
-
-            if (Constants.validar(nombreArchivo)) {
-                InputStream is = part.getInputStream();
-                byte[] imagen = IOUtils.toByteArray(is);
-                proof.setVoucher(imagen);
-                Calendar calendar = Calendar.getInstance();
-                Date dateObj = calendar.getTime();
-                proof.setMainDate(dateObj);
-                notification.setId_Transmitter(Integer.parseInt(id));
-                notification.setIdReceiver(service.cedulaJefe(Integer.parseInt(id)));
-                service.addDisabilityProof(proof);
-                service.addNotification(notification);
-                request.getSession(true).setAttribute("redireccionamiento", "disabilityProof.jsp");
-                response.sendRedirect("moduloSivac/success.jsp");
             } else {
-                request.getSession(true).setAttribute("redireccionamiento","disabilityProof.jsp");
-                response.sendRedirect("moduloSivac/ErrorArchivo.jsp");
+
+                if (Constants.validar(nombreArchivo)) {
+                    InputStream is = part.getInputStream();
+                    byte[] imagen = IOUtils.toByteArray(is);
+                    proof.setVoucher(imagen);
+                    Calendar calendar = Calendar.getInstance();
+                    Date dateObj = calendar.getTime();
+                    proof.setMainDate(dateObj);
+                    notification.setId_Transmitter(Integer.parseInt(id));
+                    notification.setIdReceiver(service.cedulaJefe(Integer.parseInt(id)));
+                    service.addDisabilityProof(proof);
+                    service.addNotification(notification);
+                    request.getSession(true).setAttribute("redireccionamiento", "disabilityProof.jsp");
+                    response.sendRedirect("moduloSivac/success.jsp");
+                } else {
+                    request.getSession(true).setAttribute("redireccionamiento", "disabilityProof.jsp");
+                    response.sendRedirect("moduloSivac/ErrorArchivo.jsp");
+                }
             }
 
         } catch (IOException | NumberFormatException ex) {
-            request.getSession(true).setAttribute("redireccionamiento","disabilityProof.jsp");
+            request.getSession(true).setAttribute("redireccionamiento", "disabilityProof.jsp");
             response.sendRedirect("moduloSivac/error.jsp");
         }
 

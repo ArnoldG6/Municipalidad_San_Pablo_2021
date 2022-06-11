@@ -6,10 +6,10 @@
 package com.mycompany.frontend;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import service.Service;
 
 /**
@@ -36,6 +36,8 @@ public class DeleteUser extends HttpServlet {
         service.deleteLicenseCGS(Integer.parseInt(result));
         service.deleteLicenseSGS(Integer.parseInt(result));
         service.deleteVacations(Integer.parseInt(result));
+        service.deleteEarlyVacation(Integer.parseInt(result));
+        service.deleteVacationDays(Integer.parseInt(result));
         service.deleteUser(Integer.parseInt(result));
         response.sendRedirect("moduloSivac/listUser.jsp");
     }

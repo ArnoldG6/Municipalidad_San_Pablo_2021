@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,5 +56,18 @@ public class EarlyControl {
             Logger.getLogger(AdminControl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    @DeleteMapping("{id}")
+    @ResponseBody
+    public boolean deleteAdmin(@PathVariable int id) {
+        try {
+            boolean isDeleted = false;
+            isDeleted = service.deleteEarlyVacation(id);
+            return isDeleted;
+        } catch (DaoExceptions | SQLException | ServiceExceptions ex) {
+            Logger.getLogger(AdminControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 }

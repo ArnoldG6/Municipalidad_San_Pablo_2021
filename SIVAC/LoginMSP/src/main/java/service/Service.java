@@ -10,11 +10,11 @@ import contants.GetMonth;
 import contants.PlusDate;
 import java.util.Arrays;
 import java.util.List;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import model.AdminFile;
@@ -124,6 +125,26 @@ public class Service implements Serializable {
                 request(MediaType.APPLICATION_JSON).delete(Boolean.class);
         if (eliminated) {
             System.out.println("Usuario borrado con éxito");
+        } else {
+            System.out.println("Error en la base de datos");
+        }
+    }
+
+    public void deleteEarlyVacation(int id) {
+        boolean eliminated = client.target("http://localhost:8083/api/early").path(Integer.toString(id)).
+                request(MediaType.APPLICATION_JSON).delete(Boolean.class);
+        if (eliminated) {
+            System.out.println("Borrado con éxito");
+        } else {
+            System.out.println("Error en la base de datos");
+        }
+    }
+
+    public void deleteVacationDays(int id) {
+        boolean eliminated = client.target("http://localhost:8083/api/vacationdays").path(Integer.toString(id)).
+                request(MediaType.APPLICATION_JSON).delete(Boolean.class);
+        if (eliminated) {
+            System.out.println("Días de vacaciones borrado con éxito");
         } else {
             System.out.println("Error en la base de datos");
         }
@@ -284,9 +305,9 @@ public class Service implements Serializable {
         }
         return r.toString();
     }
-    
-    public String searchMonth(int month){
-        switch(month){
+
+    public String searchMonth(int month) {
+        switch (month) {
             case 1:
                 return "Enero";
             case 2:
@@ -899,58 +920,74 @@ public class Service implements Serializable {
         return r.toString();
     }
 
-    public String getVacationDays(int cedula) {
+    public String getVacationDays(int idVac) {
         StringBuilder r = new StringBuilder();
         List<VacationDays> temp = new ArrayList<>();
-        AdminFile file = searchFileID(cedula);
-        List<VacationDays> days = new ArrayList<>();
-        List<Vacations> vacations = new ArrayList<>();
+        //AdminFile file = searchFileID(cedula);
+        List<AdminFile> files = this.allFiles();
+        for (AdminFile file : files) {
+            List<Vacations> tmp = file.getVacations();
+            for (Vacations vacation : tmp) {
+                if (vacation.getVacations_ID() == idVac) {
+                    temp = file.getDays();
+                    Date start = vacation.getStart_Date();
+                    Date end = vacation.getFinal_Date();
 
-        temp = file.getDays();
+                    while (end.compareTo(start) != -1) {
+                        Date date = start;
 
-        for (VacationDays day : temp) {
-            if (day.getStatus().equals("Pendiente")) {
-                r.append("<tr>");
-                r.append(String.format("<form method='%s'>", "POST"));
-                r.append("<th>");
-                r.append(String.format("<input type='%s' id='%s' name='%s' value='%d' readonly style = '%s'>", "text",
-                        "ced", "ced", file.getID(),
-                        "background-color: transparent; outline: none; border: none; text-align: center"));
-                r.append("</th>");
-                r.append("<th>");
-                r.append(String.format("<input type='%s' id='%s' name='%s' value='%s' readonly style = '%s'>", "text",
-                        "nombre", "nombre", file.getName(),
-                        "background-color: transparent; outline: none; border: none; text-align: center"));
-                r.append("</th>");
-                r.append("<th>");
-                r.append(String.format("<input type='%s' id='%s' name='%s' value='%s' readonly style = '%s'>", "text",
-                        "apel", "apel", file.getLastname_1() + " " + file.getLastname_2(),
-                        "background-color: transparent; outline: none; border: none; text-align: center"));
-                r.append("</th>");
-                r.append("<th>");
-                r.append(String.format("<input type='%s' id='%s' name='%s' value='%s' readonly style = '%s'>", "text",
-                        "num", "num", PlusDate.plusDate(day.getDays()), "background-color: transparent; outline: none; border: none; text-align: center"));
-                r.append("</th>");
-                r.append("<th>");
-                r.append(String.format("<input type='%s' id='%s' name='%s' value='%s' readonly = '%s' style = '%S'>", "text", "status",
-                        "status", day.getStatus(), "readonly", "background-color: transparent; outline: none; border: none; text-align: center"));
-                r.append("</th>");
-                r.append("<th>");
-                r.append(String.format("<button color='%s' type='%s' name='%s' id='%s' value='%d' title='%s' "
-                        + " formaction='%s'>",
-                        "white", "submit", "aprobar", "aprobar", day.getId_day(), "Aprobar", "../AprobarDia"));
-                r.append(String.format("<img src='%s' width='%s'  >", "../images/check.ico", "21px"));
-                r.append("</button>");
-                r.append(String.format("<button color='%s' type='%s' name='%s' id='%s' value='%d' title='%s' "
-                        + "formaction='%s'>",
-                        "white", "submit", "denegar", "denegar", day.getId_day(), "Denegar", "../DenegarDia"));
-                r.append(String.format("<img src='%s' width='%s'  >", "../images/no.ico", "21px"));
-                r.append("</button>");
-                r.append("</form>");
-                r.append("</th>");
+                        for (VacationDays day : temp) {
+                            if (day.getStatus().equals("Pendiente") && date.equals(day.getDays())) {
+                                r.append("<tr>");
+                                r.append(String.format("<form method='%s'>", "POST"));
+                                r.append("<th>");
+                                r.append(String.format("<input type='%s' id='%s' name='%s' value='%d' readonly style = '%s'>", "text",
+                                        "ced", "ced", file.getID(),
+                                        "background-color: transparent; outline: none; border: none; text-align: center"));
+                                r.append("</th>");
+                                r.append("<th>");
+                                r.append(String.format("<input type='%s' id='%s' name='%s' value='%s' readonly style = '%s'>", "text",
+                                        "nombre", "nombre", file.getName(),
+                                        "background-color: transparent; outline: none; border: none; text-align: center"));
+                                r.append("</th>");
+                                r.append("<th>");
+                                r.append(String.format("<input type='%s' id='%s' name='%s' value='%s' readonly style = '%s'>", "text",
+                                        "apel", "apel", file.getLastname_1() + " " + file.getLastname_2(),
+                                        "background-color: transparent; outline: none; border: none; text-align: center"));
+                                r.append("</th>");
+                                r.append("<th>");
+                                r.append(String.format("<input type='%s' id='%s' name='%s' value='%s' readonly style = '%s'>", "text",
+                                        "num", "num", PlusDate.plusDate(day.getDays()), "background-color: transparent; outline: none; border: none; text-align: center"));
+                                r.append("</th>");
+                                r.append("<th>");
+                                r.append(String.format("<input type='%s' id='%s' name='%s' value='%s' readonly = '%s' style = '%S'>", "text", "status",
+                                        "status", day.getStatus(), "readonly", "background-color: transparent; outline: none; border: none; text-align: center"));
+                                r.append("</th>");
+                                r.append("<th>");
+                                r.append(String.format("<button color='%s' type='%s' name='%s' id='%s' value='%d' title='%s' "
+                                        + " formaction='%s'>",
+                                        "white", "submit", "aprobar", "aprobar", day.getId_day(), "Aprobar", "../AprobarDia"));
+                                r.append(String.format("<img src='%s' width='%s'  >", "../images/check.ico", "21px"));
+                                r.append("</button>");
+                                r.append(String.format("<button color='%s' type='%s' name='%s' id='%s' value='%d' title='%s' "
+                                        + "formaction='%s'>",
+                                        "white", "submit", "denegar", "denegar", day.getId_day(), "Denegar", "../DenegarDia"));
+                                r.append(String.format("<img src='%s' width='%s'  >", "../images/no.ico", "21px"));
+                                r.append("</button>");
+                                r.append("</form>");
+                                r.append("</th>");
 
-                r.append("</tr");
-                r.append("</br>");
+                                r.append("</tr");
+                                r.append("</br>");
+                            }
+                        }
+                        Calendar c = Calendar.getInstance();
+                        c.setTime(start);
+                        c.add(Calendar.DATE, 1);
+                        start = c.getTime();
+                    }
+
+                }
             }
         }
 
@@ -1679,7 +1716,7 @@ public class Service implements Serializable {
                                 r.append("<th>");
                                 r.append(String.format("<form action='%s' method='%s'>", "../PasarVacation", "POST"));
                                 r.append(String.format("<button color='%s' type='%s' name='%s' id='%s' value='%d' style = '%s'>",
-                                        "white", "submit", "idVac", "idVac", file.getID(), "text-align: center;"));
+                                        "white", "submit", "idVac", "idVac", tmp.getVacations_ID(), "text-align: center;"));
                                 r.append(String.format("<img src='%s' width='%s'  >", "../images/lupa.ico", "21px"));
                                 r.append("</button>");
                                 r.append("</form>");

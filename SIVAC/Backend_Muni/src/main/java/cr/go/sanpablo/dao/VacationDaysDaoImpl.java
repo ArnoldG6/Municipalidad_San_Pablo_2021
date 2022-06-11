@@ -64,4 +64,17 @@ public class VacationDaysDaoImpl implements VacationDaysDao {
         return day;
     }
 
+    @Override
+    public boolean deleteDaysVacation(int id) throws DaoExceptions, SQLException, ServiceExceptions {
+        manage.getTransaction().begin();
+        Query query = manage.createQuery(
+                "DELETE FROM vacationday WHERE id_day_user =" + id);
+        int deletedCount = query.executeUpdate();
+        manage.getTransaction().commit();
+        if (deletedCount != -1) {
+            return true;
+        }
+        return false;
+    }
+
 }

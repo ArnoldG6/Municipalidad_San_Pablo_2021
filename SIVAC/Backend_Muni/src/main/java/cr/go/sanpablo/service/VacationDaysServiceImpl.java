@@ -104,4 +104,10 @@ public class VacationDaysServiceImpl implements VacationDaysService {
         return holidays >= 0;
     }
 
+    @Override
+    public boolean deleteDaysVacation(int id) throws DaoExceptions, SQLException, ServiceExceptions {
+        dao = new VacationDaysDaoImpl();
+        return this.dao.deleteDaysVacation(id);
+    }
+
 }

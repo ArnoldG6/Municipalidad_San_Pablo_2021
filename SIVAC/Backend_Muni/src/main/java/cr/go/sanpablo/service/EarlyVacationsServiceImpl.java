@@ -115,5 +115,11 @@ public class EarlyVacationsServiceImpl implements EarlyVacationsService{
 
         return totalDays;
     }
+
+    @Override
+    public boolean deleteEarlyVacation(int id) throws DaoExceptions, SQLException, ServiceExceptions {
+        holiday = new HolidayServiceImpl();
+        return holiday.deleteHoliday(id);
+    }
     
 }

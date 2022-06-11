@@ -19,18 +19,34 @@ public class Model {
     private Model(){
         users = new HashMap<>();
     }
-   
+    private void updateModel(){ 
+        try{
+            users = UserDAO.getInstance().listAllHM();
+            System.out.println(users);
+        }catch(Exception ex){
+            System.err.print(ex.getMessage());
+            throw ex;
+        }
+    
+        
+    }
     public HashMap<Integer, User> getUsers(){return users;}
     public void setUsers(HashMap<Integer, User> users){this.users = users;}
 
     public User searchUser(String username, String pwd) throws Exception{
+        User u = null;
         try{
-            User u = UserDAO.getInstance().userAuth(username, pwd);;
-            if (u == null) 
-                throw new Exception("Invalid credentials");
-            return u;
+            //this.updateModel();
+            //System.out.println(users);
+            Integer uname = Integer.parseInt(username);
+            u = UserDAO.getInstance().idValidation(uname, pwd);
+            if (u != null) return u;
+        }catch(NumberFormatException e){
+            u = UserDAO.getInstance().emailValidation(username, pwd);
+            if (u != null) return u;
         }catch(Exception e){
             throw e;
         }
+        return u;
     }
 }

@@ -44,8 +44,8 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="licCGSControl.jsp"> Agregar licencia con goce salarial</a></li>
                                 <li><a class="dropdown-item" href="licSGSControl.jsp">Agregar licencia sin goce salarial</a></li>
-                                <li><a class= "dropdown-item" href="listCGS.jsp">Lista de licencias con goce salarial</a></li>
-                                <li><a class= "dropdown-item" href="listSGS.jsp">Lista de licencias sin goce salarial</a></li>
+                                <li><a class= "dropdown-item" href="listCGS.jsp">Licencias pendientes con goce salarial</a></li>
+                                <li><a class= "dropdown-item" href="listSGS.jsp">Licencias pendientes sin goce salarial</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">

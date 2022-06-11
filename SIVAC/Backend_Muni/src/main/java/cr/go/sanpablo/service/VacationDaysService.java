@@ -21,5 +21,6 @@ public interface VacationDaysService {
     List<VacationDays> listAllDays() throws DaoExceptions, SQLException, ServiceExceptions;
     VacationDays updateVacations(VacationDays vac) throws DaoExceptions, SQLException, ServiceExceptions;
     VacationDays searchByID(int id) throws DaoExceptions, SQLException, ServiceExceptions;
+    boolean deleteDaysVacation(int id) throws DaoExceptions, SQLException, ServiceExceptions;
     
 }

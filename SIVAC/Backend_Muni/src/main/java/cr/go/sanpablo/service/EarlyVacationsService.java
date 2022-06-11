@@ -18,4 +18,5 @@ import java.util.List;
 public interface EarlyVacationsService {
     EarlyVacations insertVacations(EarlyVacations early) throws DaoExceptions, SQLException, ServiceExceptions;
     List<EarlyVacations> AllEarly() throws DaoExceptions, SQLException, ServiceExceptions;
+    boolean deleteEarlyVacation(int id) throws DaoExceptions, SQLException, ServiceExceptions;
 }

@@ -1,4 +1,4 @@
-ALTER SCHEMA `si_db`  DEFAULT COLLATE utf8mb4_spanish2_ci ;
+ALTER SCHEMA `si_db`  DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish2_ci ;
 -- ------------------------------------------STARTER DATA FOR SI_DB--------------------------------------------------
 -- ---------------------------------------------SI_DEPARTMENTS-----------------------------------------------
 INSERT INTO `si_db`.`SI_DEPARTMENTS` (`PK_DEPARTMENT`, `description`) VALUES ('100', 'Concejo Municipal');

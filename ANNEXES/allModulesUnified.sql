@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`direccion` (
   `direccionExacta` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`estado` (
   `estado` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`solicitante` (
   `correoElectronico` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`ayudatemporal` (
     FOREIGN KEY (`idSolicitante`)
     REFERENCES `si_db`.`solicitante` (`id`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`estudiante` (
   `gradoAcademico` INT NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -131,7 +131,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`becaacademica` (
     FOREIGN KEY (`idSolicitante`)
     REFERENCES `si_db`.`solicitante` (`id`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`gradoacademico` (
   `nivel` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -150,13 +150,13 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `si_db`.`si_departments` (
   `PK_DEPARTMENT` INT NOT NULL AUTO_INCREMENT,
-  `description` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(200) NOT NULL,
   PRIMARY KEY (`PK_DEPARTMENT`),
   UNIQUE INDEX `PK_DEPARTMENT_UNIQUE` (`PK_DEPARTMENT` ASC) ,
   UNIQUE INDEX `description_UNIQUE` (`description` ASC) )
 ENGINE = InnoDB
 AUTO_INCREMENT = 105
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -176,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`si_officials` (
     FOREIGN KEY (`FK_department`)
     REFERENCES `si_db`.`si_departments` (`PK_DEPARTMENT`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -199,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`si_users` (
     REFERENCES `si_db`.`si_officials` (`PK_OFFICIAL`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 124
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -215,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`si_resetpass` (
     FOREIGN KEY (`FK_User`)
     REFERENCES `si_db`.`si_users` (`PK_USER`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -229,7 +229,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`si_roles` (
   UNIQUE INDEX `description_UNIQUE` (`description` ASC) )
 ENGINE = InnoDB
 AUTO_INCREMENT = 6
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -251,7 +251,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`si_user_roles` (
     REFERENCES `si_db`.`si_users` (`PK_USER`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 7
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -277,7 +277,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`sp_budget` (
     FOREIGN KEY (`FK_fatherItem`)
     REFERENCES `si_db`.`sp_budget` (`PK_item`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -302,7 +302,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`sp_budgetlocks` (
     FOREIGN KEY (`FK_applicant`)
     REFERENCES `si_db`.`si_officials` (`PK_OFFICIAL`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -316,7 +316,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`sp_requeststatuses` (
   UNIQUE INDEX `description_UNIQUE` (`description` ASC) )
 ENGINE = InnoDB
 AUTO_INCREMENT = 5
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -350,7 +350,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`sp_budgetbalancecertificaterequests` (
     FOREIGN KEY (`FK_status`)
     REFERENCES `si_db`.`sp_requeststatuses` (`PK_consecutive`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -391,7 +391,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`sp_budgetbalancecertificates` (
     FOREIGN KEY (`FK_scspConsecutive` , `FK_scspDate`)
     REFERENCES `si_db`.`sp_budgetbalancecertificaterequests` (`PK_consecutive` , `PK_date`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -421,7 +421,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`sp_initialbiddingactrequests` (
     FOREIGN KEY (`FK_status`)
     REFERENCES `si_db`.`sp_requeststatuses` (`PK_consecutive`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -456,7 +456,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`sp_biddingacts` (
     FOREIGN KEY (`FK_transmitter`)
     REFERENCES `si_db`.`si_officials` (`PK_OFFICIAL`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -490,7 +490,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`sp_budgetcodecertificaterequests` (
     FOREIGN KEY (`FK_status`)
     REFERENCES `si_db`.`sp_requeststatuses` (`PK_consecutive`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -531,7 +531,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`sp_budgetcodecertificates` (
     FOREIGN KEY (`FK_sccpConsecutive` , `FK_sccpDate`)
     REFERENCES `si_db`.`sp_budgetcodecertificaterequests` (`PK_consecutive` , `PK_date`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -551,7 +551,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`sp_budgetlog` (
     FOREIGN KEY (`FK_budgetItem`)
     REFERENCES `si_db`.`sp_budget` (`PK_item`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -574,7 +574,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`sp_budgetmodificationrequest` (
     REFERENCES `si_db`.`sp_requeststatuses` (`PK_consecutive`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 3
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -593,7 +593,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`sp_budgetmodificationresolution` (
     FOREIGN KEY (`FK_requestConsecutive` , `FK_requestDate`)
     REFERENCES `si_db`.`sp_budgetmodificationrequest` (`PK_consecutive` , `PK_date`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -623,7 +623,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`sp_purchaseorders` (
     FOREIGN KEY (`FK_transmitter`)
     REFERENCES `si_db`.`si_officials` (`PK_OFFICIAL`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -657,7 +657,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`sp_selectedbudget` (
     REFERENCES `si_db`.`sp_budget` (`PK_item`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 4
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -709,7 +709,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`t_area_muni` (
   `description` VARCHAR(40) NULL DEFAULT NULL,
   PRIMARY KEY (`idArea`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -741,7 +741,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`t_holidays` (
   PRIMARY KEY (`id_Holidays`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -813,7 +813,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`t_message` (
   `Message` VARCHAR(200) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -828,7 +828,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`t_notifications` (
   PRIMARY KEY (`id_Notification`, `id_Transmitter`, `id_receiver`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -842,7 +842,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`t_sfr_comment` (
   `EntryDate` DATETIME NOT NULL,
   PRIMARY KEY (`PK_ID`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -871,7 +871,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`t_sfr_risk` (
     REFERENCES `si_db`.`si_users` (`PK_USER`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 124
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -891,7 +891,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`t_sfr_incidence` (
     FOREIGN KEY (`riskID`)
     REFERENCES `si_db`.`t_sfr_risk` (`PK_ID`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -911,7 +911,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`t_sfr_plan` (
   UNIQUE INDEX `ID_UNIQUE` (`ID` ASC) )
 ENGINE = InnoDB
 AUTO_INCREMENT = 3
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -922,7 +922,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`t_sfr_plancomment` (
   `FK_COMMENT` INT NOT NULL,
   PRIMARY KEY (`FK_PLAN`, `FK_COMMENT`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -940,7 +940,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`t_sfr_planincidence` (
     FOREIGN KEY (`FK_PLAN`)
     REFERENCES `si_db`.`t_sfr_plan` (`PK_ID`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -960,7 +960,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`t_sfr_plantypes` (
     REFERENCES `si_db`.`t_sfr_plantypes` (`PK_ID`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -978,7 +978,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`t_sfr_planuser` (
     FOREIGN KEY (`FK_USER`)
     REFERENCES `si_db`.`si_users` (`PK_USER`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -996,7 +996,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`t_sfr_riskplan` (
     FOREIGN KEY (`FK_RISK`)
     REFERENCES `si_db`.`t_sfr_risk` (`PK_ID`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -1017,7 +1017,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`t_sfr_risktypes` (
     REFERENCES `si_db`.`t_sfr_risktypes` (`PK_ID`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -1034,7 +1034,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`t_sfr_transaction_log` (
   PRIMARY KEY (`idt_sfr_transaction_log`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -1050,7 +1050,7 @@ CREATE TABLE IF NOT EXISTS `si_db`.`t_si_db_transaction_log` (
   PRIMARY KEY (`idt_sfr_transaction_log`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 9
-DEFAULT CHARACTER SET = utf8mb3;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -1481,7 +1481,7 @@ TRIGGER `si_db`.`SI_DEPARTMENTS_BEFORE_INSERT`
 BEFORE INSERT ON `si_db`.`si_departments`
 FOR EACH ROW
 BEGIN
-	DECLARE newDesc varchar(45);
+	DECLARE newDesc varchar(200);
     SELECT fun_toUpperAll(NEW.description) INTO newDesc;
 	SET NEW.description = newDesc;
 END$$

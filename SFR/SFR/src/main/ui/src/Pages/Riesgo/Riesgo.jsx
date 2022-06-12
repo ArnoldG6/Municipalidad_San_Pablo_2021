@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Row, Card, Table, Container, Col } from "react-bootstrap";
+import { Row, Table, Container, Col } from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TopButtons from './Components/TopButtons';

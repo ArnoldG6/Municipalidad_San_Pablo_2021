@@ -94,9 +94,9 @@ public class EmailFactory {
         msj.setSubject("Ingreso de un usuario");
         String htmlCode
                 = "<h3>Estimado/a " + user.getOfficial().getName() + " " + user.getOfficial().getSurname() + ".<br/>"
-                + "Este mensaje automático por el Sistema de Identificación Municipal es para notificarle lo siguiente:</h3>"
+                + "Este mensaje es generado por el Sistema de Identificación Municipal para notificarle lo siguiente:</h3>"
                 + "<h4>Se ha creado su usuario exitosamente.</h4>"
-                + "<h4>Puede ingresar a las funcionalidades del sistema utilizando sus credenciales en el siguiente link: http://localhost:3001/SIMSP/</h4>"
+                + "<h4>Puede ingresar a las funcionalidades del sistema utilizando sus credenciales en el siguiente link: http://10.58.0.88/SIMSP/</h4>"
                 + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
         msj.setContent(htmlCode, "text/html; charset=UTF-8");
         Transport.send(msj);

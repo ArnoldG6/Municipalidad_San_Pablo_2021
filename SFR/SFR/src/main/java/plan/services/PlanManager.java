@@ -150,7 +150,7 @@ public class PlanManager extends HttpServlet {
                 PlanDAO.getInstance().add(newPlan);
                 PlanDAO.getInstance().recordTransaction(user, Transaction.INSERT_PLAN, Boolean.TRUE, "PLAN_ID: " + newID);
 
-                /*
+                
                 Thread t = new Thread(() -> {
                     try {
                         EmailFactoryNotification.getInstance().sendAddPlan(user, newPlan);
@@ -159,7 +159,7 @@ public class PlanManager extends HttpServlet {
                     }
                 });
                 t.start();
-                 */
+                 
             } catch (Exception e) {
                 PlanDAO.getInstance().recordTransaction(user, Transaction.INSERT_PLAN, Boolean.FALSE, "PLAN_ID: " + newID);
                 throw e;
@@ -209,7 +209,7 @@ public class PlanManager extends HttpServlet {
             try {
                 PlanDAO.getInstance().update(editPlan);
                 PlanDAO.getInstance().recordTransaction(user, Transaction.EDIT_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId());
-                /*
+                
                 Thread t = new Thread(() -> {
                     try {
                         EmailFactoryNotification.getInstance().sendAllEditPlan(user, editPlan);
@@ -218,7 +218,7 @@ public class PlanManager extends HttpServlet {
                     }
                 });
                 t.start();
-                 */
+                 
             } catch (Exception e) {
                 PlanDAO.getInstance().recordTransaction(user, Transaction.EDIT_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId());
                 throw e;
@@ -465,7 +465,7 @@ public class PlanManager extends HttpServlet {
                 PlanDAO.getInstance().update(plan);
                 PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_INCIDENCE_TO_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId() + " INCIDENCE_ID:"
                         + String.valueOf(newIncidence.getName()));
-                /*
+                
                 Thread t = new Thread(() -> {
                     try {
                         EmailFactoryNotification.getInstance().sendAddIncidencePlan(user, plan, newIncidence);
@@ -474,7 +474,7 @@ public class PlanManager extends HttpServlet {
                     }
                 });
                 t.start();
-                 */
+                 
             } catch (Exception e) {
                 PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_INCIDENCE_TO_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId() + " INCIDENCE_ID:"
                         + String.valueOf(newIncidence.getName()));
@@ -515,7 +515,7 @@ public class PlanManager extends HttpServlet {
                 PlanDAO.getInstance().update(plan);
                 PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_COMMENT_TO_PLAN, Boolean.TRUE, "PLAN_ID: " + plan.getId() + " COMMENT_ID:"
                         + String.valueOf(c.getPkID()));
-                /*
+                
                 Thread t = new Thread(() -> {
                     try {
                         EmailFactoryNotification.getInstance().sendAllCommentPlan(user, plan, c);
@@ -524,7 +524,7 @@ public class PlanManager extends HttpServlet {
                     }
                 });
                 t.start();
-                 */
+                 
             } catch (Exception e) {
                 PlanDAO.getInstance().recordTransaction(user, Transaction.ADD_COMMENT_TO_PLAN, Boolean.FALSE, "PLAN_ID: " + plan.getId() + " COMMENT_ID:"
                         + String.valueOf(c.getPkID()));
@@ -618,7 +618,7 @@ public class PlanManager extends HttpServlet {
                     User u = UserDAO.getInstance().searchById((Integer) involvedIdJSONArray.get(i));
                     if (u != null) {
                         plan.addInvolucrado(u);
-                        /*
+                        
                         Thread t = new Thread(() -> {
                             try {
                                 EmailFactoryNotification.getInstance().sendAddInvolvedPlan(u, plan);
@@ -627,7 +627,7 @@ public class PlanManager extends HttpServlet {
                             }
                         });
                         t.start();
-                         */
+                         
                     }
                 }
                 PlanDAO.getInstance().update(plan);

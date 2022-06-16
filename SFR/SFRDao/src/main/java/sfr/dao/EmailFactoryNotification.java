@@ -76,10 +76,10 @@ public class EmailFactoryNotification {
         msj.setSubject("Modificación del Plan " + p.getId());
         String htmlCode
                 = "<h3>Estimado/a " + user.getOfficial().getName() + " " + user.getOfficial().getSurname() + ".<br/>"
-                + "Este mensaje es automático, generado por el Sistema de Factibilidad de Riesgos para notificarle que:</h3>"
+                + "Este mensaje es generado por el Sistema de Factibilidad de Riesgos para notificarle que:</h3>"
                 + "<h4>El usuario " + user2.getOfficial().getName() + " " + user2.getOfficial().getSurname() + " ha modificado el siguiente Plan:</h4>"
                 + "<h3>" + p.getName() + "</h3>"
-                + "<h4>Si desea ver los cambios, por favor ingrese al siguiente enlace: http://localhost:3001/SFR/#/plan?id=" + p.getId() + "</h4>"
+                + "<h4>Si desea ver los cambios, por favor ingrese al siguiente enlace: http://10.58.0.88/SFR/#/plan?id=" + p.getId() + "</h4>"
                 + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
         msj.setContent(htmlCode, "text/html; charset=UTF-8");
         Transport.send(msj);
@@ -106,9 +106,9 @@ public class EmailFactoryNotification {
         msj.setSubject("Ingreso de un Plan Nuevo");
         String htmlCode
                 = "<h3>Estimado/a " + controlInterno.getOfficial().getName() + " " + controlInterno.getOfficial().getSurname() + ".<br/>"
-                + "Este mensaje es automático, generado por el Sistema de Factibilidad de Riesgos para notificarle que:</h3>"
+                + "Este mensaje es generado por el Sistema de Factibilidad de Riesgos para notificarle que:</h3>"
                 + "<h4>El usuario " + user.getOfficial().getName() + " " + user.getOfficial().getSurname() + " ha ingresado un nuevo Plan.</h4>"
-                + "<h4>Si desea acceder al nuevo plan creado, por favor ingrese al siguiente enlace: http://localhost:3001/SFR/#/plan?id=" + p.getId() + "</h4>"
+                + "<h4>Si desea acceder al nuevo plan creado, por favor ingrese al siguiente enlace: http://10.58.0.88/SFR/#/plan?id=" + p.getId() + "</h4>"
                 + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
         msj.setContent(htmlCode, "text/html; charset=UTF-8");
         Transport.send(msj);
@@ -126,10 +126,10 @@ public class EmailFactoryNotification {
 
         String htmlCode
                 = "<h3>Estimado/a " + user.getOfficial().getName() + " " + user.getOfficial().getSurname() + ".<br/>"
-                + "Este mensaje es automático, generado por el Sistema de Factibilidad de Riesgos para notificarle que:</h3>"
+                + "Este mensaje es generado por el Sistema de Factibilidad de Riesgos para notificarle que:</h3>"
                 + "<h4>Usted ha sido ingresado como involucrado en el siguiente Plan:</h4>"
                 + "<h3>" + p.getName() + "</h3>"
-                + "<h4>Si desea acceder al plan, por favor ingrese al siguiente enlace: http://localhost:3001/SFR/#/plan?id=" + p.getId() + "</h4>"
+                + "<h4>Si desea acceder al plan, por favor ingrese al siguiente enlace: http://10.58.0.88/SFR/#/plan?id=" + p.getId() + "</h4>"
                 + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
 
         msj.setContent(htmlCode, "text/html; charset=UTF-8");
@@ -153,11 +153,11 @@ public class EmailFactoryNotification {
         msj.setSubject("Ingreso de Nuevo Comentario al Plan " + p.getId());
         String htmlCode
                 = "<h3>Estimado/a " + user.getOfficial().getName() + " " + user.getOfficial().getSurname() + ".<br/>"
-                + "Este mensaje es automático, generado por el Sistema de Factibilidad de Riesgos para notificarle que:</h3>"
+                + "Este mensaje es generado por el Sistema de Factibilidad de Riesgos para notificarle que:</h3>"
                 + "<h4>El usuario " + c.getAuthor() + " ha ingresado un comentario en el siguiente Plan:</h4>"
                 + "<h3>" + p.getName() + "</h3>"
                 + "<h4>El contenido del comentario es el siguiente: <br/>" + c.getComment() + "</h4>"
-                + "<h4>Si desea acceder al plan, por favor ingrese al siguiente enlace: http://localhost:3001/SFR/#/plan?id=" + p.getId() + "</h4>"
+                + "<h4>Si desea acceder al plan, por favor ingrese al siguiente enlace: http://10.58.0.88/SFR/#/plan?id=" + p.getId() + "</h4>"
                 + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
         msj.setContent(htmlCode, "text/html; charset=UTF-8");
         Transport.send(msj);
@@ -174,11 +174,11 @@ public class EmailFactoryNotification {
         msj.setSubject("Ingreso de Nueva Incidencia al Plan " + p.getId());
         String htmlCode
                 = "<h3>Estimado/a " + controlInterno.getOfficial().getName() + " " + controlInterno.getOfficial().getSurname() + ".<br/>"
-                + "Este mensaje es automático, generado por el Sistema de Factibilidad de Riesgos para notificarle que:</h3>"
+                + "Este mensaje es generado por el Sistema de Factibilidad de Riesgos para notificarle que:</h3>"
                 + "<h4>El usuario " + user.getOfficial().getName() + " " + user.getOfficial().getSurname() + " ha ingresado una incidencia en el siguiente Plan:</h4>"
                 + "<h3>" + p.getName() + "</h3>"
                 + "<h4>El nombre de la incidencia es: " + i.getName() + "</h4>"
-                + "<h4>Si desea acceder al plan, por favor ingrese al siguiente enlace: http://localhost:3001/SFR/#/plan?id=" + p.getId() + "</h4>"
+                + "<h4>Si desea acceder al plan, por favor ingrese al siguiente enlace: http://10.58.0.88/SFR/#/plan?id=" + p.getId() + "</h4>"
                 + "<h5>Este es un mensaje automático, por favor no responda a el mismo.</h5>";
         msj.setContent(htmlCode, "text/html; charset=UTF-8");
         Transport.send(msj);

@@ -1,4 +1,4 @@
-ALTER SCHEMA `si_db`  DEFAULT COLLATE utf8mb4_spanish2_ci ;
+ALTER SCHEMA `si_db`  DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish2_ci ;
 -- ------------------------------------------STARTER DATA FOR SI_DB--------------------------------------------------
 -- ---------------------------------------------SI_DEPARTMENTS-----------------------------------------------
 INSERT INTO `si_db`.`SI_DEPARTMENTS` (`PK_DEPARTMENT`, `description`) VALUES ('100', 'Concejo Municipal');
@@ -40,7 +40,7 @@ INSERT INTO `si_db`.`SI_OFFICIALS` (`PK_OFFICIAL`, `name`, `surname`, `email`, `
 INSERT INTO `si_db`.`SI_OFFICIALS` (`PK_OFFICIAL`, `name`, `surname`, `email`, `FK_department`) VALUES ('50', 'JOSEPH', 'GRANDA', 'informatica@sanpablo.go.cr', '103');
 INSERT INTO `si_db`.`SI_OFFICIALS` (`PK_OFFICIAL`, `name`, `surname`, `email`, `FK_department`) VALUES ('51', 'ISMAEL', 'SALAZAR', 'controlinterno@sanpablo.go.cr', '100');
 -- -------------------------------------------------SI_USERS--------------------------------------------------
-INSERT INTO `si_db`.`SI_USERS` (`PK_USER`, `FK_official`, `FK_email`, `password`) VALUES ('123', '123', 'ld.ramirezch14@gmail.com', SHA2('123', 256));
+INSERT INTO `si_db`.`SI_USERS` (`PK_USER`, `FK_official`, `FK_email`, `password`) VALUES ('117040615', '117040615', 'ld.ramirezch14@gmail.com', SHA2('123', 256));
 INSERT INTO `si_db`.`SI_USERS` (`PK_USER`, `FK_official`, `FK_email`, `password`) VALUES ('50', '50', 'informatica@sanpablo.go.cr', SHA2('contra1', 256));
 INSERT INTO `si_db`.`SI_USERS` (`PK_USER`, `FK_official`, `FK_email`, `password`) VALUES ('51', '51', 'controlinterno@sanpablo.go.cr', SHA2('contra2', 256));
 

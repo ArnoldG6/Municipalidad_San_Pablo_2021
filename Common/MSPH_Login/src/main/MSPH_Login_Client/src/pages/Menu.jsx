@@ -72,9 +72,9 @@ export default class Menu extends Component {
                 if (error.response.status === 403)
                     alert("Acceso denegado");
                 else
-                    alert("Error al intentar redirigir al SIGCD");
+                    alert("Error al intentar redirigir al SIGEP");
             } else
-                alert("Error al intentar redirigir al SIGCD");
+                alert("Error al intentar redirigir al SIGEP");
         });
         
     }

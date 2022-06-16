@@ -50,11 +50,12 @@
                                     <th style="padding-left: 40px;">Acción</th>
                                 </tr>
                             </thead>
+                            <tbody>
                             <%
                                 //${c.licensesCGS} en caso de que no funcione
                                 out.println(service.getLicensesCGS(Integer.parseInt(request.getSession(true).getAttribute("id").toString())));
                             %>
-
+                            </tbody>
                         </table>
                     </div>
                 </div>

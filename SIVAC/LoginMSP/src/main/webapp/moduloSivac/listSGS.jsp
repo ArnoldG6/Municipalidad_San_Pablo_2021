@@ -50,10 +50,12 @@
                                     <th style="padding-left: 40px;">Ver Permiso</th>
                                 </tr>
                             </thead>
+                            <tbody>
                             <%
                                 //${c.licensesSGS} En caso de emergencia
                                 out.println(service.getLicensesSGS(Integer.parseInt(request.getSession(true).getAttribute("id").toString())));
                             %>
+                            </tbody>
                         </table>
                     </div>
                 </div>

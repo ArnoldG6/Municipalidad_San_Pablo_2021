@@ -613,9 +613,9 @@ public class Service implements Serializable {
         List<AdminFile> employees = this.allFiles();
         List<LicenseSGS> temp = new ArrayList<>();
         for (AdminFile file : employees) {
-            if (file.getAreaMuni().equals(boss.getAreaMuni())) {
+            if (file.getAreaMuni().equals(boss.getAreaMuni()) && file.getRole().getId_role() == 5) {
                 temp = file.getSgs();
-                r.append("<tbody>");
+
                 for (LicenseSGS lic : licenses) {
                     for (LicenseSGS sgs : temp) {
                         if (sgs.getNumber_License() == lic.getNumber_License()) {
@@ -642,7 +642,7 @@ public class Service implements Serializable {
                                 r.append(String.format("<form action='%s' method='%s'>", "../Pasar", "POST"));
                                 r.append(String.format("<button color='%s' type='%s' name='%s' id='%s' value='%d'>",
                                         "white", "submit", "numSol", "numSol", lic.getNumber_License()));
-                                r.append("Ver detalles");
+                                r.append(String.format("<img src='%s' width='%s'  >", "../images/lupa.ico", "21px"));
                                 r.append("</button>");
                                 r.append("</form>");
                                 r.append("</th>");
@@ -652,8 +652,48 @@ public class Service implements Serializable {
                         }
                     }
                 }
+            } else {
+                if (boss.getRole().getId_role() == 1 && file.getRole().getId_role() != 5) {
+                    temp = file.getSgs();
+
+                    for (LicenseSGS lic : licenses) {
+                        for (LicenseSGS sgs : temp) {
+                            if (sgs.getNumber_License() == lic.getNumber_License()) {
+                                if (sgs.getStatus().equals("Pendiente")) {
+                                    r.append("<tr>");
+                                    r.append("<th>");
+                                    r.append(returnCedulaFuncionario(lic.getNumber_License()));
+                                    r.append("</th>");
+                                    r.append("<th>");
+                                    r.append(returnNombre(lic.getNumber_License()));
+                                    r.append("</th>");
+                                    r.append("<th>");
+                                    r.append(returnApellido(lic.getNumber_License()));
+                                    r.append("</th>");
+                                    r.append("<th>");
+                                    r.append(String.format("<input type='%s' id='%s' name='%s' value='%d' readonly style='%s'>", "text",
+                                            "num", "num", lic.getNumber_License(), "background-color: transparent; border: none; text-align: center"));
+                                    r.append("</th>");
+                                    r.append("<th>");
+                                    r.append(String.format("<input type='%s' id='%s' name='%s' value='%s' readonly = '%s' style='%s'>", "text", "cedula",
+                                            "cedula", lic.getStatus(), "readonly", "background-color: transparent; border: none; text-align: center"));
+                                    r.append("</th>");
+                                    r.append("<th>");
+                                    r.append(String.format("<form action='%s' method='%s'>", "../Pasar", "POST"));
+                                    r.append(String.format("<button color='%s' type='%s' name='%s' id='%s' value='%d'>",
+                                            "white", "submit", "numSol", "numSol", lic.getNumber_License()));
+                                    r.append(String.format("<img src='%s' width='%s'  >", "../images/lupa.ico", "21px"));
+                                    r.append("</button>");
+                                    r.append("</form>");
+                                    r.append("</th>");
+                                    r.append("</tr");
+                                    r.append("</br>");
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            r.append("</tbody>");
         }
         return r.toString();
     }
@@ -831,11 +871,11 @@ public class Service implements Serializable {
         List<AdminFile> employees = this.allFiles();
         List<LicenseCGS> temp = new ArrayList<>();
         if (boss.getRole().getId_role() == 1) {
-            r.append("<tbody>");
             for (AdminFile file : employees) {
-                temp = file.getCgs();
-                for (LicenseCGS cgs : temp) {
-                    if (cgs.getCategory().equals("Invitaciones de Gobierno")) {
+                if (file.getRole().getId_role() != 5) {
+                    temp = file.getCgs();
+                    for (LicenseCGS cgs : temp) {
+                        //if (cgs.getCategory().equals("Invitaciones de Gobierno")) {
                         if (cgs.getStatus().equals("Pendiente")) {
                             r.append("<tr>");
                             r.append("<th>");
@@ -866,14 +906,13 @@ public class Service implements Serializable {
                             r.append("</tr");
                             r.append("</br>");
                         }
+                        //}
                     }
                 }
-
             }
-            r.append("</tbody>");
         } else {
             for (AdminFile file : employees) {
-                if (file.getAreaMuni().equals(boss.getAreaMuni())) {
+                if (file.getAreaMuni().equals(boss.getAreaMuni()) && file.getRole().getId_role() == 5) {
                     temp = file.getCgs();
                     r.append("<tbody>");
                     for (LicenseCGS lic : licenses) {
@@ -903,7 +942,7 @@ public class Service implements Serializable {
                                     r.append(String.format("<form action='%s' method='%s'>", "../PasarCGS", "POST"));
                                     r.append(String.format("<button color='%s' type='%s' name='%s' id='%s' value='%d'>",
                                             "white", "submit", "numSol", "numSol", lic.getNumber_License()));
-                                    r.append("Ver detalles");
+                                    r.append(String.format("<img src='%s' width='%s'  >", "../images/lupa.ico", "21px"));
                                     r.append("</button>");
                                     r.append("</form>");
                                     r.append("</th>");
@@ -913,8 +952,50 @@ public class Service implements Serializable {
                             }
                         }
                     }
+                } else {
+                    /*if (boss.getRole().getId_role() == 1) {
+                        if (file.getRole().getId_role() == 2
+                                || file.getRole().getId_role() == 3 || file.getRole().getId_role() == 4) {
+                            temp = file.getCgs();
+                            for (LicenseCGS lic : licenses) {
+                                for (LicenseCGS cgs : temp) {
+                                    if (cgs.getNumber_License() == lic.getNumber_License()) {
+                                        if (cgs.getStatus().equals("Pendiente")) {
+                                            r.append("<tr>");
+                                            r.append("<th>");
+                                            r.append(returnCedulaFuncionarioCGS(lic.getNumber_License()));
+                                            r.append("</th>");
+                                            r.append("<th>");
+                                            r.append(returnNombreCGS(lic.getNumber_License()));
+                                            r.append("</th>");
+                                            r.append("<th>");
+                                            r.append(returnApellidoCGS(lic.getNumber_License()));
+                                            r.append("</th>");
+                                            r.append("<th>");
+                                            r.append(String.format("<input type='%s' id='%s' name='%s' value='%d' readonly style = '%s'>", "text",
+                                                    "num", "num", lic.getNumber_License(), "background-color: transparent; outline: none; border: none; text-align: center"));
+                                            r.append("</th>");
+                                            r.append("<th>");
+                                            r.append(String.format("<input type='%s' id='%s' name='%s' value='%s' readonly = '%s' style = '%S'>", "text", "cedula",
+                                                    "cedula", lic.getStatus(), "readonly", "background-color: transparent; outline: none; border: none; text-align: center"));
+                                            r.append("</th>");
+                                            r.append("<th>");
+                                            r.append(String.format("<form action='%s' method='%s'>", "../PasarCGS", "POST"));
+                                            r.append(String.format("<button color='%s' type='%s' name='%s' id='%s' value='%d'>",
+                                                    "white", "submit", "numSol", "numSol", lic.getNumber_License()));
+                                            r.append(String.format("<img src='%s' width='%s'  >", "../images/lupa.ico", "21px"));
+                                            r.append("</button>");
+                                            r.append("</form>");
+                                            r.append("</th>");
+                                            r.append("</tr");
+                                            r.append("</br>");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }*/
                 }
-                r.append("</tbody>");
             }
         }
         return r.toString();
@@ -1696,7 +1777,8 @@ public class Service implements Serializable {
         List<Vacations> temp = new ArrayList<>();
         r.append("<tbody>");
         for (AdminFile file : employees) {
-            if (file.getAreaMuni().equals(boss.getAreaMuni())) {
+            if (file.getAreaMuni().equals(boss.getAreaMuni())
+                    && file.getRole().getId_role() == 5) { //Funcionario
                 temp = file.getVacations();
                 for (Vacations vac : vacation) {
                     for (Vacations tmp : temp) {
@@ -1733,6 +1815,51 @@ public class Service implements Serializable {
 
                                 r.append("</tr");
                                 r.append("</br>");
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (boss.getRole().getId_role() == 1 && file.getRole().getId_role() == 2
+                        || file.getRole().getId_role() == 3 || file.getRole().getId_role() == 4) {
+
+                    temp = file.getVacations();
+                    for (Vacations vac : vacation) {
+                        for (Vacations tmp : temp) {
+                            if (tmp.getVacations_ID() == vac.getVacations_ID()) {
+                                if (tmp.getStatus().equals("Pendiente")) {
+                                    r.append("<tr>");
+                                    r.append("<th>");
+                                    r.append(returnIdVacation(vac.getVacations_ID()));
+                                    r.append("</th>");
+                                    r.append("<th>");
+                                    r.append(returnNombreVacation(vac.getVacations_ID()));
+                                    r.append("</th>");
+                                    r.append("<th>");
+                                    r.append(returnApellidoVacation(vac.getVacations_ID()));
+                                    r.append("</th>");
+
+                                    r.append("<th>");
+                                    r.append(String.format("<form action='%s' method='%s'>", "../PasarVacation", "POST"));
+                                    r.append(String.format("<button color='%s' type='%s' name='%s' id='%s' value='%d' style = '%s'>",
+                                            "white", "submit", "idVac", "idVac", tmp.getVacations_ID(), "text-align: center;"));
+                                    r.append(String.format("<img src='%s' width='%s'  >", "../images/lupa.ico", "21px"));
+                                    r.append("</button>");
+                                    r.append("</form>");
+                                    r.append(String.format("<form action='%s' method='%s'>", "../AcceptVacation", "POST"));
+                                    r.append(String.format("<button style='%s' "
+                                            + "onclick=\"return confirm('Segur@ de marcar como revisado?')\"  "
+                                            + " value='%d' name=\"accept\" id=\"accept\" title=\"Revisado\">",
+                                            "margin:2px; background-color:transparent;",
+                                            tmp.getVacations_ID()));
+                                    r.append(String.format("<img src='%s' width='%s'  >", "../images/check.ico", "21px"));
+                                    r.append("</button>");
+                                    r.append("</form>");
+                                    r.append("</th>");
+
+                                    r.append("</tr");
+                                    r.append("</br>");
+                                }
                             }
                         }
                     }

@@ -47,7 +47,7 @@ function retrieveBudgetDataBySearchParameter() {
         type: 'GET',
         data: {},
         dataType: 'json',
-        url: 'http://localhost:8080/home/BudgetListService',
+        url: 'http://localhost:8080/home/BudgetListStaticService',
         success: successBudgetHandler,
         error: function () { }
     });
@@ -55,10 +55,10 @@ function retrieveBudgetDataBySearchParameter() {
 
 function successBudgetHandler(data) {
     let refBudgetDataList = document.getElementById('datalistOptions');
+    const dataFilter = data.filter(item => item.receives);
     if (refBudgetDataList) {
         refBudgetDataList.innerHTML = "";
-        data.forEach((budgetItem) => {
-
+        dataFilter.forEach((budgetItem) => {
             let option = document.createElement('OPTION');
             option.setAttribute("value", budgetItem.description + "-" + budgetItem.idItem);
             refBudgetDataList.appendChild(option);

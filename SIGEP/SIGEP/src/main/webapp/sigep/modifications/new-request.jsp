@@ -23,7 +23,7 @@
         <link href="../assets/vendor/bootstrap-icons-1.8.1/bootstrap-icons.css" rel="stylesheet" type="text/css">
     </head>
     <jsp:directive.include file="../common/header.jsp"/>
-    <body>
+    <body onload="retrieveUserData();">
         <div class="container py-4" style=" z-index:1;">
             <div class="card shadow-lg mb-3" style="max-width: 95rem;">
                 <div class="card-header">Solicitar modificación presupuestaria</div>

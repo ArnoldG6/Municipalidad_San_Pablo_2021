@@ -50,10 +50,10 @@ $(document).ready(function () {
     $('#date').html(t + fullDate);
 
     document.getElementById("idRequest").value = window.localStorage.getItem('mcResolution');
+    console.log(document.getElementById("idRequest").value);
 });
 
 function retrieveMovementsData() {
-
     document.getElementById("idRequest").value = window.localStorage.getItem('mcResolution');
     var idModification = document.getElementById("idRequest").value;
     $.ajax({
@@ -226,7 +226,3 @@ function sendPDF() {
         }
     });
 }
-
-
-
-

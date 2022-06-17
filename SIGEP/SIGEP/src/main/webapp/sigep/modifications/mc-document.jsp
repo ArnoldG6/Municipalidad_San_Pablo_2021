@@ -35,55 +35,55 @@
                             </a>
                             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
                                 <li><a class="dropdown-item text-dark" href="../modifications/approved-requests.jsp">Regresar a la página anterior</a></li>
-                                <li><a class="dropdown-item" onclick="logout()">Cerrar Sesión...</a></li>
+                                <li><a class="dropdown-item text-dark" onclick="logout()">Cerrar Sesión...</a></li>
 
                             </ul>
                         </div>
                         <ul class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center align-items-center">
-                            
-<!--                            <li class="nav-item">
-                                <label for="doc1" class="nav-link py-2 px-2 lb" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Agregar imagen(es) del resumen ">
+
+                            <li class="nav-item">
+                                <label for="doc1" class="nav-link py-3 px-3 lb" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Agregar imagen(es) del resumen ">
                                     <i class="add btnIcon bi bi-plus-circle"></i>
                                 </label>
                                 <input type="file" id="doc1" onclick="addSummary()">
                             </li> 
                             <li>
-                                <a href="#" class="nav-link py-2 px-2" title="" onclick="deleteSummary()" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Eliminar imagen(es) del resumen ">
+                                <a href="#" class="nav-link py-3 px-3" title="" onclick="deleteSummary()" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Eliminar imagen(es) del resumen ">
                                     <i class="dlt btnIcon bi bi-trash3"></i>
                                 </a> 
                             </li>
                             <li>
-                                <label for="doc2" class="nav-link py-2 px-3 lb" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Agregar imagen(es) detalles">
+                                <label for="doc2" class="nav-link py-3 px-3 lb" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Agregar imagen(es) detalles">
                                     <i class="add btnIcon bi bi-plus-circle"></i>
                                 </label>
                                 <input type="file" id="doc2" onclick="addDetails()">
                             </li>
 
                             <li>
-                                <a href="#" class="nav-link py-2 px-2" title="" onclick="deleteDetails()" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Eliminar imagen(es) detalles ">
+                                <a href="#" class="nav-link py-3 px-3" title="" onclick="deleteDetails()" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Eliminar imagen(es) detalles ">
                                     <i class="dlt btnIcon bi bi-trash3"></i>
                                 </a>
-                            </li> -->
+                            </li>
 
                             <li>
-                                <label for="doc4" class="nav-link py-2 px-3 lb" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Agregar anexos">
+                                <label for="doc4" class="nav-link py-3 px-3 lb" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Agregar anexos">
                                     <i class="add btnIcon bi bi-plus-circle"></i>
                                 </label>
                                 <input type="file" id="doc4" onclick="addAnnexes()">
                             </li>
                             <li>
-                                <a href="#" class="nav-link py-2 px-2" title="" onclick="deleteAnnexes()" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Eliminar anexos ">
+                                <a href="#" class="nav-link py-3 px-3" title="" onclick="deleteAnnexes()" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Eliminar anexos ">
                                     <i class="dlt btnIcon bi bi-trash3"></i>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="#" class="nav-link py-2 px-2" title="" onclick="genPDF()" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Descargar PDF para firmar">
+                                <a href="#" class="nav-link py-3 px-3" title="" onclick="genPDF()" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Descargar PDF para firmar">
                                     <i class="add btnIcon bi bi-file-earmark-pdf"></i>
                                 </a>
                             </li>
                             <li>
-                                <label for="doc3" class="nav-link py-2 px-2 lb" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Enviar solicitud ">
+                                <label for="doc3" class="nav-link py-3 px-3 lb" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Enviar solicitud ">
                                     <i class="add  btnIcon bi bi-send"></i>
                                 </label>
                                 <form id="formMc" method="post">
